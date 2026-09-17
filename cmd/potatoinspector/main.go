@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/potatoinspector/potato-inspector/internal/catalog"
 	"github.com/potatoinspector/potato-inspector/internal/config"
 	"github.com/potatoinspector/potato-inspector/internal/dnsfwd"
 	"github.com/potatoinspector/potato-inspector/internal/flows"
@@ -43,6 +44,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	cat, err := catalog.NewManager(st)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fw := flows.New()
 	fw.SetEnabled(settings.CaptureEnabled)
 	defer fw.Close()
@@ -59,7 +65,7 @@ func main() {
 			addonDir = "mitmaddon"
 		}
 	}
-	mm := mitm.New(st, fw, addonDir, cfg.WGIface)
+	mm := mitm.New(st, fw, cat, addonDir, cfg.WGIface)
 	_, _, _ = mm.EnsureCA()
 
 	dns := dnsfwd.New(fw, settings.ClientDNS, cfg.WGIface)
@@ -68,9 +74,38 @@ func main() {
 		log.Printf("WARN: WireGuard start failed (panel still up): %v", err)
 	} else {
 		log.Printf("WireGuard up on %s port %d pub=%s", cfg.WGIface, settings.WGPort, wgm.ServerPublicKey())
-		if p, ok := reg.Get(settings.ActiveProfileID); ok {
-			if err := shaper.Apply(p); err != nil {
-				log.Printf("WARN: apply profile: %v", err)
+		applied := false
+		if settings.ActiveCountry != "" && settings.ActiveTier != "" {
+			var hostRtt map[string]int
+			if settings.HostRttPinned && len(settings.HostRtt) > 0 {
+				cat.SetHostRtt(settings.HostRtt)
+				hostRtt = settings.HostRtt
+				log.Printf("host RTT restored from pin (%d dests)", len(hostRtt))
+			} else {
+				hostRtt = cat.ProbeHostRtt()
+				settings.HostRtt = hostRtt
+				settings.HostRttPinned = false
+				_ = st.SaveSettings(settings)
+			}
+			if p, err := cat.ProfileFor(settings.ActiveCountry, settings.ActiveTier, hostRtt); err == nil {
+				if err := shaper.Apply(p); err != nil {
+					log.Printf("WARN: apply catalog: %v", err)
+				} else {
+					applied = true
+					settings.ActiveProfileID = p.ID
+					_ = st.SaveSettings(settings)
+				}
+			} else {
+				log.Printf("WARN: catalog profile: %v", err)
+			}
+		} else if settings.HostRttPinned && len(settings.HostRtt) > 0 {
+			cat.SetHostRtt(settings.HostRtt)
+		}
+		if !applied {
+			if p, ok := reg.Get(settings.ActiveProfileID); ok {
+				if err := shaper.Apply(p); err != nil {
+					log.Printf("WARN: apply profile: %v", err)
+				}
 			}
 		}
 		if settings.DNSIntercept {
@@ -85,7 +120,7 @@ func main() {
 		}
 	}
 
-	srv := panel.New(st, wgm, shaper, reg, mm, dns, fw, web.FS(), cfg.PanelPort)
+	srv := panel.New(st, wgm, shaper, reg, cat, mm, dns, fw, web.FS(), cfg.PanelPort, cfg.RadarCatalogURL)
 
 	addr := fmt.Sprintf(":%d", cfg.PanelPort)
 	httpServer := &http.Server{Addr: addr, Handler: srv.Handler()}
@@ -109,7 +144,23 @@ func main() {
 
 func loadOrInitSettings(st *store.Store, cfg config.Config) (store.Settings, error) {
 	if store.Exists(st.SettingsPath()) {
-		return st.LoadSettings()
+		settings, err := st.LoadSettings()
+		if err != nil {
+			return settings, err
+		}
+		changed := false
+		if settings.ActiveCountry == "" {
+			settings.ActiveCountry = "BD"
+			changed = true
+		}
+		if settings.ActiveTier == "" {
+			settings.ActiveTier = "typical"
+			changed = true
+		}
+		if changed {
+			_ = st.SaveSettings(settings)
+		}
+		return settings, nil
 	}
 	settings := store.DefaultSettings(cfg.WGSubnet, cfg.WGPort, cfg.Uplink)
 	if err := st.SaveSettings(settings); err != nil {

@@ -120,40 +120,75 @@ input[type="checkbox"]:disabled {
 }
 
 .shell {
-  display: grid;
-  grid-template-columns: 220px 1fr;
+  display: flex;
+  flex-direction: column;
   min-height: 100%;
   min-height: 100dvh;
 }
 .nav {
-  border-right: 1px solid var(--line);
-  background: rgba(15, 20, 16, 0.85);
-  backdrop-filter: blur(8px);
-  padding: 1.25rem 1rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  align-self: stretch;
+  align-items: stretch;
+  gap: 1rem;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--line);
+  background: rgba(15, 20, 16, 0.92);
+  backdrop-filter: blur(8px);
+  padding: 0 1rem;
 }
 .brand {
   font-weight: 600;
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   letter-spacing: -0.02em;
-  margin: 0 0 1.25rem;
+  margin: 0;
   color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 0.25rem 0.65rem 0;
+  flex-shrink: 0;
+}
+.brand-logo {
+  font-size: 1.15rem;
+  line-height: 1;
+  filter: saturate(1.1);
+}
+.nav-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  overflow-x: auto;
+  min-width: 0;
 }
 .nav a {
   color: var(--muted);
-  padding: 0.45rem 0.6rem;
-  border-radius: 6px;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
 }
-.nav a.active, .nav a:hover {
+.nav a.active {
   color: var(--text);
-  background: var(--bg2);
+  background: transparent;
+  border-bottom-color: var(--accent);
+}
+.nav a:hover {
+  color: var(--text);
+  background: transparent;
 }
 .main {
-  padding: 1.5rem 1.75rem 2.5rem;
-  max-width: 1100px;
+  flex: 1;
+  min-height: 0;
+  padding: 1.25rem 1.5rem 2rem;
+  overflow: auto;
+}
+.main.main-fill {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
 }
 h1 {
   font-size: 1.45rem;
@@ -248,9 +283,9 @@ h1 {
   font-size: 0.8rem;
 }
 @media (max-width: 800px) {
-  .shell { grid-template-columns: 1fr; }
-  .nav { flex-direction: row; flex-wrap: wrap; border-right: none; border-bottom: 1px solid var(--line); }
-  .brand { width: 100%; margin-bottom: 0.5rem; }
+  .nav { flex-wrap: wrap; padding-bottom: 0; }
+  .brand { width: 100%; padding-bottom: 0.25rem; }
+  .nav-tabs { width: 100%; }
 }
 
 .modal-backdrop {
@@ -351,12 +386,78 @@ h1 {
 }
 
 /* Inspector — DevTools-like network panel */
+.insp-root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+.insp-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg1);
+}
+.insp-toolbar select {
+  width: auto;
+  max-width: 10rem;
+}
+.insp-statusbar {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  min-height: 30px;
+  padding: 0.2rem 0.75rem;
+  border-top: 1px solid var(--line);
+  background: var(--bg1);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.insp-statusbar .form-check {
+  font-size: 0.75rem;
+  font-family: var(--font);
+  color: var(--text);
+  gap: 0.4rem;
+  align-items: center;
+}
+.insp-statusbar .form-check input[type="checkbox"] {
+  width: 0.95rem;
+  height: 0.95rem;
+  min-width: 0.95rem;
+  margin-top: 0;
+}
+.insp-statusbar select {
+  width: auto;
+  max-width: 16rem;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.75rem;
+  font-family: var(--mono);
+}
+.insp-status-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--line);
+  flex-shrink: 0;
+}
+.insp-status-grow {
+  flex: 1;
+  min-width: 0.5rem;
+}
 .net-shell {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
-  gap: 12px;
-  min-height: 560px;
-  height: min(72vh, 720px);
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  height: auto;
 }
 .net-list, .net-side {
   display: flex;
@@ -364,6 +465,14 @@ h1 {
   min-height: 0;
   overflow: hidden;
   padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid var(--line);
+  background: var(--bg0);
+}
+.net-side {
+  border-right: none;
 }
 .net-scroll {
   overflow: auto;
@@ -538,12 +647,15 @@ h1 {
 @media (max-width: 960px) {
   .net-shell {
     grid-template-columns: 1fr;
-    height: auto;
+    grid-template-rows: 1fr 1fr;
   }
   .net-list, .net-side {
-    min-height: 320px;
-    height: 50vh;
+    min-height: 0;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
   }
+  .net-side { border-bottom: none; }
 }
 
 /* Profiles */

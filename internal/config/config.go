@@ -7,12 +7,13 @@ import (
 )
 
 type Config struct {
-	DataDir   string
-	WGSubnet  string
-	WGPort    int
-	PanelPort int
-	Uplink    string
-	WGIface   string
+	DataDir         string
+	WGSubnet        string
+	WGPort          int
+	PanelPort       int
+	Uplink          string
+	WGIface         string
+	RadarCatalogURL string
 }
 
 func FromEnv() Config {
@@ -23,6 +24,10 @@ func FromEnv() Config {
 		PanelPort: getenvInt("POTATOINSPECTOR_PANEL", 8443),
 		Uplink:    getenv("POTATOINSPECTOR_UPLINK", "eth0"),
 		WGIface:   getenv("POTATOINSPECTOR_WG_IFACE", "wg0"),
+		RadarCatalogURL: getenv(
+			"POTATOINSPECTOR_RADAR_CATALOG_URL",
+			"https://raw.githubusercontent.com/kriakiku/potato-inspector/main/profiles/radar/catalog.json",
+		),
 	}
 }
 

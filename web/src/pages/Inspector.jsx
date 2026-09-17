@@ -143,14 +143,29 @@ export default function Inspector() {
   const [tab, setTab] = useState('Headers')
   const [paused, setPaused] = useState(false)
   const [capture, setCapture] = useState(false)
-  const [note, setNote] = useState('')
+  const [catalog, setCatalog] = useState(null)
+  const [country, setCountry] = useState('BD')
+  const [tier, setTier] = useState('typical')
+  const [mitmOn, setMitmOn] = useState(false)
+  const [rttMs, setRttMs] = useState(0)
+  const [hostCfRtt, setHostCfRtt] = useState(0)
+  const [appliedDelay, setAppliedDelay] = useState(0)
   const esRef = useRef(null)
   const listRef = useRef(null)
 
   async function refreshMeta() {
-    const st = await api('/api/status')
-    setCapture(st.captureEnabled)
-    setNote(st.inspectorNote)
+    const [st, cat] = await Promise.all([
+      api('/api/status'),
+      api('/api/catalog'),
+    ])
+    setCapture(!!st.captureEnabled)
+    setMitmOn(!!st.mitmEnabled)
+    setCatalog(cat)
+    if (st.activeCountry) setCountry(st.activeCountry)
+    if (st.activeTier) setTier(st.activeTier)
+    setAppliedDelay(st.appliedDelayMs || st.profile?.delayMs || 0)
+    setRttMs((st.appliedDelayMs || st.profile?.delayMs || 0) * 2)
+    setHostCfRtt(st.hostRtt?.cf || 0)
   }
 
   async function load() {
@@ -161,6 +176,10 @@ export default function Inspector() {
   useEffect(() => {
     refreshMeta().catch((e) => notifyError(e.message))
     load().catch((e) => notifyError(e.message))
+    const t = setInterval(() => {
+      refreshMeta().catch(() => {})
+    }, 5000)
+    return () => clearInterval(t)
   }, [filter])
 
   useEffect(() => {
@@ -197,6 +216,24 @@ export default function Inspector() {
     }
   }
 
+  async function applyCountryTier(nextCountry, nextTier) {
+    try {
+      const res = await api('/api/catalog/apply', {
+        method: 'POST',
+        body: { country: nextCountry, tier: nextTier, probe: true },
+      })
+      setCountry(nextCountry)
+      setTier(nextTier)
+      setAppliedDelay(res.profile?.delayMs || 0)
+      setRttMs((res.profile?.delayMs || 0) * 2)
+      setHostCfRtt(res.hostRtt?.cf || 0)
+      notifySuccess(`${nextCountry} · ${nextTier}`)
+      await refreshMeta()
+    } catch (e) {
+      notifyError(e.message)
+    }
+  }
+
   async function clear() {
     try {
       await api('/api/inspector/clear', { method: 'POST' })
@@ -209,18 +246,18 @@ export default function Inspector() {
   }
 
   const rows = useMemo(() => events, [events])
+  const httpCount = useMemo(() => events.filter((e) => e.type === 'http').length, [events])
+  const countries = catalog?.countries || []
 
   return (
-    <>
-      <h1>Inspector</h1>
-      <p className="lead">Network-style timeline (HTTP / TLS / DNS). In-memory ring ~2000 events.</p>
-      <p className="muted">{note}</p>
-      <div className="row" style={{ marginBottom: 12 }}>
-        <button className="primary" onClick={toggleCapture}>{capture ? 'Capture on' : 'Capture off'}</button>
+    <div className="insp-root">
+      <div className="insp-toolbar">
         <button onClick={() => setPaused((p) => !p)}>{paused ? 'Resume' : 'Pause'}</button>
         <button onClick={clear}>Clear</button>
-        <a href="/api/inspector/har" download="potatoinspector.har"><button type="button">Export HAR</button></a>
-        <select value={filter} onChange={(e) => setFilter(e.target.value)} style={{ width: 'auto' }}>
+        <a href="/api/inspector/har" download="potatoinspector.har">
+          <button type="button">Export HAR</button>
+        </a>
+        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
           <option value="">All types</option>
           <option value="http">HTTP</option>
           <option value="tls">TLS</option>
@@ -229,7 +266,7 @@ export default function Inspector() {
       </div>
 
       <div className="net-shell">
-        <div className="net-list panel-box" style={{ margin: 0 }}>
+        <div className="net-list panel-box">
           <div className="net-list-head">
             <span className="col-status">Status</span>
             <span className="col-method">Method</span>
@@ -239,7 +276,9 @@ export default function Inspector() {
             <span className="col-time">Time</span>
           </div>
           <div className="net-list-body net-scroll" ref={listRef}>
-            {rows.length === 0 && <div className="net-empty muted">No events yet — enable capture and MITM (for HTTP/TLS)</div>}
+            {rows.length === 0 && (
+              <div className="net-empty muted">No events yet — enable capture below and MITM (for HTTP/TLS)</div>
+            )}
             {rows.map((ev) => {
               const d = ev.detail || {}
               const dur = durationMs(ev)
@@ -268,10 +307,58 @@ export default function Inspector() {
             })}
           </div>
         </div>
-        <div className="net-side panel-box" style={{ margin: 0 }}>
+        <div className="net-side panel-box">
           <DetailPane selected={selected} tab={tab} setTab={setTab} />
         </div>
       </div>
-    </>
+
+      <div className="insp-statusbar">
+        <label className="form-check">
+          <input type="checkbox" checked={capture} onChange={toggleCapture} />
+          <span>Capture</span>
+        </label>
+        <span className="insp-status-sep" />
+        <span>{rows.length} events{filter ? ` · ${httpCount} http` : httpCount !== rows.length ? ` · ${httpCount} http` : ''}</span>
+        <span className="insp-status-sep" />
+        <label className="row" style={{ gap: '0.35rem', margin: 0 }}>
+          <span>Country</span>
+          <select
+            value={country}
+            onChange={(e) => applyCountryTier(e.target.value, tier)}
+            title="Last-mile country"
+          >
+            {countries.map((c) => (
+              <option key={c.id} value={c.id}>{c.flag ? `${c.flag} ` : ''}{c.name}</option>
+            ))}
+          </select>
+        </label>
+        <label className="row" style={{ gap: '0.35rem', margin: 0 }}>
+          <span>Speed</span>
+          <select
+            value={tier}
+            onChange={(e) => applyCountryTier(country, e.target.value)}
+            title="Speed tier"
+          >
+            <option value="stable">stable</option>
+            <option value="typical">typical</option>
+            <option value="poor">poor</option>
+          </select>
+        </label>
+        <span className="insp-status-grow" />
+        <span>shape ~{rttMs} ms RTT</span>
+        <span className="insp-status-sep" />
+        <span>delay {appliedDelay} ms</span>
+        <span className="insp-status-sep" />
+        <span>host CF {hostCfRtt || '—'} ms</span>
+        <span className="insp-status-sep" />
+        <span>MITM {mitmOn ? 'on' : 'off'}</span>
+        {paused && (
+          <>
+            <span className="insp-status-sep" />
+            <span style={{ color: 'var(--warn)' }}>Paused</span>
+          </>
+        )}
+      </div>
+    </div>
   )
 }

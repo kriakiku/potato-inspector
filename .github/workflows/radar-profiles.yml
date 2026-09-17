@@ -1,0 +1,33 @@
+name: Radar profile catalog
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate catalog
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDPING_URL: https://www.cloudping.co/api/latencies
+        run: python3 scripts/generate-radar-profiles.py
+
+      - name: Commit catalog
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add profiles/radar/catalog.json internal/catalog/data/catalog.json
+          if git diff --staged --quiet; then
+            echo "No catalog changes"
+            exit 0
+          fi
+          git commit -m "chore: refresh radar profile catalog (Radar + CloudPing)"
+          git push

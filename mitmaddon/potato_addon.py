@@ -18,6 +18,7 @@ class PotatoAddon:
         self.config_path = None
         self.config = {
             "extraDelayMs": 180,
+            "forceDisableCache": False,
             "rules": [],
             "bypassSni": [],
             "eventsURL": "http://127.0.0.1:9477/event",
@@ -55,6 +56,7 @@ class PotatoAddon:
                         "host": re.compile(rule.get("hostRegex") or ".*", re.I),
                         "path": re.compile(rule.get("pathRegex") or ".*"),
                         "delay": int(rule.get("extraDelayMs") or 0),
+                        "dest": (rule.get("dest") or "cf").strip() or "cf",
                     }
                 )
             except re.error as e:
@@ -155,14 +157,22 @@ class PotatoAddon:
 
     def request(self, flow: http.HTTPFlow):
         self.reload_soft()
+        if self.config.get("forceDisableCache"):
+            _force_disable_cache_request(flow.request)
         host = flow.request.host or ""
         path = flow.request.path or "/"
         delay = 0
-        global_delay = int(self.config.get("extraDelayMs") or 180)
+        global_delay = int(self.config.get("extraDelayMs") or 0)
+        matched = None
         for rule in self._compiled:
             if rule["host"].search(host) and rule["path"].search(path):
-                delay = rule["delay"] if rule["delay"] > 0 else global_delay
+                matched = rule
                 break
+        if matched is not None:
+            if matched["delay"] > 0:
+                delay = matched["delay"]
+            else:
+                delay = global_delay + _path_extra_delay_ms(self.config, matched.get("dest") or "cf")
         if delay > 0:
             time.sleep(delay / 1000.0)
             flow.metadata["potato_extra_delay_ms"] = delay
@@ -178,6 +188,9 @@ class PotatoAddon:
             pass
 
     def response(self, flow: http.HTTPFlow):
+        self.reload_soft()
+        if self.config.get("forceDisableCache") and flow.response is not None:
+            _force_disable_cache_response(flow.response)
         if not self.config.get("capture", True):
             return
         req = flow.request
@@ -243,6 +256,63 @@ class PotatoAddon:
             },
         }
         self._emit("http", summary, detail)
+
+
+_CONDITIONAL_REQ_HEADERS = (
+    "If-None-Match",
+    "If-Modified-Since",
+    "If-Match",
+    "If-Unmodified-Since",
+    "If-Range",
+)
+
+
+def _path_extra_delay_ms(config: dict, dest: str) -> int:
+    """One-way extra delay from destination RTT vs CF, minus host baseline delta."""
+    if not dest or dest == "cf":
+        return 0
+    pd = config.get("pathDelay") or {}
+    rtt = pd.get("rttToDest") or {}
+    host = pd.get("hostRtt") or {}
+    try:
+        rtt_dest = int(rtt.get(dest) or 0)
+        rtt_cf = int(rtt.get("cf") or 0)
+    except (TypeError, ValueError):
+        return 0
+    path_delta = max(0, rtt_dest - rtt_cf)
+    try:
+        host_delta = max(0, int(host.get(dest) or 0) - int(host.get("cf") or 0))
+    except (TypeError, ValueError):
+        host_delta = 0
+    extra_rtt = max(0, path_delta - host_delta)
+    return extra_rtt // 2
+
+
+_RESPONSE_VALIDATOR_HEADERS = (
+    "ETag",
+    "Expires",
+    "Last-Modified",
+)
+
+
+def _del_headers(headers, names):
+    for name in names:
+        try:
+            if name in headers:
+                del headers[name]
+        except Exception:
+            pass
+
+
+def _force_disable_cache_request(req: http.Request):
+    _del_headers(req.headers, _CONDITIONAL_REQ_HEADERS)
+    req.headers["Cache-Control"] = "no-cache"
+    req.headers["Pragma"] = "no-cache"
+
+
+def _force_disable_cache_response(resp: http.Response):
+    _del_headers(resp.headers, _RESPONSE_VALIDATOR_HEADERS)
+    resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
 
 
 def _headers_to_dict(headers) -> dict:

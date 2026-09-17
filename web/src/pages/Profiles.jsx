@@ -2,135 +2,64 @@ import { useEffect, useState } from 'react'
 import { api } from '../api'
 import { notifyError, notifySuccess } from '../toast'
 
-const emptyForm = () => ({
-  id: '',
-  name: '',
-  description: '',
-  delayMs: 50,
-  downloadMbps: 20,
-  uploadMbps: 8,
-  lossPercent: 0.5,
-  passthrough: false,
-})
-
-function slugify(s) {
-  return s
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-    .slice(0, 48)
-}
+const TIERS = ['stable', 'typical', 'poor']
 
 export default function Profiles() {
-  const [list, setList] = useState([])
-  const [status, setStatus] = useState('')
-  const [formOpen, setFormOpen] = useState(false)
-  const [editing, setEditing] = useState(false)
-  const [form, setForm] = useState(emptyForm())
-  const [idTouched, setIdTouched] = useState(false)
+  const [catalog, setCatalog] = useState(null)
+  const [customs, setCustoms] = useState([])
+  const [busy, setBusy] = useState(false)
 
   async function load() {
-    setList(await api('/api/profiles'))
+    const [cat, list] = await Promise.all([
+      api('/api/catalog'),
+      api('/api/profiles'),
+    ])
+    setCatalog(cat)
+    setCustoms((list || []).filter((p) => !p.builtin && !String(p.id || '').startsWith('catalog:')))
   }
 
   useEffect(() => {
     load().catch((e) => notifyError(e.message))
   }, [])
 
-  function setField(key, value) {
-    setForm((f) => {
-      const next = { ...f, [key]: value }
-      if (key === 'name' && !editing && !idTouched) {
-        next.id = slugify(value) || f.id
-      }
-      return next
-    })
-  }
-
-  function openCreate() {
-    setEditing(false)
-    setIdTouched(false)
-    setForm(emptyForm())
-    setFormOpen(true)
-  }
-
-  function openEdit(p) {
-    if (p.builtin) return
-    setEditing(true)
-    setIdTouched(true)
-    setForm({
-      id: p.id,
-      name: p.name,
-      description: p.description || '',
-      delayMs: p.delayMs ?? 0,
-      downloadMbps: p.downloadMbps ?? 0,
-      uploadMbps: p.uploadMbps ?? 0,
-      lossPercent: p.lossPercent ?? 0,
-      passthrough: !!p.passthrough,
-    })
-    setFormOpen(true)
-  }
-
-  function openDuplicate(p) {
-    setEditing(false)
-    setIdTouched(false)
-    setForm({
-      id: slugify(`${p.id}-custom`) || `custom-${Date.now()}`,
-      name: `${p.name} (custom)`,
-      description: p.description || '',
-      delayMs: p.delayMs ?? 0,
-      downloadMbps: p.downloadMbps ?? 0,
-      uploadMbps: p.uploadMbps ?? 0,
-      lossPercent: p.lossPercent ?? 0,
-      passthrough: !!p.passthrough,
-    })
-    setFormOpen(true)
-  }
-
-  async function apply(id) {
+  async function refreshCatalog() {
+    setBusy(true)
     try {
-      const res = await api('/api/profiles/apply', { method: 'POST', body: { id } })
-      setStatus(res.status)
-      notifySuccess('Profile applied')
+      await api('/api/catalog/refresh', { method: 'POST', body: {} })
+      notifySuccess('Catalog updated')
+      await load()
+    } catch (e) {
+      notifyError(e.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function apply(country, tier) {
+    try {
+      await api('/api/catalog/apply', {
+        method: 'POST',
+        body: { country, tier, probe: true },
+      })
+      notifySuccess(`Applied ${country} · ${tier}`)
     } catch (e) {
       notifyError(e.message)
     }
   }
 
-  async function saveForm(e) {
-    e?.preventDefault()
-    if (!form.id.trim() || !form.name.trim()) {
-      notifyError('ID and name are required')
-      return
-    }
+  async function applyCustom(id) {
     try {
-      await api('/api/profiles', {
-        method: 'POST',
-        body: {
-          ...form,
-          id: form.id.trim(),
-          name: form.name.trim(),
-          delayMs: +form.delayMs || 0,
-          downloadMbps: +form.downloadMbps || 0,
-          uploadMbps: +form.uploadMbps || 0,
-          lossPercent: +form.lossPercent || 0,
-        },
-      })
-      notifySuccess(editing ? 'Profile updated' : 'Profile created')
-      setFormOpen(false)
-      await load()
-    } catch (ex) {
-      notifyError(ex.message)
+      await api('/api/profiles/apply', { method: 'POST', body: { id } })
+      notifySuccess(`Applied ${id}`)
+    } catch (e) {
+      notifyError(e.message)
     }
   }
 
-  async function remove(p) {
-    if (p.builtin) return
-    if (!confirm(`Delete custom profile “${p.name}”?`)) return
+  async function removeCustom(id) {
+    if (!confirm(`Delete ${id}?`)) return
     try {
-      await api(`/api/profiles?id=${encodeURIComponent(p.id)}`, { method: 'DELETE' })
-      if (formOpen && form.id === p.id) setFormOpen(false)
+      await api(`/api/profiles?id=${encodeURIComponent(id)}`, { method: 'DELETE' })
       notifySuccess('Deleted')
       await load()
     } catch (e) {
@@ -138,170 +67,104 @@ export default function Profiles() {
     }
   }
 
+  if (!catalog) return <p className="muted">Loading…</p>
+
+  const destIds = Object.keys(catalog.destinations || {})
+
   return (
     <>
       <h1>Profiles</h1>
       <p className="lead">
-        Delay is <strong>one-way</strong> ms (RTT ≈ 2×). Bandwidth is download (internet→client) / upload (client→internet).
-        Built-in profiles are read-only — duplicate them to customize.
+        Countries with speed tiers (last-mile) and RTT to Cloudflare Edge / AWS regions
+        (Radar last-mile + CloudPing backbone). Apply from here or the Inspector status bar.
+        MITM path rules pick the destination (cf vs aws-…).
       </p>
-      {status && <p className="muted mono">Applied: {status}</p>}
 
       <div className="row" style={{ marginBottom: 12 }}>
-        <button className="primary" type="button" onClick={openCreate}>New custom profile</button>
+        <button className="primary" disabled={busy} onClick={refreshCatalog}>
+          {busy ? 'Updating…' : 'Update catalog from GitHub'}
+        </button>
+        <span className="muted mono" style={{ fontSize: '0.8rem' }}>
+          {catalog.source || '—'} · {catalog.generatedAt || ''}
+        </span>
       </div>
 
       <div className="profile-list">
-        {list.map((p) => (
-          <div key={p.id} className="profile-card">
+        {(catalog.countries || []).map((c) => (
+          <div key={c.id} className="profile-card">
             <div className="profile-card-main">
               <div className="profile-card-title">
-                <strong>{p.name}</strong>
-                {p.builtin ? <span className="badge">builtin</span> : <span className="badge">custom</span>}
+                <strong>{c.flag ? `${c.flag} ` : ''}{c.name}</strong>
+                <span className="badge">{c.id}</span>
               </div>
-              {p.description && <p className="muted profile-card-desc">{p.description}</p>}
-              <div className="mono muted profile-card-id">{p.id}</div>
-              <div className="profile-metrics mono">
-                {p.passthrough ? (
-                  <span>passthrough (no qdisc)</span>
-                ) : (
-                  <>
-                    <span>{p.delayMs} ms one-way (~{p.delayMs * 2} ms RTT)</span>
-                    <span>{p.downloadMbps}↓ / {p.uploadMbps}↑ Mbit/s</span>
-                    <span>{p.lossPercent}% loss</span>
-                  </>
-                )}
+              <div className="profile-metrics" style={{ marginTop: 10 }}>
+                {TIERS.map((t) => {
+                  const tier = c.tiers?.[t]
+                  if (!tier) return null
+                  return (
+                    <div key={t} style={{ minWidth: '10rem' }}>
+                      <div className="muted" style={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>{t}</div>
+                      <div className="mono" style={{ fontSize: '0.8rem' }}>
+                        ↓{tier.downloadMbps} ↑{tier.uploadMbps} · loss {tier.lossPercent}%
+                      </div>
+                      <div className="mono muted" style={{ fontSize: '0.72rem', marginTop: 2 }}>
+                        CF RTT {tier.rttToDest?.cf ?? '—'} ms
+                      </div>
+                      <button style={{ marginTop: 6 }} onClick={() => apply(c.id, t)}>Apply {t}</button>
+                    </div>
+                  )
+                })}
               </div>
-            </div>
-            <div className="profile-card-actions">
-              <button className="primary" type="button" onClick={() => apply(p.id)}>Apply</button>
-              {p.builtin ? (
-                <button type="button" onClick={() => openDuplicate(p)}>Duplicate</button>
-              ) : (
-                <>
-                  <button type="button" onClick={() => openEdit(p)}>Edit</button>
-                  <button type="button" className="danger" onClick={() => remove(p)}>Delete</button>
-                </>
-              )}
+              <details style={{ marginTop: 12 }}>
+                <summary className="muted" style={{ cursor: 'pointer', fontSize: '0.85rem' }}>RTT by destination (typical)</summary>
+                <table className="table" style={{ marginTop: 8, fontSize: '0.82rem' }}>
+                  <thead>
+                    <tr>
+                      <th>Dest</th>
+                      {TIERS.map((t) => <th key={t}>{t}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {destIds.map((d) => (
+                      <tr key={d}>
+                        <td>{catalog.destinations[d]?.label || d}</td>
+                        {TIERS.map((t) => (
+                          <td key={t} className="mono">{c.tiers?.[t]?.rttToDest?.[d] ?? '—'} ms</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </details>
             </div>
           </div>
         ))}
       </div>
 
-      {formOpen && (
-        <div className="modal-backdrop" onClick={() => setFormOpen(false)} role="presentation">
-          <form
-            className="modal profile-form-modal"
-            onClick={(e) => e.stopPropagation()}
-            onSubmit={saveForm}
-          >
-            <h2 style={{ marginTop: 0, fontSize: '1.1rem' }}>
-              {editing ? 'Edit custom profile' : 'New custom profile'}
-            </h2>
-
-            <div className="form-stack">
-              <label className="form-field">
-                <span className="form-label">Name</span>
-                <input
-                  required
-                  value={form.name}
-                  onChange={(e) => setField('name', e.target.value)}
-                  placeholder="My 4G profile"
-                  autoFocus
-                />
-              </label>
-
-              <label className="form-field">
-                <span className="form-label">ID {editing && <span className="muted">(locked)</span>}</span>
-                <input
-                  className="mono"
-                  required
-                  disabled={editing}
-                  value={form.id}
-                  onChange={(e) => {
-                    setIdTouched(true)
-                    setField('id', e.target.value.replace(/\s+/g, '-'))
-                  }}
-                  placeholder="my-4g-profile"
-                />
-              </label>
-
-              <label className="form-field">
-                <span className="form-label">Description</span>
-                <textarea
-                  rows={2}
-                  value={form.description}
-                  onChange={(e) => setField('description', e.target.value)}
-                  placeholder="Optional notes"
-                />
-              </label>
-
-              <label className="form-check">
-                <input
-                  type="checkbox"
-                  checked={form.passthrough}
-                  onChange={(e) => setField('passthrough', e.target.checked)}
-                />
-                <span>Passthrough (no shaping — ignores delay/rate/loss below)</span>
-              </label>
-
-              <fieldset className="form-fieldset" disabled={form.passthrough}>
-                <legend>Shaping</legend>
-                <div className="form-row-2">
-                  <label className="form-field">
-                    <span className="form-label">One-way delay (ms)</span>
-                    <input
-                      type="number"
-                      min={0}
-                      value={form.delayMs}
-                      onChange={(e) => setField('delayMs', e.target.value)}
-                    />
-                    <span className="form-hint">≈ {(+form.delayMs || 0) * 2} ms RTT / ping</span>
-                  </label>
-                  <label className="form-field">
-                    <span className="form-label">Loss (%)</span>
-                    <input
-                      type="number"
-                      min={0}
-                      max={100}
-                      step={0.1}
-                      value={form.lossPercent}
-                      onChange={(e) => setField('lossPercent', e.target.value)}
-                    />
-                  </label>
+      <h2 style={{ marginTop: '2rem', fontSize: '1.1rem' }}>Custom profiles</h2>
+      <p className="muted">Hand-tuned shaping (passthrough / legacy). Builtin demos remain available via API.</p>
+      {customs.length === 0 ? (
+        <p className="muted">No custom profiles yet.</p>
+      ) : (
+        <div className="profile-list">
+          {customs.map((p) => (
+            <div key={p.id} className="profile-card">
+              <div className="profile-card-main">
+                <div className="profile-card-title">
+                  <strong>{p.name}</strong>
+                  <span className="badge">custom</span>
                 </div>
-                <div className="form-row-2">
-                  <label className="form-field">
-                    <span className="form-label">Download (Mbit/s)</span>
-                    <input
-                      type="number"
-                      min={0}
-                      step={0.1}
-                      value={form.downloadMbps}
-                      onChange={(e) => setField('downloadMbps', e.target.value)}
-                    />
-                    <span className="form-hint">Internet → client</span>
-                  </label>
-                  <label className="form-field">
-                    <span className="form-label">Upload (Mbit/s)</span>
-                    <input
-                      type="number"
-                      min={0}
-                      step={0.1}
-                      value={form.uploadMbps}
-                      onChange={(e) => setField('uploadMbps', e.target.value)}
-                    />
-                    <span className="form-hint">Client → internet</span>
-                  </label>
+                <p className="profile-card-id mono muted">{p.id}</p>
+                <div className="profile-metrics">
+                  <span>{p.passthrough ? 'passthrough' : `${p.delayMs} ms · ↓${p.downloadMbps} ↑${p.uploadMbps}`}</span>
                 </div>
-              </fieldset>
+              </div>
+              <div className="profile-card-actions">
+                <button className="primary" onClick={() => applyCustom(p.id)}>Apply</button>
+                <button className="danger" onClick={() => removeCustom(p.id)}>Delete</button>
+              </div>
             </div>
-
-            <div className="row" style={{ marginTop: 16, justifyContent: 'flex-end' }}>
-              <button type="button" onClick={() => setFormOpen(false)}>Cancel</button>
-              <button type="submit" className="primary">{editing ? 'Save changes' : 'Create profile'}</button>
-            </div>
-          </form>
+          ))}
         </div>
       )}
     </>

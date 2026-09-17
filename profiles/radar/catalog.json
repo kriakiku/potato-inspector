@@ -1,0 +1,5401 @@
+{
+  "generatedAt": "2026-09-17T21:37:52Z",
+  "source": "seed+cloudping",
+  "destinations": {
+    "cf": {
+      "label": "Cloudflare Edge",
+      "calibrate": "cf",
+      "target": "speed.cloudflare.com"
+    },
+    "aws-eu-central-1": {
+      "label": "AWS Frankfurt",
+      "calibrate": "aws-eu-central-1",
+      "target": "ec2.eu-central-1.amazonaws.com",
+      "awsRegion": "eu-central-1"
+    },
+    "aws-eu-west-1": {
+      "label": "AWS Ireland",
+      "calibrate": "aws-eu-west-1",
+      "target": "ec2.eu-west-1.amazonaws.com",
+      "awsRegion": "eu-west-1"
+    },
+    "aws-us-east-1": {
+      "label": "AWS N. Virginia",
+      "calibrate": "aws-us-east-1",
+      "target": "ec2.us-east-1.amazonaws.com",
+      "awsRegion": "us-east-1"
+    },
+    "aws-us-west-2": {
+      "label": "AWS Oregon",
+      "calibrate": "aws-us-west-2",
+      "target": "ec2.us-west-2.amazonaws.com",
+      "awsRegion": "us-west-2"
+    },
+    "aws-ap-southeast-1": {
+      "label": "AWS Singapore",
+      "calibrate": "aws-ap-southeast-1",
+      "target": "ec2.ap-southeast-1.amazonaws.com",
+      "awsRegion": "ap-southeast-1"
+    },
+    "aws-ap-northeast-1": {
+      "label": "AWS Tokyo",
+      "calibrate": "aws-ap-northeast-1",
+      "target": "ec2.ap-northeast-1.amazonaws.com",
+      "awsRegion": "ap-northeast-1"
+    },
+    "aws-ap-south-1": {
+      "label": "AWS Mumbai",
+      "calibrate": "aws-ap-south-1",
+      "target": "ec2.ap-south-1.amazonaws.com",
+      "awsRegion": "ap-south-1"
+    }
+  },
+  "countries": [
+    {
+      "id": "AE",
+      "name": "United Arab Emirates",
+      "flag": "🇦🇪",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 100.0,
+          "uploadMbps": 37.5,
+          "lossPercent": 0.06,
+          "rttToDest": {
+            "cf": 17,
+            "aws-eu-central-1": 127,
+            "aws-eu-west-1": 121,
+            "aws-us-east-1": 184,
+            "aws-us-west-2": 218,
+            "aws-ap-southeast-1": 70,
+            "aws-ap-northeast-1": 129,
+            "aws-ap-south-1": 17
+          }
+        },
+        "typical": {
+          "downloadMbps": 80,
+          "uploadMbps": 30,
+          "lossPercent": 0.2,
+          "rttToDest": {
+            "cf": 20,
+            "aws-eu-central-1": 149,
+            "aws-eu-west-1": 142,
+            "aws-us-east-1": 217,
+            "aws-us-west-2": 256,
+            "aws-ap-southeast-1": 82,
+            "aws-ap-northeast-1": 152,
+            "aws-ap-south-1": 20
+          }
+        },
+        "poor": {
+          "downloadMbps": 16.0,
+          "uploadMbps": 6.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 28,
+            "aws-eu-central-1": 209,
+            "aws-eu-west-1": 199,
+            "aws-us-east-1": 304,
+            "aws-us-west-2": 358,
+            "aws-ap-southeast-1": 115,
+            "aws-ap-northeast-1": 213,
+            "aws-ap-south-1": 28
+          }
+        }
+      }
+    },
+    {
+      "id": "AF",
+      "name": "Afghanistan",
+      "flag": "🇦🇫",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "AL",
+      "name": "Albania",
+      "flag": "🇦🇱",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "AM",
+      "name": "Armenia",
+      "flag": "🇦🇲",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "AR",
+      "name": "Argentina",
+      "flag": "🇦🇷",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.15,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.5,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.5,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "AT",
+      "name": "Austria",
+      "flag": "🇦🇹",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "AU",
+      "name": "Australia",
+      "flag": "🇦🇺",
+      "nearestAws": "aws-ap-southeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 87.5,
+          "uploadMbps": 31.2,
+          "lossPercent": 0.06,
+          "rttToDest": {
+            "cf": 17,
+            "aws-eu-central-1": 154,
+            "aws-eu-west-1": 165,
+            "aws-us-east-1": 203,
+            "aws-us-west-2": 171,
+            "aws-ap-southeast-1": 17,
+            "aws-ap-northeast-1": 76,
+            "aws-ap-south-1": 70
+          }
+        },
+        "typical": {
+          "downloadMbps": 70,
+          "uploadMbps": 25,
+          "lossPercent": 0.2,
+          "rttToDest": {
+            "cf": 20,
+            "aws-eu-central-1": 181,
+            "aws-eu-west-1": 194,
+            "aws-us-east-1": 239,
+            "aws-us-west-2": 201,
+            "aws-ap-southeast-1": 20,
+            "aws-ap-northeast-1": 90,
+            "aws-ap-south-1": 82
+          }
+        },
+        "poor": {
+          "downloadMbps": 14.0,
+          "uploadMbps": 5.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 28,
+            "aws-eu-central-1": 253,
+            "aws-eu-west-1": 272,
+            "aws-us-east-1": 335,
+            "aws-us-west-2": 281,
+            "aws-ap-southeast-1": 28,
+            "aws-ap-northeast-1": 126,
+            "aws-ap-south-1": 115
+          }
+        }
+      }
+    },
+    {
+      "id": "AZ",
+      "name": "Azerbaijan",
+      "flag": "🇦🇿",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "BA",
+      "name": "Bosnia and Herzegovina",
+      "flag": "🇧🇦",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "BD",
+      "name": "Bangladesh",
+      "flag": "🇧🇩",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 40.0,
+          "uploadMbps": 15.0,
+          "lossPercent": 0.15,
+          "rttToDest": {
+            "cf": 41,
+            "aws-eu-central-1": 150,
+            "aws-eu-west-1": 144,
+            "aws-us-east-1": 208,
+            "aws-us-west-2": 241,
+            "aws-ap-southeast-1": 94,
+            "aws-ap-northeast-1": 153,
+            "aws-ap-south-1": 41
+          }
+        },
+        "typical": {
+          "downloadMbps": 32,
+          "uploadMbps": 12,
+          "lossPercent": 0.5,
+          "rttToDest": {
+            "cf": 48,
+            "aws-eu-central-1": 177,
+            "aws-eu-west-1": 170,
+            "aws-us-east-1": 245,
+            "aws-us-west-2": 284,
+            "aws-ap-southeast-1": 110,
+            "aws-ap-northeast-1": 180,
+            "aws-ap-south-1": 48
+          }
+        },
+        "poor": {
+          "downloadMbps": 6.4,
+          "uploadMbps": 2.4,
+          "lossPercent": 1.5,
+          "rttToDest": {
+            "cf": 67,
+            "aws-eu-central-1": 248,
+            "aws-eu-west-1": 238,
+            "aws-us-east-1": 343,
+            "aws-us-west-2": 398,
+            "aws-ap-southeast-1": 154,
+            "aws-ap-northeast-1": 252,
+            "aws-ap-south-1": 67
+          }
+        }
+      }
+    },
+    {
+      "id": "BE",
+      "name": "Belgium",
+      "flag": "🇧🇪",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "BG",
+      "name": "Bulgaria",
+      "flag": "🇧🇬",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "BH",
+      "name": "Bahrain",
+      "flag": "🇧🇭",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "BO",
+      "name": "Bolivia",
+      "flag": "🇧🇴",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "BR",
+      "name": "Brazil",
+      "flag": "🇧🇷",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 62.5,
+          "uploadMbps": 25.0,
+          "lossPercent": 0.09,
+          "rttToDest": {
+            "cf": 21,
+            "aws-eu-central-1": 100,
+            "aws-eu-west-1": 80,
+            "aws-us-east-1": 21,
+            "aws-us-west-2": 78,
+            "aws-ap-southeast-1": 207,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 190
+          }
+        },
+        "typical": {
+          "downloadMbps": 50,
+          "uploadMbps": 20,
+          "lossPercent": 0.3,
+          "rttToDest": {
+            "cf": 25,
+            "aws-eu-central-1": 118,
+            "aws-eu-west-1": 94,
+            "aws-us-east-1": 25,
+            "aws-us-west-2": 92,
+            "aws-ap-southeast-1": 243,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 224
+          }
+        },
+        "poor": {
+          "downloadMbps": 10.0,
+          "uploadMbps": 4.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 35,
+            "aws-eu-central-1": 165,
+            "aws-eu-west-1": 132,
+            "aws-us-east-1": 35,
+            "aws-us-west-2": 129,
+            "aws-ap-southeast-1": 340,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 314
+          }
+        }
+      }
+    },
+    {
+      "id": "BY",
+      "name": "Belarus",
+      "flag": "🇧🇾",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "CA",
+      "name": "Canada",
+      "flag": "🇨🇦",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 112.5,
+          "uploadMbps": 43.8,
+          "lossPercent": 0.05,
+          "rttToDest": {
+            "cf": 15,
+            "aws-eu-central-1": 94,
+            "aws-eu-west-1": 74,
+            "aws-us-east-1": 15,
+            "aws-us-west-2": 72,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 140,
+            "aws-ap-south-1": 184
+          }
+        },
+        "typical": {
+          "downloadMbps": 90,
+          "uploadMbps": 35,
+          "lossPercent": 0.1,
+          "rttToDest": {
+            "cf": 18,
+            "aws-eu-central-1": 111,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 18,
+            "aws-us-west-2": 85,
+            "aws-ap-southeast-1": 236,
+            "aws-ap-northeast-1": 165,
+            "aws-ap-south-1": 217
+          }
+        },
+        "poor": {
+          "downloadMbps": 18.0,
+          "uploadMbps": 7.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 25,
+            "aws-eu-central-1": 155,
+            "aws-eu-west-1": 122,
+            "aws-us-east-1": 25,
+            "aws-us-west-2": 119,
+            "aws-ap-southeast-1": 330,
+            "aws-ap-northeast-1": 231,
+            "aws-ap-south-1": 304
+          }
+        }
+      }
+    },
+    {
+      "id": "CH",
+      "name": "Switzerland",
+      "flag": "🇨🇭",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "CL",
+      "name": "Chile",
+      "flag": "🇨🇱",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "CM",
+      "name": "Cameroon",
+      "flag": "🇨🇲",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "CN",
+      "name": "China",
+      "flag": "🇨🇳",
+      "nearestAws": "aws-ap-northeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 227,
+            "aws-eu-west-1": 206,
+            "aws-us-east-1": 161,
+            "aws-us-west-2": 125,
+            "aws-ap-southeast-1": 94,
+            "aws-ap-northeast-1": 34,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 267,
+            "aws-eu-west-1": 242,
+            "aws-us-east-1": 189,
+            "aws-us-west-2": 147,
+            "aws-ap-southeast-1": 110,
+            "aws-ap-northeast-1": 40,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 374,
+            "aws-eu-west-1": 339,
+            "aws-us-east-1": 265,
+            "aws-us-west-2": 206,
+            "aws-ap-southeast-1": 154,
+            "aws-ap-northeast-1": 56,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "CO",
+      "name": "Colombia",
+      "flag": "🇨🇴",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 43.8,
+          "uploadMbps": 15.0,
+          "lossPercent": 0.15,
+          "rttToDest": {
+            "cf": 38,
+            "aws-eu-central-1": 117,
+            "aws-eu-west-1": 97,
+            "aws-us-east-1": 38,
+            "aws-us-west-2": 95,
+            "aws-ap-southeast-1": 224,
+            "aws-ap-northeast-1": 163,
+            "aws-ap-south-1": 207
+          }
+        },
+        "typical": {
+          "downloadMbps": 35,
+          "uploadMbps": 12,
+          "lossPercent": 0.5,
+          "rttToDest": {
+            "cf": 45,
+            "aws-eu-central-1": 138,
+            "aws-eu-west-1": 114,
+            "aws-us-east-1": 45,
+            "aws-us-west-2": 112,
+            "aws-ap-southeast-1": 263,
+            "aws-ap-northeast-1": 192,
+            "aws-ap-south-1": 244
+          }
+        },
+        "poor": {
+          "downloadMbps": 7.0,
+          "uploadMbps": 2.4,
+          "lossPercent": 1.5,
+          "rttToDest": {
+            "cf": 63,
+            "aws-eu-central-1": 193,
+            "aws-eu-west-1": 160,
+            "aws-us-east-1": 63,
+            "aws-us-west-2": 157,
+            "aws-ap-southeast-1": 368,
+            "aws-ap-northeast-1": 269,
+            "aws-ap-south-1": 342
+          }
+        }
+      }
+    },
+    {
+      "id": "CR",
+      "name": "Costa Rica",
+      "flag": "🇨🇷",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "CZ",
+      "name": "Czechia",
+      "flag": "🇨🇿",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "DE",
+      "name": "Germany",
+      "flag": "🇩🇪",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 100.0,
+          "uploadMbps": 37.5,
+          "lossPercent": 0.05,
+          "rttToDest": {
+            "cf": 10,
+            "aws-eu-central-1": 10,
+            "aws-eu-west-1": 29,
+            "aws-us-east-1": 87,
+            "aws-us-west-2": 138,
+            "aws-ap-southeast-1": 147,
+            "aws-ap-northeast-1": 203,
+            "aws-ap-south-1": 120
+          }
+        },
+        "typical": {
+          "downloadMbps": 80,
+          "uploadMbps": 30,
+          "lossPercent": 0.1,
+          "rttToDest": {
+            "cf": 12,
+            "aws-eu-central-1": 12,
+            "aws-eu-west-1": 34,
+            "aws-us-east-1": 102,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 173,
+            "aws-ap-northeast-1": 239,
+            "aws-ap-south-1": 141
+          }
+        },
+        "poor": {
+          "downloadMbps": 16.0,
+          "uploadMbps": 6.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 17,
+            "aws-eu-central-1": 17,
+            "aws-eu-west-1": 48,
+            "aws-us-east-1": 143,
+            "aws-us-west-2": 227,
+            "aws-ap-southeast-1": 242,
+            "aws-ap-northeast-1": 335,
+            "aws-ap-south-1": 197
+          }
+        }
+      }
+    },
+    {
+      "id": "DK",
+      "name": "Denmark",
+      "flag": "🇩🇰",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "DO",
+      "name": "Dominican Republic",
+      "flag": "🇩🇴",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "DZ",
+      "name": "Algeria",
+      "flag": "🇩🇿",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "EC",
+      "name": "Ecuador",
+      "flag": "🇪🇨",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "EE",
+      "name": "Estonia",
+      "flag": "🇪🇪",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "EG",
+      "name": "Egypt",
+      "flag": "🇪🇬",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 37.5,
+          "uploadMbps": 12.5,
+          "lossPercent": 0.18,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 30,
+          "uploadMbps": 10,
+          "lossPercent": 0.6,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 6.0,
+          "uploadMbps": 2.0,
+          "lossPercent": 1.8,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "ES",
+      "name": "Spain",
+      "flag": "🇪🇸",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 87.5,
+          "uploadMbps": 31.2,
+          "lossPercent": 0.06,
+          "rttToDest": {
+            "cf": 17,
+            "aws-eu-central-1": 17,
+            "aws-eu-west-1": 36,
+            "aws-us-east-1": 94,
+            "aws-us-west-2": 144,
+            "aws-ap-southeast-1": 154,
+            "aws-ap-northeast-1": 210,
+            "aws-ap-south-1": 127
+          }
+        },
+        "typical": {
+          "downloadMbps": 70,
+          "uploadMbps": 25,
+          "lossPercent": 0.2,
+          "rttToDest": {
+            "cf": 20,
+            "aws-eu-central-1": 20,
+            "aws-eu-west-1": 42,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 170,
+            "aws-ap-southeast-1": 181,
+            "aws-ap-northeast-1": 247,
+            "aws-ap-south-1": 149
+          }
+        },
+        "poor": {
+          "downloadMbps": 14.0,
+          "uploadMbps": 5.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 28,
+            "aws-eu-central-1": 28,
+            "aws-eu-west-1": 59,
+            "aws-us-east-1": 154,
+            "aws-us-west-2": 238,
+            "aws-ap-southeast-1": 253,
+            "aws-ap-northeast-1": 346,
+            "aws-ap-south-1": 209
+          }
+        }
+      }
+    },
+    {
+      "id": "ET",
+      "name": "Ethiopia",
+      "flag": "🇪🇹",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "FI",
+      "name": "Finland",
+      "flag": "🇫🇮",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "FR",
+      "name": "France",
+      "flag": "🇫🇷",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 100.0,
+          "uploadMbps": 37.5,
+          "lossPercent": 0.05,
+          "rttToDest": {
+            "cf": 12,
+            "aws-eu-central-1": 12,
+            "aws-eu-west-1": 31,
+            "aws-us-east-1": 88,
+            "aws-us-west-2": 139,
+            "aws-ap-southeast-1": 149,
+            "aws-ap-northeast-1": 205,
+            "aws-ap-south-1": 122
+          }
+        },
+        "typical": {
+          "downloadMbps": 80,
+          "uploadMbps": 30,
+          "lossPercent": 0.1,
+          "rttToDest": {
+            "cf": 14,
+            "aws-eu-central-1": 14,
+            "aws-eu-west-1": 36,
+            "aws-us-east-1": 104,
+            "aws-us-west-2": 164,
+            "aws-ap-southeast-1": 175,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 143
+          }
+        },
+        "poor": {
+          "downloadMbps": 16.0,
+          "uploadMbps": 6.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 20,
+            "aws-eu-central-1": 20,
+            "aws-eu-west-1": 50,
+            "aws-us-east-1": 146,
+            "aws-us-west-2": 230,
+            "aws-ap-southeast-1": 245,
+            "aws-ap-northeast-1": 337,
+            "aws-ap-south-1": 200
+          }
+        }
+      }
+    },
+    {
+      "id": "GB",
+      "name": "United Kingdom",
+      "flag": "🇬🇧",
+      "nearestAws": "aws-eu-west-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 93.8,
+          "uploadMbps": 35.0,
+          "lossPercent": 0.05,
+          "rttToDest": {
+            "cf": 12,
+            "aws-eu-central-1": 31,
+            "aws-eu-west-1": 12,
+            "aws-us-east-1": 71,
+            "aws-us-west-2": 118,
+            "aws-ap-southeast-1": 163,
+            "aws-ap-northeast-1": 185,
+            "aws-ap-south-1": 116
+          }
+        },
+        "typical": {
+          "downloadMbps": 75,
+          "uploadMbps": 28,
+          "lossPercent": 0.15,
+          "rttToDest": {
+            "cf": 14,
+            "aws-eu-central-1": 36,
+            "aws-eu-west-1": 14,
+            "aws-us-east-1": 83,
+            "aws-us-west-2": 139,
+            "aws-ap-southeast-1": 192,
+            "aws-ap-northeast-1": 218,
+            "aws-ap-south-1": 137
+          }
+        },
+        "poor": {
+          "downloadMbps": 15.0,
+          "uploadMbps": 5.6,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 20,
+            "aws-eu-central-1": 50,
+            "aws-eu-west-1": 20,
+            "aws-us-east-1": 116,
+            "aws-us-west-2": 195,
+            "aws-ap-southeast-1": 269,
+            "aws-ap-northeast-1": 305,
+            "aws-ap-south-1": 192
+          }
+        }
+      }
+    },
+    {
+      "id": "GE",
+      "name": "Georgia",
+      "flag": "🇬🇪",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "GH",
+      "name": "Ghana",
+      "flag": "🇬🇭",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "GR",
+      "name": "Greece",
+      "flag": "🇬🇷",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "GT",
+      "name": "Guatemala",
+      "flag": "🇬🇹",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "HK",
+      "name": "Hong Kong",
+      "flag": "🇭🇰",
+      "nearestAws": "aws-ap-southeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 171,
+            "aws-eu-west-1": 182,
+            "aws-us-east-1": 220,
+            "aws-us-west-2": 188,
+            "aws-ap-southeast-1": 34,
+            "aws-ap-northeast-1": 94,
+            "aws-ap-south-1": 87
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 201,
+            "aws-eu-west-1": 214,
+            "aws-us-east-1": 259,
+            "aws-us-west-2": 221,
+            "aws-ap-southeast-1": 40,
+            "aws-ap-northeast-1": 110,
+            "aws-ap-south-1": 102
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 281,
+            "aws-eu-west-1": 300,
+            "aws-us-east-1": 363,
+            "aws-us-west-2": 309,
+            "aws-ap-southeast-1": 56,
+            "aws-ap-northeast-1": 154,
+            "aws-ap-south-1": 143
+          }
+        }
+      }
+    },
+    {
+      "id": "HR",
+      "name": "Croatia",
+      "flag": "🇭🇷",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "HU",
+      "name": "Hungary",
+      "flag": "🇭🇺",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "ID",
+      "name": "Indonesia",
+      "flag": "🇮🇩",
+      "nearestAws": "aws-ap-southeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 43.8,
+          "uploadMbps": 15.0,
+          "lossPercent": 0.15,
+          "rttToDest": {
+            "cf": 24,
+            "aws-eu-central-1": 161,
+            "aws-eu-west-1": 172,
+            "aws-us-east-1": 210,
+            "aws-us-west-2": 178,
+            "aws-ap-southeast-1": 24,
+            "aws-ap-northeast-1": 83,
+            "aws-ap-south-1": 76
+          }
+        },
+        "typical": {
+          "downloadMbps": 35,
+          "uploadMbps": 12,
+          "lossPercent": 0.5,
+          "rttToDest": {
+            "cf": 28,
+            "aws-eu-central-1": 189,
+            "aws-eu-west-1": 202,
+            "aws-us-east-1": 247,
+            "aws-us-west-2": 209,
+            "aws-ap-southeast-1": 28,
+            "aws-ap-northeast-1": 98,
+            "aws-ap-south-1": 90
+          }
+        },
+        "poor": {
+          "downloadMbps": 7.0,
+          "uploadMbps": 2.4,
+          "lossPercent": 1.5,
+          "rttToDest": {
+            "cf": 39,
+            "aws-eu-central-1": 265,
+            "aws-eu-west-1": 283,
+            "aws-us-east-1": 346,
+            "aws-us-west-2": 293,
+            "aws-ap-southeast-1": 39,
+            "aws-ap-northeast-1": 137,
+            "aws-ap-south-1": 126
+          }
+        }
+      }
+    },
+    {
+      "id": "IE",
+      "name": "Ireland",
+      "flag": "🇮🇪",
+      "nearestAws": "aws-eu-west-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 53,
+            "aws-eu-west-1": 34,
+            "aws-us-east-1": 93,
+            "aws-us-west-2": 140,
+            "aws-ap-southeast-1": 185,
+            "aws-ap-northeast-1": 207,
+            "aws-ap-south-1": 139
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 62,
+            "aws-eu-west-1": 40,
+            "aws-us-east-1": 109,
+            "aws-us-west-2": 165,
+            "aws-ap-southeast-1": 218,
+            "aws-ap-northeast-1": 244,
+            "aws-ap-south-1": 163
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 87,
+            "aws-eu-west-1": 56,
+            "aws-us-east-1": 153,
+            "aws-us-west-2": 231,
+            "aws-ap-southeast-1": 305,
+            "aws-ap-northeast-1": 342,
+            "aws-ap-south-1": 228
+          }
+        }
+      }
+    },
+    {
+      "id": "IL",
+      "name": "Israel",
+      "flag": "🇮🇱",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "IN",
+      "name": "India",
+      "flag": "🇮🇳",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 30,
+            "aws-eu-central-1": 139,
+            "aws-eu-west-1": 133,
+            "aws-us-east-1": 197,
+            "aws-us-west-2": 230,
+            "aws-ap-southeast-1": 82,
+            "aws-ap-northeast-1": 142,
+            "aws-ap-south-1": 30
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 35,
+            "aws-eu-central-1": 164,
+            "aws-eu-west-1": 157,
+            "aws-us-east-1": 232,
+            "aws-us-west-2": 271,
+            "aws-ap-southeast-1": 97,
+            "aws-ap-northeast-1": 167,
+            "aws-ap-south-1": 35
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 49,
+            "aws-eu-central-1": 230,
+            "aws-eu-west-1": 220,
+            "aws-us-east-1": 325,
+            "aws-us-west-2": 379,
+            "aws-ap-southeast-1": 136,
+            "aws-ap-northeast-1": 234,
+            "aws-ap-south-1": 49
+          }
+        }
+      }
+    },
+    {
+      "id": "IQ",
+      "name": "Iraq",
+      "flag": "🇮🇶",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "IS",
+      "name": "Iceland",
+      "flag": "🇮🇸",
+      "nearestAws": "aws-eu-west-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 53,
+            "aws-eu-west-1": 34,
+            "aws-us-east-1": 93,
+            "aws-us-west-2": 140,
+            "aws-ap-southeast-1": 185,
+            "aws-ap-northeast-1": 207,
+            "aws-ap-south-1": 139
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 62,
+            "aws-eu-west-1": 40,
+            "aws-us-east-1": 109,
+            "aws-us-west-2": 165,
+            "aws-ap-southeast-1": 218,
+            "aws-ap-northeast-1": 244,
+            "aws-ap-south-1": 163
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 87,
+            "aws-eu-west-1": 56,
+            "aws-us-east-1": 153,
+            "aws-us-west-2": 231,
+            "aws-ap-southeast-1": 305,
+            "aws-ap-northeast-1": 342,
+            "aws-ap-south-1": 228
+          }
+        }
+      }
+    },
+    {
+      "id": "IT",
+      "name": "Italy",
+      "flag": "🇮🇹",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 87.5,
+          "uploadMbps": 31.2,
+          "lossPercent": 0.06,
+          "rttToDest": {
+            "cf": 15,
+            "aws-eu-central-1": 15,
+            "aws-eu-west-1": 34,
+            "aws-us-east-1": 92,
+            "aws-us-west-2": 143,
+            "aws-ap-southeast-1": 152,
+            "aws-ap-northeast-1": 208,
+            "aws-ap-south-1": 125
+          }
+        },
+        "typical": {
+          "downloadMbps": 70,
+          "uploadMbps": 25,
+          "lossPercent": 0.2,
+          "rttToDest": {
+            "cf": 18,
+            "aws-eu-central-1": 18,
+            "aws-eu-west-1": 40,
+            "aws-us-east-1": 108,
+            "aws-us-west-2": 168,
+            "aws-ap-southeast-1": 179,
+            "aws-ap-northeast-1": 245,
+            "aws-ap-south-1": 147
+          }
+        },
+        "poor": {
+          "downloadMbps": 14.0,
+          "uploadMbps": 5.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 25,
+            "aws-eu-central-1": 25,
+            "aws-eu-west-1": 56,
+            "aws-us-east-1": 151,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 251,
+            "aws-ap-northeast-1": 343,
+            "aws-ap-south-1": 206
+          }
+        }
+      }
+    },
+    {
+      "id": "JM",
+      "name": "Jamaica",
+      "flag": "🇯🇲",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "JO",
+      "name": "Jordan",
+      "flag": "🇯🇴",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "JP",
+      "name": "Japan",
+      "flag": "🇯🇵",
+      "nearestAws": "aws-ap-northeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 106.2,
+          "uploadMbps": 43.8,
+          "lossPercent": 0.05,
+          "rttToDest": {
+            "cf": 10,
+            "aws-eu-central-1": 203,
+            "aws-eu-west-1": 182,
+            "aws-us-east-1": 137,
+            "aws-us-west-2": 101,
+            "aws-ap-southeast-1": 70,
+            "aws-ap-northeast-1": 10,
+            "aws-ap-south-1": 120
+          }
+        },
+        "typical": {
+          "downloadMbps": 85,
+          "uploadMbps": 35,
+          "lossPercent": 0.1,
+          "rttToDest": {
+            "cf": 12,
+            "aws-eu-central-1": 239,
+            "aws-eu-west-1": 214,
+            "aws-us-east-1": 161,
+            "aws-us-west-2": 119,
+            "aws-ap-southeast-1": 82,
+            "aws-ap-northeast-1": 12,
+            "aws-ap-south-1": 141
+          }
+        },
+        "poor": {
+          "downloadMbps": 17.0,
+          "uploadMbps": 7.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 17,
+            "aws-eu-central-1": 335,
+            "aws-eu-west-1": 300,
+            "aws-us-east-1": 225,
+            "aws-us-west-2": 167,
+            "aws-ap-southeast-1": 115,
+            "aws-ap-northeast-1": 17,
+            "aws-ap-south-1": 197
+          }
+        }
+      }
+    },
+    {
+      "id": "KE",
+      "name": "Kenya",
+      "flag": "🇰🇪",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "KH",
+      "name": "Cambodia",
+      "flag": "🇰🇭",
+      "nearestAws": "aws-ap-southeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 171,
+            "aws-eu-west-1": 182,
+            "aws-us-east-1": 220,
+            "aws-us-west-2": 188,
+            "aws-ap-southeast-1": 34,
+            "aws-ap-northeast-1": 94,
+            "aws-ap-south-1": 87
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 201,
+            "aws-eu-west-1": 214,
+            "aws-us-east-1": 259,
+            "aws-us-west-2": 221,
+            "aws-ap-southeast-1": 40,
+            "aws-ap-northeast-1": 110,
+            "aws-ap-south-1": 102
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 281,
+            "aws-eu-west-1": 300,
+            "aws-us-east-1": 363,
+            "aws-us-west-2": 309,
+            "aws-ap-southeast-1": 56,
+            "aws-ap-northeast-1": 154,
+            "aws-ap-south-1": 143
+          }
+        }
+      }
+    },
+    {
+      "id": "KR",
+      "name": "South Korea",
+      "flag": "🇰🇷",
+      "nearestAws": "aws-ap-northeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 112.5,
+          "uploadMbps": 43.8,
+          "lossPercent": 0.05,
+          "rttToDest": {
+            "cf": 10,
+            "aws-eu-central-1": 203,
+            "aws-eu-west-1": 182,
+            "aws-us-east-1": 137,
+            "aws-us-west-2": 101,
+            "aws-ap-southeast-1": 70,
+            "aws-ap-northeast-1": 10,
+            "aws-ap-south-1": 120
+          }
+        },
+        "typical": {
+          "downloadMbps": 90,
+          "uploadMbps": 35,
+          "lossPercent": 0.1,
+          "rttToDest": {
+            "cf": 12,
+            "aws-eu-central-1": 239,
+            "aws-eu-west-1": 214,
+            "aws-us-east-1": 161,
+            "aws-us-west-2": 119,
+            "aws-ap-southeast-1": 82,
+            "aws-ap-northeast-1": 12,
+            "aws-ap-south-1": 141
+          }
+        },
+        "poor": {
+          "downloadMbps": 18.0,
+          "uploadMbps": 7.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 17,
+            "aws-eu-central-1": 335,
+            "aws-eu-west-1": 300,
+            "aws-us-east-1": 225,
+            "aws-us-west-2": 167,
+            "aws-ap-southeast-1": 115,
+            "aws-ap-northeast-1": 17,
+            "aws-ap-south-1": 197
+          }
+        }
+      }
+    },
+    {
+      "id": "KW",
+      "name": "Kuwait",
+      "flag": "🇰🇼",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "KZ",
+      "name": "Kazakhstan",
+      "flag": "🇰🇿",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "LB",
+      "name": "Lebanon",
+      "flag": "🇱🇧",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "LK",
+      "name": "Sri Lanka",
+      "flag": "🇱🇰",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "LT",
+      "name": "Lithuania",
+      "flag": "🇱🇹",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "LU",
+      "name": "Luxembourg",
+      "flag": "🇱🇺",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "LV",
+      "name": "Latvia",
+      "flag": "🇱🇻",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "MA",
+      "name": "Morocco",
+      "flag": "🇲🇦",
+      "nearestAws": "aws-eu-west-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 53,
+            "aws-eu-west-1": 34,
+            "aws-us-east-1": 93,
+            "aws-us-west-2": 140,
+            "aws-ap-southeast-1": 185,
+            "aws-ap-northeast-1": 207,
+            "aws-ap-south-1": 139
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 62,
+            "aws-eu-west-1": 40,
+            "aws-us-east-1": 109,
+            "aws-us-west-2": 165,
+            "aws-ap-southeast-1": 218,
+            "aws-ap-northeast-1": 244,
+            "aws-ap-south-1": 163
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 87,
+            "aws-eu-west-1": 56,
+            "aws-us-east-1": 153,
+            "aws-us-west-2": 231,
+            "aws-ap-southeast-1": 305,
+            "aws-ap-northeast-1": 342,
+            "aws-ap-south-1": 228
+          }
+        }
+      }
+    },
+    {
+      "id": "MD",
+      "name": "Moldova",
+      "flag": "🇲🇩",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "MM",
+      "name": "Myanmar",
+      "flag": "🇲🇲",
+      "nearestAws": "aws-ap-southeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 171,
+            "aws-eu-west-1": 182,
+            "aws-us-east-1": 220,
+            "aws-us-west-2": 188,
+            "aws-ap-southeast-1": 34,
+            "aws-ap-northeast-1": 94,
+            "aws-ap-south-1": 87
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 201,
+            "aws-eu-west-1": 214,
+            "aws-us-east-1": 259,
+            "aws-us-west-2": 221,
+            "aws-ap-southeast-1": 40,
+            "aws-ap-northeast-1": 110,
+            "aws-ap-south-1": 102
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 281,
+            "aws-eu-west-1": 300,
+            "aws-us-east-1": 363,
+            "aws-us-west-2": 309,
+            "aws-ap-southeast-1": 56,
+            "aws-ap-northeast-1": 154,
+            "aws-ap-south-1": 143
+          }
+        }
+      }
+    },
+    {
+      "id": "MX",
+      "name": "Mexico",
+      "flag": "🇲🇽",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 56.2,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 26,
+            "aws-eu-central-1": 105,
+            "aws-eu-west-1": 84,
+            "aws-us-east-1": 26,
+            "aws-us-west-2": 82,
+            "aws-ap-southeast-1": 211,
+            "aws-ap-northeast-1": 150,
+            "aws-ap-south-1": 195
+          }
+        },
+        "typical": {
+          "downloadMbps": 45,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 30,
+            "aws-eu-central-1": 123,
+            "aws-eu-west-1": 99,
+            "aws-us-east-1": 30,
+            "aws-us-west-2": 97,
+            "aws-ap-southeast-1": 248,
+            "aws-ap-northeast-1": 177,
+            "aws-ap-south-1": 229
+          }
+        },
+        "poor": {
+          "downloadMbps": 9.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 42,
+            "aws-eu-central-1": 172,
+            "aws-eu-west-1": 139,
+            "aws-us-east-1": 42,
+            "aws-us-west-2": 136,
+            "aws-ap-southeast-1": 347,
+            "aws-ap-northeast-1": 248,
+            "aws-ap-south-1": 321
+          }
+        }
+      }
+    },
+    {
+      "id": "MY",
+      "name": "Malaysia",
+      "flag": "🇲🇾",
+      "nearestAws": "aws-ap-southeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 171,
+            "aws-eu-west-1": 182,
+            "aws-us-east-1": 220,
+            "aws-us-west-2": 188,
+            "aws-ap-southeast-1": 34,
+            "aws-ap-northeast-1": 94,
+            "aws-ap-south-1": 87
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 201,
+            "aws-eu-west-1": 214,
+            "aws-us-east-1": 259,
+            "aws-us-west-2": 221,
+            "aws-ap-southeast-1": 40,
+            "aws-ap-northeast-1": 110,
+            "aws-ap-south-1": 102
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 281,
+            "aws-eu-west-1": 300,
+            "aws-us-east-1": 363,
+            "aws-us-west-2": 309,
+            "aws-ap-southeast-1": 56,
+            "aws-ap-northeast-1": 154,
+            "aws-ap-south-1": 143
+          }
+        }
+      }
+    },
+    {
+      "id": "NG",
+      "name": "Nigeria",
+      "flag": "🇳🇬",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 22.5,
+          "uploadMbps": 10.0,
+          "lossPercent": 0.24,
+          "rttToDest": {
+            "cf": 47,
+            "aws-eu-central-1": 47,
+            "aws-eu-west-1": 65,
+            "aws-us-east-1": 123,
+            "aws-us-west-2": 174,
+            "aws-ap-southeast-1": 184,
+            "aws-ap-northeast-1": 240,
+            "aws-ap-south-1": 156
+          }
+        },
+        "typical": {
+          "downloadMbps": 18,
+          "uploadMbps": 8,
+          "lossPercent": 0.8,
+          "rttToDest": {
+            "cf": 55,
+            "aws-eu-central-1": 55,
+            "aws-eu-west-1": 77,
+            "aws-us-east-1": 145,
+            "aws-us-west-2": 205,
+            "aws-ap-southeast-1": 216,
+            "aws-ap-northeast-1": 282,
+            "aws-ap-south-1": 184
+          }
+        },
+        "poor": {
+          "downloadMbps": 3.6,
+          "uploadMbps": 1.6,
+          "lossPercent": 2.4,
+          "rttToDest": {
+            "cf": 77,
+            "aws-eu-central-1": 77,
+            "aws-eu-west-1": 108,
+            "aws-us-east-1": 203,
+            "aws-us-west-2": 287,
+            "aws-ap-southeast-1": 302,
+            "aws-ap-northeast-1": 395,
+            "aws-ap-south-1": 258
+          }
+        }
+      }
+    },
+    {
+      "id": "NL",
+      "name": "Netherlands",
+      "flag": "🇳🇱",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 125.0,
+          "uploadMbps": 50.0,
+          "lossPercent": 0.05,
+          "rttToDest": {
+            "cf": 8,
+            "aws-eu-central-1": 8,
+            "aws-eu-west-1": 27,
+            "aws-us-east-1": 85,
+            "aws-us-west-2": 136,
+            "aws-ap-southeast-1": 145,
+            "aws-ap-northeast-1": 201,
+            "aws-ap-south-1": 118
+          }
+        },
+        "typical": {
+          "downloadMbps": 100,
+          "uploadMbps": 40,
+          "lossPercent": 0.1,
+          "rttToDest": {
+            "cf": 10,
+            "aws-eu-central-1": 10,
+            "aws-eu-west-1": 32,
+            "aws-us-east-1": 100,
+            "aws-us-west-2": 160,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 237,
+            "aws-ap-south-1": 139
+          }
+        },
+        "poor": {
+          "downloadMbps": 20.0,
+          "uploadMbps": 8.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 14,
+            "aws-eu-central-1": 14,
+            "aws-eu-west-1": 45,
+            "aws-us-east-1": 140,
+            "aws-us-west-2": 224,
+            "aws-ap-southeast-1": 239,
+            "aws-ap-northeast-1": 332,
+            "aws-ap-south-1": 195
+          }
+        }
+      }
+    },
+    {
+      "id": "NO",
+      "name": "Norway",
+      "flag": "🇳🇴",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "NP",
+      "name": "Nepal",
+      "flag": "🇳🇵",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "NZ",
+      "name": "New Zealand",
+      "flag": "🇳🇿",
+      "nearestAws": "aws-ap-southeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 171,
+            "aws-eu-west-1": 182,
+            "aws-us-east-1": 220,
+            "aws-us-west-2": 188,
+            "aws-ap-southeast-1": 34,
+            "aws-ap-northeast-1": 94,
+            "aws-ap-south-1": 87
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 201,
+            "aws-eu-west-1": 214,
+            "aws-us-east-1": 259,
+            "aws-us-west-2": 221,
+            "aws-ap-southeast-1": 40,
+            "aws-ap-northeast-1": 110,
+            "aws-ap-south-1": 102
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 281,
+            "aws-eu-west-1": 300,
+            "aws-us-east-1": 363,
+            "aws-us-west-2": 309,
+            "aws-ap-southeast-1": 56,
+            "aws-ap-northeast-1": 154,
+            "aws-ap-south-1": 143
+          }
+        }
+      }
+    },
+    {
+      "id": "OM",
+      "name": "Oman",
+      "flag": "🇴🇲",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "PA",
+      "name": "Panama",
+      "flag": "🇵🇦",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "PE",
+      "name": "Peru",
+      "flag": "🇵🇪",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "PH",
+      "name": "Philippines",
+      "flag": "🇵🇭",
+      "nearestAws": "aws-ap-southeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 35.0,
+          "uploadMbps": 12.5,
+          "lossPercent": 0.18,
+          "rttToDest": {
+            "cf": 26,
+            "aws-eu-central-1": 162,
+            "aws-eu-west-1": 173,
+            "aws-us-east-1": 212,
+            "aws-us-west-2": 179,
+            "aws-ap-southeast-1": 26,
+            "aws-ap-northeast-1": 85,
+            "aws-ap-south-1": 78
+          }
+        },
+        "typical": {
+          "downloadMbps": 28,
+          "uploadMbps": 10,
+          "lossPercent": 0.6,
+          "rttToDest": {
+            "cf": 30,
+            "aws-eu-central-1": 191,
+            "aws-eu-west-1": 204,
+            "aws-us-east-1": 249,
+            "aws-us-west-2": 211,
+            "aws-ap-southeast-1": 30,
+            "aws-ap-northeast-1": 100,
+            "aws-ap-south-1": 92
+          }
+        },
+        "poor": {
+          "downloadMbps": 5.6,
+          "uploadMbps": 2.0,
+          "lossPercent": 1.8,
+          "rttToDest": {
+            "cf": 42,
+            "aws-eu-central-1": 267,
+            "aws-eu-west-1": 286,
+            "aws-us-east-1": 349,
+            "aws-us-west-2": 295,
+            "aws-ap-southeast-1": 42,
+            "aws-ap-northeast-1": 140,
+            "aws-ap-south-1": 129
+          }
+        }
+      }
+    },
+    {
+      "id": "PK",
+      "name": "Pakistan",
+      "flag": "🇵🇰",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 31.2,
+          "uploadMbps": 12.5,
+          "lossPercent": 0.21,
+          "rttToDest": {
+            "cf": 42,
+            "aws-eu-central-1": 152,
+            "aws-eu-west-1": 146,
+            "aws-us-east-1": 210,
+            "aws-us-west-2": 243,
+            "aws-ap-southeast-1": 95,
+            "aws-ap-northeast-1": 155,
+            "aws-ap-south-1": 42
+          }
+        },
+        "typical": {
+          "downloadMbps": 25,
+          "uploadMbps": 10,
+          "lossPercent": 0.7,
+          "rttToDest": {
+            "cf": 50,
+            "aws-eu-central-1": 179,
+            "aws-eu-west-1": 172,
+            "aws-us-east-1": 247,
+            "aws-us-west-2": 286,
+            "aws-ap-southeast-1": 112,
+            "aws-ap-northeast-1": 182,
+            "aws-ap-south-1": 50
+          }
+        },
+        "poor": {
+          "downloadMbps": 5.0,
+          "uploadMbps": 2.0,
+          "lossPercent": 2.1,
+          "rttToDest": {
+            "cf": 70,
+            "aws-eu-central-1": 251,
+            "aws-eu-west-1": 241,
+            "aws-us-east-1": 346,
+            "aws-us-west-2": 400,
+            "aws-ap-southeast-1": 157,
+            "aws-ap-northeast-1": 255,
+            "aws-ap-south-1": 70
+          }
+        }
+      }
+    },
+    {
+      "id": "PL",
+      "name": "Poland",
+      "flag": "🇵🇱",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 87.5,
+          "uploadMbps": 31.2,
+          "lossPercent": 0.06,
+          "rttToDest": {
+            "cf": 15,
+            "aws-eu-central-1": 15,
+            "aws-eu-west-1": 34,
+            "aws-us-east-1": 92,
+            "aws-us-west-2": 143,
+            "aws-ap-southeast-1": 152,
+            "aws-ap-northeast-1": 208,
+            "aws-ap-south-1": 125
+          }
+        },
+        "typical": {
+          "downloadMbps": 70,
+          "uploadMbps": 25,
+          "lossPercent": 0.2,
+          "rttToDest": {
+            "cf": 18,
+            "aws-eu-central-1": 18,
+            "aws-eu-west-1": 40,
+            "aws-us-east-1": 108,
+            "aws-us-west-2": 168,
+            "aws-ap-southeast-1": 179,
+            "aws-ap-northeast-1": 245,
+            "aws-ap-south-1": 147
+          }
+        },
+        "poor": {
+          "downloadMbps": 14.0,
+          "uploadMbps": 5.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 25,
+            "aws-eu-central-1": 25,
+            "aws-eu-west-1": 56,
+            "aws-us-east-1": 151,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 251,
+            "aws-ap-northeast-1": 343,
+            "aws-ap-south-1": 206
+          }
+        }
+      }
+    },
+    {
+      "id": "PT",
+      "name": "Portugal",
+      "flag": "🇵🇹",
+      "nearestAws": "aws-eu-west-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 53,
+            "aws-eu-west-1": 34,
+            "aws-us-east-1": 93,
+            "aws-us-west-2": 140,
+            "aws-ap-southeast-1": 185,
+            "aws-ap-northeast-1": 207,
+            "aws-ap-south-1": 139
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 62,
+            "aws-eu-west-1": 40,
+            "aws-us-east-1": 109,
+            "aws-us-west-2": 165,
+            "aws-ap-southeast-1": 218,
+            "aws-ap-northeast-1": 244,
+            "aws-ap-south-1": 163
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 87,
+            "aws-eu-west-1": 56,
+            "aws-us-east-1": 153,
+            "aws-us-west-2": 231,
+            "aws-ap-southeast-1": 305,
+            "aws-ap-northeast-1": 342,
+            "aws-ap-south-1": 228
+          }
+        }
+      }
+    },
+    {
+      "id": "QA",
+      "name": "Qatar",
+      "flag": "🇶🇦",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "RO",
+      "name": "Romania",
+      "flag": "🇷🇴",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "RS",
+      "name": "Serbia",
+      "flag": "🇷🇸",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "RU",
+      "name": "Russia",
+      "flag": "🇷🇺",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "SA",
+      "name": "Saudi Arabia",
+      "flag": "🇸🇦",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 75.0,
+          "uploadMbps": 25.0,
+          "lossPercent": 0.09,
+          "rttToDest": {
+            "cf": 30,
+            "aws-eu-central-1": 139,
+            "aws-eu-west-1": 133,
+            "aws-us-east-1": 197,
+            "aws-us-west-2": 230,
+            "aws-ap-southeast-1": 82,
+            "aws-ap-northeast-1": 142,
+            "aws-ap-south-1": 30
+          }
+        },
+        "typical": {
+          "downloadMbps": 60,
+          "uploadMbps": 20,
+          "lossPercent": 0.3,
+          "rttToDest": {
+            "cf": 35,
+            "aws-eu-central-1": 164,
+            "aws-eu-west-1": 157,
+            "aws-us-east-1": 232,
+            "aws-us-west-2": 271,
+            "aws-ap-southeast-1": 97,
+            "aws-ap-northeast-1": 167,
+            "aws-ap-south-1": 35
+          }
+        },
+        "poor": {
+          "downloadMbps": 12.0,
+          "uploadMbps": 4.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 49,
+            "aws-eu-central-1": 230,
+            "aws-eu-west-1": 220,
+            "aws-us-east-1": 325,
+            "aws-us-west-2": 379,
+            "aws-ap-southeast-1": 136,
+            "aws-ap-northeast-1": 234,
+            "aws-ap-south-1": 49
+          }
+        }
+      }
+    },
+    {
+      "id": "SE",
+      "name": "Sweden",
+      "flag": "🇸🇪",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "SG",
+      "name": "Singapore",
+      "flag": "🇸🇬",
+      "nearestAws": "aws-ap-southeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 112.5,
+          "uploadMbps": 43.8,
+          "lossPercent": 0.05,
+          "rttToDest": {
+            "cf": 7,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 155,
+            "aws-us-east-1": 193,
+            "aws-us-west-2": 161,
+            "aws-ap-southeast-1": 7,
+            "aws-ap-northeast-1": 66,
+            "aws-ap-south-1": 60
+          }
+        },
+        "typical": {
+          "downloadMbps": 90,
+          "uploadMbps": 35,
+          "lossPercent": 0.1,
+          "rttToDest": {
+            "cf": 8,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 182,
+            "aws-us-east-1": 227,
+            "aws-us-west-2": 189,
+            "aws-ap-southeast-1": 8,
+            "aws-ap-northeast-1": 78,
+            "aws-ap-south-1": 70
+          }
+        },
+        "poor": {
+          "downloadMbps": 18.0,
+          "uploadMbps": 7.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 11,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 255,
+            "aws-us-east-1": 318,
+            "aws-us-west-2": 265,
+            "aws-ap-southeast-1": 11,
+            "aws-ap-northeast-1": 109,
+            "aws-ap-south-1": 98
+          }
+        }
+      }
+    },
+    {
+      "id": "SI",
+      "name": "Slovenia",
+      "flag": "🇸🇮",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "SK",
+      "name": "Slovakia",
+      "flag": "🇸🇰",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "TH",
+      "name": "Thailand",
+      "flag": "🇹🇭",
+      "nearestAws": "aws-ap-southeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 56.2,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 24,
+            "aws-eu-central-1": 161,
+            "aws-eu-west-1": 172,
+            "aws-us-east-1": 210,
+            "aws-us-west-2": 178,
+            "aws-ap-southeast-1": 24,
+            "aws-ap-northeast-1": 83,
+            "aws-ap-south-1": 76
+          }
+        },
+        "typical": {
+          "downloadMbps": 45,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 28,
+            "aws-eu-central-1": 189,
+            "aws-eu-west-1": 202,
+            "aws-us-east-1": 247,
+            "aws-us-west-2": 209,
+            "aws-ap-southeast-1": 28,
+            "aws-ap-northeast-1": 98,
+            "aws-ap-south-1": 90
+          }
+        },
+        "poor": {
+          "downloadMbps": 9.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 39,
+            "aws-eu-central-1": 265,
+            "aws-eu-west-1": 283,
+            "aws-us-east-1": 346,
+            "aws-us-west-2": 293,
+            "aws-ap-southeast-1": 39,
+            "aws-ap-northeast-1": 137,
+            "aws-ap-south-1": 126
+          }
+        }
+      }
+    },
+    {
+      "id": "TR",
+      "name": "Turkey",
+      "flag": "🇹🇷",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 62.5,
+          "uploadMbps": 22.5,
+          "lossPercent": 0.09,
+          "rttToDest": {
+            "cf": 26,
+            "aws-eu-central-1": 26,
+            "aws-eu-west-1": 44,
+            "aws-us-east-1": 102,
+            "aws-us-west-2": 153,
+            "aws-ap-southeast-1": 162,
+            "aws-ap-northeast-1": 218,
+            "aws-ap-south-1": 135
+          }
+        },
+        "typical": {
+          "downloadMbps": 50,
+          "uploadMbps": 18,
+          "lossPercent": 0.3,
+          "rttToDest": {
+            "cf": 30,
+            "aws-eu-central-1": 30,
+            "aws-eu-west-1": 52,
+            "aws-us-east-1": 120,
+            "aws-us-west-2": 180,
+            "aws-ap-southeast-1": 191,
+            "aws-ap-northeast-1": 257,
+            "aws-ap-south-1": 159
+          }
+        },
+        "poor": {
+          "downloadMbps": 10.0,
+          "uploadMbps": 3.6,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 42,
+            "aws-eu-central-1": 42,
+            "aws-eu-west-1": 73,
+            "aws-us-east-1": 168,
+            "aws-us-west-2": 252,
+            "aws-ap-southeast-1": 267,
+            "aws-ap-northeast-1": 360,
+            "aws-ap-south-1": 223
+          }
+        }
+      }
+    },
+    {
+      "id": "TW",
+      "name": "Taiwan",
+      "flag": "🇹🇼",
+      "nearestAws": "aws-ap-northeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 227,
+            "aws-eu-west-1": 206,
+            "aws-us-east-1": 161,
+            "aws-us-west-2": 125,
+            "aws-ap-southeast-1": 94,
+            "aws-ap-northeast-1": 34,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 267,
+            "aws-eu-west-1": 242,
+            "aws-us-east-1": 189,
+            "aws-us-west-2": 147,
+            "aws-ap-southeast-1": 110,
+            "aws-ap-northeast-1": 40,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 374,
+            "aws-eu-west-1": 339,
+            "aws-us-east-1": 265,
+            "aws-us-west-2": 206,
+            "aws-ap-southeast-1": 154,
+            "aws-ap-northeast-1": 56,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "UA",
+      "name": "Ukraine",
+      "flag": "🇺🇦",
+      "nearestAws": "aws-eu-central-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 34,
+            "aws-eu-west-1": 53,
+            "aws-us-east-1": 110,
+            "aws-us-west-2": 162,
+            "aws-ap-southeast-1": 171,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 144
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 40,
+            "aws-eu-west-1": 62,
+            "aws-us-east-1": 130,
+            "aws-us-west-2": 190,
+            "aws-ap-southeast-1": 201,
+            "aws-ap-northeast-1": 267,
+            "aws-ap-south-1": 169
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 56,
+            "aws-eu-west-1": 87,
+            "aws-us-east-1": 182,
+            "aws-us-west-2": 266,
+            "aws-ap-southeast-1": 281,
+            "aws-ap-northeast-1": 374,
+            "aws-ap-south-1": 237
+          }
+        }
+      }
+    },
+    {
+      "id": "US",
+      "name": "United States",
+      "flag": "🇺🇸",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 125.0,
+          "uploadMbps": 50.0,
+          "lossPercent": 0.05,
+          "rttToDest": {
+            "cf": 13,
+            "aws-eu-central-1": 92,
+            "aws-eu-west-1": 71,
+            "aws-us-east-1": 13,
+            "aws-us-west-2": 70,
+            "aws-ap-southeast-1": 198,
+            "aws-ap-northeast-1": 138,
+            "aws-ap-south-1": 182
+          }
+        },
+        "typical": {
+          "downloadMbps": 100,
+          "uploadMbps": 40,
+          "lossPercent": 0.1,
+          "rttToDest": {
+            "cf": 15,
+            "aws-eu-central-1": 108,
+            "aws-eu-west-1": 84,
+            "aws-us-east-1": 15,
+            "aws-us-west-2": 82,
+            "aws-ap-southeast-1": 233,
+            "aws-ap-northeast-1": 162,
+            "aws-ap-south-1": 214
+          }
+        },
+        "poor": {
+          "downloadMbps": 20.0,
+          "uploadMbps": 8.0,
+          "lossPercent": 1.0,
+          "rttToDest": {
+            "cf": 21,
+            "aws-eu-central-1": 151,
+            "aws-eu-west-1": 118,
+            "aws-us-east-1": 21,
+            "aws-us-west-2": 115,
+            "aws-ap-southeast-1": 326,
+            "aws-ap-northeast-1": 227,
+            "aws-ap-south-1": 300
+          }
+        }
+      }
+    },
+    {
+      "id": "UY",
+      "name": "Uruguay",
+      "flag": "🇺🇾",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "UZ",
+      "name": "Uzbekistan",
+      "flag": "🇺🇿",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 144,
+            "aws-eu-west-1": 138,
+            "aws-us-east-1": 201,
+            "aws-us-west-2": 235,
+            "aws-ap-southeast-1": 87,
+            "aws-ap-northeast-1": 146,
+            "aws-ap-south-1": 34
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 169,
+            "aws-eu-west-1": 162,
+            "aws-us-east-1": 237,
+            "aws-us-west-2": 276,
+            "aws-ap-southeast-1": 102,
+            "aws-ap-northeast-1": 172,
+            "aws-ap-south-1": 40
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 237,
+            "aws-eu-west-1": 227,
+            "aws-us-east-1": 332,
+            "aws-us-west-2": 386,
+            "aws-ap-southeast-1": 143,
+            "aws-ap-northeast-1": 241,
+            "aws-ap-south-1": 56
+          }
+        }
+      }
+    },
+    {
+      "id": "VE",
+      "name": "Venezuela",
+      "flag": "🇻🇪",
+      "nearestAws": "aws-us-east-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 34,
+            "aws-eu-central-1": 113,
+            "aws-eu-west-1": 93,
+            "aws-us-east-1": 34,
+            "aws-us-west-2": 91,
+            "aws-ap-southeast-1": 219,
+            "aws-ap-northeast-1": 159,
+            "aws-ap-south-1": 203
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 40,
+            "aws-eu-central-1": 133,
+            "aws-eu-west-1": 109,
+            "aws-us-east-1": 40,
+            "aws-us-west-2": 107,
+            "aws-ap-southeast-1": 258,
+            "aws-ap-northeast-1": 187,
+            "aws-ap-south-1": 239
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 56,
+            "aws-eu-central-1": 186,
+            "aws-eu-west-1": 153,
+            "aws-us-east-1": 56,
+            "aws-us-west-2": 150,
+            "aws-ap-southeast-1": 361,
+            "aws-ap-northeast-1": 262,
+            "aws-ap-south-1": 335
+          }
+        }
+      }
+    },
+    {
+      "id": "VN",
+      "name": "Vietnam",
+      "flag": "🇻🇳",
+      "nearestAws": "aws-ap-southeast-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 15.0,
+          "lossPercent": 0.15,
+          "rttToDest": {
+            "cf": 27,
+            "aws-eu-central-1": 164,
+            "aws-eu-west-1": 175,
+            "aws-us-east-1": 213,
+            "aws-us-west-2": 181,
+            "aws-ap-southeast-1": 27,
+            "aws-ap-northeast-1": 87,
+            "aws-ap-south-1": 80
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 12,
+          "lossPercent": 0.5,
+          "rttToDest": {
+            "cf": 32,
+            "aws-eu-central-1": 193,
+            "aws-eu-west-1": 206,
+            "aws-us-east-1": 251,
+            "aws-us-west-2": 213,
+            "aws-ap-southeast-1": 32,
+            "aws-ap-northeast-1": 102,
+            "aws-ap-south-1": 94
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 2.4,
+          "lossPercent": 1.5,
+          "rttToDest": {
+            "cf": 45,
+            "aws-eu-central-1": 270,
+            "aws-eu-west-1": 288,
+            "aws-us-east-1": 351,
+            "aws-us-west-2": 298,
+            "aws-ap-southeast-1": 45,
+            "aws-ap-northeast-1": 143,
+            "aws-ap-south-1": 132
+          }
+        }
+      }
+    },
+    {
+      "id": "ZA",
+      "name": "South Africa",
+      "flag": "🇿🇦",
+      "nearestAws": "aws-ap-south-1",
+      "rttSource": "seed",
+      "tiers": {
+        "stable": {
+          "downloadMbps": 50.0,
+          "uploadMbps": 18.8,
+          "lossPercent": 0.12,
+          "rttToDest": {
+            "cf": 30,
+            "aws-eu-central-1": 139,
+            "aws-eu-west-1": 133,
+            "aws-us-east-1": 197,
+            "aws-us-west-2": 230,
+            "aws-ap-southeast-1": 82,
+            "aws-ap-northeast-1": 142,
+            "aws-ap-south-1": 30
+          }
+        },
+        "typical": {
+          "downloadMbps": 40,
+          "uploadMbps": 15,
+          "lossPercent": 0.4,
+          "rttToDest": {
+            "cf": 35,
+            "aws-eu-central-1": 164,
+            "aws-eu-west-1": 157,
+            "aws-us-east-1": 232,
+            "aws-us-west-2": 271,
+            "aws-ap-southeast-1": 97,
+            "aws-ap-northeast-1": 167,
+            "aws-ap-south-1": 35
+          }
+        },
+        "poor": {
+          "downloadMbps": 8.0,
+          "uploadMbps": 3.0,
+          "lossPercent": 1.2,
+          "rttToDest": {
+            "cf": 49,
+            "aws-eu-central-1": 230,
+            "aws-eu-west-1": 220,
+            "aws-us-east-1": 325,
+            "aws-us-west-2": 379,
+            "aws-ap-southeast-1": 136,
+            "aws-ap-northeast-1": 234,
+            "aws-ap-south-1": 49
+          }
+        }
+      }
+    }
+  ]
+}

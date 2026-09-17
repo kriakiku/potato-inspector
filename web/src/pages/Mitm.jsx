@@ -16,15 +16,17 @@ export default function Mitm() {
 
   useEffect(() => { load().catch((e) => notifyError(e.message)) }, [])
 
-  async function save(patch) {
+  async function save(patch = {}) {
     try {
+      const next = { ...data, ...patch }
       await api('/api/mitm', {
         method: 'PUT',
         body: {
-          ...patch,
+          enabled: next.enabled,
           bypassSni: bypass.split('\n').map((s) => s.trim()).filter(Boolean),
-          rules: data.rules,
-          extraDelayMs: data.extraDelayMs,
+          rules: next.rules,
+          extraDelayMs: next.extraDelayMs,
+          forceDisableCache: next.forceDisableCache,
         },
       })
       notifySuccess('Saved')
@@ -47,6 +49,9 @@ export default function Mitm() {
   }
 
   if (!data) return <p className="muted">Loading…</p>
+
+  const destEntries = Object.entries(data.destinations || { cf: { label: 'Cloudflare Edge' } })
+    .sort(([a], [b]) => (a === 'cf' ? -1 : b === 'cf' ? 1 : a.localeCompare(b)))
 
   return (
     <>
@@ -74,7 +79,27 @@ export default function Mitm() {
       </div>
 
       <div className="panel-box">
-        <label className="muted">Extra origin delay (ms) for matching API paths
+        <label className="form-check">
+          <input
+            type="checkbox"
+            checked={!!data.forceDisableCache}
+            onChange={(e) => {
+              const on = e.target.checked
+              setData({ ...data, forceDisableCache: on })
+              save({ forceDisableCache: on })
+            }}
+          />
+          <span>
+            Force disable cache (all requests)
+            <span className="muted" style={{ display: 'block', fontSize: '0.85rem', marginTop: 2 }}>
+              Applies to every request through MITM — strips If-None-Match / If-Modified-Since so origins return full bodies (not 304), and weakens response cache validators.
+            </span>
+          </span>
+        </label>
+      </div>
+
+      <div className="panel-box">
+        <label className="muted">Global extra delay (ms) added on top of path-dest delta when a rule matches (0 = path delta only)
           <input
             type="number"
             style={{ maxWidth: 160, display: 'block', marginTop: 6 }}
@@ -87,10 +112,12 @@ export default function Mitm() {
 
       <div className="panel-box">
         <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>Path rules</h2>
-        <p className="muted" style={{ marginTop: 0 }}>Click a Host/Path regex field (or Edit) to open the regex playground.</p>
+        <p className="muted" style={{ marginTop: 0 }}>
+          Dest sets the remote endpoint (CF edge vs AWS region). Extra delay = path RTT delta vs CF (plus global extra). Delay override &gt; 0 replaces that calculation.
+        </p>
         <table className="table">
           <thead>
-            <tr><th>Name</th><th>Host regex</th><th>Path regex</th><th>Delay override</th><th>On</th></tr>
+            <tr><th>Name</th><th>Host regex</th><th>Path regex</th><th>Dest</th><th>Delay override</th><th>On</th></tr>
           </thead>
           <tbody>
             {(data.rules || []).map((r, i) => (
@@ -124,6 +151,19 @@ export default function Mitm() {
                     <button type="button" onClick={() => openRegex('path', i)}>Edit</button>
                   </div>
                 </td>
+                <td>
+                  <select
+                    value={r.dest || 'cf'}
+                    onChange={(e) => {
+                      const rules = [...data.rules]; rules[i] = { ...r, dest: e.target.value }; setData({ ...data, rules })
+                    }}
+                    style={{ width: 'auto', minWidth: '9rem' }}
+                  >
+                    {destEntries.map(([id, d]) => (
+                      <option key={id} value={id}>{d.label || id}</option>
+                    ))}
+                  </select>
+                </td>
                 <td><input type="number" value={r.extraDelayMs} onChange={(e) => {
                   const rules = [...data.rules]; rules[i] = { ...r, extraDelayMs: +e.target.value }; setData({ ...data, rules })
                 }} /></td>
@@ -137,7 +177,7 @@ export default function Mitm() {
         <div className="row">
           <button onClick={() => setData({
             ...data,
-            rules: [...(data.rules || []), { id: `rule-${Date.now()}`, name: 'new', hostRegex: '.*', pathRegex: '^/api', extraDelayMs: 0, enabled: true }],
+            rules: [...(data.rules || []), { id: `rule-${Date.now()}`, name: 'new', hostRegex: '.*', pathRegex: '^/api', dest: 'aws-eu-central-1', extraDelayMs: 0, enabled: true }],
           })}>Add rule</button>
           <button className="primary" onClick={() => save({})}>Save rules</button>
         </div>

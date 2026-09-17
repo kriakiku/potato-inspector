@@ -13,6 +13,7 @@ import (
 
 	"github.com/skip2/go-qrcode"
 
+	"github.com/potatoinspector/potato-inspector/internal/catalog"
 	"github.com/potatoinspector/potato-inspector/internal/dnsfwd"
 	"github.com/potatoinspector/potato-inspector/internal/flows"
 	"github.com/potatoinspector/potato-inspector/internal/mitm"
@@ -23,28 +24,32 @@ import (
 )
 
 type Server struct {
-	Store     *store.Store
-	WG        *wg.Manager
-	Shape     *shape.Manager
-	Profiles  *profiles.Registry
-	MITM      *mitm.Manager
-	DNS       *dnsfwd.Server
-	Flows     *flows.Writer
-	Static    fs.FS
-	PanelPort int
+	Store           *store.Store
+	WG              *wg.Manager
+	Shape           *shape.Manager
+	Profiles        *profiles.Registry
+	Catalog         *catalog.Manager
+	MITM            *mitm.Manager
+	DNS             *dnsfwd.Server
+	Flows           *flows.Writer
+	Static          fs.FS
+	PanelPort       int
+	RadarCatalogURL string
 }
 
-func New(st *store.Store, wgm *wg.Manager, sh *shape.Manager, pr *profiles.Registry, mm *mitm.Manager, dns *dnsfwd.Server, fw *flows.Writer, static fs.FS, panelPort int) *Server {
+func New(st *store.Store, wgm *wg.Manager, sh *shape.Manager, pr *profiles.Registry, cat *catalog.Manager, mm *mitm.Manager, dns *dnsfwd.Server, fw *flows.Writer, static fs.FS, panelPort int, radarURL string) *Server {
 	return &Server{
-		Store:     st,
-		WG:        wgm,
-		Shape:     sh,
-		Profiles:  pr,
-		MITM:      mm,
-		DNS:       dns,
-		Flows:     fw,
-		Static:    static,
-		PanelPort: panelPort,
+		Store:           st,
+		WG:              wgm,
+		Shape:           sh,
+		Profiles:        pr,
+		Catalog:         cat,
+		MITM:            mm,
+		DNS:             dns,
+		Flows:           fw,
+		Static:          static,
+		PanelPort:       panelPort,
+		RadarCatalogURL: radarURL,
 	}
 }
 
@@ -56,6 +61,11 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("/api/peers/", s.handlePeerSub)
 	mux.HandleFunc("/api/profiles", s.handleProfiles)
 	mux.HandleFunc("/api/profiles/apply", s.handleApplyProfile)
+	mux.HandleFunc("/api/catalog", s.handleCatalog)
+	mux.HandleFunc("/api/catalog/apply", s.handleCatalogApply)
+	mux.HandleFunc("/api/catalog/refresh", s.handleCatalogRefresh)
+	mux.HandleFunc("/api/catalog/probe", s.handleCatalogProbe)
+	mux.HandleFunc("/api/catalog/baseline", s.handleCatalogBaseline)
 	mux.HandleFunc("/api/mitm", s.handleMITM)
 	mux.HandleFunc("/api/mitm/ca.crt", s.handleCA)
 	mux.HandleFunc("/api/mitm/test-regex", s.handleTestRegex)
@@ -120,9 +130,15 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	prof, _ := s.Profiles.Get(st.ActiveProfileID)
+	hostRtt := map[string]int{}
+	if s.Catalog != nil {
+		hostRtt = s.Catalog.HostRtt()
+	}
 	writeJSON(w, 200, map[string]any{
 		"product":          "PotatoInspector",
 		"activeProfileId":  st.ActiveProfileID,
+		"activeCountry":    st.ActiveCountry,
+		"activeTier":       st.ActiveTier,
 		"profile":          prof,
 		"mitmEnabled":      st.MITMEnabled && s.MITM.Enabled(),
 		"captureEnabled":   st.CaptureEnabled,
@@ -137,6 +153,9 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		"wgPort":           st.WGPort,
 		"wgEndpoint":       st.WGEndpoint,
 		"extraDelayMs":     st.ExtraDelayMs,
+		"hostRtt":          hostRtt,
+		"hostRttPinned":    st.HostRttPinned,
+		"appliedDelayMs":   prof.DelayMs,
 		"noteMitmOff":      !st.MITMEnabled,
 		"inspectorNote": func() string {
 			if !st.MITMEnabled {
@@ -352,24 +371,236 @@ func (s *Server) handleApplyProfile(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, 200, map[string]any{"ok": true, "status": s.Shape.Status()})
 }
 
+func (s *Server) handleCatalog(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "method", http.StatusMethodNotAllowed)
+		return
+	}
+	if s.Catalog == nil {
+		writeJSON(w, 500, map[string]string{"error": "catalog unavailable"})
+		return
+	}
+	writeJSON(w, 200, s.Catalog.Get())
+}
+
+func (s *Server) handleCatalogApply(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "method", http.StatusMethodNotAllowed)
+		return
+	}
+	var body struct {
+		Country string `json:"country"`
+		Tier    string `json:"tier"`
+		Probe   bool   `json:"probe"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		writeJSON(w, 400, map[string]string{"error": "bad json"})
+		return
+	}
+	if body.Country == "" || body.Tier == "" {
+		writeJSON(w, 400, map[string]string{"error": "country and tier required"})
+		return
+	}
+	prof, hostRtt, err := s.applyCatalog(body.Country, body.Tier, body.Probe)
+	if err != nil {
+		writeJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	writeJSON(w, 200, map[string]any{
+		"ok":      true,
+		"profile": prof,
+		"hostRtt": hostRtt,
+		"status":  s.Shape.Status(),
+	})
+}
+
+func (s *Server) handleCatalogRefresh(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "method", http.StatusMethodNotAllowed)
+		return
+	}
+	if s.Catalog == nil {
+		writeJSON(w, 500, map[string]string{"error": "catalog unavailable"})
+		return
+	}
+	url := s.RadarCatalogURL
+	var body struct {
+		URL string `json:"url"`
+	}
+	_ = json.NewDecoder(r.Body).Decode(&body)
+	if body.URL != "" {
+		url = body.URL
+	}
+	if err := s.Catalog.Pull(url); err != nil {
+		writeJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	_ = s.MITM.ReloadConfig()
+	writeJSON(w, 200, map[string]any{"ok": true, "catalog": s.Catalog.Get()})
+}
+
+func (s *Server) handleCatalogProbe(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "method", http.StatusMethodNotAllowed)
+		return
+	}
+	if s.Catalog == nil {
+		writeJSON(w, 500, map[string]string{"error": "catalog unavailable"})
+		return
+	}
+	rtt := s.Catalog.ProbeHostRtt()
+	st, _ := s.Store.LoadSettings()
+	st.HostRtt = rtt
+	st.HostRttPinned = false
+	_ = s.Store.SaveSettings(st)
+	_ = s.MITM.ReloadConfig()
+	writeJSON(w, 200, map[string]any{
+		"ok":          true,
+		"hostRtt":     rtt,
+		"pinned":      false,
+		"lastProbeAt": s.Catalog.LastProbe().UTC().Format(time.RFC3339),
+	})
+}
+
+func (s *Server) handleCatalogBaseline(w http.ResponseWriter, r *http.Request) {
+	if s.Catalog == nil {
+		writeJSON(w, 500, map[string]string{"error": "catalog unavailable"})
+		return
+	}
+	st, _ := s.Store.LoadSettings()
+	switch r.Method {
+	case http.MethodGet:
+		writeJSON(w, 200, s.baselinePayload(st))
+	case http.MethodPut:
+		var body struct {
+			HostRtt map[string]int `json:"hostRtt"`
+			Pinned  *bool          `json:"pinned"`
+		}
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+			writeJSON(w, 400, map[string]string{"error": "bad json"})
+			return
+		}
+		if body.HostRtt == nil {
+			writeJSON(w, 400, map[string]string{"error": "hostRtt required"})
+			return
+		}
+		known := s.Catalog.Destinations()
+		cleaned := make(map[string]int, len(body.HostRtt))
+		for id, ms := range body.HostRtt {
+			if _, ok := known[id]; !ok {
+				writeJSON(w, 400, map[string]string{"error": fmt.Sprintf("unknown dest %s", id)})
+				return
+			}
+			if ms < 0 {
+				writeJSON(w, 400, map[string]string{"error": fmt.Sprintf("negative rtt for %s", id)})
+				return
+			}
+			cleaned[id] = ms
+		}
+		pinned := st.HostRttPinned
+		if body.Pinned != nil {
+			pinned = *body.Pinned
+		}
+		s.Catalog.SetHostRtt(cleaned)
+		st.HostRtt = cleaned
+		st.HostRttPinned = pinned
+		if err := s.Store.SaveSettings(st); err != nil {
+			writeJSON(w, 500, map[string]string{"error": err.Error()})
+			return
+		}
+		_ = s.MITM.ReloadConfig()
+		writeJSON(w, 200, s.baselinePayload(st))
+	default:
+		http.Error(w, "method", http.StatusMethodNotAllowed)
+	}
+}
+
+func (s *Server) baselinePayload(st store.Settings) map[string]any {
+	dests := s.Catalog.Destinations()
+	ids := s.Catalog.DestinationIDs()
+	list := make([]map[string]any, 0, len(ids))
+	host := s.Catalog.HostRtt()
+	for _, id := range ids {
+		d := dests[id]
+		list = append(list, map[string]any{
+			"id":     id,
+			"label":  d.Label,
+			"target": d.Target,
+			"rttMs":  host[id],
+		})
+	}
+	last := ""
+	if t := s.Catalog.LastProbe(); !t.IsZero() {
+		last = t.UTC().Format(time.RFC3339)
+	}
+	return map[string]any{
+		"hostRtt":       host,
+		"pinned":        st.HostRttPinned,
+		"lastProbeAt":   last,
+		"destinations":  list,
+	}
+}
+
+func (s *Server) applyCatalog(country, tier string, probe bool) (profiles.Profile, map[string]int, error) {
+	if s.Catalog == nil {
+		return profiles.Profile{}, nil, fmt.Errorf("catalog unavailable")
+	}
+	st, _ := s.Store.LoadSettings()
+	hostRtt := s.Catalog.HostRtt()
+	if st.HostRttPinned && len(st.HostRtt) > 0 {
+		s.Catalog.SetHostRtt(st.HostRtt)
+		hostRtt = st.HostRtt
+	} else if probe || len(hostRtt) == 0 {
+		hostRtt = s.Catalog.ProbeHostRtt()
+		st.HostRtt = hostRtt
+		st.HostRttPinned = false
+	}
+	prof, err := s.Catalog.ProfileFor(country, tier, hostRtt)
+	if err != nil {
+		return profiles.Profile{}, hostRtt, err
+	}
+	if err := s.Shape.Apply(prof); err != nil {
+		return prof, hostRtt, err
+	}
+	st.ActiveCountry = country
+	st.ActiveTier = tier
+	st.ActiveProfileID = prof.ID
+	_ = s.Store.SaveSettings(st)
+	_ = s.MITM.ReloadConfig()
+	return prof, hostRtt, nil
+}
+
 func (s *Server) handleMITM(w http.ResponseWriter, r *http.Request) {
 	st, _ := s.Store.LoadSettings()
 	rules, _ := s.Store.LoadMITMRules()
 	switch r.Method {
 	case http.MethodGet:
 		writeJSON(w, 200, map[string]any{
-			"enabled":      st.MITMEnabled,
-			"extraDelayMs": st.ExtraDelayMs,
-			"rules":        rules.Rules,
-			"bypassSni":    rules.BypassSNI,
-			"running":      s.MITM.Enabled(),
+			"enabled":           st.MITMEnabled,
+			"extraDelayMs":      st.ExtraDelayMs,
+			"forceDisableCache": st.ForceDisableCache,
+			"rules":             rules.Rules,
+			"bypassSni":         rules.BypassSNI,
+			"running":           s.MITM.Enabled(),
+			"destinations": func() map[string]any {
+				if s.Catalog == nil {
+					return map[string]any{}
+				}
+				dests := s.Catalog.Destinations()
+				out := map[string]any{}
+				for _, id := range s.Catalog.DestinationIDs() {
+					out[id] = dests[id]
+				}
+				return out
+			}(),
 		})
 	case http.MethodPut:
 		var body struct {
-			Enabled      *bool             `json:"enabled"`
-			ExtraDelayMs *int              `json:"extraDelayMs"`
-			Rules        []store.MITMRule  `json:"rules"`
-			BypassSNI    []string          `json:"bypassSni"`
+			Enabled           *bool            `json:"enabled"`
+			ExtraDelayMs      *int             `json:"extraDelayMs"`
+			ForceDisableCache *bool            `json:"forceDisableCache"`
+			Rules             []store.MITMRule `json:"rules"`
+			BypassSNI         []string         `json:"bypassSni"`
 		}
 		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 			writeJSON(w, 400, map[string]string{"error": "bad json"})
@@ -377,6 +608,9 @@ func (s *Server) handleMITM(w http.ResponseWriter, r *http.Request) {
 		}
 		if body.ExtraDelayMs != nil {
 			st.ExtraDelayMs = *body.ExtraDelayMs
+		}
+		if body.ForceDisableCache != nil {
+			st.ForceDisableCache = *body.ForceDisableCache
 		}
 		if body.Rules != nil {
 			rules.Rules = body.Rules

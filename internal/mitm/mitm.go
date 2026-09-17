@@ -18,6 +18,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/potatoinspector/potato-inspector/internal/catalog"
 	"github.com/potatoinspector/potato-inspector/internal/flows"
 	"github.com/potatoinspector/potato-inspector/internal/store"
 )
@@ -28,6 +29,7 @@ type Manager struct {
 	mu         sync.Mutex
 	store      *store.Store
 	flows      *flows.Writer
+	catalog    *catalog.Manager
 	cmd        *os.Process
 	enabled    bool
 	addonDir   string
@@ -36,10 +38,11 @@ type Manager struct {
 	ingestOnce sync.Once
 }
 
-func New(st *store.Store, fw *flows.Writer, addonDir, wgIface string) *Manager {
+func New(st *store.Store, fw *flows.Writer, cat *catalog.Manager, addonDir, wgIface string) *Manager {
 	return &Manager{
 		store:    st,
 		flows:    fw,
+		catalog:  cat,
 		addonDir: addonDir,
 		wgIface:  wgIface,
 	}
@@ -168,11 +171,23 @@ func (m *Manager) writeRuntimeConfig() (string, error) {
 		return "", err
 	}
 	cfg := map[string]any{
-		"extraDelayMs": settings.ExtraDelayMs,
-		"rules":        rules.Rules,
-		"bypassSni":    rules.BypassSNI,
-		"eventsURL":    "http://" + IngestAddr + "/event",
-		"capture":      settings.CaptureEnabled,
+		"extraDelayMs":      settings.ExtraDelayMs,
+		"forceDisableCache": settings.ForceDisableCache,
+		"rules":             rules.Rules,
+		"bypassSni":         rules.BypassSNI,
+		"eventsURL":         "http://" + IngestAddr + "/event",
+		"capture":           settings.CaptureEnabled,
+	}
+	if m.catalog != nil {
+		country := settings.ActiveCountry
+		tier := settings.ActiveTier
+		if country == "" {
+			country = "BD"
+		}
+		if tier == "" {
+			tier = "typical"
+		}
+		cfg["pathDelay"] = m.catalog.RuntimePathDelay(country, tier)
 	}
 	path := filepath.Join(m.store.DataDir(), "mitm-runtime.json")
 	data, _ := json.MarshalIndent(cfg, "", "  ")

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { api } from '../api'
 import { notifyError } from '../toast'
 
@@ -29,12 +30,25 @@ export default function Dashboard() {
       <p className="lead">Live status for WireGuard peers, last-mile shaping, MITM, and capture.</p>
       <div className="grid">
         <div className="stat">
+          <div className="label">Country / speed</div>
+          <div className="value">{st.activeCountry || '—'} · {st.activeTier || '—'}</div>
+        </div>
+        <div className="stat">
           <div className="label">Active profile</div>
           <div className="value">{st.activeProfileId}</div>
         </div>
         <div className="stat">
           <div className="label">One-way / approx RTT</div>
           <div className="value">{st.profile?.delayMs ?? 0} ms / ~{rtt} ms</div>
+        </div>
+        <div className="stat">
+          <div className="label">Host CF RTT</div>
+          <div className="value">
+            {st.hostRtt?.cf ?? '—'} ms
+            {st.hostRttPinned ? ' · pinned' : ''}
+            {' '}
+            <Link to="/baseline" style={{ fontSize: '0.75rem', fontWeight: 500 }}>Baseline</Link>
+          </div>
         </div>
         <div className="stat">
           <div className="label">MITM</div>

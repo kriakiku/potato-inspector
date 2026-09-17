@@ -40,29 +40,37 @@ func Exists(path string) bool {
 
 // Settings persisted in /data/settings.json
 type Settings struct {
-	WGEndpoint      string `json:"wgEndpoint"`
-	WGSubnet        string `json:"wgSubnet"`
-	WGPort          int    `json:"wgPort"`
-	Uplink          string `json:"uplink"`
-	ActiveProfileID string `json:"activeProfileId"`
-	MITMEnabled     bool   `json:"mitmEnabled"`
-	ExtraDelayMs    int    `json:"extraDelayMs"`
-	CaptureEnabled  bool   `json:"captureEnabled"`
-	DNSIntercept    bool   `json:"dnsIntercept"`
-	ClientDNS       string `json:"clientDns"`
+	WGEndpoint        string `json:"wgEndpoint"`
+	WGSubnet          string `json:"wgSubnet"`
+	WGPort            int    `json:"wgPort"`
+	Uplink            string `json:"uplink"`
+	ActiveProfileID   string `json:"activeProfileId"`
+	ActiveCountry     string `json:"activeCountry"`
+	ActiveTier        string `json:"activeTier"`
+	MITMEnabled       bool   `json:"mitmEnabled"`
+	ExtraDelayMs      int    `json:"extraDelayMs"`
+	ForceDisableCache bool   `json:"forceDisableCache"`
+	CaptureEnabled    bool           `json:"captureEnabled"`
+	DNSIntercept      bool           `json:"dnsIntercept"`
+	ClientDNS         string         `json:"clientDns"`
+	HostRtt           map[string]int `json:"hostRtt,omitempty"`
+	HostRttPinned     bool           `json:"hostRttPinned"`
 }
 
 func DefaultSettings(subnet string, port int, uplink string) Settings {
 	return Settings{
-		WGSubnet:        subnet,
-		WGPort:          port,
-		Uplink:          uplink,
-		ActiveProfileID: "bangladesh-dhaka-4g-europe",
-		MITMEnabled:     false,
-		ExtraDelayMs:    180,
-		CaptureEnabled:  false,
-		DNSIntercept:    true,
-		ClientDNS:       "1.1.1.1",
+		WGSubnet:          subnet,
+		WGPort:            port,
+		Uplink:            uplink,
+		ActiveProfileID:   "passthrough",
+		ActiveCountry:     "BD",
+		ActiveTier:        "typical",
+		MITMEnabled:       false,
+		ExtraDelayMs:      0,
+		ForceDisableCache: false,
+		CaptureEnabled:    false,
+		DNSIntercept:      true,
+		ClientDNS:         "1.1.1.1",
 	}
 }
 
@@ -84,17 +92,18 @@ type PeersFile struct {
 
 // MITMRules persisted in /data/mitm-rules.json
 type MITMRule struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	HostRegex   string `json:"hostRegex"`
-	PathRegex   string `json:"pathRegex"`
-	ExtraDelayMs int   `json:"extraDelayMs"` // 0 = use global extra delay
-	Enabled     bool   `json:"enabled"`
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	HostRegex    string `json:"hostRegex"`
+	PathRegex    string `json:"pathRegex"`
+	Dest         string `json:"dest"`         // cf | aws-eu-central-1 | aws-us-east-1 | …
+	ExtraDelayMs int    `json:"extraDelayMs"` // 0 = use path-delta + global; >0 = absolute override
+	Enabled      bool   `json:"enabled"`
 }
 
 type MITMRulesFile struct {
-	Rules      []MITMRule `json:"rules"`
-	BypassSNI  []string   `json:"bypassSni"`
+	Rules     []MITMRule `json:"rules"`
+	BypassSNI []string   `json:"bypassSni"`
 }
 
 func DefaultMITMRules() MITMRulesFile {
@@ -105,6 +114,7 @@ func DefaultMITMRules() MITMRulesFile {
 				Name:         "API paths",
 				HostRegex:    ".*",
 				PathRegex:    `^/api(/|$)`,
+				Dest:         "aws-eu-central-1",
 				ExtraDelayMs: 0,
 				Enabled:      true,
 			},
