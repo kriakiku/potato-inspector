@@ -22,7 +22,6 @@ export default function Mitm() {
         method: 'PUT',
         body: {
           rules: next.rules,
-          extraDelayMs: next.extraDelayMs,
           forceDisableCache: next.forceDisableCache,
         },
       })
@@ -122,21 +121,10 @@ export default function Mitm() {
       </div>
 
       <div className="panel-box">
-        <label className="muted">Global extra delay (ms) added on top of path-dest delta when a rule matches (0 = path delta only)
-          <input
-            type="number"
-            style={{ maxWidth: 160, display: 'block', marginTop: 6 }}
-            value={data.extraDelayMs}
-            onChange={(e) => setData({ ...data, extraDelayMs: +e.target.value })}
-          />
-        </label>
-        <button style={{ marginTop: 8 }} onClick={() => save({})}>Save delay</button>
-      </div>
-
-      <div className="panel-box">
         <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>Path rules</h2>
         <p className="muted" style={{ marginTop: 0 }}>
-          Dest sets the remote endpoint (CF edge vs AWS region). Extra delay = path RTT delta vs CF (plus global extra). Delay override &gt; 0 replaces that calculation.
+          Dest sets the remote endpoint (CF edge vs AWS region). Extra delay = path RTT delta vs CF (one-way).
+          Delay override &gt; 0 replaces that calculation.
         </p>
         <table className="table">
           <thead>
@@ -197,7 +185,7 @@ export default function Mitm() {
             ))}
           </tbody>
         </table>
-        <div className="row">
+        <div className="row" style={{ marginTop: 12 }}>
           <button onClick={() => setData({
             ...data,
             rules: [...(data.rules || []), { id: `rule-${Date.now()}`, name: 'new', hostRegex: '.*', pathRegex: '^/api', dest: 'aws-eu-central-1', extraDelayMs: 0, enabled: true }],

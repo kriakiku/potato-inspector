@@ -91,6 +91,7 @@ export default function RegexEditorModal({
   initialPattern,
   ignoreCase,
   samplePlaceholder,
+  engine = 'python',
   onApply,
   onClose,
 }) {
@@ -111,11 +112,27 @@ export default function RegexEditorModal({
     const t = setTimeout(async () => {
       setBusy(true)
       try {
-        const res = await api('/api/mitm/test-regex', {
-          method: 'POST',
-          body: { pattern, text: sample, ignoreCase: !!ignoreCase },
-        })
-        setResult(res)
+        if (engine === 'js') {
+          try {
+            const re = new RegExp(pattern, ignoreCase ? 'i' : '')
+            const m = sample === '' ? null : sample.match(re)
+            setResult({
+              ok: true,
+              matched: !!m,
+              group: m ? m[0] : null,
+              span: m && m.index != null ? [m.index, m.index + m[0].length] : null,
+              error: '',
+            })
+          } catch (e) {
+            setResult({ ok: false, matched: false, error: e.message })
+          }
+        } else {
+          const res = await api('/api/mitm/test-regex', {
+            method: 'POST',
+            body: { pattern, text: sample, ignoreCase: !!ignoreCase },
+          })
+          setResult(res)
+        }
       } catch (e) {
         setResult({ ok: false, matched: false, error: e.message })
       } finally {
@@ -123,7 +140,7 @@ export default function RegexEditorModal({
       }
     }, 200)
     return () => clearTimeout(t)
-  }, [open, pattern, sample, ignoreCase])
+  }, [open, pattern, sample, ignoreCase, engine])
 
   if (!open) return null
 
@@ -136,18 +153,25 @@ export default function RegexEditorModal({
     } else if (result.matched) {
       status = 'ok'
       statusText = `Match${result.group != null ? `: ${JSON.stringify(result.group)}` : ''}`
+    } else if (sample === '') {
+      status = 'idle'
+      statusText = pattern ? 'Pattern OK — enter a sample to test' : 'Enter a sample to test'
     } else {
       status = 'miss'
       statusText = 'No match'
     }
   }
 
+  const engineHint = engine === 'js'
+    ? `JavaScript RegExp${ignoreCase ? ' (ignore case)' : ''}.`
+    : `Python re (same as MITM). ${ignoreCase ? 'IGNORECASE on (host).' : 'Case-sensitive (path).'}`
+
   return (
     <div className="modal-backdrop" onClick={onClose} role="presentation">
       <div className="modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
         <h2 style={{ marginTop: 0, fontSize: '1.1rem' }}>{title}</h2>
         <p className="muted" style={{ marginTop: 0 }}>
-          Python <code>re</code> (same as MITM). {ignoreCase ? 'IGNORECASE on (host).' : 'Case-sensitive (path).'}
+          {engineHint}
         </p>
 
         <label className="muted">Pattern</label>

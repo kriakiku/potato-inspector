@@ -17,7 +17,6 @@ class PotatoAddon:
     def __init__(self):
         self.config_path = None
         self.config = {
-            "extraDelayMs": 180,
             "forceDisableCache": False,
             "rules": [],
             "eventsURL": "http://127.0.0.1:9477/event",
@@ -186,7 +185,6 @@ class PotatoAddon:
         host = flow.request.host or ""
         path = flow.request.path or "/"
         delay = 0
-        global_delay = int(self.config.get("extraDelayMs") or 0)
         matched = None
         for rule in self._compiled:
             if rule["host"].search(host) and rule["path"].search(path):
@@ -196,7 +194,7 @@ class PotatoAddon:
             if matched["delay"] > 0:
                 delay = matched["delay"]
             else:
-                delay = global_delay + _path_extra_delay_ms(self.config, matched.get("dest") or "cf")
+                delay = _path_extra_delay_ms(self.config, matched.get("dest") or "cf")
         if delay > 0:
             time.sleep(delay / 1000.0)
             flow.metadata["potato_extra_delay_ms"] = delay

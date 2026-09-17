@@ -1,5 +1,4 @@
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import Dashboard from './pages/Dashboard'
 import WireGuard from './pages/WireGuard'
 import Profiles from './pages/Profiles'
 import Baseline from './pages/Baseline'
@@ -8,8 +7,7 @@ import Mitm from './pages/Mitm'
 import Inspector from './pages/Inspector'
 
 const tabs = [
-  { to: '/', end: true, label: 'Dashboard' },
-  { to: '/inspector', label: 'Inspector' },
+  { to: '/', end: true, label: 'Inspector' },
   { to: '/profiles', label: 'Profiles' },
   { to: '/baseline', label: 'Baseline' },
   { to: '/ignore', label: 'Ignore' },
@@ -19,7 +17,7 @@ const tabs = [
 
 export default function App() {
   const loc = useLocation()
-  const fill = loc.pathname === '/inspector'
+  const fill = loc.pathname === '/' || loc.pathname === '/inspector'
 
   return (
     <div className="shell">
@@ -40,8 +38,8 @@ export default function App() {
       </nav>
       <main className={fill ? 'main main-fill' : 'main'}>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/inspector" element={<Inspector />} />
+          <Route path="/" element={<Inspector />} />
+          <Route path="/inspector" element={<Navigate to="/" replace />} />
           <Route path="/profiles" element={<Profiles />} />
           <Route path="/baseline" element={<Baseline />} />
           <Route path="/ignore" element={<Ignore />} />

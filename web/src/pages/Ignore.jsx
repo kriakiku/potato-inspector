@@ -5,19 +5,24 @@ import { notifyError, notifySuccess } from '../toast'
 export default function Ignore() {
   const [enabled, setEnabled] = useState(true)
   const [domains, setDomains] = useState([])
+  const [custom, setCustom] = useState([])
   const [text, setText] = useState('')
   const [savedText, setSavedText] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
-  async function load() {
-    const d = await api('/api/ignore')
+  function applyPayload(d) {
     setEnabled(!!d.enabled)
     setDomains(d.domains || [])
+    setCustom(Array.isArray(d.custom) ? d.custom.filter((e) => e && e.domain) : [])
     const t = typeof d.customText === 'string' ? d.customText : ''
     setText(t)
     setSavedText(t)
     setError('')
+  }
+
+  async function load() {
+    applyPayload(await api('/api/ignore'))
   }
 
   useEffect(() => {
@@ -27,9 +32,7 @@ export default function Ignore() {
   async function toggleSystem(next) {
     setBusy(true)
     try {
-      const d = await api('/api/ignore', { method: 'PUT', body: { enabled: next } })
-      setEnabled(!!d.enabled)
-      setDomains(d.domains || [])
+      applyPayload(await api('/api/ignore', { method: 'PUT', body: { enabled: next } }))
       notifySuccess(next ? 'System ignore on' : 'System ignore off')
     } catch (e) {
       notifyError(e.message)
@@ -42,11 +45,7 @@ export default function Ignore() {
     setBusy(true)
     setError('')
     try {
-      const d = await api('/api/ignore', { method: 'PUT', body: { customText: text } })
-      const t = typeof d.customText === 'string' ? d.customText : text
-      setText(t)
-      setSavedText(t)
-      setDomains(d.domains || [])
+      applyPayload(await api('/api/ignore', { method: 'PUT', body: { customText: text } }))
       notifySuccess('Custom ignore saved')
     } catch (e) {
       setError(e.message)
@@ -68,27 +67,11 @@ export default function Ignore() {
       </p>
 
       <div className="panel-box">
-        <label className="form-check">
-          <input
-            type="checkbox"
-            checked={enabled}
-            disabled={busy}
-            onChange={(e) => toggleSystem(e.target.checked)}
-          />
-          <span>
-            System ignore
-            <span className="muted" style={{ display: 'block', fontSize: '0.85rem', marginTop: 2 }}>
-              Default on. Builtin Google / Apple / Microsoft / … pack. Shape exemption needs DNS intercept.
-            </span>
-          </span>
-        </label>
-      </div>
-
-      <div className="panel-box" style={{ marginTop: 12 }}>
         <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>Custom domains</h2>
         <p className="muted" style={{ marginTop: 0 }}>
-          One domain per line (<span className="mono">github.com</span> or <span className="mono">*.github.com</span>).
-          Comment with <span className="mono">#</span>. Prefix a line with <span className="mono">#</span> to disable it.
+          Free-form hosts file. One domain per line (<span className="mono">github.com</span> or{' '}
+          <span className="mono">*.github.com</span>). Prefix a domain with <span className="mono">#</span> to
+          disable it. Text is saved exactly as typed.
         </p>
         <textarea
           className="ignore-hosts mono"
@@ -100,7 +83,7 @@ export default function Ignore() {
             setText(e.target.value)
             setError('')
           }}
-          placeholder={'# github.com # Example — uncomment to enable\ngithub.com # live'}
+          placeholder={"# Example comment\n# github.com\n\ngithub.com # live"}
           aria-label="Custom ignore hosts"
         />
         {error ? <p className="ignore-domain-error">{error}</p> : null}
@@ -110,10 +93,41 @@ export default function Ignore() {
           </button>
           {dirty ? <span className="muted" style={{ fontSize: '0.85rem' }}>Unsaved changes</span> : null}
         </div>
+
+        <h3 style={{ marginTop: 16, marginBottom: 6, fontSize: '0.95rem' }}>
+          Parsed domains ({custom.length})
+        </h3>
+        {custom.length === 0 ? (
+          <p className="muted" style={{ margin: 0, fontSize: '0.85rem' }}>No domains yet.</p>
+        ) : (
+          <ul className="ignore-parsed-list mono">
+            {custom.map((e) => (
+              <li key={e.domain} className={e.enabled ? '' : 'is-disabled'}>
+                <span className="ignore-parsed-flag">{e.enabled ? 'on' : 'off'}</span>
+                *.{e.domain} <span className="muted">(+ {e.domain})</span>
+                {e.comment ? <span className="muted"> — {e.comment}</span> : null}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className="panel-box" style={{ marginTop: 12 }}>
         <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>Builtin domains ({domains.length})</h2>
+        <label className="form-check" style={{ marginBottom: 10 }}>
+          <input
+            type="checkbox"
+            checked={enabled}
+            disabled={busy}
+            onChange={(e) => toggleSystem(e.target.checked)}
+          />
+          <span>
+            System ignore
+            <span className="muted" style={{ display: 'block', fontSize: '0.85rem', marginTop: 2 }}>
+              Default on. Google / Apple / Microsoft / … pack. Shape exemption needs DNS intercept.
+            </span>
+          </span>
+        </label>
         <p className="muted" style={{ marginTop: 0 }}>
           Matching is suffix-based: <span className="mono">foo.google.com</span> matches{' '}
           <span className="mono">google.com</span>. List is embedded in the binary (not editable).

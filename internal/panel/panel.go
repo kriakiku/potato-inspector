@@ -77,6 +77,7 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("/api/inspector", s.handleInspector)
 	mux.HandleFunc("/api/inspector/stream", s.handleInspectorStream)
 	mux.HandleFunc("/api/inspector/clear", s.handleInspectorClear)
+	mux.HandleFunc("/api/inspector/pause", s.handleInspectorPause)
 	mux.HandleFunc("/api/inspector/har", s.handleHAR)
 
 	if s.Static != nil {
@@ -148,7 +149,8 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		"mitmEnabled":      s.MITM.Enabled(),
 		"forceDisableCache": st.ForceDisableCache,
 		"systemIgnoreEnabled": st.SystemIgnoreEnabled,
-		"captureEnabled":   st.CaptureEnabled,
+		"captureEnabled":   true,
+		"capturePaused":    s.Flows != nil && !s.Flows.Enabled(),
 		"captureCapacity":  s.Flows.Capacity(),
 		"dnsIntercept":     st.DNSIntercept && s.DNS.Enabled(),
 		"peerCount":        len(peers),
@@ -159,7 +161,6 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		"wgPublicKey":      s.WG.ServerPublicKey(),
 		"wgPort":           st.WGPort,
 		"wgEndpoint":       st.WGEndpoint,
-		"extraDelayMs":     st.ExtraDelayMs,
 		"hostRtt":          hostRtt,
 		"hostRttPinned":    st.HostRttPinned,
 		"favoriteCountries": st.FavoriteCountries,
@@ -168,7 +169,7 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 			if !s.MITM.Enabled() {
 				return "MITM proxy not running yet (needs WireGuard/TUN). Capture will show DNS only until MITM starts."
 			}
-			return "MITM on: HTTP, TLS, and DNS events available when capture is on."
+			return "MITM on: HTTP, TLS, and DNS events stream into the Inspector (Pause stops recording)."
 		}(),
 	})
 }
@@ -188,8 +189,8 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 			"uplink":             st.Uplink,
 			"activeProfileId":    st.ActiveProfileID,
 			"mitmEnabled":        st.MITMEnabled,
-			"extraDelayMs":       st.ExtraDelayMs,
-			"captureEnabled":     st.CaptureEnabled,
+			"captureEnabled":     true,
+			"capturePaused":      s.Flows != nil && !s.Flows.Enabled(),
 			"dnsIntercept":       st.DNSIntercept,
 			"clientDns":          st.ClientDNS,
 			"favoriteCountries":  st.FavoriteCountries,
@@ -207,12 +208,9 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 		if v, ok := body["clientDns"].(string); ok {
 			st.ClientDNS = v
 		}
-		if v, ok := body["extraDelayMs"].(float64); ok {
-			st.ExtraDelayMs = int(v)
-		}
-		if v, ok := body["captureEnabled"].(bool); ok {
-			st.CaptureEnabled = v
-			s.Flows.SetEnabled(v)
+		if _, ok := body["captureEnabled"]; ok {
+			// Capture is always on; Pause in Inspector gates recording at runtime.
+			st.CaptureEnabled = true
 		}
 		if v, ok := body["dnsIntercept"].(bool); ok {
 			st.DNSIntercept = v
@@ -392,6 +390,15 @@ func (s *Server) handleApplyProfile(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, 400, map[string]string{"error": "bad json"})
 		return
 	}
+	if body.ID == "passthrough" {
+		prof, err := s.applyDirect()
+		if err != nil {
+			writeJSON(w, 500, map[string]string{"error": err.Error()})
+			return
+		}
+		writeJSON(w, 200, map[string]any{"ok": true, "profile": prof, "status": s.Shape.Status()})
+		return
+	}
 	p, ok := s.Profiles.Get(body.ID)
 	if !ok {
 		writeJSON(w, 404, map[string]string{"error": "unknown profile"})
@@ -404,6 +411,7 @@ func (s *Server) handleApplyProfile(w http.ResponseWriter, r *http.Request) {
 	st, _ := s.Store.LoadSettings()
 	st.ActiveProfileID = body.ID
 	_ = s.Store.SaveSettings(st)
+	_ = s.MITM.ReloadConfig()
 	writeJSON(w, 200, map[string]any{"ok": true, "status": s.Shape.Status()})
 }
 
@@ -425,12 +433,32 @@ func (s *Server) handleCatalogApply(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var body struct {
+		Direct  bool   `json:"direct"`
 		Country string `json:"country"`
 		Tier    string `json:"tier"`
 		Probe   bool   `json:"probe"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		writeJSON(w, 400, map[string]string{"error": "bad json"})
+		return
+	}
+	if body.Direct || body.Country == "direct" {
+		prof, err := s.applyDirect()
+		if err != nil {
+			writeJSON(w, 500, map[string]string{"error": err.Error()})
+			return
+		}
+		hostRtt := map[string]int{}
+		if s.Catalog != nil {
+			hostRtt = s.Catalog.HostRtt()
+		}
+		writeJSON(w, 200, map[string]any{
+			"ok":      true,
+			"profile": prof,
+			"hostRtt": hostRtt,
+			"status":  s.Shape.Status(),
+			"direct":  true,
+		})
 		return
 	}
 	if body.Country == "" || body.Tier == "" {
@@ -571,6 +599,31 @@ func (s *Server) baselinePayload(st store.Settings) map[string]any {
 	}
 }
 
+func (s *Server) applyDirect() (profiles.Profile, error) {
+	p, ok := s.Profiles.Get("passthrough")
+	if !ok {
+		p = profiles.Profile{
+			ID:          "passthrough",
+			Name:        "Direct",
+			Description: "No last-mile shaping; no MITM path delay.",
+			Passthrough: true,
+			Builtin:     true,
+		}
+	}
+	if err := s.Shape.Apply(p); err != nil {
+		return p, err
+	}
+	st, _ := s.Store.LoadSettings()
+	st.ActiveProfileID = "passthrough"
+	st.ActiveCountry = "direct"
+	st.ActiveTier = ""
+	if err := s.Store.SaveSettings(st); err != nil {
+		return p, err
+	}
+	_ = s.MITM.ReloadConfig()
+	return p, nil
+}
+
 func (s *Server) applyCatalog(country, tier string, probe bool) (profiles.Profile, map[string]int, error) {
 	if s.Catalog == nil {
 		return profiles.Profile{}, nil, fmt.Errorf("catalog unavailable")
@@ -611,16 +664,7 @@ func (s *Server) handleIgnore(w http.ResponseWriter, r *http.Request) {
 	}
 	switch r.Method {
 	case http.MethodGet:
-		custom := st.CustomIgnore
-		if custom == nil {
-			custom = []ignore.CustomEntry{}
-		}
-		writeJSON(w, 200, map[string]any{
-			"enabled":    st.SystemIgnoreEnabled,
-			"domains":    ignore.Domains(),
-			"custom":     custom,
-			"customText": ignore.FormatCustomHosts(custom),
-		})
+		writeJSON(w, 200, s.ignorePayload(st))
 	case http.MethodPut:
 		var body struct {
 			Enabled    *bool                 `json:"enabled"`
@@ -639,19 +683,22 @@ func (s *Server) handleIgnore(w http.ResponseWriter, r *http.Request) {
 			st.SystemIgnoreEnabled = *body.Enabled
 		}
 		if body.CustomText != nil {
-			validated, err := ignore.ParseCustomHosts(*body.CustomText)
+			parsed, err := ignore.ParseCustomHosts(*body.CustomText)
 			if err != nil {
 				writeJSON(w, 400, map[string]string{"error": err.Error()})
 				return
 			}
-			st.CustomIgnore = validated
+			// Keep exact user text; structured list is only for matching.
+			st.CustomIgnoreText = *body.CustomText
+			st.CustomIgnore = ignore.DomainEntries(parsed)
 		} else if body.Custom != nil {
 			validated, err := ignore.ValidateCustom(*body.Custom)
 			if err != nil {
 				writeJSON(w, 400, map[string]string{"error": err.Error()})
 				return
 			}
-			st.CustomIgnore = validated
+			st.CustomIgnore = ignore.DomainEntries(validated)
+			st.CustomIgnoreText = ignore.FormatCustomHosts(validated)
 		}
 		if err := s.Store.SaveSettings(st); err != nil {
 			writeJSON(w, 500, map[string]string{"error": err.Error()})
@@ -674,19 +721,27 @@ func (s *Server) handleIgnore(w http.ResponseWriter, r *http.Request) {
 			s.Shape.SetIgnoreExempt(active)
 		}
 		_ = s.MITM.ReloadConfig()
-		custom := st.CustomIgnore
-		if custom == nil {
-			custom = []ignore.CustomEntry{}
-		}
-		writeJSON(w, 200, map[string]any{
-			"ok":         true,
-			"enabled":    st.SystemIgnoreEnabled,
-			"domains":    ignore.Domains(),
-			"custom":     custom,
-			"customText": ignore.FormatCustomHosts(custom),
-		})
+		writeJSON(w, 200, s.ignorePayload(st))
 	default:
 		http.Error(w, "method", http.StatusMethodNotAllowed)
+	}
+}
+
+func (s *Server) ignorePayload(st store.Settings) map[string]any {
+	text := st.CustomIgnoreText
+	custom := st.CustomIgnore
+	if custom == nil {
+		custom = []ignore.CustomEntry{}
+	}
+	if text == "" && len(custom) > 0 {
+		text = ignore.FormatCustomHosts(custom)
+	}
+	return map[string]any{
+		"ok":         true,
+		"enabled":    st.SystemIgnoreEnabled,
+		"domains":    ignore.Domains(),
+		"custom":     ignore.DomainEntries(custom),
+		"customText": text,
 	}
 }
 
@@ -697,7 +752,6 @@ func (s *Server) handleMITM(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		writeJSON(w, 200, map[string]any{
 			"enabled":           true,
-			"extraDelayMs":      st.ExtraDelayMs,
 			"forceDisableCache": st.ForceDisableCache,
 			"rules":             rules.Rules,
 			"running":           s.MITM.Enabled(),
@@ -715,16 +769,12 @@ func (s *Server) handleMITM(w http.ResponseWriter, r *http.Request) {
 		})
 	case http.MethodPut:
 		var body struct {
-			ExtraDelayMs      *int             `json:"extraDelayMs"`
 			ForceDisableCache *bool            `json:"forceDisableCache"`
 			Rules             []store.MITMRule `json:"rules"`
 		}
 		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 			writeJSON(w, 400, map[string]string{"error": "bad json"})
 			return
-		}
-		if body.ExtraDelayMs != nil {
-			st.ExtraDelayMs = *body.ExtraDelayMs
 		}
 		if body.ForceDisableCache != nil {
 			st.ForceDisableCache = *body.ForceDisableCache
@@ -848,6 +898,27 @@ func (s *Server) handleInspectorClear(w http.ResponseWriter, r *http.Request) {
 	}
 	s.Flows.Clear()
 	writeJSON(w, 200, map[string]string{"ok": "true"})
+}
+
+func (s *Server) handleInspectorPause(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "method", http.StatusMethodNotAllowed)
+		return
+	}
+	var body struct {
+		Paused *bool `json:"paused"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil || body.Paused == nil {
+		writeJSON(w, 400, map[string]string{"error": "paused bool required"})
+		return
+	}
+	s.Flows.SetEnabled(!*body.Paused)
+	_ = s.MITM.ReloadConfig()
+	writeJSON(w, 200, map[string]any{
+		"ok":            true,
+		"paused":        *body.Paused,
+		"capturePaused": *body.Paused,
+	})
 }
 
 func (s *Server) handleInspectorStream(w http.ResponseWriter, r *http.Request) {

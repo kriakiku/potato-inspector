@@ -50,17 +50,17 @@ type Settings struct {
 	ActiveCountry     string `json:"activeCountry"`
 	ActiveTier        string `json:"activeTier"`
 	MITMEnabled       bool   `json:"mitmEnabled"`
-	ExtraDelayMs      int    `json:"extraDelayMs"`
 	ForceDisableCache bool   `json:"forceDisableCache"`
-	CaptureEnabled    bool           `json:"captureEnabled"`
-	DNSIntercept      bool           `json:"dnsIntercept"`
-	ClientDNS         string         `json:"clientDns"`
+	CaptureEnabled    bool   `json:"captureEnabled"` // always on; kept for older settings files
+	DNSIntercept      bool   `json:"dnsIntercept"`
+	ClientDNS         string `json:"clientDns"`
 	HostRtt           map[string]int `json:"hostRtt,omitempty"`
 	HostRttPinned     bool           `json:"hostRttPinned"` // deprecated: kept for older settings files
 	HostRttProbedAt   string         `json:"hostRttProbedAt,omitempty"`
-	FavoriteCountries   []string            `json:"favoriteCountries,omitempty"`
-	SystemIgnoreEnabled bool                `json:"systemIgnoreEnabled"`
-	CustomIgnore        []ignore.CustomEntry `json:"customIgnore,omitempty"`
+	FavoriteCountries   []string             `json:"favoriteCountries,omitempty"`
+	SystemIgnoreEnabled bool                 `json:"systemIgnoreEnabled"`
+	CustomIgnoreText    string               `json:"customIgnoreText,omitempty"`
+	CustomIgnore        []ignore.CustomEntry `json:"customIgnore,omitempty"` // derived from text for matching
 }
 
 func DefaultSettings(subnet string, port int, uplink string) Settings {
@@ -72,13 +72,13 @@ func DefaultSettings(subnet string, port int, uplink string) Settings {
 		ActiveCountry:     "BD",
 		ActiveTier:        "typical",
 		MITMEnabled:       true,
-		ExtraDelayMs:      0,
 		ForceDisableCache: false,
-		CaptureEnabled:    false,
+		CaptureEnabled:    true,
 		DNSIntercept:      true,
 		ClientDNS:           "1.1.1.1",
 		SystemIgnoreEnabled: true,
-		CustomIgnore:        ignore.DefaultCustom(),
+		CustomIgnoreText:    ignore.DefaultCustomText(),
+		CustomIgnore:        ignore.DomainEntries(ignore.DefaultCustom()),
 	}
 }
 
@@ -105,7 +105,7 @@ type MITMRule struct {
 	HostRegex    string `json:"hostRegex"`
 	PathRegex    string `json:"pathRegex"`
 	Dest         string `json:"dest"`         // cf | aws-eu-central-1 | aws-us-east-1 | …
-	ExtraDelayMs int    `json:"extraDelayMs"` // 0 = use path-delta + global; >0 = absolute override
+	ExtraDelayMs int    `json:"extraDelayMs"` // 0 = path-delta only; >0 = absolute override
 	Enabled      bool   `json:"enabled"`
 }
 

@@ -7,6 +7,7 @@ import (
 )
 
 // CustomEntry is a user-managed ignore domain (suffix match like builtin).
+// Domain == "" with Comment set is a free-standing comment line (# lol).
 type CustomEntry struct {
 	Domain  string `json:"domain"`
 	Comment string `json:"comment"`
@@ -18,10 +19,29 @@ func DefaultCustom() []CustomEntry {
 	return []CustomEntry{
 		{
 			Domain:  "github.com",
-			Comment: "Example: GitHub apex + all subdomains (api, gist, raw, …). Uncomment to enable.",
+			Comment: "Example: GitHub apex + all subdomains (api, gist, raw, ...). Uncomment the next line to enable.",
 			Enabled: false,
 		},
 	}
+}
+
+// DefaultCustomText is the seeded hosts textarea (exact text users see).
+func DefaultCustomText() string {
+	return `# Example: GitHub apex + all subdomains (api, gist, raw, ...). Uncomment the next line to enable.
+# github.com
+`
+}
+
+// DomainEntries returns only entries that have a domain (for matching / MITM).
+func DomainEntries(entries []CustomEntry) []CustomEntry {
+	out := make([]CustomEntry, 0, len(entries))
+	for _, e := range entries {
+		if strings.TrimSpace(e.Domain) == "" {
+			continue
+		}
+		out = append(out, e)
+	}
+	return out
 }
 
 var domainRe = regexp.MustCompile(`^(?i)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$|^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$`)
@@ -53,22 +73,56 @@ func NormalizeDomain(raw string) (string, error) {
 	return s, nil
 }
 
+func trimComment(s string) string {
+	s = strings.TrimSpace(strings.ReplaceAll(s, "\n", " "))
+	if len(s) > 500 {
+		return s[:500]
+	}
+	return s
+}
+
 // FormatCustomHosts renders entries as a hosts-like text block.
-// Enabled:  "domain # comment"
-// Disabled: "# domain # comment"
+//
+//	# free comment
+//	# comment for disabled domain
+//	# domain
+//	domain # inline comment
 func FormatCustomHosts(entries []CustomEntry) string {
 	if len(entries) == 0 {
 		return ""
 	}
 	var b strings.Builder
+	first := true
+	writeGap := func() {
+		if !first {
+			b.WriteByte('\n')
+		}
+		first = false
+	}
 	for _, e := range entries {
 		d := strings.TrimSpace(e.Domain)
+		comment := trimComment(e.Comment)
 		if d == "" {
+			if comment == "" {
+				continue
+			}
+			writeGap()
+			b.WriteString("# ")
+			b.WriteString(comment)
+			b.WriteByte('\n')
 			continue
 		}
-		comment := strings.TrimSpace(e.Comment)
+		writeGap()
 		if !e.Enabled {
+			if comment != "" {
+				b.WriteString("# ")
+				b.WriteString(comment)
+				b.WriteByte('\n')
+			}
 			b.WriteString("# ")
+			b.WriteString(d)
+			b.WriteByte('\n')
+			continue
 		}
 		b.WriteString(d)
 		if comment != "" {
@@ -84,35 +138,43 @@ func FormatCustomHosts(entries []CustomEntry) string {
 // Lines:
 //   domain [# comment]
 //   *.domain [# comment]
-//   # domain [# comment]   → disabled
-//   # note without domain  → ignored
+//   # domain [# comment]   → disabled domain
+//   # note                 → kept as a comment-only line
 // Blank lines ignored. Duplicate domains: first wins.
 func ParseCustomHosts(text string) ([]CustomEntry, error) {
 	lines := strings.Split(strings.ReplaceAll(text, "\r\n", "\n"), "\n")
 	out := make([]CustomEntry, 0, len(lines))
 	seen := map[string]bool{}
+
 	for i, raw := range lines {
 		line := strings.TrimSpace(raw)
 		if line == "" {
 			continue
 		}
-		enabled := true
+
 		if strings.HasPrefix(line, "#") {
 			rest := strings.TrimSpace(strings.TrimPrefix(line, "#"))
 			if rest == "" {
 				continue
 			}
-			domainTok, _, ok := splitDomainComment(rest)
-			if !ok {
-				continue
+			domainTok, inlineComment, tokOK := splitDomainComment(rest)
+			if tokOK && looksLikeIgnoreDomain(domainTok) {
+				if d, err := NormalizeDomain(domainTok); err == nil {
+					if seen[d] {
+						continue
+					}
+					seen[d] = true
+					comment := trimComment(inlineComment)
+					out = append(out, CustomEntry{Domain: d, Comment: comment, Enabled: false})
+					continue
+				}
 			}
-			if _, err := NormalizeDomain(domainTok); err != nil {
-				continue // documentary comment, e.g. "# note"
-			}
-			line = rest
-			enabled = false
+			// Free-standing comment, e.g. "# lol"
+			out = append(out, CustomEntry{Comment: trimComment(rest)})
+			continue
 		}
-		domainTok, comment, ok := splitDomainComment(line)
+
+		domainTok, inlineComment, ok := splitDomainComment(line)
 		if !ok {
 			return nil, fmt.Errorf("line %d: expected domain [# comment]", i+1)
 		}
@@ -124,12 +186,35 @@ func ParseCustomHosts(text string) ([]CustomEntry, error) {
 			continue
 		}
 		seen[d] = true
-		if len(comment) > 500 {
-			comment = comment[:500]
-		}
-		out = append(out, CustomEntry{Domain: d, Comment: comment, Enabled: enabled})
+		out = append(out, CustomEntry{
+			Domain:  d,
+			Comment: trimComment(inlineComment),
+			Enabled: true,
+		})
 	}
 	return out, nil
+}
+
+// looksLikeIgnoreDomain is true for hosts we treat as domain lines when prefixed with #.
+// Single-label words ("lol", "off") stay documentary comments; real names need a dot.
+func looksLikeIgnoreDomain(raw string) bool {
+	s := strings.TrimSpace(raw)
+	s = strings.TrimPrefix(s, "*.")
+	s = strings.TrimPrefix(s, ".")
+	if i := strings.IndexByte(s, '#'); i >= 0 {
+		s = strings.TrimSpace(s[:i])
+	}
+	if i := strings.IndexByte(s, '/'); i >= 0 {
+		s = s[:i]
+	}
+	if i := strings.IndexByte(s, ':'); i >= 0 {
+		s = s[:i]
+	}
+	s = strings.ToLower(strings.TrimSuffix(s, "."))
+	if s == "localhost" {
+		return true
+	}
+	return strings.Contains(s, ".")
 }
 
 // splitDomainComment splits "domain # comment" or "domain".
@@ -154,7 +239,7 @@ func splitDomainComment(line string) (domain, comment string, ok bool) {
 	return domain, comment, true
 }
 
-// ValidateCustom normalizes and dedupes entries; keeps first of each domain.
+// ValidateCustom normalizes and dedupes domain entries; keeps comment-only lines.
 func ValidateCustom(in []CustomEntry) ([]CustomEntry, error) {
 	if in == nil {
 		return []CustomEntry{}, nil
@@ -162,20 +247,25 @@ func ValidateCustom(in []CustomEntry) ([]CustomEntry, error) {
 	out := make([]CustomEntry, 0, len(in))
 	seen := map[string]bool{}
 	for i, e := range in {
-		d, err := NormalizeDomain(e.Domain)
+		d := strings.TrimSpace(e.Domain)
+		comment := trimComment(e.Comment)
+		if d == "" {
+			if comment == "" {
+				continue
+			}
+			out = append(out, CustomEntry{Comment: comment})
+			continue
+		}
+		norm, err := NormalizeDomain(d)
 		if err != nil {
 			return nil, fmt.Errorf("entry %d: %w", i+1, err)
 		}
-		if seen[d] {
+		if seen[norm] {
 			continue
 		}
-		seen[d] = true
-		comment := strings.TrimSpace(e.Comment)
-		if len(comment) > 500 {
-			comment = comment[:500]
-		}
+		seen[norm] = true
 		out = append(out, CustomEntry{
-			Domain:  d,
+			Domain:  norm,
 			Comment: comment,
 			Enabled: e.Enabled,
 		})
@@ -190,7 +280,7 @@ func MatchCustom(host string, custom []CustomEntry) bool {
 		return false
 	}
 	for _, e := range custom {
-		if !e.Enabled {
+		if !e.Enabled || e.Domain == "" {
 			continue
 		}
 		d := normalizeHost(e.Domain)
@@ -208,7 +298,7 @@ func MatchCustom(host string, custom []CustomEntry) bool {
 func EnabledCustomDomains(custom []CustomEntry) []string {
 	var out []string
 	for _, e := range custom {
-		if !e.Enabled {
+		if !e.Enabled || e.Domain == "" {
 			continue
 		}
 		d := normalizeHost(e.Domain)

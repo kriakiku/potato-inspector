@@ -81,7 +81,7 @@ In the panel: set **Settings → Public WG endpoint**, create a **Peer**, downlo
 
 Atomic JSON writes (temp + rename):
 
-- `settings.json` — WG endpoint, subnet, uplink, active profile, MITM, extra delay, capture, DNS intercept
+- `settings.json` — WG endpoint, subnet, uplink, active profile, MITM, DNS intercept
 - `peers.json` — WireGuard peers
 - `profiles/catalog.json` — pulled Radar+CloudPing country catalog (also embedded)
 - `mitm-rules.json` — path/host regex rules
@@ -91,7 +91,7 @@ Inspector events (HTTP / TLS / DNS) stay in an in-memory ring (~2000 events); th
 
 ## Last-mile profiles
 
-Primary model: **country + speed tier** from the Radar catalog (`Profiles` page / Inspector status bar).
+Primary model: **country + speed tier** from the Radar catalog (`Profiles` page / Inspector status bar). **Direct** (checkbox in Inspector) clears last-mile shaping and MITM path delay.
 
 - **Last-mile** (download / upload / loss / CF RTT) comes from Cloudflare Radar (or seed when no API token).
 - **Path RTT to AWS** ≈ `rtt_cf + CloudPing(nearest_aws(country), dest)` — CloudPing is AWS region↔region backbone, not eyeball→AWS.
@@ -117,7 +117,7 @@ Legacy built-in shaping IDs remain for boot fallback only; the panel uses the co
 MITM is **always on** when WireGuard is up:
 
 - Last-mile netem still applies to every packet (including TLS handshake).
-- Matching path rules add **extra** delay from dest path delta vs CF (plus optional global extra / override) inside the proxy after decrypt — not a second netem path (HTTP/2 one connection).
+- Matching path rules add **extra** delay from dest path delta vs CF (or a per-rule override) inside the proxy after decrypt — not a second netem path (HTTP/2 one connection).
 - Inspector shows HTTP exchanges and TLS handshake rows (SNI, version, ALPN, leaf CN/SAN).
 - UDP/443 (QUIC) is **dropped** so clients fall back to TCP/TLS through MITM.
 - Download the CA from the MITM page; install and trust on the phone/laptop. UniFi WG client does **not** install the CA.
@@ -133,16 +133,14 @@ Last-mile shaping hits every packet the same, including TLS handshake. After the
 
 ## Panel
 
-- **Dashboard** — country/tier shape, MITM, capture, peers, qdisc
-- **Peers** — add, QR, `.conf`, revoke
-- **Profiles** — country catalog (Radar + CloudPing), favorites, apply tiers, pull refresh
+- **Inspector** — home / network log; Direct checkbox (no delay); country/speed status bar
+- **Profiles** — country catalog, favorites, apply tiers
 - **Baseline** — host RTT to CF/AWS: test, save; persists in settings
 - **Ignore** — builtin OS/vendor pack + custom hosts (MITM skip + delay exemption); pinned apps go here
-- **MITM** — path rules (dest = cf / aws-…), extra delay, CA download / regenerate
-- **Inspector** — DevTools-style network + country/speed status bar
-- **Settings** — public WG endpoint, DNS intercept, capture
+- **MITM** — path rules (dest = cf / aws-…), CA download / regenerate
+- **WireGuard** — peers, public endpoint, DNS intercept
 
-No panel auth (use reverse proxy / network ACL). Privacy: MITM decrypts HTTPS on this tunnel; DNS names appear in the in-memory inspector ring while capture is on.
+No panel auth (use reverse proxy / network ACL). Privacy: MITM decrypts HTTPS on this tunnel; DNS names appear in the in-memory inspector ring (Pause stops recording).
 
 ## What this is not
 

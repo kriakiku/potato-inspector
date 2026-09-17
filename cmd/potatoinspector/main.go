@@ -53,7 +53,7 @@ func main() {
 	}
 
 	fw := flows.New()
-	fw.SetEnabled(settings.CaptureEnabled)
+	fw.SetEnabled(true)
 	defer fw.Close()
 
 	wgm, err := wg.NewManager(cfg.WGIface, settings.WGSubnet, settings.WGPort, settings.Uplink, st)
@@ -178,14 +178,32 @@ func loadOrInitSettings(st *store.Store, cfg config.Config) (store.Settings, err
 			settings.MITMEnabled = true
 			changed = true
 		}
+		if !settings.CaptureEnabled {
+			settings.CaptureEnabled = true
+			changed = true
+		}
 		// Older settings lacked the key → default on
 		if !bytes.Contains(raw, []byte("systemIgnoreEnabled")) {
 			settings.SystemIgnoreEnabled = true
 			changed = true
 		}
-		if !bytes.Contains(raw, []byte("customIgnore")) {
-			settings.CustomIgnore = ignore.DefaultCustom()
+		if !bytes.Contains(raw, []byte("customIgnore")) && !bytes.Contains(raw, []byte("customIgnoreText")) {
+			settings.CustomIgnoreText = ignore.DefaultCustomText()
+			settings.CustomIgnore = ignore.DomainEntries(ignore.DefaultCustom())
 			changed = true
+		} else if !bytes.Contains(raw, []byte("customIgnoreText")) {
+			if len(settings.CustomIgnore) > 0 {
+				settings.CustomIgnoreText = ignore.FormatCustomHosts(settings.CustomIgnore)
+			} else {
+				settings.CustomIgnoreText = ignore.DefaultCustomText()
+				settings.CustomIgnore = ignore.DomainEntries(ignore.DefaultCustom())
+			}
+			changed = true
+		} else if settings.CustomIgnoreText != "" && len(settings.CustomIgnore) == 0 {
+			if parsed, err := ignore.ParseCustomHosts(settings.CustomIgnoreText); err == nil {
+				settings.CustomIgnore = ignore.DomainEntries(parsed)
+				changed = true
+			}
 		}
 		if changed {
 			_ = st.SaveSettings(settings)

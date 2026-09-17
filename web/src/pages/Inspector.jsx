@@ -3,6 +3,7 @@ import { FaAws } from 'react-icons/fa6'
 import { SiCloudflare } from 'react-icons/si'
 import { api } from '../api'
 import { analyzeCdn } from '../cdnMeta'
+import RegexEditorModal from '../components/RegexEditorModal'
 import {
   countrySelectLabel,
   isTooCloseToBaseline,
@@ -28,6 +29,44 @@ function eventUrl(ev) {
   if (ev.type === 'tls') return d.sni || ev.summary
   if (ev.type === 'dns') return d.qname || ev.summary
   return ev.summary
+}
+
+/** Host + full URL (incl. query) + summary — what the Inspector search matches against. */
+function eventSearchText(ev) {
+  const d = ev.detail || {}
+  const parts = []
+  const add = (s) => {
+    if (s != null && String(s).trim() !== '') parts.push(String(s))
+  }
+  add(eventUrl(ev))
+  add(ev.summary)
+  add(d.url)
+  add(d.host)
+  add(d.path)
+  add(d.sni)
+  add(d.qname)
+  return parts.join('\n')
+}
+
+function compileSearch(query, asRegex) {
+  const q = (query || '').trim()
+  if (!q) return { ok: true, test: () => true }
+  if (!asRegex) {
+    const needle = q.toLowerCase()
+    return {
+      ok: true,
+      test: (ev) => eventSearchText(ev).toLowerCase().includes(needle),
+    }
+  }
+  try {
+    const re = new RegExp(q, 'i')
+    return {
+      ok: true,
+      test: (ev) => re.test(eventSearchText(ev)),
+    }
+  } catch (e) {
+    return { ok: false, error: e.message, test: () => false }
+  }
 }
 
 function formatBytes(n) {
@@ -198,14 +237,19 @@ function DetailPane({ selected, tab, setTab }) {
 export default function Inspector() {
   const [events, setEvents] = useState([])
   const [filter, setFilter] = useState('')
+  const [search, setSearch] = useState('')
+  const [searchRegex, setSearchRegex] = useState(false)
+  const [regexOpen, setRegexOpen] = useState(false)
   const [selected, setSelected] = useState(null)
   const [tab, setTab] = useState('Headers')
   const [paused, setPaused] = useState(false)
-  const [capture, setCapture] = useState(false)
   const [forceDisableCache, setForceDisableCache] = useState(false)
   const [catalog, setCatalog] = useState(null)
   const [country, setCountry] = useState('BD')
   const [tier, setTier] = useState('typical')
+  const [direct, setDirect] = useState(false)
+  const [savedCountry, setSavedCountry] = useState('BD')
+  const [savedTier, setSavedTier] = useState('typical')
   const [mitmOn, setMitmOn] = useState(false)
   const [rttMs, setRttMs] = useState(0)
   const [hostCfRtt, setHostCfRtt] = useState(0)
@@ -219,13 +263,26 @@ export default function Inspector() {
       api('/api/status'),
       api('/api/catalog'),
     ])
-    setCapture(!!st.captureEnabled)
     setForceDisableCache(!!st.forceDisableCache)
     setMitmOn(!!st.mitmEnabled)
+    setPaused(!!st.capturePaused)
     setCatalog(cat)
     setFavorites(st.favoriteCountries || [])
-    if (st.activeCountry) setCountry(st.activeCountry)
-    if (st.activeTier) setTier(st.activeTier)
+    const isDirect = st.activeCountry === 'direct' || st.activeProfileId === 'passthrough'
+    setDirect(isDirect)
+    if (isDirect) {
+      // keep country/tier selects on last real profile for when Direct is unchecked
+    } else if (st.activeCountry) {
+      setCountry(st.activeCountry)
+      setSavedCountry(st.activeCountry)
+      if (st.activeTier) {
+        setTier(st.activeTier)
+        setSavedTier(st.activeTier)
+      }
+    } else if (st.activeTier) {
+      setTier(st.activeTier)
+      setSavedTier(st.activeTier)
+    }
     setAppliedDelay(st.appliedDelayMs || st.profile?.delayMs || 0)
     setRttMs((st.appliedDelayMs || st.profile?.delayMs || 0) * 2)
     setHostCfRtt(st.hostRtt?.cf || 0)
@@ -267,13 +324,12 @@ export default function Inspector() {
     setTab(selected.type === 'http' ? 'Headers' : 'Detail')
   }, [selected?.id])
 
-  async function toggleCapture() {
-    const next = !capture
+  async function togglePause() {
+    const next = !paused
     try {
-      await api('/api/settings', { method: 'PUT', body: { captureEnabled: next } })
-      setCapture(next)
-      notifySuccess(next ? 'Capture on' : 'Capture off')
-      await refreshMeta()
+      await api('/api/inspector/pause', { method: 'POST', body: { paused: next } })
+      setPaused(next)
+      notifySuccess(next ? 'Capture paused' : 'Capture resumed')
     } catch (e) {
       notifyError(e.message)
     }
@@ -297,12 +353,37 @@ export default function Inspector() {
         method: 'POST',
         body: { country: nextCountry, tier: nextTier, probe: true },
       })
+      setDirect(false)
       setCountry(nextCountry)
       setTier(nextTier)
+      setSavedCountry(nextCountry)
+      setSavedTier(nextTier)
       setAppliedDelay(res.profile?.delayMs || 0)
       setRttMs((res.profile?.delayMs || 0) * 2)
       setHostCfRtt(res.hostRtt?.cf || 0)
       notifySuccess(`${nextCountry} · ${nextTier}`)
+      await refreshMeta()
+    } catch (e) {
+      notifyError(e.message)
+    }
+  }
+
+  async function toggleDirect(on) {
+    try {
+      if (on) {
+        setSavedCountry(country !== 'direct' ? country : savedCountry)
+        setSavedTier(tier || savedTier)
+        const res = await api('/api/catalog/apply', { method: 'POST', body: { direct: true } })
+        setDirect(true)
+        setAppliedDelay(res.profile?.delayMs || 0)
+        setRttMs(0)
+        notifySuccess('Direct — no delays')
+      } else {
+        const c = savedCountry && savedCountry !== 'direct' ? savedCountry : 'BD'
+        const t = savedTier || 'typical'
+        await applyCountryTier(c, t)
+        return
+      }
       await refreshMeta()
     } catch (e) {
       notifyError(e.message)
@@ -320,17 +401,27 @@ export default function Inspector() {
     }
   }
 
-  const rows = useMemo(() => events, [events])
-  const httpCount = useMemo(() => events.filter((e) => e.type === 'http').length, [events])
+  const searchCompiled = useMemo(() => compileSearch(search, searchRegex), [search, searchRegex])
+  const rows = useMemo(
+    () => events.filter((ev) => searchCompiled.test(ev)),
+    [events, searchCompiled],
+  )
+  const httpCount = useMemo(() => rows.filter((e) => e.type === 'http').length, [rows])
   const countries = useMemo(
     () => sortCountries(catalog?.countries, favorites, hostCfRtt),
     [catalog, favorites, hostCfRtt],
   )
 
+  useEffect(() => {
+    if (selected && !rows.some((e) => e.id === selected.id)) {
+      setSelected(null)
+    }
+  }, [rows, selected])
+
   return (
     <div className="insp-root">
       <div className="insp-toolbar">
-        <button onClick={() => setPaused((p) => !p)}>{paused ? 'Resume' : 'Pause'}</button>
+        <button onClick={togglePause}>{paused ? 'Resume' : 'Pause'}</button>
         <button onClick={clear}>Clear</button>
         <a href="/api/inspector/har" download="potatoinspector.har">
           <button type="button">Export HAR</button>
@@ -341,20 +432,72 @@ export default function Inspector() {
           <option value="tls">TLS</option>
           <option value="dns">DNS</option>
         </select>
+        <div className={`insp-search ${searchCompiled.ok ? '' : 'is-invalid'} ${searchRegex ? 'is-regex' : ''}`}>
+          <input
+            type="search"
+            className="mono"
+            placeholder={searchRegex
+              ? 'Regex · host / full URL…'
+              : 'Filter · host / https://host/path?q=…'}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Filter requests"
+            spellCheck={false}
+          />
+          <button
+            type="button"
+            className={`insp-search-mode ${searchRegex ? 'on' : ''}`}
+            title={searchRegex ? 'Regex mode on — click for plain text' : 'Plain text — click for regex'}
+            aria-pressed={searchRegex}
+            onClick={() => setSearchRegex((v) => !v)}
+          >
+            .*
+          </button>
+          <button
+            type="button"
+            className="insp-search-edit"
+            title="Edit regex"
+            onClick={() => {
+              setSearchRegex(true)
+              setRegexOpen(true)
+            }}
+          >
+            Edit
+          </button>
+          {search ? (
+            <button
+              type="button"
+              className="insp-search-clear"
+              title="Clear filter"
+              onClick={() => setSearch('')}
+            >
+              ×
+            </button>
+          ) : null}
+        </div>
+        {!searchCompiled.ok && (
+          <span className="insp-search-err" title={searchCompiled.error}>
+            Bad regex
+          </span>
+        )}
       </div>
 
       <div className="net-shell">
         <div className="net-list panel-box">
-          <div className="net-list-head">
-            <span className="col-status">Status</span>
-            <span className="col-method">Method</span>
-            <span className="col-name">Request</span>
-            <span className="col-size">Size</span>
-            <span className="col-time">Time</span>
-          </div>
-          <div className="net-list-body net-scroll" ref={listRef}>
+          <div className="net-list-scroll net-scroll" ref={listRef}>
+            <div className="net-list-head">
+              <span className="col-status">Status</span>
+              <span className="col-method">Method</span>
+              <span className="col-name">Request</span>
+              <span className="col-size">Size</span>
+              <span className="col-time">Time</span>
+            </div>
             {rows.length === 0 && (
-              <div className="net-empty muted">No events yet — enable capture below and MITM (for HTTP/TLS)</div>
+              <div className="net-empty muted">
+                {events.length === 0
+                  ? 'No events yet — traffic appears here when MITM/DNS intercept is active'
+                  : 'No events match this filter'}
+              </div>
             )}
             {rows.map((ev) => {
               const d = ev.detail || {}
@@ -393,10 +536,6 @@ export default function Inspector() {
       </div>
 
       <div className="insp-statusbar">
-        <label className="form-check">
-          <input type="checkbox" checked={capture} onChange={toggleCapture} />
-          <span>Capture</span>
-        </label>
         <label
           className="form-check"
           title="Strip conditional request headers so origins return full bodies (not 304)"
@@ -405,12 +544,30 @@ export default function Inspector() {
           <span>No cache</span>
         </label>
         <span className="insp-status-sep" />
-        <span>{rows.length} events{filter ? ` · ${httpCount} http` : httpCount !== rows.length ? ` · ${httpCount} http` : ''}</span>
+        <span>
+          {search.trim()
+            ? `${rows.length} shown · ${events.length} total`
+            : `${rows.length} events`}
+          {filter ? ` · ${httpCount} http` : httpCount !== rows.length ? ` · ${httpCount} http` : ''}
+          {searchRegex && search.trim() ? ' · regex' : ''}
+        </span>
         <span className="insp-status-sep" />
+        <label
+          className="form-check"
+          title="No last-mile shaping and no MITM path-dest delay"
+        >
+          <input
+            type="checkbox"
+            checked={direct}
+            onChange={(e) => toggleDirect(e.target.checked)}
+          />
+          <span>Direct</span>
+        </label>
         <label className="row" style={{ gap: '0.35rem', margin: 0 }}>
           <span>Country</span>
           <select
-            value={country}
+            value={country === 'direct' ? savedCountry : country}
+            disabled={direct}
             onChange={(e) => applyCountryTier(e.target.value, tier)}
             title="Last-mile country. 💩 = CF RTT ≤ host baseline (not emulatable)."
           >
@@ -435,7 +592,8 @@ export default function Inspector() {
           <span>Speed</span>
           <select
             value={tier}
-            onChange={(e) => applyCountryTier(country, e.target.value)}
+            disabled={direct}
+            onChange={(e) => applyCountryTier(country === 'direct' ? savedCountry : country, e.target.value)}
             title="Speed tier"
           >
             <option value="stable">{tierLabel('stable')}</option>
@@ -458,6 +616,21 @@ export default function Inspector() {
           </>
         )}
       </div>
+
+      <RegexEditorModal
+        open={regexOpen}
+        title="Inspector filter regex"
+        initialPattern={search}
+        ignoreCase
+        engine="js"
+        samplePlaceholder="https://api.example.com/v1/users?id=42"
+        onClose={() => setRegexOpen(false)}
+        onApply={(pattern) => {
+          setSearch(pattern)
+          setSearchRegex(true)
+          setRegexOpen(false)
+        }}
+      />
     </div>
   )
 }

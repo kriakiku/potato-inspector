@@ -15,6 +15,7 @@ export default function Profiles() {
   const [catalog, setCatalog] = useState(null)
   const [favorites, setFavorites] = useState([])
   const [hostCfRtt, setHostCfRtt] = useState(0)
+  const [activeCountry, setActiveCountry] = useState('')
   const [busy, setBusy] = useState(false)
 
   async function load() {
@@ -25,6 +26,7 @@ export default function Profiles() {
     setCatalog(cat)
     setFavorites(st.favoriteCountries || [])
     setHostCfRtt(st.hostRtt?.cf || 0)
+    setActiveCountry(st.activeCountry || '')
   }
 
   useEffect(() => {
@@ -89,8 +91,9 @@ export default function Profiles() {
       <p className="lead">
         Countries with speed tiers (last-mile) and RTT to Cloudflare Edge / AWS regions
         (Radar last-mile + CloudPing backbone). Star favorites to pin them at the top here
-        and in the Inspector. Locations marked 💩 are as fast or faster than your host
-        baseline (CF {hostCfRtt || '—'} ms) — delay would clamp to 0. MITM path rules pick dest.
+        and in the Inspector. Use <strong>Direct</strong> in the Inspector status bar for no
+        artificial delay. Locations marked 💩 are as fast or faster than your host baseline
+        (CF {hostCfRtt || '—'} ms) — delay would clamp to 0.
       </p>
 
       <div className="row" style={{ marginBottom: 12 }}>
@@ -108,10 +111,11 @@ export default function Profiles() {
         {countries.map((c) => {
           const starred = favSet.has(c.id)
           const tooClose = isTooCloseToBaseline(c, hostCfRtt)
+          const countryActive = activeCountry === c.id
           return (
             <div
               key={c.id}
-              className={`profile-card ${starred ? 'profile-card-fav' : ''} ${tooClose ? 'profile-card-tooclose' : ''}`}
+              className={`profile-card ${starred ? 'profile-card-fav' : ''} ${tooClose ? 'profile-card-tooclose' : ''} ${countryActive ? 'profile-card-active' : ''}`}
               title={tooClose ? TOO_CLOSE_TOOLTIP : undefined}
             >
               <div className="profile-card-main">
@@ -128,6 +132,7 @@ export default function Profiles() {
                   </button>
                   <strong>{c.flag ? `${c.flag} ` : ''}{c.name}</strong>
                   <span className="badge">{c.id}</span>
+                  {countryActive && <span className="badge">active</span>}
                   {tooClose && (
                     <span
                       className="too-close-mark"

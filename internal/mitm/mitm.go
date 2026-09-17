@@ -212,14 +212,13 @@ func (m *Manager) writeRuntimeConfig() (string, error) {
 		return "", err
 	}
 	cfg := map[string]any{
-		"extraDelayMs":        settings.ExtraDelayMs,
 		"forceDisableCache":   settings.ForceDisableCache,
 		"rules":               rules.Rules,
 		"systemIgnoreEnabled": settings.SystemIgnoreEnabled,
 		"systemIgnoreDomains": ignore.Domains(),
 		"customIgnore":        settings.CustomIgnore,
 		"eventsURL":           "http://" + IngestAddr + "/event",
-		"capture":             settings.CaptureEnabled,
+		"capture":             m.flows.Enabled(),
 	}
 	if m.catalog != nil {
 		country := settings.ActiveCountry
