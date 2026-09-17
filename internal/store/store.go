@@ -54,7 +54,9 @@ type Settings struct {
 	DNSIntercept      bool           `json:"dnsIntercept"`
 	ClientDNS         string         `json:"clientDns"`
 	HostRtt           map[string]int `json:"hostRtt,omitempty"`
-	HostRttPinned     bool           `json:"hostRttPinned"`
+	HostRttPinned     bool           `json:"hostRttPinned"` // deprecated: kept for older settings files
+	HostRttProbedAt   string         `json:"hostRttProbedAt,omitempty"`
+	FavoriteCountries []string       `json:"favoriteCountries,omitempty"`
 }
 
 func DefaultSettings(subnet string, port int, uplink string) Settings {

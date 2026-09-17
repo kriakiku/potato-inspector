@@ -1,5 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { api } from '../api'
+import {
+  countrySelectLabel,
+  isTooCloseToBaseline,
+  sortCountries,
+  tierLabel,
+  TOO_CLOSE_TOOLTIP,
+} from '../countries'
 import { notifyError, notifySuccess } from '../toast'
 
 function statusClass(code) {
@@ -150,6 +157,7 @@ export default function Inspector() {
   const [rttMs, setRttMs] = useState(0)
   const [hostCfRtt, setHostCfRtt] = useState(0)
   const [appliedDelay, setAppliedDelay] = useState(0)
+  const [favorites, setFavorites] = useState([])
   const esRef = useRef(null)
   const listRef = useRef(null)
 
@@ -161,6 +169,7 @@ export default function Inspector() {
     setCapture(!!st.captureEnabled)
     setMitmOn(!!st.mitmEnabled)
     setCatalog(cat)
+    setFavorites(st.favoriteCountries || [])
     if (st.activeCountry) setCountry(st.activeCountry)
     if (st.activeTier) setTier(st.activeTier)
     setAppliedDelay(st.appliedDelayMs || st.profile?.delayMs || 0)
@@ -247,7 +256,10 @@ export default function Inspector() {
 
   const rows = useMemo(() => events, [events])
   const httpCount = useMemo(() => events.filter((e) => e.type === 'http').length, [events])
-  const countries = catalog?.countries || []
+  const countries = useMemo(
+    () => sortCountries(catalog?.countries, favorites, hostCfRtt),
+    [catalog, favorites, hostCfRtt],
+  )
 
   return (
     <div className="insp-root">
@@ -325,11 +337,23 @@ export default function Inspector() {
           <select
             value={country}
             onChange={(e) => applyCountryTier(e.target.value, tier)}
-            title="Last-mile country"
+            title="Last-mile country. 💩 = CF RTT ≤ host baseline (not emulatable)."
           >
-            {countries.map((c) => (
-              <option key={c.id} value={c.id}>{c.flag ? `${c.flag} ` : ''}{c.name}</option>
-            ))}
+            {countries.map((c) => {
+              const tooClose = isTooCloseToBaseline(c, hostCfRtt)
+              return (
+                <option
+                  key={c.id}
+                  value={c.id}
+                  title={tooClose ? TOO_CLOSE_TOOLTIP : undefined}
+                >
+                  {countrySelectLabel(c, {
+                    favorite: favorites.includes(c.id),
+                    tooClose,
+                  })}
+                </option>
+              )
+            })}
           </select>
         </label>
         <label className="row" style={{ gap: '0.35rem', margin: 0 }}>
@@ -339,9 +363,9 @@ export default function Inspector() {
             onChange={(e) => applyCountryTier(country, e.target.value)}
             title="Speed tier"
           >
-            <option value="stable">stable</option>
-            <option value="typical">typical</option>
-            <option value="poor">poor</option>
+            <option value="stable">{tierLabel('stable')}</option>
+            <option value="typical">{tierLabel('typical')}</option>
+            <option value="poor">{tierLabel('poor')}</option>
           </select>
         </label>
         <span className="insp-status-grow" />

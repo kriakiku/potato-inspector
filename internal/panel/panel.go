@@ -155,6 +155,7 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		"extraDelayMs":     st.ExtraDelayMs,
 		"hostRtt":          hostRtt,
 		"hostRttPinned":    st.HostRttPinned,
+		"favoriteCountries": st.FavoriteCountries,
 		"appliedDelayMs":   prof.DelayMs,
 		"noteMitmOff":      !st.MITMEnabled,
 		"inspectorNote": func() string {
@@ -181,16 +182,18 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		writeJSON(w, 200, map[string]any{
-			"wgEndpoint":      st.WGEndpoint,
-			"wgSubnet":        st.WGSubnet,
-			"wgPort":          st.WGPort,
-			"uplink":          st.Uplink,
-			"activeProfileId": st.ActiveProfileID,
-			"mitmEnabled":     st.MITMEnabled,
-			"extraDelayMs":    st.ExtraDelayMs,
-			"captureEnabled":  st.CaptureEnabled,
-			"dnsIntercept":    st.DNSIntercept,
-			"clientDns":       st.ClientDNS,
+			"wgEndpoint":         st.WGEndpoint,
+			"wgSubnet":           st.WGSubnet,
+			"wgPort":             st.WGPort,
+			"uplink":             st.Uplink,
+			"activeProfileId":    st.ActiveProfileID,
+			"mitmEnabled":        st.MITMEnabled,
+			"extraDelayMs":       st.ExtraDelayMs,
+			"captureEnabled":     st.CaptureEnabled,
+			"dnsIntercept":       st.DNSIntercept,
+			"clientDns":          st.ClientDNS,
+			"favoriteCountries":  st.FavoriteCountries,
+			"hostRttPinned":      st.HostRttPinned,
 		})
 	case http.MethodPut:
 		var body map[string]any
@@ -219,15 +222,48 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 				s.DNS.Stop()
 			}
 		}
+		if raw, ok := body["favoriteCountries"]; ok {
+			favs, err := parseStringSlice(raw)
+			if err != nil {
+				writeJSON(w, 400, map[string]string{"error": "favoriteCountries must be string array"})
+				return
+			}
+			st.FavoriteCountries = favs
+		}
 		if err := s.Store.SaveSettings(st); err != nil {
 			writeJSON(w, 500, map[string]string{"error": err.Error()})
 			return
 		}
 		_ = s.MITM.ReloadConfig()
-		writeJSON(w, 200, map[string]string{"ok": "true"})
+		writeJSON(w, 200, map[string]any{"ok": true, "favoriteCountries": st.FavoriteCountries})
 	default:
 		http.Error(w, "method", http.StatusMethodNotAllowed)
 	}
+}
+
+func parseStringSlice(raw any) ([]string, error) {
+	if raw == nil {
+		return nil, nil
+	}
+	arr, ok := raw.([]any)
+	if !ok {
+		return nil, fmt.Errorf("not array")
+	}
+	out := make([]string, 0, len(arr))
+	seen := map[string]bool{}
+	for _, item := range arr {
+		s, ok := item.(string)
+		if !ok {
+			return nil, fmt.Errorf("not string")
+		}
+		s = strings.TrimSpace(s)
+		if s == "" || seen[s] {
+			continue
+		}
+		seen[s] = true
+		out = append(out, s)
+	}
+	return out, nil
 }
 
 func (s *Server) handlePeers(w http.ResponseWriter, r *http.Request) {
@@ -451,15 +487,10 @@ func (s *Server) handleCatalogProbe(w http.ResponseWriter, r *http.Request) {
 	rtt := s.Catalog.ProbeHostRtt()
 	st, _ := s.Store.LoadSettings()
 	st.HostRtt = rtt
-	st.HostRttPinned = false
+	st.HostRttProbedAt = s.Catalog.LastProbe().UTC().Format(time.RFC3339)
 	_ = s.Store.SaveSettings(st)
 	_ = s.MITM.ReloadConfig()
-	writeJSON(w, 200, map[string]any{
-		"ok":          true,
-		"hostRtt":     rtt,
-		"pinned":      false,
-		"lastProbeAt": s.Catalog.LastProbe().UTC().Format(time.RFC3339),
-	})
+	writeJSON(w, 200, s.baselinePayload(st))
 }
 
 func (s *Server) handleCatalogBaseline(w http.ResponseWriter, r *http.Request) {
@@ -474,7 +505,6 @@ func (s *Server) handleCatalogBaseline(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPut:
 		var body struct {
 			HostRtt map[string]int `json:"hostRtt"`
-			Pinned  *bool          `json:"pinned"`
 		}
 		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 			writeJSON(w, 400, map[string]string{"error": "bad json"})
@@ -497,13 +527,9 @@ func (s *Server) handleCatalogBaseline(w http.ResponseWriter, r *http.Request) {
 			}
 			cleaned[id] = ms
 		}
-		pinned := st.HostRttPinned
-		if body.Pinned != nil {
-			pinned = *body.Pinned
-		}
 		s.Catalog.SetHostRtt(cleaned)
 		st.HostRtt = cleaned
-		st.HostRttPinned = pinned
+		st.HostRttProbedAt = time.Now().UTC().Format(time.RFC3339)
 		if err := s.Store.SaveSettings(st); err != nil {
 			writeJSON(w, 500, map[string]string{"error": err.Error()})
 			return
@@ -520,6 +546,9 @@ func (s *Server) baselinePayload(st store.Settings) map[string]any {
 	ids := s.Catalog.DestinationIDs()
 	list := make([]map[string]any, 0, len(ids))
 	host := s.Catalog.HostRtt()
+	if len(host) == 0 && len(st.HostRtt) > 0 {
+		host = st.HostRtt
+	}
 	for _, id := range ids {
 		d := dests[id]
 		list = append(list, map[string]any{
@@ -529,15 +558,16 @@ func (s *Server) baselinePayload(st store.Settings) map[string]any {
 			"rttMs":  host[id],
 		})
 	}
-	last := ""
-	if t := s.Catalog.LastProbe(); !t.IsZero() {
-		last = t.UTC().Format(time.RFC3339)
+	last := st.HostRttProbedAt
+	if last == "" {
+		if t := s.Catalog.LastProbe(); !t.IsZero() {
+			last = t.UTC().Format(time.RFC3339)
+		}
 	}
 	return map[string]any{
-		"hostRtt":       host,
-		"pinned":        st.HostRttPinned,
-		"lastProbeAt":   last,
-		"destinations":  list,
+		"hostRtt":      host,
+		"lastProbeAt":  last,
+		"destinations": list,
 	}
 }
 
@@ -547,14 +577,17 @@ func (s *Server) applyCatalog(country, tier string, probe bool) (profiles.Profil
 	}
 	st, _ := s.Store.LoadSettings()
 	hostRtt := s.Catalog.HostRtt()
-	if st.HostRttPinned && len(st.HostRtt) > 0 {
+	if len(hostRtt) == 0 && len(st.HostRtt) > 0 {
 		s.Catalog.SetHostRtt(st.HostRtt)
 		hostRtt = st.HostRtt
-	} else if probe || len(hostRtt) == 0 {
+	}
+	// Baseline is host location, not country profile — only probe when empty.
+	if len(hostRtt) == 0 {
 		hostRtt = s.Catalog.ProbeHostRtt()
 		st.HostRtt = hostRtt
-		st.HostRttPinned = false
+		st.HostRttProbedAt = s.Catalog.LastProbe().UTC().Format(time.RFC3339)
 	}
+	_ = probe
 	prof, err := s.Catalog.ProfileFor(country, tier, hostRtt)
 	if err != nil {
 		return profiles.Profile{}, hostRtt, err

@@ -680,7 +680,37 @@ h1 {
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
+  width: 100%;
 }
+.profile-card-fav {
+  border-color: color-mix(in srgb, var(--accent, #c9a227) 45%, var(--line));
+}
+.profile-card-tooclose {
+  opacity: 0.78;
+}
+.too-close-mark {
+  cursor: help;
+  margin-left: auto;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  color: var(--muted);
+  opacity: 0.85;
+  white-space: nowrap;
+}
+.fav-star {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0 0.15rem;
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+  min-width: auto;
+}
+.fav-star:hover { color: var(--text); }
+.fav-star.on { color: #c9a227; }
 .profile-card-desc {
   margin: 0.35rem 0 0.25rem;
   font-size: 0.9rem;

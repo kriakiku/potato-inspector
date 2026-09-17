@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/potatoinspector/potato-inspector/internal/catalog"
 	"github.com/potatoinspector/potato-inspector/internal/config"
@@ -70,23 +71,19 @@ func main() {
 
 	dns := dnsfwd.New(fw, settings.ClientDNS, cfg.WGIface)
 
+	wgOK := false
 	if err := wgm.Start(); err != nil {
 		log.Printf("WARN: WireGuard start failed (panel still up): %v", err)
 	} else {
+		wgOK = true
 		log.Printf("WireGuard up on %s port %d pub=%s", cfg.WGIface, settings.WGPort, wgm.ServerPublicKey())
+	}
+
+	hostRtt := ensureHostRtt(cat, st, &settings)
+
+	if wgOK {
 		applied := false
 		if settings.ActiveCountry != "" && settings.ActiveTier != "" {
-			var hostRtt map[string]int
-			if settings.HostRttPinned && len(settings.HostRtt) > 0 {
-				cat.SetHostRtt(settings.HostRtt)
-				hostRtt = settings.HostRtt
-				log.Printf("host RTT restored from pin (%d dests)", len(hostRtt))
-			} else {
-				hostRtt = cat.ProbeHostRtt()
-				settings.HostRtt = hostRtt
-				settings.HostRttPinned = false
-				_ = st.SaveSettings(settings)
-			}
 			if p, err := cat.ProfileFor(settings.ActiveCountry, settings.ActiveTier, hostRtt); err == nil {
 				if err := shaper.Apply(p); err != nil {
 					log.Printf("WARN: apply catalog: %v", err)
@@ -98,8 +95,6 @@ func main() {
 			} else {
 				log.Printf("WARN: catalog profile: %v", err)
 			}
-		} else if settings.HostRttPinned && len(settings.HostRtt) > 0 {
-			cat.SetHostRtt(settings.HostRtt)
 		}
 		if !applied {
 			if p, ok := reg.Get(settings.ActiveProfileID); ok {
@@ -140,6 +135,20 @@ func main() {
 	dns.Stop()
 	wgm.Stop()
 	_ = httpServer.Close()
+}
+
+func ensureHostRtt(cat *catalog.Manager, st *store.Store, settings *store.Settings) map[string]int {
+	if len(settings.HostRtt) > 0 {
+		cat.SetHostRtt(settings.HostRtt)
+		log.Printf("host RTT restored from settings (%d dests)", len(settings.HostRtt))
+		return settings.HostRtt
+	}
+	rtt := cat.ProbeHostRtt()
+	settings.HostRtt = rtt
+	settings.HostRttProbedAt = time.Now().UTC().Format(time.RFC3339)
+	_ = st.SaveSettings(*settings)
+	log.Printf("host RTT probed (%d dests)", len(rtt))
+	return rtt
 }
 
 func loadOrInitSettings(st *store.Store, cfg config.Config) (store.Settings, error) {

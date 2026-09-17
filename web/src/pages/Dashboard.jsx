@@ -45,7 +45,6 @@ export default function Dashboard() {
           <div className="label">Host CF RTT</div>
           <div className="value">
             {st.hostRtt?.cf ?? '—'} ms
-            {st.hostRttPinned ? ' · pinned' : ''}
             {' '}
             <Link to="/baseline" style={{ fontSize: '0.75rem', fontWeight: 500 }}>Baseline</Link>
           </div>

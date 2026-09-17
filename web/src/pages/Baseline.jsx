@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { api } from '../api'
 import { notifyError, notifySuccess } from '../toast'
 
@@ -8,8 +7,7 @@ export default function Baseline() {
   const [draft, setDraft] = useState({})
   const [busy, setBusy] = useState(false)
 
-  async function load() {
-    const d = await api('/api/catalog/baseline')
+  function applyPayload(d) {
     setData(d)
     const next = {}
     for (const row of d.destinations || []) {
@@ -18,16 +16,25 @@ export default function Baseline() {
     setDraft(next)
   }
 
+  async function load() {
+    const d = await api('/api/catalog/baseline')
+    const empty = !d.hostRtt || Object.keys(d.hostRtt).length === 0
+    if (empty) {
+      applyPayload(await api('/api/catalog/probe', { method: 'POST', body: {} }))
+      return
+    }
+    applyPayload(d)
+  }
+
   useEffect(() => {
     load().catch((e) => notifyError(e.message))
   }, [])
 
-  async function reProbe() {
+  async function runTest() {
     setBusy(true)
     try {
-      await api('/api/catalog/probe', { method: 'POST', body: {} })
-      notifySuccess('Re-probed (auto mode)')
-      await load()
+      applyPayload(await api('/api/catalog/probe', { method: 'POST', body: {} }))
+      notifySuccess('Baseline measured')
     } catch (e) {
       notifyError(e.message)
     } finally {
@@ -48,50 +55,14 @@ export default function Baseline() {
     return out
   }
 
-  async function save(pinned) {
+  async function save() {
     setBusy(true)
     try {
-      const hostRtt = buildHostRtt()
-      await api('/api/catalog/baseline', {
+      applyPayload(await api('/api/catalog/baseline', {
         method: 'PUT',
-        body: { hostRtt, pinned },
-      })
-      notifySuccess(pinned ? 'Pinned baseline saved' : 'Baseline saved (auto)')
-      await load()
-    } catch (e) {
-      notifyError(e.message)
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  async function pinCurrent() {
-    setBusy(true)
-    try {
-      const hostRtt = data?.hostRtt || buildHostRtt()
-      await api('/api/catalog/baseline', {
-        method: 'PUT',
-        body: { hostRtt, pinned: true },
-      })
-      notifySuccess('Pinned current values')
-      await load()
-    } catch (e) {
-      notifyError(e.message)
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  async function unpin() {
-    setBusy(true)
-    try {
-      const hostRtt = buildHostRtt()
-      await api('/api/catalog/baseline', {
-        method: 'PUT',
-        body: { hostRtt, pinned: false },
-      })
-      notifySuccess('Unpinned — apply may re-probe')
-      await load()
+        body: { hostRtt: buildHostRtt() },
+      }))
+      notifySuccess('Baseline saved')
     } catch (e) {
       notifyError(e.message)
     } finally {
@@ -105,27 +76,19 @@ export default function Baseline() {
     <>
       <h1>Baseline</h1>
       <p className="lead">
-        Host RTT from this machine to Cloudflare and AWS endpoints. Catalog country profiles
-        subtract these so last-mile delay is not stacked on your real path. Pin to keep values
-        if the host moves (or to force a fixed baseline).
+        Host RTT from this machine to Cloudflare and AWS. Country profiles subtract these so
+        last-mile delay is not stacked on your real path. Values live in settings and survive
+        container restarts; run Test again only if the host moved.
       </p>
 
       <div className="row" style={{ marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
-        <span className={`badge ${data.pinned ? 'http' : ''}`}>
-          {data.pinned ? 'Pinned' : 'Auto'}
-        </span>
+        <button className="primary" disabled={busy} onClick={runTest}>
+          {busy ? 'Working…' : 'Test'}
+        </button>
+        <button disabled={busy} onClick={save}>Save</button>
         <span className="muted mono" style={{ fontSize: '0.8rem' }}>
           last probe {data.lastProbeAt || '—'}
         </span>
-        <button className="primary" disabled={busy} onClick={reProbe}>
-          {busy ? 'Working…' : 'Re-probe'}
-        </button>
-        {data.pinned ? (
-          <button disabled={busy} onClick={unpin}>Unpin</button>
-        ) : (
-          <button disabled={busy} onClick={pinCurrent}>Pin current</button>
-        )}
-        <button disabled={busy} onClick={() => save(true)}>Save as pinned</button>
       </div>
 
       <div className="panel-box">
@@ -158,14 +121,10 @@ export default function Baseline() {
           </tbody>
         </table>
         <p className="muted" style={{ marginTop: 10, marginBottom: 0 }}>
-          Re-probe always switches to Auto and overwrites with fresh TCP/HTTP samples.
-          Save as pinned locks the numbers in settings across restarts and catalog apply.
+          Test measures TCP RTT from this host. Save stores manual edits. Changing a country
+          profile does not re-measure — the host did not move.
         </p>
       </div>
-
-      <p className="muted" style={{ marginTop: 16 }}>
-        See also <Link to="/profiles">Profiles</Link> (country catalog) and Dashboard host CF RTT.
-      </p>
     </>
   )
 }

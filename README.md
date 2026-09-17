@@ -83,7 +83,7 @@ Atomic JSON writes (temp + rename):
 
 - `settings.json` — WG endpoint, subnet, uplink, active profile, MITM, extra delay, capture, DNS intercept
 - `peers.json` — WireGuard peers
-- `profiles/custom.json` — user last-mile profiles
+- `profiles/catalog.json` — pulled Radar+CloudPing country catalog (also embedded)
 - `mitm-rules.json` — path/host regex, bypass SNI
 - `ca/` — MITM CA cert + key
 
@@ -102,7 +102,7 @@ Primary model: **country + speed tier** from the Radar catalog (`Profiles` page 
 
 Delay is **one-way** ms. RTT ≈ 2×. Bandwidth is **download** (internet→client) / **upload** (client→internet).
 
-Legacy built-in IDs (`passthrough`, `bangladesh-*`) remain for custom / migration; prefer catalog countries.
+Legacy built-in shaping IDs remain for boot fallback only; the panel uses the country catalog.
 
 ### Catalog sources
 
@@ -135,8 +135,8 @@ Last-mile shaping hits every packet the same, including TLS handshake. After the
 
 - **Dashboard** — country/tier shape, MITM, capture, peers, qdisc
 - **Peers** — add, QR, `.conf`, revoke
-- **Profiles** — country catalog (Radar + CloudPing), apply tiers, pull refresh, custom profiles
-- **Baseline** — host RTT to CF/AWS: view, re-probe, pin manual values
+- **Profiles** — country catalog (Radar + CloudPing), favorites, apply tiers, pull refresh
+- **Baseline** — host RTT to CF/AWS: test, save; persists in settings
 - **MITM** — enable, path rules (dest = cf / aws-…), extra delay, bypass, CA download
 - **Inspector** — DevTools-style network + country/speed status bar
 - **Settings** — public WG endpoint, DNS intercept, capture
