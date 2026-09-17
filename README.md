@@ -17,6 +17,9 @@ docker run --cap-add=NET_ADMIN --device=/dev/net/tun \
   ghcr.io/kriakiku/potato-inspector:latest
 ```
 
+If `docker pull` asks for login, open the package → **Package settings** → make visibility **Public**:
+https://github.com/kriakiku/potato-inspector/pkgs/container/potato-inspector
+
 Build locally:
 
 ```bash
