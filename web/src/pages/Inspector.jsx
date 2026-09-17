@@ -4,6 +4,7 @@ import { SiCloudflare } from 'react-icons/si'
 import { api } from '../api'
 import { analyzeCdn } from '../cdnMeta'
 import RegexEditorModal from '../components/RegexEditorModal'
+import CodeBlock, { languageFromContentType, looksLikeJson } from '../components/CodeBlock'
 import {
   countrySelectLabel,
   isTooCloseToBaseline,
@@ -91,7 +92,13 @@ function HeaderTable({ headers }) {
         {entries.map(([k, v]) => (
           <tr key={k}>
             <th>{k}</th>
-            <td className="mono">{v}</td>
+            <td className="mono">
+              {looksLikeJson(v) ? (
+                <CodeBlock code={String(v)} language="json" compact className="hdr-json" />
+              ) : (
+                v
+              )}
+            </td>
           </tr>
         ))}
       </tbody>
@@ -214,7 +221,10 @@ function DetailPane({ selected, tab, setTab }) {
           </>
         )}
         {selected.type === 'http' && tab === 'Preview' && (
-          <pre className="net-preview mono">{d.bodyPreview || '(empty body)'}</pre>
+          <CodeBlock
+            code={d.bodyPreview || '(empty body)'}
+            language={d.bodyPreview ? languageFromContentType(d.contentType) : 'plain'}
+          />
         )}
         {selected.type === 'http' && tab === 'Timing' && (
           <table className="hdr-table">
@@ -244,6 +254,7 @@ export default function Inspector() {
   const [tab, setTab] = useState('Headers')
   const [paused, setPaused] = useState(false)
   const [forceDisableCache, setForceDisableCache] = useState(false)
+  const [dnsZeroTtl, setDnsZeroTtl] = useState(false)
   const [catalog, setCatalog] = useState(null)
   const [country, setCountry] = useState('BD')
   const [tier, setTier] = useState('typical')
@@ -264,6 +275,7 @@ export default function Inspector() {
       api('/api/catalog'),
     ])
     setForceDisableCache(!!st.forceDisableCache)
+    setDnsZeroTtl(!!st.dnsZeroTtl)
     setMitmOn(!!st.mitmEnabled)
     setPaused(!!st.capturePaused)
     setCatalog(cat)
@@ -341,6 +353,18 @@ export default function Inspector() {
       await api('/api/mitm', { method: 'PUT', body: { forceDisableCache: next } })
       setForceDisableCache(next)
       notifySuccess(next ? 'Force disable cache on' : 'Force disable cache off')
+      await refreshMeta()
+    } catch (e) {
+      notifyError(e.message)
+    }
+  }
+
+  async function toggleDnsZeroTtl() {
+    const next = !dnsZeroTtl
+    try {
+      await api('/api/settings', { method: 'PUT', body: { dnsZeroTtl: next } })
+      setDnsZeroTtl(next)
+      notifySuccess(next ? 'DNS TTL=0 on' : 'DNS TTL=0 off')
       await refreshMeta()
     } catch (e) {
       notifyError(e.message)
@@ -542,6 +566,13 @@ export default function Inspector() {
         >
           <input type="checkbox" checked={forceDisableCache} onChange={toggleForceDisableCache} />
           <span>No cache</span>
+        </label>
+        <label
+          className="form-check"
+          title="Clamp TTL on all forwarded DNS answers to 0 (rewrite answers already use TTL 0)"
+        >
+          <input type="checkbox" checked={dnsZeroTtl} onChange={toggleDnsZeroTtl} />
+          <span>DNS TTL=0</span>
         </label>
         <span className="insp-status-sep" />
         <span>

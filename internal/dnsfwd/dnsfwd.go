@@ -11,12 +11,15 @@ import (
 
 	"github.com/potatoinspector/potato-inspector/internal/flows"
 	"github.com/potatoinspector/potato-inspector/internal/ignore"
+	"github.com/potatoinspector/potato-inspector/internal/store"
 )
 
 type Server struct {
 	mu       sync.Mutex
 	flows    *flows.Writer
 	upstream string
+	rules    []store.DNSRewriteRule
+	zeroTTL  bool
 	udpConn  *net.UDPConn
 	tcpLn    net.Listener
 	wgIface  string
@@ -26,13 +29,44 @@ type Server struct {
 }
 
 func New(fw *flows.Writer, upstream, wgIface string, ign *ignore.Runtime) *Server {
+	s := &Server{flows: fw, wgIface: wgIface, ignore: ign}
+	s.SetConfig(upstream, nil, false)
+	return s
+}
+
+func (s *Server) SetConfig(upstream string, rules []store.DNSRewriteRule, zeroTTL bool) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	if upstream == "" {
 		upstream = "1.1.1.1:53"
 	}
 	if !strings.Contains(upstream, ":") {
 		upstream = upstream + ":53"
 	}
-	return &Server{flows: fw, upstream: upstream, wgIface: wgIface, ignore: ign}
+	s.upstream = upstream
+	s.zeroTTL = zeroTTL
+	if rules == nil {
+		s.rules = nil
+	} else {
+		s.rules = append([]store.DNSRewriteRule{}, rules...)
+	}
+}
+
+// ApplyConfig updates forwarder settings and writes Upstream DNS to /etc/resolv.conf.
+func (s *Server) ApplyConfig(upstream string, rules []store.DNSRewriteRule, zeroTTL bool) error {
+	s.SetConfig(upstream, rules, zeroTTL)
+	return ApplySystemResolver(upstream)
+}
+
+func (s *Server) configSnapshot() (upstream string, rules []store.DNSRewriteRule, zeroTTL bool) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	upstream = s.upstream
+	zeroTTL = s.zeroTTL
+	if s.rules != nil {
+		rules = append([]store.DNSRewriteRule{}, s.rules...)
+	}
+	return
 }
 
 func (s *Server) Enabled() bool {
@@ -117,10 +151,45 @@ func (s *Server) serveUDP() {
 	}
 }
 
+func (s *Server) resolve(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
+	upstream, rules, zeroTTL := s.configSnapshot()
+	qname, qtype = parseQuestion(query)
+	if rule := MatchRewrite(qname, rules); rule != nil {
+		ip := net.ParseIP(strings.TrimSpace(rule.IP))
+		if ip == nil || ip.To4() == nil {
+			return nil, qname, qtype, false, "", fmt.Errorf("rewrite rule %q: bad ip %q", rule.Pattern, rule.IP)
+		}
+		resp, err = buildRewriteResponse(query, ip, 0)
+		return resp, qname, qtype, true, rule.Pattern, err
+	}
+	resp, err = forwardUDP(upstream, query)
+	if err == nil && zeroTTL && len(resp) > 0 {
+		clampTTLs(resp)
+	}
+	return resp, qname, qtype, false, "", err
+}
+
+func (s *Server) resolveTCP(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
+	upstream, rules, zeroTTL := s.configSnapshot()
+	qname, qtype = parseQuestion(query)
+	if rule := MatchRewrite(qname, rules); rule != nil {
+		ip := net.ParseIP(strings.TrimSpace(rule.IP))
+		if ip == nil || ip.To4() == nil {
+			return nil, qname, qtype, false, "", fmt.Errorf("rewrite rule %q: bad ip %q", rule.Pattern, rule.IP)
+		}
+		resp, err = buildRewriteResponse(query, ip, 0)
+		return resp, qname, qtype, true, rule.Pattern, err
+	}
+	resp, err = forwardTCP(upstream, query)
+	if err == nil && zeroTTL && len(resp) > 0 {
+		clampTTLs(resp)
+	}
+	return resp, qname, qtype, false, "", err
+}
+
 func (s *Server) handleUDP(query []byte, addr *net.UDPAddr) {
 	start := time.Now()
-	qname, qtype := parseQuestion(query)
-	resp, err := forwardUDP(s.upstream, query)
+	resp, qname, qtype, rewritten, pattern, err := s.resolve(query)
 	rtt := time.Since(start)
 	rcode := -1
 	answers := []string{}
@@ -129,18 +198,26 @@ func (s *Server) handleUDP(query []byte, addr *net.UDPAddr) {
 		answers = parseAnswers(resp)
 	}
 	summary := fmt.Sprintf("DNS %s %s → %v (%s)", qtype, qname, answers, rtt.Round(time.Millisecond))
+	if rewritten {
+		summary = fmt.Sprintf("DNS %s %s → %v rewrite:%s (%s)", qtype, qname, answers, pattern, rtt.Round(time.Millisecond))
+	}
+	detail := map[string]any{
+		"qname":   qname,
+		"qtype":   qtype,
+		"rcode":   rcode,
+		"answers": answers,
+		"rttMs":   rtt.Milliseconds(),
+		"error":   errString(err),
+		"proto":   "udp",
+	}
+	if rewritten {
+		detail["rewritten"] = true
+		detail["pattern"] = pattern
+	}
 	s.flows.Emit(flows.Event{
 		Type:    flows.TypeDNS,
 		Summary: summary,
-		Detail: map[string]any{
-			"qname":   qname,
-			"qtype":   qtype,
-			"rcode":   rcode,
-			"answers": answers,
-			"rttMs":   rtt.Milliseconds(),
-			"error":   errString(err),
-			"proto":   "udp",
-		},
+		Detail:  detail,
 	})
 	if err == nil {
 		if s.ignore != nil {
@@ -178,8 +255,7 @@ func (s *Server) handleTCP(conn net.Conn) {
 		return
 	}
 	start := time.Now()
-	qname, qtype := parseQuestion(query)
-	resp, err := forwardTCP(s.upstream, query)
+	resp, qname, qtype, rewritten, pattern, err := s.resolveTCP(query)
 	rtt := time.Since(start)
 	rcode := -1
 	answers := []string{}
@@ -187,14 +263,23 @@ func (s *Server) handleTCP(conn net.Conn) {
 		rcode = int(resp[3] & 0x0f)
 		answers = parseAnswers(resp)
 	}
+	detail := map[string]any{
+		"qname": qname, "qtype": qtype, "rcode": rcode,
+		"answers": answers, "rttMs": rtt.Milliseconds(),
+		"error": errString(err), "proto": "tcp",
+	}
+	if rewritten {
+		detail["rewritten"] = true
+		detail["pattern"] = pattern
+	}
+	summary := fmt.Sprintf("DNS %s %s → %v (%s)", qtype, qname, answers, rtt.Round(time.Millisecond))
+	if rewritten {
+		summary = fmt.Sprintf("DNS %s %s → %v rewrite:%s (%s)", qtype, qname, answers, pattern, rtt.Round(time.Millisecond))
+	}
 	s.flows.Emit(flows.Event{
 		Type:    flows.TypeDNS,
-		Summary: fmt.Sprintf("DNS %s %s → %v (%s)", qtype, qname, answers, rtt.Round(time.Millisecond)),
-		Detail: map[string]any{
-			"qname": qname, "qtype": qtype, "rcode": rcode,
-			"answers": answers, "rttMs": rtt.Milliseconds(),
-			"error": errString(err), "proto": "tcp",
-		},
+		Summary: summary,
+		Detail:  detail,
 	})
 	if err != nil {
 		return

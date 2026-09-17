@@ -81,7 +81,7 @@ In the panel: set **Settings → Public WG endpoint**, create a **Peer**, downlo
 
 Atomic JSON writes (temp + rename):
 
-- `settings.json` — WG endpoint, subnet, uplink, active profile, MITM, DNS intercept
+- `settings.json` — WG endpoint, subnet, uplink, active profile, MITM, DNS upstream/intercept/rewrite
 - `peers.json` — WireGuard peers
 - `profiles/catalog.json` — pulled Radar+CloudPing country catalog (also embedded)
 - `mitm-rules.json` — path/host regex rules
@@ -138,7 +138,8 @@ Last-mile shaping hits every packet the same, including TLS handshake. After the
 - **Baseline** — host RTT to CF/AWS: test, save; persists in settings
 - **Ignore** — builtin OS/vendor pack + custom hosts (MITM skip + delay exemption); pinned apps go here
 - **MITM** — path rules (dest = cf / aws-…), CA download / regenerate
-- **WireGuard** — peers, public endpoint, DNS intercept
+- **DNS** — upstream (container `/etc/resolv.conf` + tunnel forwarder), rewrite rules (pattern→IP), Force TTL=0; DNS intercept always on; peer `.conf` pushes WG gateway as DNS
+- **WireGuard** — peers, public endpoint
 
 No panel auth (use reverse proxy / network ACL). Privacy: MITM decrypts HTTPS on this tunnel; DNS names appear in the in-memory inspector ring (Pause stops recording).
 

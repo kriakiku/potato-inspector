@@ -184,6 +184,10 @@ func (m *Manager) Stop() {
 	m.started = false
 }
 
+func (m *Manager) GatewayIP() net.IP {
+	return m.gatewayIP()
+}
+
 func (m *Manager) gatewayIP() net.IP {
 	ip := m.subnet.IP.To4()
 	if ip == nil {

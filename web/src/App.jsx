@@ -5,6 +5,7 @@ import Baseline from './pages/Baseline'
 import Ignore from './pages/Ignore'
 import Mitm from './pages/Mitm'
 import Inspector from './pages/Inspector'
+import Dns from './pages/Dns'
 
 const tabs = [
   { to: '/', end: true, label: 'Inspector' },
@@ -12,6 +13,7 @@ const tabs = [
   { to: '/baseline', label: 'Baseline' },
   { to: '/ignore', label: 'Ignore' },
   { to: '/mitm', label: 'MITM' },
+  { to: '/dns', label: 'DNS' },
   { to: '/wireguard', label: 'WireGuard' },
 ]
 
@@ -44,6 +46,7 @@ export default function App() {
           <Route path="/baseline" element={<Baseline />} />
           <Route path="/ignore" element={<Ignore />} />
           <Route path="/mitm" element={<Mitm />} />
+          <Route path="/dns" element={<Dns />} />
           <Route path="/wireguard" element={<WireGuard />} />
           <Route path="/peers" element={<Navigate to="/wireguard" replace />} />
           <Route path="/settings" element={<Navigate to="/wireguard" replace />} />

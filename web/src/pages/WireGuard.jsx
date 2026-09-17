@@ -60,11 +60,7 @@ export default function WireGuard() {
     try {
       await api('/api/settings', {
         method: 'PUT',
-        body: {
-          wgEndpoint: s.wgEndpoint,
-          clientDns: s.clientDns,
-          dnsIntercept: s.dnsIntercept,
-        },
+        body: { wgEndpoint: s.wgEndpoint },
       })
       notifySuccess('Settings saved')
       await loadSettings()
@@ -76,7 +72,7 @@ export default function WireGuard() {
   return (
     <>
       <h1>WireGuard</h1>
-      <p className="lead">Peers, public endpoint, and DNS options for the tunnel.</p>
+      <p className="lead">Peers and public endpoint. DNS options live on the DNS page.</p>
 
       <div className="panel-box">
         <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>Peers</h2>
@@ -125,7 +121,7 @@ export default function WireGuard() {
       </div>
 
       <div className="panel-box">
-        <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>Endpoint &amp; DNS</h2>
+        <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>Endpoint</h2>
         {!s ? (
           <p className="muted">Loading…</p>
         ) : (
@@ -133,18 +129,9 @@ export default function WireGuard() {
             <label className="muted">Public WG endpoint (e.g. 203.0.113.10:51820)
               <input value={s.wgEndpoint || ''} onChange={(e) => setS({ ...s, wgEndpoint: e.target.value })} />
             </label>
-            <label className="muted" style={{ display: 'block', marginTop: 10 }}>Client DNS pushed in .conf
-              <input value={s.clientDns || ''} onChange={(e) => setS({ ...s, clientDns: e.target.value })} />
-            </label>
-            <label className="form-check" style={{ marginTop: 12 }}>
-              <input
-                type="checkbox"
-                checked={!!s.dnsIntercept}
-                onChange={(e) => setS({ ...s, dnsIntercept: e.target.checked })}
-              />
-              <span className="muted">DNS intercept (UDP/TCP 53 → logger)</span>
-            </label>
-            <p className="muted mono">Subnet {s.wgSubnet} · WG port {s.wgPort} · uplink {s.uplink}</p>
+            <p className="muted mono" style={{ marginTop: 12 }}>
+              Subnet {s.wgSubnet} · WG port {s.wgPort} · uplink {s.uplink}
+            </p>
             <button className="primary" onClick={saveSettings}>Save settings</button>
           </>
         )}

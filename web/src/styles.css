@@ -766,6 +766,25 @@ h1 {
   font-size: 0.78rem;
   line-height: 1.45;
 }
+.code-block {
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  font-family: var(--mono);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+}
+.code-block.compact,
+.hdr-table .code-block {
+  font-size: 0.78rem;
+  line-height: 1.4;
+  max-height: 12rem;
+  overflow: auto;
+}
+.code-block .token-line {
+  min-height: 1.2em;
+}
 .st-ok { color: var(--ok); }
 .st-redir { color: var(--warn); }
 .st-client { color: #e8a06a; }

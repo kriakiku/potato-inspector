@@ -52,8 +52,10 @@ type Settings struct {
 	MITMEnabled       bool   `json:"mitmEnabled"`
 	ForceDisableCache bool   `json:"forceDisableCache"`
 	CaptureEnabled    bool   `json:"captureEnabled"` // always on; kept for older settings files
-	DNSIntercept      bool   `json:"dnsIntercept"`
-	ClientDNS         string `json:"clientDns"`
+	DNSIntercept      bool            `json:"dnsIntercept"`
+	ClientDNS         string          `json:"clientDns"`
+	DNSZeroTTL        bool            `json:"dnsZeroTtl"`
+	DNSRewriteRules   []DNSRewriteRule `json:"dnsRewriteRules,omitempty"`
 	HostRtt           map[string]int `json:"hostRtt,omitempty"`
 	HostRttPinned     bool           `json:"hostRttPinned"` // deprecated: kept for older settings files
 	HostRttProbedAt   string         `json:"hostRttProbedAt,omitempty"`
@@ -76,10 +78,20 @@ func DefaultSettings(subnet string, port int, uplink string) Settings {
 		CaptureEnabled:    true,
 		DNSIntercept:      true,
 		ClientDNS:           "1.1.1.1",
+		DNSZeroTTL:          false,
+		DNSRewriteRules:     nil,
 		SystemIgnoreEnabled: true,
 		CustomIgnoreText:    ignore.DefaultCustomText(),
 		CustomIgnore:        ignore.DomainEntries(ignore.DefaultCustom()),
 	}
+}
+
+// DNSRewriteRule maps a host pattern to an IPv4 answer (dnsfwd).
+type DNSRewriteRule struct {
+	ID      string `json:"id"`
+	Pattern string `json:"pattern"` // example.com or *.domain.com
+	IP      string `json:"ip"`
+	Enabled bool   `json:"enabled"`
 }
 
 // Peer persisted in /data/peers.json
@@ -167,12 +179,17 @@ func (s *Store) LoadSettings() (Settings, error) {
 	defer s.mu.RUnlock()
 	var st Settings
 	err := ReadJSON(s.SettingsPath(), &st)
-	return st, err
+	if err != nil {
+		return st, err
+	}
+	st.DNSIntercept = true // always on
+	return st, nil
 }
 
 func (s *Store) SaveSettings(st Settings) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+	st.DNSIntercept = true
 	return AtomicWriteJSON(s.SettingsPath(), st)
 }
 

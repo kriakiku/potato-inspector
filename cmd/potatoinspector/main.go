@@ -75,6 +75,9 @@ func main() {
 	_, _, _ = mm.EnsureCA()
 
 	dns := dnsfwd.New(fw, settings.ClientDNS, cfg.WGIface, ign)
+	if err := dns.ApplyConfig(settings.ClientDNS, settings.DNSRewriteRules, settings.DNSZeroTTL); err != nil {
+		log.Printf("WARN: system DNS (/etc/resolv.conf): %v", err)
+	}
 
 	wgOK := false
 	if err := wgm.Start(); err != nil {
@@ -108,10 +111,11 @@ func main() {
 				}
 			}
 		}
-		if settings.DNSIntercept {
-			if err := dns.Start(); err != nil {
-				log.Printf("WARN: DNS intercept: %v", err)
-			}
+		if err := dns.Start(); err != nil {
+			log.Printf("WARN: DNS intercept: %v", err)
+		} else {
+			settings.DNSIntercept = true
+			_ = st.SaveSettings(settings)
 		}
 		if err := mm.Start(); err != nil {
 			log.Printf("WARN: MITM start: %v", err)

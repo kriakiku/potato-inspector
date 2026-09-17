@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/fs"
+	"net"
 	"net/http"
 	"os"
 	"os/exec"
@@ -148,6 +149,7 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		"profile":          prof,
 		"mitmEnabled":      s.MITM.Enabled(),
 		"forceDisableCache": st.ForceDisableCache,
+		"dnsZeroTtl":       st.DNSZeroTTL,
 		"systemIgnoreEnabled": st.SystemIgnoreEnabled,
 		"captureEnabled":   true,
 		"capturePaused":    s.Flows != nil && !s.Flows.Enabled(),
@@ -191,8 +193,10 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 			"mitmEnabled":        st.MITMEnabled,
 			"captureEnabled":     true,
 			"capturePaused":      s.Flows != nil && !s.Flows.Enabled(),
-			"dnsIntercept":       st.DNSIntercept,
+			"dnsIntercept":       true,
 			"clientDns":          st.ClientDNS,
+			"dnsZeroTtl":         st.DNSZeroTTL,
+			"dnsRewriteRules":    st.DNSRewriteRules,
 			"favoriteCountries":  st.FavoriteCountries,
 			"hostRttPinned":      st.HostRttPinned,
 		})
@@ -208,17 +212,25 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 		if v, ok := body["clientDns"].(string); ok {
 			st.ClientDNS = v
 		}
+		if v, ok := body["dnsZeroTtl"].(bool); ok {
+			st.DNSZeroTTL = v
+		}
 		if _, ok := body["captureEnabled"]; ok {
 			// Capture is always on; Pause in Inspector gates recording at runtime.
 			st.CaptureEnabled = true
 		}
-		if v, ok := body["dnsIntercept"].(bool); ok {
-			st.DNSIntercept = v
-			if v {
-				_ = s.DNS.Start()
-			} else {
-				s.DNS.Stop()
+		// DNS intercept is always on when WireGuard is up.
+		st.DNSIntercept = true
+		if s.DNS != nil && !s.DNS.Enabled() {
+			_ = s.DNS.Start()
+		}
+		if raw, ok := body["dnsRewriteRules"]; ok {
+			rules, err := parseDNSRewriteRules(raw)
+			if err != nil {
+				writeJSON(w, 400, map[string]string{"error": err.Error()})
+				return
 			}
+			st.DNSRewriteRules = rules
 		}
 		if raw, ok := body["favoriteCountries"]; ok {
 			favs, err := parseStringSlice(raw)
@@ -231,6 +243,18 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 		if err := s.Store.SaveSettings(st); err != nil {
 			writeJSON(w, 500, map[string]string{"error": err.Error()})
 			return
+		}
+		if s.DNS != nil {
+			if err := s.DNS.ApplyConfig(st.ClientDNS, st.DNSRewriteRules, st.DNSZeroTTL); err != nil {
+				// Forwarder still updated; resolv.conf may be RO (e.g. macOS host run).
+				writeJSON(w, 200, map[string]any{
+					"ok":                 true,
+					"favoriteCountries":  st.FavoriteCountries,
+					"systemDnsWarning":   err.Error(),
+				})
+				_ = s.MITM.ReloadConfig()
+				return
+			}
 		}
 		_ = s.MITM.ReloadConfig()
 		writeJSON(w, 200, map[string]any{"ok": true, "favoriteCountries": st.FavoriteCountries})
@@ -260,6 +284,41 @@ func parseStringSlice(raw any) ([]string, error) {
 		}
 		seen[s] = true
 		out = append(out, s)
+	}
+	return out, nil
+}
+
+func parseDNSRewriteRules(raw any) ([]store.DNSRewriteRule, error) {
+	if raw == nil {
+		return nil, nil
+	}
+	data, err := json.Marshal(raw)
+	if err != nil {
+		return nil, fmt.Errorf("dnsRewriteRules: %w", err)
+	}
+	var rules []store.DNSRewriteRule
+	if err := json.Unmarshal(data, &rules); err != nil {
+		return nil, fmt.Errorf("dnsRewriteRules must be array of {id,pattern,ip,enabled}")
+	}
+	out := make([]store.DNSRewriteRule, 0, len(rules))
+	for _, r := range rules {
+		r.Pattern = strings.TrimSpace(r.Pattern)
+		r.IP = strings.TrimSpace(r.IP)
+		if r.Pattern == "" && r.IP == "" {
+			continue
+		}
+		if r.Pattern == "" {
+			return nil, fmt.Errorf("dns rewrite rule missing pattern")
+		}
+		ip := net.ParseIP(r.IP)
+		if ip == nil || ip.To4() == nil {
+			return nil, fmt.Errorf("dns rewrite rule %q: need IPv4", r.Pattern)
+		}
+		r.IP = ip.To4().String()
+						if r.ID == "" {
+							r.ID = fmt.Sprintf("dns-%d-%d", time.Now().UnixNano(), len(out))
+						}
+		out = append(out, r)
 	}
 	return out, nil
 }
@@ -325,14 +384,15 @@ func (s *Server) handlePeerSub(w http.ResponseWriter, r *http.Request) {
 	if endpoint != "" && !strings.Contains(endpoint, ":") {
 		endpoint = fmt.Sprintf("%s:%d", endpoint, st.WGPort)
 	}
+	dns := s.WG.GatewayIP().String()
 	switch {
 	case action == "conf" && r.Method == http.MethodGet:
-		cfg := s.WG.ClientConfig(*peer, endpoint, st.ClientDNS)
+		cfg := s.WG.ClientConfig(*peer, endpoint, dns)
 		w.Header().Set("Content-Type", "text/plain")
 		w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=%s.conf", peer.Name))
 		_, _ = w.Write([]byte(cfg))
 	case action == "qr" && r.Method == http.MethodGet:
-		cfg := s.WG.ClientConfig(*peer, endpoint, st.ClientDNS)
+		cfg := s.WG.ClientConfig(*peer, endpoint, dns)
 		png, err := qrcode.Encode(cfg, qrcode.Medium, 256)
 		if err != nil {
 			writeJSON(w, 500, map[string]string{"error": err.Error()})
