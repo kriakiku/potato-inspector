@@ -111,8 +111,8 @@ func buildRewriteResponse(query []byte, ip net.IP, ttl uint32) ([]byte, error) {
 	return resp, nil
 }
 
-// clampTTLs sets every RR TTL in answer/authority/additional to 0.
-func clampTTLs(msg []byte) {
+// clampTTLs sets every RR TTL in answer/authority/additional to ttl.
+func clampTTLs(msg []byte, ttl uint32) {
 	if len(msg) < 12 {
 		return
 	}
@@ -129,16 +129,14 @@ func clampTTLs(msg []byte) {
 		}
 	}
 	total := an + ns + ar
+	var ttlBuf [4]byte
+	binary.BigEndian.PutUint32(ttlBuf[:], ttl)
 	for i := 0; i < total; i++ {
 		_, off2 := decodeName(msg, off)
 		if off2+10 > len(msg) {
 			return
 		}
-		// TTL at off2+4 .. off2+8
-		msg[off2+4] = 0
-		msg[off2+5] = 0
-		msg[off2+6] = 0
-		msg[off2+7] = 0
+		copy(msg[off2+4:off2+8], ttlBuf[:])
 		rdlen := int(binary.BigEndian.Uint16(msg[off2+8 : off2+10]))
 		off = off2 + 10 + rdlen
 		if off > len(msg) {

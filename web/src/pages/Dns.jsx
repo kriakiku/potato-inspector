@@ -2,6 +2,13 @@ import { useEffect, useState } from 'react'
 import { api } from '../api'
 import { notifyError, notifySuccess } from '../toast'
 
+const TTL_OPTIONS = [
+  { value: 0, label: '0 seconds' },
+  { value: 30, label: '30 seconds' },
+  { value: 60, label: '1 minute' },
+  { value: 300, label: '5 minutes' },
+]
+
 function newRule() {
   return { id: `dns-${Date.now()}`, pattern: '*.local', ip: '10.8.0.1', enabled: true }
 }
@@ -23,7 +30,8 @@ export default function Dns() {
         method: 'PUT',
         body: {
           clientDns: s.clientDns,
-          dnsZeroTtl: s.dnsZeroTtl,
+          dnsShortTtl: !!s.dnsShortTtl,
+          dnsTtl: Number(s.dnsTtl ?? 30),
           dnsRewriteRules: s.dnsRewriteRules || [],
         },
       })
@@ -47,7 +55,7 @@ export default function Dns() {
   return (
     <>
       <h1>DNS</h1>
-      <p className="lead">Upstream resolver for the container and tunnel clients, rewrite rules, and TTL clamp.</p>
+      <p className="lead">Upstream resolver for the container and tunnel clients, rewrite rules, and short TTL.</p>
 
       {!s ? (
         <div className="panel-box"><p className="muted">Loading…</p></div>
@@ -68,16 +76,31 @@ export default function Dns() {
                 placeholder="1.1.1.1"
               />
             </label>
+            <label className="muted" style={{ display: 'block', marginTop: 14 }}>
+              Short DNS TTL
+              <span className="muted" style={{ display: 'block', fontSize: '0.85rem', marginTop: 2, fontWeight: 400 }}>
+                When Short DNS TTL is enabled, forwarded answers are clamped to this value. Rewrite answers always use it.
+              </span>
+              <select
+                value={s.dnsTtl ?? 30}
+                onChange={(e) => setS({ ...s, dnsTtl: Number(e.target.value) })}
+                style={{ marginTop: 6, maxWidth: '16rem' }}
+              >
+                {TTL_OPTIONS.map((o) => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
+                ))}
+              </select>
+            </label>
             <label className="form-check" style={{ marginTop: 14 }}>
               <input
                 type="checkbox"
-                checked={!!s.dnsZeroTtl}
-                onChange={(e) => setS({ ...s, dnsZeroTtl: e.target.checked })}
+                checked={!!s.dnsShortTtl}
+                onChange={(e) => setS({ ...s, dnsShortTtl: e.target.checked })}
               />
               <span>
-                Force DNS TTL=0
+                Enable Short DNS TTL
                 <span className="muted" style={{ display: 'block', fontSize: '0.85rem', marginTop: 2 }}>
-                  Clamp TTL on all forwarded answers (rewrite answers always use TTL 0).
+                  Clamp TTL on all forwarded DNS answers to the value above.
                 </span>
               </span>
             </label>

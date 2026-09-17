@@ -19,7 +19,8 @@ type Server struct {
 	flows    *flows.Writer
 	upstream string
 	rules    []store.DNSRewriteRule
-	zeroTTL  bool
+	shortTTL bool
+	ttlSec   uint32
 	udpConn  *net.UDPConn
 	tcpLn    net.Listener
 	wgIface  string
@@ -30,11 +31,11 @@ type Server struct {
 
 func New(fw *flows.Writer, upstream, wgIface string, ign *ignore.Runtime) *Server {
 	s := &Server{flows: fw, wgIface: wgIface, ignore: ign}
-	s.SetConfig(upstream, nil, false)
+	s.SetConfig(upstream, nil, false, 30)
 	return s
 }
 
-func (s *Server) SetConfig(upstream string, rules []store.DNSRewriteRule, zeroTTL bool) {
+func (s *Server) SetConfig(upstream string, rules []store.DNSRewriteRule, shortTTL bool, ttlSec int) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	if upstream == "" {
@@ -44,7 +45,8 @@ func (s *Server) SetConfig(upstream string, rules []store.DNSRewriteRule, zeroTT
 		upstream = upstream + ":53"
 	}
 	s.upstream = upstream
-	s.zeroTTL = zeroTTL
+	s.shortTTL = shortTTL
+	s.ttlSec = uint32(store.NormalizeDNSTTL(ttlSec))
 	if rules == nil {
 		s.rules = nil
 	} else {
@@ -53,16 +55,17 @@ func (s *Server) SetConfig(upstream string, rules []store.DNSRewriteRule, zeroTT
 }
 
 // ApplyConfig updates forwarder settings and writes Upstream DNS to /etc/resolv.conf.
-func (s *Server) ApplyConfig(upstream string, rules []store.DNSRewriteRule, zeroTTL bool) error {
-	s.SetConfig(upstream, rules, zeroTTL)
+func (s *Server) ApplyConfig(upstream string, rules []store.DNSRewriteRule, shortTTL bool, ttlSec int) error {
+	s.SetConfig(upstream, rules, shortTTL, ttlSec)
 	return ApplySystemResolver(upstream)
 }
 
-func (s *Server) configSnapshot() (upstream string, rules []store.DNSRewriteRule, zeroTTL bool) {
+func (s *Server) configSnapshot() (upstream string, rules []store.DNSRewriteRule, shortTTL bool, ttlSec uint32) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	upstream = s.upstream
-	zeroTTL = s.zeroTTL
+	shortTTL = s.shortTTL
+	ttlSec = s.ttlSec
 	if s.rules != nil {
 		rules = append([]store.DNSRewriteRule{}, s.rules...)
 	}
@@ -152,37 +155,37 @@ func (s *Server) serveUDP() {
 }
 
 func (s *Server) resolve(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
-	upstream, rules, zeroTTL := s.configSnapshot()
+	upstream, rules, shortTTL, ttlSec := s.configSnapshot()
 	qname, qtype = parseQuestion(query)
 	if rule := MatchRewrite(qname, rules); rule != nil {
 		ip := net.ParseIP(strings.TrimSpace(rule.IP))
 		if ip == nil || ip.To4() == nil {
 			return nil, qname, qtype, false, "", fmt.Errorf("rewrite rule %q: bad ip %q", rule.Pattern, rule.IP)
 		}
-		resp, err = buildRewriteResponse(query, ip, 0)
+		resp, err = buildRewriteResponse(query, ip, ttlSec)
 		return resp, qname, qtype, true, rule.Pattern, err
 	}
 	resp, err = forwardUDP(upstream, query)
-	if err == nil && zeroTTL && len(resp) > 0 {
-		clampTTLs(resp)
+	if err == nil && shortTTL && len(resp) > 0 {
+		clampTTLs(resp, ttlSec)
 	}
 	return resp, qname, qtype, false, "", err
 }
 
 func (s *Server) resolveTCP(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
-	upstream, rules, zeroTTL := s.configSnapshot()
+	upstream, rules, shortTTL, ttlSec := s.configSnapshot()
 	qname, qtype = parseQuestion(query)
 	if rule := MatchRewrite(qname, rules); rule != nil {
 		ip := net.ParseIP(strings.TrimSpace(rule.IP))
 		if ip == nil || ip.To4() == nil {
 			return nil, qname, qtype, false, "", fmt.Errorf("rewrite rule %q: bad ip %q", rule.Pattern, rule.IP)
 		}
-		resp, err = buildRewriteResponse(query, ip, 0)
+		resp, err = buildRewriteResponse(query, ip, ttlSec)
 		return resp, qname, qtype, true, rule.Pattern, err
 	}
 	resp, err = forwardTCP(upstream, query)
-	if err == nil && zeroTTL && len(resp) > 0 {
-		clampTTLs(resp)
+	if err == nil && shortTTL && len(resp) > 0 {
+		clampTTLs(resp, ttlSec)
 	}
 	return resp, qname, qtype, false, "", err
 }

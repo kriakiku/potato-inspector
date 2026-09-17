@@ -130,7 +130,7 @@ func TestClampTTLs(t *testing.T) {
 	if binary.BigEndian.Uint32(resp[off2+4:off2+8]) != 300 {
 		t.Fatal("setup ttl")
 	}
-	clampTTLs(resp)
+	clampTTLs(resp, 0)
 	if binary.BigEndian.Uint32(resp[off2+4:off2+8]) != 0 {
 		t.Fatalf("ttl not clamped")
 	}

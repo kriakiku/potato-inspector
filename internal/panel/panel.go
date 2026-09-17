@@ -149,7 +149,8 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		"profile":          prof,
 		"mitmEnabled":      s.MITM.Enabled(),
 		"forceDisableCache": st.ForceDisableCache,
-		"dnsZeroTtl":       st.DNSZeroTTL,
+		"dnsShortTtl":      st.DNSShortTTL,
+		"dnsTtl":           st.DNSTTL,
 		"systemIgnoreEnabled": st.SystemIgnoreEnabled,
 		"captureEnabled":   true,
 		"capturePaused":    s.Flows != nil && !s.Flows.Enabled(),
@@ -195,7 +196,8 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 			"capturePaused":      s.Flows != nil && !s.Flows.Enabled(),
 			"dnsIntercept":       true,
 			"clientDns":          st.ClientDNS,
-			"dnsZeroTtl":         st.DNSZeroTTL,
+			"dnsShortTtl":        st.DNSShortTTL,
+			"dnsTtl":             st.DNSTTL,
 			"dnsRewriteRules":    st.DNSRewriteRules,
 			"favoriteCountries":  st.FavoriteCountries,
 			"hostRttPinned":      st.HostRttPinned,
@@ -212,8 +214,11 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 		if v, ok := body["clientDns"].(string); ok {
 			st.ClientDNS = v
 		}
-		if v, ok := body["dnsZeroTtl"].(bool); ok {
-			st.DNSZeroTTL = v
+		if v, ok := body["dnsShortTtl"].(bool); ok {
+			st.DNSShortTTL = v
+		}
+		if v, ok := body["dnsTtl"].(float64); ok {
+			st.DNSTTL = store.NormalizeDNSTTL(int(v))
 		}
 		if _, ok := body["captureEnabled"]; ok {
 			// Capture is always on; Pause in Inspector gates recording at runtime.
@@ -245,12 +250,12 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if s.DNS != nil {
-			if err := s.DNS.ApplyConfig(st.ClientDNS, st.DNSRewriteRules, st.DNSZeroTTL); err != nil {
+			if err := s.DNS.ApplyConfig(st.ClientDNS, st.DNSRewriteRules, st.DNSShortTTL, st.DNSTTL); err != nil {
 				// Forwarder still updated; resolv.conf may be RO (e.g. macOS host run).
 				writeJSON(w, 200, map[string]any{
-					"ok":                 true,
-					"favoriteCountries":  st.FavoriteCountries,
-					"systemDnsWarning":   err.Error(),
+					"ok":                true,
+					"favoriteCountries": st.FavoriteCountries,
+					"systemDnsWarning":  err.Error(),
 				})
 				_ = s.MITM.ReloadConfig()
 				return

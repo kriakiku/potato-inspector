@@ -75,7 +75,7 @@ func main() {
 	_, _, _ = mm.EnsureCA()
 
 	dns := dnsfwd.New(fw, settings.ClientDNS, cfg.WGIface, ign)
-	if err := dns.ApplyConfig(settings.ClientDNS, settings.DNSRewriteRules, settings.DNSZeroTTL); err != nil {
+	if err := dns.ApplyConfig(settings.ClientDNS, settings.DNSRewriteRules, settings.DNSShortTTL, settings.DNSTTL); err != nil {
 		log.Printf("WARN: system DNS (/etc/resolv.conf): %v", err)
 	}
 

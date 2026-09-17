@@ -5,6 +5,7 @@ WORKDIR /web
 COPY web/package.json web/bun.lock* web/package-lock.json* ./
 RUN bun install
 COPY web/ ./
+COPY docs/ /docs/
 RUN bun run build
 
 FROM golang:1.23-bookworm AS gobuild

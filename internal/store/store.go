@@ -52,11 +52,12 @@ type Settings struct {
 	MITMEnabled       bool   `json:"mitmEnabled"`
 	ForceDisableCache bool   `json:"forceDisableCache"`
 	CaptureEnabled    bool   `json:"captureEnabled"` // always on; kept for older settings files
-	DNSIntercept      bool            `json:"dnsIntercept"`
-	ClientDNS         string          `json:"clientDns"`
-	DNSZeroTTL        bool            `json:"dnsZeroTtl"`
+	DNSIntercept      bool             `json:"dnsIntercept"`
+	ClientDNS         string           `json:"clientDns"`
+	DNSShortTTL       bool             `json:"dnsShortTtl"` // clamp forwarded answer TTLs to DNSTTL
+	DNSTTL            int              `json:"dnsTtl"`      // seconds: 0, 30, 60, 300
 	DNSRewriteRules   []DNSRewriteRule `json:"dnsRewriteRules,omitempty"`
-	HostRtt           map[string]int `json:"hostRtt,omitempty"`
+	HostRtt           map[string]int   `json:"hostRtt,omitempty"`
 	HostRttPinned     bool           `json:"hostRttPinned"` // deprecated: kept for older settings files
 	HostRttProbedAt   string         `json:"hostRttProbedAt,omitempty"`
 	FavoriteCountries   []string             `json:"favoriteCountries,omitempty"`
@@ -76,9 +77,10 @@ func DefaultSettings(subnet string, port int, uplink string) Settings {
 		MITMEnabled:       true,
 		ForceDisableCache: false,
 		CaptureEnabled:    true,
-		DNSIntercept:      true,
+		DNSIntercept:        true,
 		ClientDNS:           "1.1.1.1",
-		DNSZeroTTL:          false,
+		DNSShortTTL:         false,
+		DNSTTL:              30,
 		DNSRewriteRules:     nil,
 		SystemIgnoreEnabled: true,
 		CustomIgnoreText:    ignore.DefaultCustomText(),
@@ -177,12 +179,16 @@ func (s *Store) EnsureDirs() error {
 func (s *Store) LoadSettings() (Settings, error) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	var st Settings
-	err := ReadJSON(s.SettingsPath(), &st)
+	data, err := os.ReadFile(s.SettingsPath())
 	if err != nil {
+		return Settings{}, err
+	}
+	var st Settings
+	if err := json.Unmarshal(data, &st); err != nil {
 		return st, err
 	}
 	st.DNSIntercept = true // always on
+	migrateDNSSettings(&st, data)
 	return st, nil
 }
 
@@ -190,7 +196,44 @@ func (s *Store) SaveSettings(st Settings) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	st.DNSIntercept = true
+	st.DNSTTL = NormalizeDNSTTL(st.DNSTTL)
 	return AtomicWriteJSON(s.SettingsPath(), st)
+}
+
+// NormalizeDNSTTL returns an allowed short-TTL preset (0, 30, 60, 300); default 30.
+func NormalizeDNSTTL(sec int) int {
+	switch sec {
+	case 0, 30, 60, 300:
+		return sec
+	default:
+		return 30
+	}
+}
+
+func migrateDNSSettings(st *Settings, raw []byte) {
+	var m map[string]json.RawMessage
+	_ = json.Unmarshal(raw, &m)
+	if _, ok := m["dnsTtl"]; !ok {
+		st.DNSTTL = 30
+		// Legacy force-zero toggle → short TTL on with 0s
+		if v, ok := m["dnsZeroTtl"]; ok {
+			var z bool
+			if json.Unmarshal(v, &z) == nil && z {
+				st.DNSShortTTL = true
+				st.DNSTTL = 0
+			}
+		}
+	} else {
+		st.DNSTTL = NormalizeDNSTTL(st.DNSTTL)
+	}
+	if _, ok := m["dnsShortTtl"]; !ok {
+		if v, ok := m["dnsZeroTtl"]; ok {
+			var z bool
+			if json.Unmarshal(v, &z) == nil {
+				st.DNSShortTTL = z
+			}
+		}
+	}
 }
 
 func (s *Store) LoadPeers() (PeersFile, error) {

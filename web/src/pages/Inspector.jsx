@@ -254,7 +254,7 @@ export default function Inspector() {
   const [tab, setTab] = useState('Headers')
   const [paused, setPaused] = useState(false)
   const [forceDisableCache, setForceDisableCache] = useState(false)
-  const [dnsZeroTtl, setDnsZeroTtl] = useState(false)
+  const [dnsShortTtl, setDnsShortTtl] = useState(false)
   const [catalog, setCatalog] = useState(null)
   const [country, setCountry] = useState('BD')
   const [tier, setTier] = useState('typical')
@@ -275,7 +275,7 @@ export default function Inspector() {
       api('/api/catalog'),
     ])
     setForceDisableCache(!!st.forceDisableCache)
-    setDnsZeroTtl(!!st.dnsZeroTtl)
+    setDnsShortTtl(!!st.dnsShortTtl)
     setMitmOn(!!st.mitmEnabled)
     setPaused(!!st.capturePaused)
     setCatalog(cat)
@@ -359,12 +359,12 @@ export default function Inspector() {
     }
   }
 
-  async function toggleDnsZeroTtl() {
-    const next = !dnsZeroTtl
+  async function toggleDnsShortTtl() {
+    const next = !dnsShortTtl
     try {
-      await api('/api/settings', { method: 'PUT', body: { dnsZeroTtl: next } })
-      setDnsZeroTtl(next)
-      notifySuccess(next ? 'DNS TTL=0 on' : 'DNS TTL=0 off')
+      await api('/api/settings', { method: 'PUT', body: { dnsShortTtl: next } })
+      setDnsShortTtl(next)
+      notifySuccess(next ? 'Short DNS TTL on' : 'Short DNS TTL off')
       await refreshMeta()
     } catch (e) {
       notifyError(e.message)
@@ -569,10 +569,10 @@ export default function Inspector() {
         </label>
         <label
           className="form-check"
-          title="Clamp TTL on all forwarded DNS answers to 0 (rewrite answers already use TTL 0)"
+          title="Clamp TTL on forwarded DNS answers to the Short DNS TTL value from the DNS page (rewrite answers always use that value)"
         >
-          <input type="checkbox" checked={dnsZeroTtl} onChange={toggleDnsZeroTtl} />
-          <span>DNS TTL=0</span>
+          <input type="checkbox" checked={dnsShortTtl} onChange={toggleDnsShortTtl} />
+          <span>Short DNS TTL</span>
         </label>
         <span className="insp-status-sep" />
         <span>

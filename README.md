@@ -138,8 +138,9 @@ Last-mile shaping hits every packet the same, including TLS handshake. After the
 - **Baseline** — host RTT to CF/AWS: test, save; persists in settings
 - **Ignore** — builtin OS/vendor pack + custom hosts (MITM skip + delay exemption); pinned apps go here
 - **MITM** — path rules (dest = cf / aws-…), CA download / regenerate
-- **DNS** — upstream (container `/etc/resolv.conf` + tunnel forwarder), rewrite rules (pattern→IP), Force TTL=0; DNS intercept always on; peer `.conf` pushes WG gateway as DNS
+- **DNS** — upstream (container `/etc/resolv.conf` + tunnel forwarder), rewrite rules (pattern→IP), Short DNS TTL (0s / 30s / 1m / 5m); DNS intercept always on; peer `.conf` pushes WG gateway as DNS
 - **WireGuard** — peers, public endpoint
+- **Docs** — overview, WireGuard setup, root CA install (Android / iOS / macOS / Windows)
 
 No panel auth (use reverse proxy / network ACL). Privacy: MITM decrypts HTTPS on this tunnel; DNS names appear in the in-memory inspector ring (Pause stops recording).
 

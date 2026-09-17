@@ -6,6 +6,7 @@ import Ignore from './pages/Ignore'
 import Mitm from './pages/Mitm'
 import Inspector from './pages/Inspector'
 import Dns from './pages/Dns'
+import Docs from './pages/Docs'
 
 const tabs = [
   { to: '/', end: true, label: 'Inspector' },
@@ -15,11 +16,13 @@ const tabs = [
   { to: '/mitm', label: 'MITM' },
   { to: '/dns', label: 'DNS' },
   { to: '/wireguard', label: 'WireGuard' },
+  { to: '/docs/overview', label: 'Docs' },
 ]
 
 export default function App() {
   const loc = useLocation()
   const fill = loc.pathname === '/' || loc.pathname === '/inspector'
+  const docsActive = loc.pathname.startsWith('/docs')
 
   return (
     <div className="shell">
@@ -31,7 +34,10 @@ export default function App() {
               key={t.to}
               to={t.to}
               end={t.end}
-              className={({ isActive }) => (isActive ? 'active' : undefined)}
+              className={({ isActive }) => {
+                if (t.label === 'Docs') return docsActive ? 'active' : undefined
+                return isActive ? 'active' : undefined
+              }}
             >
               {t.label}
             </NavLink>
@@ -48,6 +54,8 @@ export default function App() {
           <Route path="/mitm" element={<Mitm />} />
           <Route path="/dns" element={<Dns />} />
           <Route path="/wireguard" element={<WireGuard />} />
+          <Route path="/docs" element={<Navigate to="/docs/overview" replace />} />
+          <Route path="/docs/:slug" element={<Docs />} />
           <Route path="/peers" element={<Navigate to="/wireguard" replace />} />
           <Route path="/settings" element={<Navigate to="/wireguard" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
