@@ -114,7 +114,7 @@ export default function Mitm() {
           <span>
             Force disable cache (all requests)
             <span className="muted" style={{ display: 'block', fontSize: '0.85rem', marginTop: 2 }}>
-              Applies to every request through MITM — strips If-None-Match / If-Modified-Since so origins return full bodies (not 304), and weakens response cache validators.
+              Applies to every request through MITM — strips If-None-Match / If-Modified-Since so origins return full bodies (not 304); drops ETag / Expires / Last-Modified on responses and rewrites Cache-Control to no-store, no-cache, must-revalidate.
             </span>
           </span>
         </label>
@@ -137,30 +137,24 @@ export default function Mitm() {
                   const rules = [...data.rules]; rules[i] = { ...r, name: e.target.value }; setData({ ...data, rules })
                 }} /></td>
                 <td>
-                  <div className="regex-field">
-                    <input
-                      className="mono"
-                      readOnly
-                      value={r.hostRegex}
-                      title="Click to edit"
-                      onClick={() => openRegex('host', i)}
-                      onFocus={() => openRegex('host', i)}
-                    />
-                    <button type="button" onClick={() => openRegex('host', i)}>Edit</button>
-                  </div>
+                  <input
+                    className="mono"
+                    readOnly
+                    value={r.hostRegex}
+                    title="Click to edit"
+                    onClick={() => openRegex('host', i)}
+                    onFocus={() => openRegex('host', i)}
+                  />
                 </td>
                 <td>
-                  <div className="regex-field">
-                    <input
-                      className="mono"
-                      readOnly
-                      value={r.pathRegex}
-                      title="Click to edit"
-                      onClick={() => openRegex('path', i)}
-                      onFocus={() => openRegex('path', i)}
-                    />
-                    <button type="button" onClick={() => openRegex('path', i)}>Edit</button>
-                  </div>
+                  <input
+                    className="mono"
+                    readOnly
+                    value={r.pathRegex}
+                    title="Click to edit"
+                    onClick={() => openRegex('path', i)}
+                    onFocus={() => openRegex('path', i)}
+                  />
                 </td>
                 <td>
                   <select
