@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { FaAws } from 'react-icons/fa6'
+import { SiCloudflare } from 'react-icons/si'
 import { api } from '../api'
+import { analyzeCdn } from '../cdnMeta'
 import {
   countrySelectLabel,
   isTooCloseToBaseline,
@@ -24,19 +27,6 @@ function eventUrl(ev) {
   }
   if (ev.type === 'tls') return d.sni || ev.summary
   if (ev.type === 'dns') return d.qname || ev.summary
-  return ev.summary
-}
-
-function eventName(ev) {
-  const d = ev.detail || {}
-  if (ev.type === 'http') {
-    const path = d.path || '/'
-    const base = path.split('?')[0]
-    const parts = base.split('/').filter(Boolean)
-    return parts.length ? parts[parts.length - 1] || '/' : (d.host || '/')
-  }
-  if (ev.type === 'tls') return d.sni || 'TLS'
-  if (ev.type === 'dns') return d.qname || 'DNS'
   return ev.summary
 }
 
@@ -70,11 +60,50 @@ function HeaderTable({ headers }) {
   )
 }
 
+function CdnBadges({ detail, compact = false }) {
+  if (!detail) return null
+  const cdn = analyzeCdn(detail.responseHeaders)
+  if (!cdn.cloudflare && !cdn.cloudfront) return null
+
+  return (
+    <span className={`net-cdn ${compact ? 'compact' : ''}`}>
+      {cdn.cloudflare && (
+        <span
+          className={`cdn-chip cf ${cdn.cfCacheMeta?.tone || 'unknown'}`}
+          title={[
+            'Proxied by Cloudflare',
+            cdn.cfCacheMeta?.tip,
+            cdn.cfRay ? `cf-ray: ${cdn.cfRay}` : '',
+          ].filter(Boolean).join('\n')}
+        >
+          <SiCloudflare className="cdn-logo" aria-hidden />
+          <span className="cdn-chip-text">{cdn.cfCache || 'CF'}</span>
+        </span>
+      )}
+      {cdn.cloudfront && (
+        <span
+          className="cdn-chip cloudfront"
+          title={[
+            'Amazon CloudFront',
+            cdn.cloudfrontPop ? `x-amz-cf-pop: ${cdn.cloudfrontPop}` : '',
+            cdn.cloudfrontVia ? `via: ${cdn.cloudfrontVia}` : '',
+            cdn.xCache ? `x-cache: ${cdn.xCache}` : '',
+          ].filter(Boolean).join('\n')}
+        >
+          <FaAws className="cdn-logo" aria-hidden />
+          <span className="cdn-chip-text">{cdn.cloudfrontPop || 'CloudFront'}</span>
+        </span>
+      )}
+    </span>
+  )
+}
+
 function DetailPane({ selected, tab, setTab }) {
   if (!selected) {
     return <div className="net-empty muted">Select a request to inspect headers and body</div>
   }
   const d = selected.detail || {}
+  const cdn = selected.type === 'http' ? analyzeCdn(d.responseHeaders) : null
   const tabs = selected.type === 'http'
     ? ['Headers', 'Preview', 'Timing']
     : ['Detail']
@@ -114,6 +143,29 @@ function DetailPane({ selected, tab, setTab }) {
                 <tr><th>Content-Type</th><td className="mono">{d.contentType || '—'}</td></tr>
                 <tr><th>Body size</th><td className="mono">{formatBytes(d.bodyBytes)}</td></tr>
                 {d.extraDelayMs ? <tr><th>Extra delay</th><td className="mono">{d.extraDelayMs} ms</td></tr> : null}
+                {cdn?.cloudflare ? (
+                  <tr>
+                    <th>Cloudflare</th>
+                    <td>
+                      <CdnBadges detail={d} />
+                      {cdn.cfCacheMeta?.tip ? (
+                        <div className="muted" style={{ marginTop: 6, fontSize: '0.8rem' }}>{cdn.cfCacheMeta.tip}</div>
+                      ) : null}
+                    </td>
+                  </tr>
+                ) : null}
+                {cdn?.cloudfront ? (
+                  <tr>
+                    <th>CloudFront</th>
+                    <td className="mono">
+                      {[
+                        cdn.cloudfrontPop && `pop ${cdn.cloudfrontPop}`,
+                        cdn.cloudfrontVia,
+                        cdn.xCache && `x-cache ${cdn.xCache}`,
+                      ].filter(Boolean).join(' · ') || 'detected'}
+                    </td>
+                  </tr>
+                ) : null}
               </tbody>
             </table>
             <h3>Request Headers</h3>
@@ -150,6 +202,7 @@ export default function Inspector() {
   const [tab, setTab] = useState('Headers')
   const [paused, setPaused] = useState(false)
   const [capture, setCapture] = useState(false)
+  const [forceDisableCache, setForceDisableCache] = useState(false)
   const [catalog, setCatalog] = useState(null)
   const [country, setCountry] = useState('BD')
   const [tier, setTier] = useState('typical')
@@ -167,6 +220,7 @@ export default function Inspector() {
       api('/api/catalog'),
     ])
     setCapture(!!st.captureEnabled)
+    setForceDisableCache(!!st.forceDisableCache)
     setMitmOn(!!st.mitmEnabled)
     setCatalog(cat)
     setFavorites(st.favoriteCountries || [])
@@ -219,6 +273,18 @@ export default function Inspector() {
       await api('/api/settings', { method: 'PUT', body: { captureEnabled: next } })
       setCapture(next)
       notifySuccess(next ? 'Capture on' : 'Capture off')
+      await refreshMeta()
+    } catch (e) {
+      notifyError(e.message)
+    }
+  }
+
+  async function toggleForceDisableCache() {
+    const next = !forceDisableCache
+    try {
+      await api('/api/mitm', { method: 'PUT', body: { forceDisableCache: next } })
+      setForceDisableCache(next)
+      notifySuccess(next ? 'Force disable cache on' : 'Force disable cache off')
       await refreshMeta()
     } catch (e) {
       notifyError(e.message)
@@ -282,8 +348,7 @@ export default function Inspector() {
           <div className="net-list-head">
             <span className="col-status">Status</span>
             <span className="col-method">Method</span>
-            <span className="col-name">Name</span>
-            <span className="col-type">Type</span>
+            <span className="col-name">Request</span>
             <span className="col-size">Size</span>
             <span className="col-time">Time</span>
           </div>
@@ -295,23 +360,26 @@ export default function Inspector() {
               const d = ev.detail || {}
               const dur = durationMs(ev)
               const active = selected?.id === ev.id
+              const url = eventUrl(ev)
               return (
                 <button
                   type="button"
                   key={ev.id}
                   className={`net-row ${active ? 'active' : ''}`}
                   onClick={() => setSelected(ev)}
-                  title={eventUrl(ev)}
+                  title={url}
                 >
                   <span className={`col-status mono ${ev.type === 'http' ? statusClass(d.status) : ''}`}>
                     {ev.type === 'http' ? (d.status || '—') : '—'}
                   </span>
                   <span className="col-method mono">{ev.type === 'http' ? d.method : ev.type.toUpperCase()}</span>
                   <span className="col-name">
-                    <span className="net-name">{eventName(ev)}</span>
-                    <span className="net-url mono">{eventUrl(ev)}</span>
+                    <span className="net-url-full mono">{url}</span>
+                    <span className="net-row-meta">
+                      <span className={`badge ${ev.type}`}>{ev.type}</span>
+                      {ev.type === 'http' && <CdnBadges detail={d} compact />}
+                    </span>
                   </span>
-                  <span className="col-type"><span className={`badge ${ev.type}`}>{ev.type}</span></span>
                   <span className="col-size mono">{ev.type === 'http' ? formatBytes(d.bodyBytes) : '—'}</span>
                   <span className="col-time mono">{dur != null ? `${dur} ms` : new Date(ev.ts).toLocaleTimeString()}</span>
                 </button>
@@ -328,6 +396,13 @@ export default function Inspector() {
         <label className="form-check">
           <input type="checkbox" checked={capture} onChange={toggleCapture} />
           <span>Capture</span>
+        </label>
+        <label
+          className="form-check"
+          title="Strip conditional request headers so origins return full bodies (not 304)"
+        >
+          <input type="checkbox" checked={forceDisableCache} onChange={toggleForceDisableCache} />
+          <span>No cache</span>
         </label>
         <span className="insp-status-sep" />
         <span>{rows.length} events{filter ? ` · ${httpCount} http` : httpCount !== rows.length ? ` · ${httpCount} http` : ''}</span>

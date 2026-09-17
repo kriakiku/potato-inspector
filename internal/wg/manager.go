@@ -433,7 +433,18 @@ func hexToBase64(hexKey string) (string, error) {
 }
 
 func EnableForwarding() error {
-	return os.WriteFile("/proc/sys/net/ipv4/ip_forward", []byte("1\n"), 0o644)
+	const path = "/proc/sys/net/ipv4/ip_forward"
+	if b, err := os.ReadFile(path); err == nil && strings.TrimSpace(string(b)) == "1" {
+		return nil
+	}
+	if err := os.WriteFile(path, []byte("1\n"), 0o644); err != nil {
+		// Docker often mounts this read-only after setting it via compose sysctls.
+		if b, rerr := os.ReadFile(path); rerr == nil && strings.TrimSpace(string(b)) == "1" {
+			return nil
+		}
+		return fmt.Errorf("enable ip_forward: %w (set net.ipv4.ip_forward=1 via compose sysctls or host)", err)
+	}
+	return nil
 }
 
 func SetupNAT(subnet, uplink string) error {

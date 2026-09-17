@@ -3,6 +3,7 @@ import Dashboard from './pages/Dashboard'
 import WireGuard from './pages/WireGuard'
 import Profiles from './pages/Profiles'
 import Baseline from './pages/Baseline'
+import Ignore from './pages/Ignore'
 import Mitm from './pages/Mitm'
 import Inspector from './pages/Inspector'
 
@@ -11,6 +12,7 @@ const tabs = [
   { to: '/inspector', label: 'Inspector' },
   { to: '/profiles', label: 'Profiles' },
   { to: '/baseline', label: 'Baseline' },
+  { to: '/ignore', label: 'Ignore' },
   { to: '/mitm', label: 'MITM' },
   { to: '/wireguard', label: 'WireGuard' },
 ]
@@ -42,6 +44,7 @@ export default function App() {
           <Route path="/inspector" element={<Inspector />} />
           <Route path="/profiles" element={<Profiles />} />
           <Route path="/baseline" element={<Baseline />} />
+          <Route path="/ignore" element={<Ignore />} />
           <Route path="/mitm" element={<Mitm />} />
           <Route path="/wireguard" element={<WireGuard />} />
           <Route path="/peers" element={<Navigate to="/wireguard" replace />} />

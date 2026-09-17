@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { api } from '../api'
 import RegexEditorModal from '../components/RegexEditorModal'
 import { notifyError, notifySuccess } from '../toast'
 
 export default function Mitm() {
   const [data, setData] = useState(null)
-  const [bypass, setBypass] = useState('')
   const [regexEdit, setRegexEdit] = useState(null)
+  const [busy, setBusy] = useState(false)
 
   async function load() {
-    const d = await api('/api/mitm')
-    setData(d)
-    setBypass((d.bypassSni || []).join('\n'))
+    setData(await api('/api/mitm'))
   }
 
   useEffect(() => { load().catch((e) => notifyError(e.message)) }, [])
@@ -22,8 +21,6 @@ export default function Mitm() {
       await api('/api/mitm', {
         method: 'PUT',
         body: {
-          enabled: next.enabled,
-          bypassSni: bypass.split('\n').map((s) => s.trim()).filter(Boolean),
           rules: next.rules,
           extraDelayMs: next.extraDelayMs,
           forceDisableCache: next.forceDisableCache,
@@ -33,6 +30,22 @@ export default function Mitm() {
       await load()
     } catch (e) {
       notifyError(e.message)
+    }
+  }
+
+  async function regenerateCA() {
+    if (!confirm('Regenerate CA? All clients must re-install the new certificate. MITM will restart briefly.')) {
+      return
+    }
+    setBusy(true)
+    try {
+      const res = await api('/api/mitm/ca/regenerate', { method: 'POST', body: {} })
+      notifySuccess(res.note || 'CA regenerated — download and re-install on clients')
+      await load()
+    } catch (e) {
+      notifyError(e.message)
+    } finally {
+      setBusy(false)
     }
   }
 
@@ -58,21 +71,31 @@ export default function Mitm() {
       <h1>MITM</h1>
       <p className="lead">
         Transparent MITM decrypts HTTPS on this tunnel for path-based extra delay and the inspector.
-        Install the CA on phones/laptops. UniFi as WG client does not install the CA.
-        Cert pinning will fail unless the SNI is bypassed. UDP/443 (QUIC) is dropped when MITM is on.
+        MITM stays on whenever WireGuard is up.
       </p>
 
       <div className="panel-box">
         <div className="row">
-          <button className="primary" onClick={() => save({ enabled: !data.enabled })}>
-            {data.enabled ? 'Disable MITM' : 'Enable MITM'}
-          </button>
           <a href="/api/mitm/ca.crt" download="potatoinspector-ca.crt">
-            <button type="button">Download CA cert</button>
+            <button type="button" className="primary">Download CA cert</button>
           </a>
-          <span className="badge">{data.running ? 'proxy running' : 'proxy stopped'}</span>
+          <button
+            type="button"
+            className="danger"
+            disabled={busy}
+            onClick={regenerateCA}
+          >
+            {busy ? 'Regenerating…' : 'Regenerate CA'}
+          </button>
+          <span className="badge">{data.running ? 'proxy running' : 'proxy starting…'}</span>
         </div>
         <p className="muted" style={{ marginTop: 10 }}>
+          MITM is always on for this tunnel (QUIC/UDP 443 dropped). Install and trust the CA on phones/laptops.
+          UniFi as WG client does not install the CA. After regenerating, remove the old CA and install the new one.
+          Apps with cert pinning will fail unless their domains are on the{' '}
+          <Link to="/ignore">Ignore</Link> list (no MITM decrypt + no last-mile delay).
+        </p>
+        <p className="muted" style={{ marginTop: 6 }}>
           iOS: Settings → General → VPN & Device Management → install profile, then enable full trust under Certificate Trust Settings.
           Android: install CA as user cert (varies by OEM); some apps ignore user CAs.
         </p>
@@ -181,13 +204,6 @@ export default function Mitm() {
           })}>Add rule</button>
           <button className="primary" onClick={() => save({})}>Save rules</button>
         </div>
-      </div>
-
-      <div className="panel-box">
-        <label className="muted">Bypass SNI (one per line — no MITM, for pinned apps)
-          <textarea rows={4} style={{ marginTop: 6 }} value={bypass} onChange={(e) => setBypass(e.target.value)} />
-        </label>
-        <button style={{ marginTop: 8 }} className="primary" onClick={() => save({})}>Save bypass</button>
       </div>
 
       <RegexEditorModal

@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/potatoinspector/potato-inspector/internal/flows"
+	"github.com/potatoinspector/potato-inspector/internal/ignore"
 )
 
 type Server struct {
@@ -21,16 +22,17 @@ type Server struct {
 	wgIface  string
 	enabled  bool
 	stopCh   chan struct{}
+	ignore   *ignore.Runtime
 }
 
-func New(fw *flows.Writer, upstream, wgIface string) *Server {
+func New(fw *flows.Writer, upstream, wgIface string, ign *ignore.Runtime) *Server {
 	if upstream == "" {
 		upstream = "1.1.1.1:53"
 	}
 	if !strings.Contains(upstream, ":") {
 		upstream = upstream + ":53"
 	}
-	return &Server{flows: fw, upstream: upstream, wgIface: wgIface}
+	return &Server{flows: fw, upstream: upstream, wgIface: wgIface, ignore: ign}
 }
 
 func (s *Server) Enabled() bool {
@@ -141,6 +143,9 @@ func (s *Server) handleUDP(query []byte, addr *net.UDPAddr) {
 		},
 	})
 	if err == nil {
+		if s.ignore != nil {
+			s.ignore.ObserveDNS(qname, answers)
+		}
 		_, _ = s.udpConn.WriteToUDP(resp, addr)
 	}
 }
@@ -193,6 +198,9 @@ func (s *Server) handleTCP(conn net.Conn) {
 	})
 	if err != nil {
 		return
+	}
+	if s.ignore != nil {
+		s.ignore.ObserveDNS(qname, answers)
 	}
 	binary.BigEndian.PutUint16(lenBuf[:], uint16(len(resp)))
 	_, _ = conn.Write(lenBuf[:])

@@ -16,6 +16,7 @@ import (
 	"github.com/potatoinspector/potato-inspector/internal/catalog"
 	"github.com/potatoinspector/potato-inspector/internal/dnsfwd"
 	"github.com/potatoinspector/potato-inspector/internal/flows"
+	"github.com/potatoinspector/potato-inspector/internal/ignore"
 	"github.com/potatoinspector/potato-inspector/internal/mitm"
 	"github.com/potatoinspector/potato-inspector/internal/profiles"
 	"github.com/potatoinspector/potato-inspector/internal/shape"
@@ -31,13 +32,14 @@ type Server struct {
 	Catalog         *catalog.Manager
 	MITM            *mitm.Manager
 	DNS             *dnsfwd.Server
+	Ignore          *ignore.Runtime
 	Flows           *flows.Writer
 	Static          fs.FS
 	PanelPort       int
 	RadarCatalogURL string
 }
 
-func New(st *store.Store, wgm *wg.Manager, sh *shape.Manager, pr *profiles.Registry, cat *catalog.Manager, mm *mitm.Manager, dns *dnsfwd.Server, fw *flows.Writer, static fs.FS, panelPort int, radarURL string) *Server {
+func New(st *store.Store, wgm *wg.Manager, sh *shape.Manager, pr *profiles.Registry, cat *catalog.Manager, mm *mitm.Manager, dns *dnsfwd.Server, ign *ignore.Runtime, fw *flows.Writer, static fs.FS, panelPort int, radarURL string) *Server {
 	return &Server{
 		Store:           st,
 		WG:              wgm,
@@ -46,6 +48,7 @@ func New(st *store.Store, wgm *wg.Manager, sh *shape.Manager, pr *profiles.Regis
 		Catalog:         cat,
 		MITM:            mm,
 		DNS:             dns,
+		Ignore:          ign,
 		Flows:           fw,
 		Static:          static,
 		PanelPort:       panelPort,
@@ -66,8 +69,10 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("/api/catalog/refresh", s.handleCatalogRefresh)
 	mux.HandleFunc("/api/catalog/probe", s.handleCatalogProbe)
 	mux.HandleFunc("/api/catalog/baseline", s.handleCatalogBaseline)
+	mux.HandleFunc("/api/ignore", s.handleIgnore)
 	mux.HandleFunc("/api/mitm", s.handleMITM)
 	mux.HandleFunc("/api/mitm/ca.crt", s.handleCA)
+	mux.HandleFunc("/api/mitm/ca/regenerate", s.handleCARegenerate)
 	mux.HandleFunc("/api/mitm/test-regex", s.handleTestRegex)
 	mux.HandleFunc("/api/inspector", s.handleInspector)
 	mux.HandleFunc("/api/inspector/stream", s.handleInspectorStream)
@@ -140,7 +145,9 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		"activeCountry":    st.ActiveCountry,
 		"activeTier":       st.ActiveTier,
 		"profile":          prof,
-		"mitmEnabled":      st.MITMEnabled && s.MITM.Enabled(),
+		"mitmEnabled":      s.MITM.Enabled(),
+		"forceDisableCache": st.ForceDisableCache,
+		"systemIgnoreEnabled": st.SystemIgnoreEnabled,
 		"captureEnabled":   st.CaptureEnabled,
 		"captureCapacity":  s.Flows.Capacity(),
 		"dnsIntercept":     st.DNSIntercept && s.DNS.Enabled(),
@@ -157,16 +164,9 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		"hostRttPinned":    st.HostRttPinned,
 		"favoriteCountries": st.FavoriteCountries,
 		"appliedDelayMs":   prof.DelayMs,
-		"noteMitmOff":      !st.MITMEnabled,
 		"inspectorNote": func() string {
-			if !st.MITMEnabled {
-				if st.DNSIntercept {
-					if s.DNS.Enabled() {
-						return "MITM off: HTTP/TLS bodies unavailable. DNS logging is active (port 53 intercept)."
-					}
-					return "MITM off: HTTP/TLS bodies unavailable. DNS intercept is configured but not running (needs WG/TUN)."
-				}
-				return "MITM off: HTTP/TLS inspector idle. DNS intercept is off."
+			if !s.MITM.Enabled() {
+				return "MITM proxy not running yet (needs WireGuard/TUN). Capture will show DNS only until MITM starts."
 			}
 			return "MITM on: HTTP, TLS, and DNS events available when capture is on."
 		}(),
@@ -603,17 +603,103 @@ func (s *Server) applyCatalog(country, tier string, probe bool) (profiles.Profil
 	return prof, hostRtt, nil
 }
 
+func (s *Server) handleIgnore(w http.ResponseWriter, r *http.Request) {
+	st, err := s.Store.LoadSettings()
+	if err != nil {
+		writeJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	switch r.Method {
+	case http.MethodGet:
+		custom := st.CustomIgnore
+		if custom == nil {
+			custom = []ignore.CustomEntry{}
+		}
+		writeJSON(w, 200, map[string]any{
+			"enabled":    st.SystemIgnoreEnabled,
+			"domains":    ignore.Domains(),
+			"custom":     custom,
+			"customText": ignore.FormatCustomHosts(custom),
+		})
+	case http.MethodPut:
+		var body struct {
+			Enabled    *bool                 `json:"enabled"`
+			Custom     *[]ignore.CustomEntry `json:"custom"`
+			CustomText *string               `json:"customText"`
+		}
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+			writeJSON(w, 400, map[string]string{"error": "bad json"})
+			return
+		}
+		if body.Enabled == nil && body.Custom == nil && body.CustomText == nil {
+			writeJSON(w, 400, map[string]string{"error": "enabled, custom, or customText required"})
+			return
+		}
+		if body.Enabled != nil {
+			st.SystemIgnoreEnabled = *body.Enabled
+		}
+		if body.CustomText != nil {
+			validated, err := ignore.ParseCustomHosts(*body.CustomText)
+			if err != nil {
+				writeJSON(w, 400, map[string]string{"error": err.Error()})
+				return
+			}
+			st.CustomIgnore = validated
+		} else if body.Custom != nil {
+			validated, err := ignore.ValidateCustom(*body.Custom)
+			if err != nil {
+				writeJSON(w, 400, map[string]string{"error": err.Error()})
+				return
+			}
+			st.CustomIgnore = validated
+		}
+		if err := s.Store.SaveSettings(st); err != nil {
+			writeJSON(w, 500, map[string]string{"error": err.Error()})
+			return
+		}
+		if s.Ignore != nil {
+			s.Ignore.SetSystemEnabled(st.SystemIgnoreEnabled)
+			s.Ignore.SetCustom(st.CustomIgnore)
+		}
+		if s.Shape != nil {
+			active := st.SystemIgnoreEnabled
+			if !active {
+				for _, e := range st.CustomIgnore {
+					if e.Enabled {
+						active = true
+						break
+					}
+				}
+			}
+			s.Shape.SetIgnoreExempt(active)
+		}
+		_ = s.MITM.ReloadConfig()
+		custom := st.CustomIgnore
+		if custom == nil {
+			custom = []ignore.CustomEntry{}
+		}
+		writeJSON(w, 200, map[string]any{
+			"ok":         true,
+			"enabled":    st.SystemIgnoreEnabled,
+			"domains":    ignore.Domains(),
+			"custom":     custom,
+			"customText": ignore.FormatCustomHosts(custom),
+		})
+	default:
+		http.Error(w, "method", http.StatusMethodNotAllowed)
+	}
+}
+
 func (s *Server) handleMITM(w http.ResponseWriter, r *http.Request) {
 	st, _ := s.Store.LoadSettings()
 	rules, _ := s.Store.LoadMITMRules()
 	switch r.Method {
 	case http.MethodGet:
 		writeJSON(w, 200, map[string]any{
-			"enabled":           st.MITMEnabled,
+			"enabled":           true,
 			"extraDelayMs":      st.ExtraDelayMs,
 			"forceDisableCache": st.ForceDisableCache,
 			"rules":             rules.Rules,
-			"bypassSni":         rules.BypassSNI,
 			"running":           s.MITM.Enabled(),
 			"destinations": func() map[string]any {
 				if s.Catalog == nil {
@@ -629,11 +715,9 @@ func (s *Server) handleMITM(w http.ResponseWriter, r *http.Request) {
 		})
 	case http.MethodPut:
 		var body struct {
-			Enabled           *bool            `json:"enabled"`
 			ExtraDelayMs      *int             `json:"extraDelayMs"`
 			ForceDisableCache *bool            `json:"forceDisableCache"`
 			Rules             []store.MITMRule `json:"rules"`
-			BypassSNI         []string         `json:"bypassSni"`
 		}
 		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 			writeJSON(w, 400, map[string]string{"error": "bad json"})
@@ -648,18 +732,11 @@ func (s *Server) handleMITM(w http.ResponseWriter, r *http.Request) {
 		if body.Rules != nil {
 			rules.Rules = body.Rules
 		}
-		if body.BypassSNI != nil {
-			rules.BypassSNI = body.BypassSNI
-		}
-		if body.Enabled != nil {
-			st.MITMEnabled = *body.Enabled
-			if *body.Enabled {
-				if err := s.MITM.Start(); err != nil {
-					writeJSON(w, 500, map[string]string{"error": err.Error()})
-					return
-				}
-			} else {
-				_ = s.MITM.Stop()
+		st.MITMEnabled = true
+		if !s.MITM.Enabled() {
+			if err := s.MITM.Start(); err != nil {
+				writeJSON(w, 500, map[string]string{"error": err.Error()})
+				return
 			}
 		}
 		_ = s.Store.SaveSettings(st)
@@ -669,6 +746,27 @@ func (s *Server) handleMITM(w http.ResponseWriter, r *http.Request) {
 	default:
 		http.Error(w, "method", http.StatusMethodNotAllowed)
 	}
+}
+
+func (s *Server) handleCARegenerate(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "method", http.StatusMethodNotAllowed)
+		return
+	}
+	path, err := s.MITM.RegenerateCA()
+	if err != nil {
+		writeJSON(w, 500, map[string]string{"error": err.Error()})
+		return
+	}
+	st, _ := s.Store.LoadSettings()
+	st.MITMEnabled = true
+	_ = s.Store.SaveSettings(st)
+	writeJSON(w, 200, map[string]any{
+		"ok":      true,
+		"running": s.MITM.Enabled(),
+		"caPath":  path,
+		"note":    "Re-install the new CA on clients; old CA is invalid.",
+	})
 }
 
 func (s *Server) handleCA(w http.ResponseWriter, r *http.Request) {

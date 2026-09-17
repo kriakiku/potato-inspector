@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api'
+import { DestLabel } from '../destIcons'
 import { notifyError, notifySuccess } from '../toast'
 
 export default function Baseline() {
@@ -105,7 +106,7 @@ export default function Baseline() {
             {(data.destinations || []).map((row) => (
               <tr key={row.id}>
                 <td className="mono">{row.id}</td>
-                <td>{row.label || '—'}</td>
+                <td><DestLabel id={row.id} label={row.label || '—'} /></td>
                 <td className="mono" style={{ fontSize: '0.85rem' }}>{row.target || '—'}</td>
                 <td>
                   <input

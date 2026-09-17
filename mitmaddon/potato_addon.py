@@ -20,12 +20,10 @@ class PotatoAddon:
             "extraDelayMs": 180,
             "forceDisableCache": False,
             "rules": [],
-            "bypassSni": [],
             "eventsURL": "http://127.0.0.1:9477/event",
             "capture": True,
         }
         self._compiled = []
-        self._bypass = []
 
     def load(self, loader):
         loader.add_option(
@@ -61,7 +59,35 @@ class PotatoAddon:
                 )
             except re.error as e:
                 ctx.log.warn(f"bad rule regex: {e}")
-        self._bypass = [s.lower() for s in (self.config.get("bypassSni") or [])]
+        self._system_ignore = bool(self.config.get("systemIgnoreEnabled", True))
+        self._system_domains = [
+            str(d).lower().strip().rstrip(".")
+            for d in (self.config.get("systemIgnoreDomains") or [])
+            if d
+        ]
+        self._custom_domains = []
+        for e in self.config.get("customIgnore") or []:
+            if not isinstance(e, dict) or not e.get("enabled", False):
+                continue
+            d = str(e.get("domain") or "").lower().strip().rstrip(".")
+            if d.startswith("*."):
+                d = d[2:]
+            if d:
+                self._custom_domains.append(d)
+
+    def _suffix_match(self, host: str, domains) -> bool:
+        if not host or not domains:
+            return False
+        h = host.lower().strip().rstrip(".")
+        for d in domains:
+            if h == d or h.endswith("." + d):
+                return True
+        return False
+
+    def _ignore_match(self, host: str) -> bool:
+        if self._system_ignore and self._suffix_match(host, self._system_domains):
+            return True
+        return self._suffix_match(host, self._custom_domains)
 
     def _emit(self, typ: str, summary: str, detail: dict):
         try:
@@ -102,13 +128,11 @@ class PotatoAddon:
             sni = data.client_hello.sni or ""
         except Exception:
             pass
-        if sni and sni.lower() in self._bypass:
+        if not sni:
+            return
+        sni_l = sni.lower()
+        if self._ignore_match(sni_l):
             data.ignore_connection = True
-            self._emit(
-                "tls",
-                f"TLS bypass SNI={sni}",
-                {"sni": sni, "bypassed": True, "ok": True},
-            )
             return
 
     def tls_established_client(self, data: tls.TlsData):

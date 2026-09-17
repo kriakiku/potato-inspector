@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"net/http"
@@ -13,6 +14,7 @@ import (
 	"github.com/potatoinspector/potato-inspector/internal/config"
 	"github.com/potatoinspector/potato-inspector/internal/dnsfwd"
 	"github.com/potatoinspector/potato-inspector/internal/flows"
+	"github.com/potatoinspector/potato-inspector/internal/ignore"
 	"github.com/potatoinspector/potato-inspector/internal/mitm"
 	"github.com/potatoinspector/potato-inspector/internal/panel"
 	"github.com/potatoinspector/potato-inspector/internal/profiles"
@@ -59,7 +61,10 @@ func main() {
 		log.Fatal(err)
 	}
 
+	ign := ignore.NewRuntime(settings.SystemIgnoreEnabled, settings.CustomIgnore)
 	shaper := shape.New(cfg.WGIface)
+	shaper.SetIgnoreExempt(ign.Active())
+
 	addonDir := getenv("POTATOINSPECTOR_ADDON", "/app/mitmaddon")
 	if _, err := os.Stat(addonDir); err != nil {
 		if _, err2 := os.Stat("mitmaddon"); err2 == nil {
@@ -69,7 +74,7 @@ func main() {
 	mm := mitm.New(st, fw, cat, addonDir, cfg.WGIface)
 	_, _, _ = mm.EnsureCA()
 
-	dns := dnsfwd.New(fw, settings.ClientDNS, cfg.WGIface)
+	dns := dnsfwd.New(fw, settings.ClientDNS, cfg.WGIface, ign)
 
 	wgOK := false
 	if err := wgm.Start(); err != nil {
@@ -108,14 +113,15 @@ func main() {
 				log.Printf("WARN: DNS intercept: %v", err)
 			}
 		}
-		if settings.MITMEnabled {
-			if err := mm.Start(); err != nil {
-				log.Printf("WARN: MITM start: %v", err)
-			}
+		if err := mm.Start(); err != nil {
+			log.Printf("WARN: MITM start: %v", err)
+		} else {
+			settings.MITMEnabled = true
+			_ = st.SaveSettings(settings)
 		}
 	}
 
-	srv := panel.New(st, wgm, shaper, reg, cat, mm, dns, fw, web.FS(), cfg.PanelPort, cfg.RadarCatalogURL)
+	srv := panel.New(st, wgm, shaper, reg, cat, mm, dns, ign, fw, web.FS(), cfg.PanelPort, cfg.RadarCatalogURL)
 
 	addr := fmt.Sprintf(":%d", cfg.PanelPort)
 	httpServer := &http.Server{Addr: addr, Handler: srv.Handler()}
@@ -133,6 +139,7 @@ func main() {
 	log.Println("shutting down")
 	_ = mm.Stop()
 	dns.Stop()
+	ignore.ClearMangle()
 	wgm.Stop()
 	_ = httpServer.Close()
 }
@@ -153,6 +160,7 @@ func ensureHostRtt(cat *catalog.Manager, st *store.Store, settings *store.Settin
 
 func loadOrInitSettings(st *store.Store, cfg config.Config) (store.Settings, error) {
 	if store.Exists(st.SettingsPath()) {
+		raw, _ := os.ReadFile(st.SettingsPath())
 		settings, err := st.LoadSettings()
 		if err != nil {
 			return settings, err
@@ -164,6 +172,19 @@ func loadOrInitSettings(st *store.Store, cfg config.Config) (store.Settings, err
 		}
 		if settings.ActiveTier == "" {
 			settings.ActiveTier = "typical"
+			changed = true
+		}
+		if !settings.MITMEnabled {
+			settings.MITMEnabled = true
+			changed = true
+		}
+		// Older settings lacked the key → default on
+		if !bytes.Contains(raw, []byte("systemIgnoreEnabled")) {
+			settings.SystemIgnoreEnabled = true
+			changed = true
+		}
+		if !bytes.Contains(raw, []byte("customIgnore")) {
+			settings.CustomIgnore = ignore.DefaultCustom()
 			changed = true
 		}
 		if changed {

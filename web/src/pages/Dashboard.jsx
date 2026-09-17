@@ -50,6 +50,14 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="stat">
+          <div className="label">System ignore</div>
+          <div className="value">
+            {st.systemIgnoreEnabled ? 'on' : 'off'}
+            {' '}
+            <Link to="/ignore" style={{ fontSize: '0.75rem', fontWeight: 500 }}>Ignore</Link>
+          </div>
+        </div>
+        <div className="stat">
           <div className="label">MITM</div>
           <div className="value">{st.mitmEnabled ? 'on' : 'off'}</div>
         </div>

@@ -6,6 +6,7 @@ import {
   tierLabel,
   TOO_CLOSE_TOOLTIP,
 } from '../countries'
+import { DestLabel } from '../destIcons'
 import { notifyError, notifySuccess } from '../toast'
 
 const TIERS = ['stable', 'typical', 'poor']
@@ -169,7 +170,7 @@ export default function Profiles() {
                     <tbody>
                       {destIds.map((d) => (
                         <tr key={d}>
-                          <td>{catalog.destinations[d]?.label || d}</td>
+                          <td><DestLabel id={d} label={catalog.destinations[d]?.label || d} /></td>
                           {TIERS.map((t) => (
                             <td key={t} className="mono">{c.tiers?.[t]?.rttToDest?.[d] ?? '—'} ms</td>
                           ))}

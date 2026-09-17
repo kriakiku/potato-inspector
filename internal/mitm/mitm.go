@@ -20,6 +20,7 @@ import (
 
 	"github.com/potatoinspector/potato-inspector/internal/catalog"
 	"github.com/potatoinspector/potato-inspector/internal/flows"
+	"github.com/potatoinspector/potato-inspector/internal/ignore"
 	"github.com/potatoinspector/potato-inspector/internal/store"
 )
 
@@ -61,6 +62,42 @@ func (m *Manager) EnsureCA() (certPath, keyPath string, err error) {
 	if store.Exists(certPath) && store.Exists(keyPath) {
 		return certPath, keyPath, nil
 	}
+	return m.writeNewCA(dir, certPath, keyPath)
+}
+
+// RegenerateCA replaces the CA keypair, clears cached leaf material, and restarts MITM.
+func (m *Manager) RegenerateCA() (certPath string, err error) {
+	_ = m.Stop()
+	dir := m.store.CADir()
+	_ = os.MkdirAll(dir, 0o755)
+	for _, name := range []string{
+		"ca.crt", "ca.key",
+		"mitmproxy-ca.pem", "mitmproxy-ca-cert.pem", "mitmproxy-ca-cert.p12", "mitmproxy-ca-cert.cer",
+	} {
+		_ = os.Remove(filepath.Join(dir, name))
+	}
+	// Leaf certs mitmproxy may have cached under confdir.
+	entries, _ := os.ReadDir(dir)
+	for _, e := range entries {
+		if e.IsDir() {
+			continue
+		}
+		n := e.Name()
+		if filepath.Ext(n) == ".pem" || filepath.Ext(n) == ".crt" {
+			_ = os.Remove(filepath.Join(dir, n))
+		}
+	}
+	certPath, _, err = m.writeNewCA(dir, filepath.Join(dir, "ca.crt"), filepath.Join(dir, "ca.key"))
+	if err != nil {
+		return "", err
+	}
+	if err := m.Start(); err != nil {
+		return certPath, err
+	}
+	return certPath, nil
+}
+
+func (m *Manager) writeNewCA(dir, certPath, keyPath string) (string, string, error) {
 	if err := os.MkdirAll(dir, 0o755); err != nil {
 		return "", "", err
 	}
@@ -68,8 +105,12 @@ func (m *Manager) EnsureCA() (certPath, keyPath string, err error) {
 	if err != nil {
 		return "", "", err
 	}
+	serial, err := rand.Int(rand.Reader, big.NewInt(1<<62))
+	if err != nil {
+		serial = big.NewInt(time.Now().UnixNano())
+	}
 	tmpl := &x509.Certificate{
-		SerialNumber: big.NewInt(1),
+		SerialNumber: serial,
 		Subject: pkix.Name{
 			CommonName:   "PotatoInspector CA",
 			Organization: []string{"PotatoInspector"},
@@ -171,12 +212,14 @@ func (m *Manager) writeRuntimeConfig() (string, error) {
 		return "", err
 	}
 	cfg := map[string]any{
-		"extraDelayMs":      settings.ExtraDelayMs,
-		"forceDisableCache": settings.ForceDisableCache,
-		"rules":             rules.Rules,
-		"bypassSni":         rules.BypassSNI,
-		"eventsURL":         "http://" + IngestAddr + "/event",
-		"capture":           settings.CaptureEnabled,
+		"extraDelayMs":        settings.ExtraDelayMs,
+		"forceDisableCache":   settings.ForceDisableCache,
+		"rules":               rules.Rules,
+		"systemIgnoreEnabled": settings.SystemIgnoreEnabled,
+		"systemIgnoreDomains": ignore.Domains(),
+		"customIgnore":        settings.CustomIgnore,
+		"eventsURL":           "http://" + IngestAddr + "/event",
+		"capture":             settings.CaptureEnabled,
 	}
 	if m.catalog != nil {
 		country := settings.ActiveCountry

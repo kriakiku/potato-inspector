@@ -84,7 +84,7 @@ Atomic JSON writes (temp + rename):
 - `settings.json` — WG endpoint, subnet, uplink, active profile, MITM, extra delay, capture, DNS intercept
 - `peers.json` — WireGuard peers
 - `profiles/catalog.json` — pulled Radar+CloudPing country catalog (also embedded)
-- `mitm-rules.json` — path/host regex, bypass SNI
+- `mitm-rules.json` — path/host regex rules
 - `ca/` — MITM CA cert + key
 
 Inspector events (HTTP / TLS / DNS) stay in an in-memory ring (~2000 events); they are not written under `/data`.
@@ -98,6 +98,7 @@ Primary model: **country + speed tier** from the Radar catalog (`Profiles` page 
 - Destinations: `cf` (Cloudflare Edge) plus selected AWS regions (`aws-eu-central-1`, `aws-us-east-1`, …).
 - Host baseline probes subtract your container’s RTT to CF / AWS endpoints when applying a profile.
 - MITM path rules pick a dest; extra delay is the path delta vs CF (one-way), on top of last-mile netem.
+- **System ignore** (Ignore page): builtin Google/Apple/Microsoft domains skip MITM and last-mile delay (DNS→ipset); master toggle.
 - Refresh: Profiles → “Update catalog from GitHub”, or weekly `.github/workflows/radar-profiles.yml`.
 
 Delay is **one-way** ms. RTT ≈ 2×. Bandwidth is **download** (internet→client) / **upload** (client→internet).
@@ -113,19 +114,18 @@ Legacy built-in shaping IDs remain for boot fallback only; the panel uses the co
 
 ## MITM + inspector
 
-When MITM is **on**:
+MITM is **always on** when WireGuard is up:
 
 - Last-mile netem still applies to every packet (including TLS handshake).
 - Matching path rules add **extra** delay from dest path delta vs CF (plus optional global extra / override) inside the proxy after decrypt — not a second netem path (HTTP/2 one connection).
 - Inspector shows HTTP exchanges and TLS handshake rows (SNI, version, ALPN, leaf CN/SAN).
 - UDP/443 (QUIC) is **dropped** so clients fall back to TCP/TLS through MITM.
 - Download the CA from the MITM page; install and trust on the phone/laptop. UniFi WG client does **not** install the CA.
-
-When MITM is **off**: HTTPS works via NAT + netem; HTTP/TLS inspector is idle. DNS logging still works if port 53 intercept stays on (Settings).
+- **Regenerate CA** issues a new root; re-install on all clients (old CA stops working).
 
 DoH appears as HTTPS `/dns-query` when those hosts are MITM’d.
 
-**Cert pinning** fails unless the SNI is on the bypass list.
+**Cert pinning** fails unless the domain is on the **Ignore** list (custom hosts-style entries).
 
 ## Limitation blurb
 
@@ -137,7 +137,8 @@ Last-mile shaping hits every packet the same, including TLS handshake. After the
 - **Peers** — add, QR, `.conf`, revoke
 - **Profiles** — country catalog (Radar + CloudPing), favorites, apply tiers, pull refresh
 - **Baseline** — host RTT to CF/AWS: test, save; persists in settings
-- **MITM** — enable, path rules (dest = cf / aws-…), extra delay, bypass, CA download
+- **Ignore** — builtin OS/vendor pack + custom hosts (MITM skip + delay exemption); pinned apps go here
+- **MITM** — path rules (dest = cf / aws-…), extra delay, CA download / regenerate
 - **Inspector** — DevTools-style network + country/speed status bar
 - **Settings** — public WG endpoint, DNS intercept, capture
 

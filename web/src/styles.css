@@ -112,7 +112,7 @@ input[type="checkbox"]:checked {
   border-color: var(--accent-dim);
 }
 input[type="checkbox"]:checked::before {
-  transform: scale(1);
+  transform: rotate(45deg) scale(1);
 }
 input[type="checkbox"]:disabled {
   opacity: 0.45;
@@ -499,7 +499,7 @@ h1 {
 }
 .net-list-head {
   display: grid;
-  grid-template-columns: 56px 64px minmax(0, 1fr) 64px 64px 72px;
+  grid-template-columns: 56px 64px minmax(0, 1fr) 64px 72px;
   gap: 0.35rem;
   padding: 0.55rem 0.75rem;
   border-bottom: 1px solid var(--line);
@@ -519,7 +519,7 @@ h1 {
 }
 .net-row {
   display: grid;
-  grid-template-columns: 56px 64px minmax(0, 1fr) 64px 64px 72px;
+  grid-template-columns: 56px 64px minmax(0, 1fr) 64px 72px;
   gap: 0.35rem;
   width: 100%;
   text-align: left;
@@ -527,9 +527,10 @@ h1 {
   border-bottom: 1px solid rgba(45, 61, 50, 0.55);
   border-radius: 0;
   background: transparent;
-  padding: 0.45rem 0.75rem;
-  align-items: center;
+  padding: 0.5rem 0.75rem;
+  align-items: start;
   font-size: 0.82rem;
+  min-height: 2.75rem;
 }
 .net-row:hover {
   background: var(--bg2);
@@ -538,23 +539,98 @@ h1 {
   background: rgba(196, 232, 106, 0.1);
   box-shadow: inset 3px 0 0 var(--accent);
 }
-.net-name {
+.net-url-full {
   display: block;
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: var(--text);
 }
-.net-url {
-  display: block;
+.net-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.45rem;
+  margin-top: 0.3rem;
+}
+.net-cdn {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+.cdn-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  padding: 0.12rem 0.4rem 0.12rem 0.28rem;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: var(--bg1);
+  font-size: 0.68rem;
+  font-family: var(--mono);
+  line-height: 1.2;
+  color: var(--text);
+  max-width: 100%;
+}
+.cdn-logo {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex-shrink: 0;
+}
+.dest-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.dest-logo {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+.dest-logo-cf { color: #f6821f; }
+.dest-logo-aws { color: #ff9900; }
+.cdn-chip.cf .cdn-logo { color: #f6821f; }
+.cdn-chip.cloudfront .cdn-logo { color: #ff9900; }
+.cdn-chip.cf.hit {
+  border-color: color-mix(in srgb, #3dd68c 45%, var(--line));
+  background: color-mix(in srgb, #3dd68c 14%, var(--bg1));
+  color: #9aefc0;
+}
+.cdn-chip.cf.miss {
+  border-color: color-mix(in srgb, #f0a020 45%, var(--line));
+  background: color-mix(in srgb, #f0a020 14%, var(--bg1));
+  color: #ffd08a;
+}
+.cdn-chip.cf.stale {
+  border-color: color-mix(in srgb, #e8c84a 45%, var(--line));
+  background: color-mix(in srgb, #e8c84a 14%, var(--bg1));
+  color: #f0e08a;
+}
+.cdn-chip.cf.reval {
+  border-color: color-mix(in srgb, #5b9fd4 45%, var(--line));
+  background: color-mix(in srgb, #5b9fd4 14%, var(--bg1));
+  color: #9bc9ef;
+}
+.cdn-chip.cf.bypass,
+.cdn-chip.cf.dynamic,
+.cdn-chip.cf.unknown {
+  border-color: var(--line);
   color: var(--muted);
-  font-size: 0.72rem;
-  white-space: nowrap;
+}
+.cdn-chip-text {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 12rem;
 }
 .col-name { min-width: 0; }
 .col-status, .col-method, .col-size, .col-time { font-variant-numeric: tabular-nums; }
+.col-status, .col-method { padding-top: 0.15rem; }
+.col-size, .col-time { padding-top: 0.15rem; justify-self: start; }
 .net-empty {
   padding: 2rem 1rem;
   text-align: center;
@@ -750,6 +826,30 @@ h1 {
 .form-hint {
   color: var(--muted);
   font-size: 0.78rem;
+}
+.ignore-domain-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  columns: 2;
+  column-gap: 1.5rem;
+}
+@media (max-width: 700px) {
+  .ignore-domain-list { columns: 1; }
+}
+.ignore-hosts {
+  width: 100%;
+  min-height: 12rem;
+  resize: vertical;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  tab-size: 2;
+}
+.ignore-domain-error {
+  color: #c45c5c;
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
 }
 .form-check {
   display: flex;
