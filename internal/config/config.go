@@ -7,13 +7,12 @@ import (
 )
 
 type Config struct {
-	DataDir  string
-	WGSubnet string
-	WGPort   int
+	DataDir   string
+	WGSubnet  string
+	WGPort    int
 	PanelPort int
-	Uplink   string
-	WGIface  string
-	Password string // bootstrap password from env (only used if no hash yet)
+	Uplink    string
+	WGIface   string
 }
 
 func FromEnv() Config {
@@ -24,7 +23,6 @@ func FromEnv() Config {
 		PanelPort: getenvInt("POTATOINSPECTOR_PANEL", 8443),
 		Uplink:    getenv("POTATOINSPECTOR_UPLINK", "eth0"),
 		WGIface:   getenv("POTATOINSPECTOR_WG_IFACE", "wg0"),
-		Password:  getenv("POTATOINSPECTOR_PASSWORD", "potato"),
 	}
 }
 

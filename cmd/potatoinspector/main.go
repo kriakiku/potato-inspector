@@ -1,24 +1,12 @@
 package main
 
 import (
-	"crypto/ecdsa"
-	"crypto/elliptic"
-	"crypto/rand"
-	"crypto/x509"
-	"crypto/x509/pkix"
-	"encoding/pem"
 	"fmt"
 	"log"
-	"math/big"
-	"net"
 	"net/http"
 	"os"
 	"os/signal"
-	"path/filepath"
 	"syscall"
-	"time"
-
-	"golang.org/x/crypto/bcrypt"
 
 	"github.com/potatoinspector/potato-inspector/internal/config"
 	"github.com/potatoinspector/potato-inspector/internal/dnsfwd"
@@ -67,7 +55,6 @@ func main() {
 	shaper := shape.New(cfg.WGIface)
 	addonDir := getenv("POTATOINSPECTOR_ADDON", "/app/mitmaddon")
 	if _, err := os.Stat(addonDir); err != nil {
-		// local dev: relative to cwd
 		if _, err2 := os.Stat("mitmaddon"); err2 == nil {
 			addonDir = "mitmaddon"
 		}
@@ -77,7 +64,6 @@ func main() {
 
 	dns := dnsfwd.New(fw, settings.ClientDNS, cfg.WGIface)
 
-	// Start networking (may fail on macOS without TUN — log and continue for panel-only dev)
 	if err := wgm.Start(); err != nil {
 		log.Printf("WARN: WireGuard start failed (panel still up): %v", err)
 	} else {
@@ -101,18 +87,12 @@ func main() {
 
 	srv := panel.New(st, wgm, shaper, reg, mm, dns, fw, web.FS(), cfg.PanelPort)
 
-	certFile := filepath.Join(cfg.DataDir, "panel.crt")
-	keyFile := filepath.Join(cfg.DataDir, "panel.key")
-	if err := ensurePanelTLS(certFile, keyFile); err != nil {
-		log.Fatal(err)
-	}
-
 	addr := fmt.Sprintf(":%d", cfg.PanelPort)
 	httpServer := &http.Server{Addr: addr, Handler: srv.Handler()}
 
 	go func() {
-		log.Printf("Panel listening on https://0.0.0.0%s", addr)
-		if err := httpServer.ListenAndServeTLS(certFile, keyFile); err != nil && err != http.ErrServerClosed {
+		log.Printf("Panel listening on http://0.0.0.0%s (put TLS on your reverse proxy)", addr)
+		if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatal(err)
 		}
 	}()
@@ -132,56 +112,11 @@ func loadOrInitSettings(st *store.Store, cfg config.Config) (store.Settings, err
 		return st.LoadSettings()
 	}
 	settings := store.DefaultSettings(cfg.WGSubnet, cfg.WGPort, cfg.Uplink)
-	hash, err := bcrypt.GenerateFromPassword([]byte(cfg.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return settings, err
-	}
-	settings.PasswordHash = string(hash)
 	if err := st.SaveSettings(settings); err != nil {
 		return settings, err
 	}
-	log.Printf("initialized settings (default password from POTATOINSPECTOR_PASSWORD or 'potato')")
+	log.Printf("initialized settings")
 	return settings, nil
-}
-
-func ensurePanelTLS(certFile, keyFile string) error {
-	if store.Exists(certFile) && store.Exists(keyFile) {
-		return nil
-	}
-	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-	if err != nil {
-		return err
-	}
-	tmpl := &x509.Certificate{
-		SerialNumber: big.NewInt(time.Now().UnixNano()),
-		Subject:      pkix.Name{CommonName: "PotatoInspector Panel"},
-		NotBefore:    time.Now().Add(-time.Hour),
-		NotAfter:     time.Now().Add(5 * 365 * 24 * time.Hour),
-		KeyUsage:     x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment,
-		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
-		IPAddresses:  []net.IP{net.ParseIP("127.0.0.1")},
-		DNSNames:     []string{"localhost", "potatoinspector"},
-	}
-	der, err := x509.CreateCertificate(rand.Reader, tmpl, tmpl, &key.PublicKey, key)
-	if err != nil {
-		return err
-	}
-	cf, err := os.Create(certFile)
-	if err != nil {
-		return err
-	}
-	_ = pem.Encode(cf, &pem.Block{Type: "CERTIFICATE", Bytes: der})
-	_ = cf.Close()
-	kf, err := os.OpenFile(keyFile, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0o600)
-	if err != nil {
-		return err
-	}
-	b, err := x509.MarshalECPrivateKey(key)
-	if err != nil {
-		return err
-	}
-	_ = pem.Encode(kf, &pem.Block{Type: "EC PRIVATE KEY", Bytes: b})
-	return kf.Close()
 }
 
 func getenv(k, def string) string {

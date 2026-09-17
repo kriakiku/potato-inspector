@@ -1,6 +1,6 @@
 {
   "id": "bangladesh-mymensingh-teletalk-weak",
-  "name": "Bangladesh Mymensingh Teletalk (weak)",
+  "name": "🇧🇩 Bangladesh Mymensingh Teletalk (weak)",
   "description": "Cell-edge Teletalk (~220 ms RTT).",
   "delayMs": 110,
   "downloadMbps": 2.2,

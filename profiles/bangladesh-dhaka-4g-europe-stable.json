@@ -1,6 +1,6 @@
 {
   "id": "bangladesh-dhaka-4g-europe-stable",
-  "name": "Bangladesh Dhaka 4G → Europe (stable)",
+  "name": "🇧🇩 Bangladesh Dhaka 4G → 🇪🇺 Europe (stable)",
   "description": "Good Dhaka 4G toward Europe (~160 ms RTT).",
   "delayMs": 80,
   "downloadMbps": 40,

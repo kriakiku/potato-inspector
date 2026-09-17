@@ -1,44 +1,59 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api'
+import { notifyError, notifySuccess } from '../toast'
 
 export default function Peers() {
   const [peers, setPeers] = useState([])
   const [name, setName] = useState('')
   const [selected, setSelected] = useState(null)
   const [conf, setConf] = useState('')
-  const [err, setErr] = useState('')
 
   async function load() {
     setPeers(await api('/api/peers'))
   }
 
-  useEffect(() => { load().catch((e) => setErr(e.message)) }, [])
+  useEffect(() => {
+    load().catch((e) => notifyError(e.message))
+  }, [])
 
   async function add() {
-    await api('/api/peers', { method: 'POST', body: { name: name || 'phone' } })
-    setName('')
-    await load()
+    try {
+      await api('/api/peers', { method: 'POST', body: { name: name || 'phone' } })
+      setName('')
+      notifySuccess('Peer added')
+      await load()
+    } catch (e) {
+      notifyError(e.message)
+    }
   }
 
   async function revoke(id) {
     if (!confirm('Revoke this peer?')) return
-    await api(`/api/peers/${id}`, { method: 'DELETE' })
-    setSelected(null)
-    setConf('')
-    await load()
+    try {
+      await api(`/api/peers/${id}`, { method: 'DELETE' })
+      setSelected(null)
+      setConf('')
+      notifySuccess('Peer revoked')
+      await load()
+    } catch (e) {
+      notifyError(e.message)
+    }
   }
 
   async function showConf(id) {
-    const res = await api(`/api/peers/${id}/conf`)
-    setConf(await res.text())
-    setSelected(id)
+    try {
+      const res = await api(`/api/peers/${id}/conf`)
+      setConf(await res.text())
+      setSelected(id)
+    } catch (e) {
+      notifyError(e.message)
+    }
   }
 
   return (
     <>
       <h1>Peers</h1>
       <p className="lead">Create WireGuard clients (full tunnel 0.0.0.0/0). Download .conf or scan QR.</p>
-      {err && <p className="err">{err}</p>}
       <div className="row" style={{ marginBottom: 12 }}>
         <input style={{ maxWidth: 220 }} placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
         <button className="primary" onClick={add}>Add peer</button>

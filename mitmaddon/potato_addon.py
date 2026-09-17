@@ -182,31 +182,60 @@ class PotatoAddon:
             return
         req = flow.request
         resp = flow.response
-        ct = resp.headers.get("content-type", "") if resp else ""
+
+        # Headers always — capture before any body work (body size must not skip them).
+        req_headers = _headers_to_dict(req.headers)
+        resp_headers = _headers_to_dict(resp.headers) if resp is not None else {}
+
+        ct = ""
+        if resp is not None:
+            ct = resp.headers.get("content-type", "") or ""
         body_preview = ""
         stubbed = False
+        body_bytes = 0
         if resp is not None:
-            raw = resp.get_text(strict=False) or ""
-            if ct.startswith(("image/", "audio/", "video/", "application/octet-stream", "application/pdf", "application/zip")):
-                body_preview = f"[binary omitted: {ct}]"
+            raw = resp.raw_content if resp.raw_content is not None else b""
+            body_bytes = len(raw)
+            if ct.startswith(("image/", "audio/", "video/", "application/octet-stream", "application/pdf", "application/zip", "font/", "application/wasm")):
+                body_preview = f"[binary omitted: {ct}; {body_bytes} bytes]"
                 stubbed = True
             else:
-                body_preview = raw[:65536]
-                if len(raw) > 65536:
+                # Never decode the full body — cap raw bytes first, then decode preview only.
+                chunk = raw[:65536]
+                charset = "utf-8"
+                try:
+                    charset = resp.headers.get_charset() or "utf-8"
+                except Exception:
+                    pass
+                try:
+                    body_preview = chunk.decode(charset, errors="replace")
+                except Exception:
+                    body_preview = chunk.decode("utf-8", errors="replace")
+                if body_bytes > 65536:
                     body_preview += "\n…[truncated]"
-        req_headers = dict(req.headers)
-        resp_headers = dict(resp.headers) if resp else {}
+                    stubbed = True
+
         status = resp.status_code if resp else 0
-        summary = f"{req.method} {req.host}{req.path} → {status}"
+        scheme = req.scheme or "https"
+        host = req.pretty_host if hasattr(req, "pretty_host") else req.host
+        path = req.path or "/"
+        if req.port and req.port not in (80, 443):
+            url = f"{scheme}://{host}:{req.port}{path}"
+        else:
+            url = f"{scheme}://{host}{path}"
+        summary = f"{req.method} {url} → {status}"
         detail = {
             "method": req.method,
-            "host": req.host,
-            "path": req.path,
+            "url": url,
+            "host": host,
+            "path": path,
             "status": status,
             "requestHeaders": req_headers,
             "responseHeaders": resp_headers,
             "bodyPreview": body_preview,
             "bodyStubbed": stubbed,
+            "bodyBytes": body_bytes,
+            "contentType": ct,
             "extraDelayMs": flow.metadata.get("potato_extra_delay_ms", 0),
             "timing": {
                 "timestampStart": flow.request.timestamp_start,
@@ -214,6 +243,27 @@ class PotatoAddon:
             },
         }
         self._emit("http", summary, detail)
+
+
+def _headers_to_dict(headers) -> dict:
+    out = {}
+    if headers is None:
+        return out
+    try:
+        for k, v in headers.items(multi=True):
+            key = str(k)
+            val = str(v)
+            if key in out:
+                out[key] = f"{out[key]}, {val}"
+            else:
+                out[key] = val
+        return out
+    except TypeError:
+        pass
+    try:
+        return {str(k): str(v) for k, v in dict(headers).items()}
+    except Exception:
+        return {}
 
 
 addons = [PotatoAddon()]

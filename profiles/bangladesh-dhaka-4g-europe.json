@@ -1,6 +1,6 @@
 {
   "id": "bangladesh-dhaka-4g-europe",
-  "name": "Bangladesh Dhaka 4G → Europe",
+  "name": "🇧🇩 Bangladesh Dhaka 4G → 🇪🇺 Europe",
   "description": "Typical Dhaka 4G + Europe (~180 ms RTT). Default demo.",
   "delayMs": 90,
   "downloadMbps": 32,

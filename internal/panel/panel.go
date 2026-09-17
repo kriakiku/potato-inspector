@@ -1,20 +1,17 @@
 package panel
 
 import (
-	"crypto/rand"
-	"crypto/subtle"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io/fs"
 	"net/http"
 	"os"
+	"os/exec"
+	"path/filepath"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/skip2/go-qrcode"
-	"golang.org/x/crypto/bcrypt"
 
 	"github.com/potatoinspector/potato-inspector/internal/dnsfwd"
 	"github.com/potatoinspector/potato-inspector/internal/flows"
@@ -35,9 +32,6 @@ type Server struct {
 	Flows     *flows.Writer
 	Static    fs.FS
 	PanelPort int
-
-	mu       sync.Mutex
-	sessions map[string]time.Time
 }
 
 func New(st *store.Store, wgm *wg.Manager, sh *shape.Manager, pr *profiles.Registry, mm *mitm.Manager, dns *dnsfwd.Server, fw *flows.Writer, static fs.FS, panelPort int) *Server {
@@ -51,27 +45,24 @@ func New(st *store.Store, wgm *wg.Manager, sh *shape.Manager, pr *profiles.Regis
 		Flows:     fw,
 		Static:    static,
 		PanelPort: panelPort,
-		sessions:  map[string]time.Time{},
 	}
 }
 
 func (s *Server) Handler() http.Handler {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/api/login", s.handleLogin)
-	mux.HandleFunc("/api/logout", s.auth(s.handleLogout))
-	mux.HandleFunc("/api/status", s.auth(s.handleStatus))
-	mux.HandleFunc("/api/settings", s.auth(s.handleSettings))
-	mux.HandleFunc("/api/peers", s.auth(s.handlePeers))
-	mux.HandleFunc("/api/peers/", s.auth(s.handlePeerSub))
-	mux.HandleFunc("/api/profiles", s.auth(s.handleProfiles))
-	mux.HandleFunc("/api/profiles/apply", s.auth(s.handleApplyProfile))
-	mux.HandleFunc("/api/mitm", s.auth(s.handleMITM))
-	mux.HandleFunc("/api/mitm/ca.crt", s.auth(s.handleCA))
-	mux.HandleFunc("/api/inspector", s.auth(s.handleInspector))
-	mux.HandleFunc("/api/inspector/stream", s.auth(s.handleInspectorStream))
-	mux.HandleFunc("/api/inspector/clear", s.auth(s.handleInspectorClear))
-	mux.HandleFunc("/api/inspector/har", s.auth(s.handleHAR))
-	mux.HandleFunc("/api/password", s.auth(s.handlePassword))
+	mux.HandleFunc("/api/status", s.handleStatus)
+	mux.HandleFunc("/api/settings", s.handleSettings)
+	mux.HandleFunc("/api/peers", s.handlePeers)
+	mux.HandleFunc("/api/peers/", s.handlePeerSub)
+	mux.HandleFunc("/api/profiles", s.handleProfiles)
+	mux.HandleFunc("/api/profiles/apply", s.handleApplyProfile)
+	mux.HandleFunc("/api/mitm", s.handleMITM)
+	mux.HandleFunc("/api/mitm/ca.crt", s.handleCA)
+	mux.HandleFunc("/api/mitm/test-regex", s.handleTestRegex)
+	mux.HandleFunc("/api/inspector", s.handleInspector)
+	mux.HandleFunc("/api/inspector/stream", s.handleInspectorStream)
+	mux.HandleFunc("/api/inspector/clear", s.handleInspectorClear)
+	mux.HandleFunc("/api/inspector/har", s.handleHAR)
 
 	if s.Static != nil {
 		fileServer := http.FileServer(http.FS(s.Static))
@@ -109,88 +100,10 @@ func spaHandler(static fs.FS, files http.Handler) http.Handler {
 	})
 }
 
-func (s *Server) auth(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		c, err := r.Cookie("pi_session")
-		if err != nil || !s.validSession(c.Value) {
-			http.Error(w, `{"error":"unauthorized"}`, http.StatusUnauthorized)
-			return
-		}
-		next(w, r)
-	}
-}
-
-func (s *Server) validSession(tok string) bool {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	exp, ok := s.sessions[tok]
-	if !ok {
-		return false
-	}
-	if time.Now().After(exp) {
-		delete(s.sessions, tok)
-		return false
-	}
-	return true
-}
-
-func (s *Server) newSession() string {
-	b := make([]byte, 32)
-	_, _ = rand.Read(b)
-	tok := base64.RawURLEncoding.EncodeToString(b)
-	s.mu.Lock()
-	s.sessions[tok] = time.Now().Add(24 * time.Hour)
-	s.mu.Unlock()
-	return tok
-}
-
 func writeJSON(w http.ResponseWriter, status int, v any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	_ = json.NewEncoder(w).Encode(v)
-}
-
-func (s *Server) handleLogin(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "method", http.StatusMethodNotAllowed)
-		return
-	}
-	var body struct {
-		Password string `json:"password"`
-	}
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		writeJSON(w, 400, map[string]string{"error": "bad json"})
-		return
-	}
-	st, err := s.Store.LoadSettings()
-	if err != nil {
-		writeJSON(w, 500, map[string]string{"error": err.Error()})
-		return
-	}
-	if bcrypt.CompareHashAndPassword([]byte(st.PasswordHash), []byte(body.Password)) != nil {
-		writeJSON(w, 401, map[string]string{"error": "invalid password"})
-		return
-	}
-	tok := s.newSession()
-	http.SetCookie(w, &http.Cookie{
-		Name:     "pi_session",
-		Value:    tok,
-		Path:     "/",
-		HttpOnly: true,
-		SameSite: http.SameSiteLaxMode,
-		MaxAge:   86400,
-	})
-	writeJSON(w, 200, map[string]string{"ok": "true"})
-}
-
-func (s *Server) handleLogout(w http.ResponseWriter, r *http.Request) {
-	if c, err := r.Cookie("pi_session"); err == nil {
-		s.mu.Lock()
-		delete(s.sessions, c.Value)
-		s.mu.Unlock()
-	}
-	http.SetCookie(w, &http.Cookie{Name: "pi_session", Value: "", Path: "/", MaxAge: -1})
-	writeJSON(w, 200, map[string]string{"ok": "true"})
 }
 
 func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
@@ -208,23 +121,23 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 	}
 	prof, _ := s.Profiles.Get(st.ActiveProfileID)
 	writeJSON(w, 200, map[string]any{
-		"product":         "PotatoInspector",
-		"activeProfileId": st.ActiveProfileID,
-		"profile":         prof,
-		"mitmEnabled":     st.MITMEnabled && s.MITM.Enabled(),
-		"captureEnabled":  st.CaptureEnabled,
-		"captureCapacity": s.Flows.Capacity(),
-		"dnsIntercept":    st.DNSIntercept && s.DNS.Enabled(),
-		"peerCount":       len(peers),
+		"product":          "PotatoInspector",
+		"activeProfileId":  st.ActiveProfileID,
+		"profile":          prof,
+		"mitmEnabled":      st.MITMEnabled && s.MITM.Enabled(),
+		"captureEnabled":   st.CaptureEnabled,
+		"captureCapacity":  s.Flows.Capacity(),
+		"dnsIntercept":     st.DNSIntercept && s.DNS.Enabled(),
+		"peerCount":        len(peers),
 		"peersHandshaking": activeHS,
-		"lastHandshake":   lastHS,
-		"qdisc":           s.Shape.Status(),
-		"qdiscDump":       s.Shape.QdiscDump(),
-		"wgPublicKey":     s.WG.ServerPublicKey(),
-		"wgPort":          st.WGPort,
-		"wgEndpoint":      st.WGEndpoint,
-		"extraDelayMs":    st.ExtraDelayMs,
-		"noteMitmOff":     !st.MITMEnabled,
+		"lastHandshake":    lastHS,
+		"qdisc":            s.Shape.Status(),
+		"qdiscDump":        s.Shape.QdiscDump(),
+		"wgPublicKey":      s.WG.ServerPublicKey(),
+		"wgPort":           st.WGPort,
+		"wgEndpoint":       st.WGEndpoint,
+		"extraDelayMs":     st.ExtraDelayMs,
+		"noteMitmOff":      !st.MITMEnabled,
 		"inspectorNote": func() string {
 			if !st.MITMEnabled {
 				if st.DNSIntercept {
@@ -296,41 +209,6 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 	default:
 		http.Error(w, "method", http.StatusMethodNotAllowed)
 	}
-}
-
-func (s *Server) handlePassword(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "method", http.StatusMethodNotAllowed)
-		return
-	}
-	var body struct {
-		Current string `json:"current"`
-		Next    string `json:"next"`
-	}
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		writeJSON(w, 400, map[string]string{"error": "bad json"})
-		return
-	}
-	st, _ := s.Store.LoadSettings()
-	if bcrypt.CompareHashAndPassword([]byte(st.PasswordHash), []byte(body.Current)) != nil {
-		writeJSON(w, 401, map[string]string{"error": "invalid password"})
-		return
-	}
-	if len(body.Next) < 4 {
-		writeJSON(w, 400, map[string]string{"error": "password too short"})
-		return
-	}
-	hash, err := bcrypt.GenerateFromPassword([]byte(body.Next), bcrypt.DefaultCost)
-	if err != nil {
-		writeJSON(w, 500, map[string]string{"error": err.Error()})
-		return
-	}
-	st.PasswordHash = string(hash)
-	if err := s.Store.SaveSettings(st); err != nil {
-		writeJSON(w, 500, map[string]string{"error": err.Error()})
-		return
-	}
-	writeJSON(w, 200, map[string]string{"ok": "true"})
 }
 
 func (s *Server) handlePeers(w http.ResponseWriter, r *http.Request) {
@@ -542,6 +420,56 @@ func (s *Server) handleCA(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(data)
 }
 
+func (s *Server) handleTestRegex(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "method", http.StatusMethodNotAllowed)
+		return
+	}
+	var body struct {
+		Pattern    string `json:"pattern"`
+		Text       string `json:"text"`
+		IgnoreCase bool   `json:"ignoreCase"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		writeJSON(w, 400, map[string]string{"error": "bad json"})
+		return
+	}
+	addon := os.Getenv("POTATOINSPECTOR_ADDON")
+	if addon == "" {
+		addon = "mitmaddon"
+	}
+	script := filepath.Join(addon, "test_regex.py")
+	if _, err := os.Stat(script); err != nil {
+		// fallback relative to cwd
+		alt := filepath.Join("mitmaddon", "test_regex.py")
+		if _, err2 := os.Stat(alt); err2 == nil {
+			script = alt
+		}
+	}
+	payload, _ := json.Marshal(body)
+	cmd := exec.Command("python3", script)
+	cmd.Stdin = strings.NewReader(string(payload))
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		writeJSON(w, 500, map[string]any{
+			"ok":      false,
+			"matched": false,
+			"error":   fmt.Sprintf("python: %v (%s)", err, strings.TrimSpace(string(out))),
+		})
+		return
+	}
+	var result map[string]any
+	if err := json.Unmarshal(out, &result); err != nil {
+		writeJSON(w, 500, map[string]any{
+			"ok":      false,
+			"matched": false,
+			"error":   fmt.Sprintf("parse python output: %v (%s)", err, strings.TrimSpace(string(out))),
+		})
+		return
+	}
+	writeJSON(w, 200, result)
+}
+
 func (s *Server) handleInspector(w http.ResponseWriter, r *http.Request) {
 	typ := flows.EventType(r.URL.Query().Get("type"))
 	evs := s.Flows.Recent(200, typ)
@@ -628,6 +556,3 @@ func headersToHAR(v any) []map[string]string {
 	}
 	return out
 }
-
-// SecureCompare is available if needed
-var _ = subtle.ConstantTimeCompare

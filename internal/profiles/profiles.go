@@ -141,6 +141,19 @@ func (r *Registry) SaveCustom(p Profile) error {
 }
 
 func (r *Registry) DeleteCustom(id string) error {
+	if id == "" {
+		return fmt.Errorf("profile id required")
+	}
+	r.mu.RLock()
+	_, isBuiltin := r.builtins[id]
+	_, isCustom := r.customs[id]
+	r.mu.RUnlock()
+	if isBuiltin {
+		return fmt.Errorf("cannot delete builtin profile %s", id)
+	}
+	if !isCustom {
+		return fmt.Errorf("profile not found: %s", id)
+	}
 	r.mu.Lock()
 	delete(r.customs, id)
 	list := make([]map[string]any, 0, len(r.customs))

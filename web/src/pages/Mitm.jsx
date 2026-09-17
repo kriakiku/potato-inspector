@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api'
+import RegexEditorModal from '../components/RegexEditorModal'
+import { notifyError, notifySuccess } from '../toast'
 
 export default function Mitm() {
   const [data, setData] = useState(null)
   const [bypass, setBypass] = useState('')
-  const [err, setErr] = useState('')
-  const [msg, setMsg] = useState('')
+  const [regexEdit, setRegexEdit] = useState(null)
 
   async function load() {
     const d = await api('/api/mitm')
@@ -13,11 +14,9 @@ export default function Mitm() {
     setBypass((d.bypassSni || []).join('\n'))
   }
 
-  useEffect(() => { load().catch((e) => setErr(e.message)) }, [])
+  useEffect(() => { load().catch((e) => notifyError(e.message)) }, [])
 
   async function save(patch) {
-    setErr('')
-    setMsg('')
     try {
       await api('/api/mitm', {
         method: 'PUT',
@@ -28,11 +27,23 @@ export default function Mitm() {
           extraDelayMs: data.extraDelayMs,
         },
       })
-      setMsg('Saved')
+      notifySuccess('Saved')
       await load()
     } catch (e) {
-      setErr(e.message)
+      notifyError(e.message)
     }
+  }
+
+  function openRegex(kind, index) {
+    const r = data.rules[index]
+    setRegexEdit({
+      kind,
+      index,
+      pattern: kind === 'host' ? r.hostRegex : r.pathRegex,
+      title: `${kind === 'host' ? 'Host regex' : 'Path regex'}${r.name ? ` · ${r.name}` : ''}`,
+      ignoreCase: kind === 'host',
+      placeholder: kind === 'host' ? 'api.example.com' : '/api/v1/users',
+    })
   }
 
   if (!data) return <p className="muted">Loading…</p>
@@ -45,8 +56,6 @@ export default function Mitm() {
         Install the CA on phones/laptops. UniFi as WG client does not install the CA.
         Cert pinning will fail unless the SNI is bypassed. UDP/443 (QUIC) is dropped when MITM is on.
       </p>
-      {err && <p className="err">{err}</p>}
-      {msg && <p className="muted">{msg}</p>}
 
       <div className="panel-box">
         <div className="row">
@@ -78,6 +87,7 @@ export default function Mitm() {
 
       <div className="panel-box">
         <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>Path rules</h2>
+        <p className="muted" style={{ marginTop: 0 }}>Click a Host/Path regex field (or Edit) to open the regex playground.</p>
         <table className="table">
           <thead>
             <tr><th>Name</th><th>Host regex</th><th>Path regex</th><th>Delay override</th><th>On</th></tr>
@@ -88,12 +98,32 @@ export default function Mitm() {
                 <td><input value={r.name} onChange={(e) => {
                   const rules = [...data.rules]; rules[i] = { ...r, name: e.target.value }; setData({ ...data, rules })
                 }} /></td>
-                <td><input className="mono" value={r.hostRegex} onChange={(e) => {
-                  const rules = [...data.rules]; rules[i] = { ...r, hostRegex: e.target.value }; setData({ ...data, rules })
-                }} /></td>
-                <td><input className="mono" value={r.pathRegex} onChange={(e) => {
-                  const rules = [...data.rules]; rules[i] = { ...r, pathRegex: e.target.value }; setData({ ...data, rules })
-                }} /></td>
+                <td>
+                  <div className="regex-field">
+                    <input
+                      className="mono"
+                      readOnly
+                      value={r.hostRegex}
+                      title="Click to edit"
+                      onClick={() => openRegex('host', i)}
+                      onFocus={() => openRegex('host', i)}
+                    />
+                    <button type="button" onClick={() => openRegex('host', i)}>Edit</button>
+                  </div>
+                </td>
+                <td>
+                  <div className="regex-field">
+                    <input
+                      className="mono"
+                      readOnly
+                      value={r.pathRegex}
+                      title="Click to edit"
+                      onClick={() => openRegex('path', i)}
+                      onFocus={() => openRegex('path', i)}
+                    />
+                    <button type="button" onClick={() => openRegex('path', i)}>Edit</button>
+                  </div>
+                </td>
                 <td><input type="number" value={r.extraDelayMs} onChange={(e) => {
                   const rules = [...data.rules]; rules[i] = { ...r, extraDelayMs: +e.target.value }; setData({ ...data, rules })
                 }} /></td>
@@ -119,6 +149,25 @@ export default function Mitm() {
         </label>
         <button style={{ marginTop: 8 }} className="primary" onClick={() => save({})}>Save bypass</button>
       </div>
+
+      <RegexEditorModal
+        open={!!regexEdit}
+        title={regexEdit?.title || 'Regex'}
+        initialPattern={regexEdit?.pattern || ''}
+        ignoreCase={!!regexEdit?.ignoreCase}
+        samplePlaceholder={regexEdit?.placeholder}
+        onClose={() => setRegexEdit(null)}
+        onApply={(pattern) => {
+          if (!regexEdit) return
+          const rules = [...data.rules]
+          const r = { ...rules[regexEdit.index] }
+          if (regexEdit.kind === 'host') r.hostRegex = pattern
+          else r.pathRegex = pattern
+          rules[regexEdit.index] = r
+          setData({ ...data, rules })
+          setRegexEdit(null)
+        }}
+      />
     </>
   )
 }

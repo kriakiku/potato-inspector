@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api'
+import { notifyError } from '../toast'
 
 export default function Dashboard() {
   const [st, setSt] = useState(null)
-  const [err, setErr] = useState('')
 
   async function load() {
     try {
       setSt(await api('/api/status'))
-      setErr('')
     } catch (e) {
-      setErr(e.message)
+      notifyError(e.message)
     }
   }
 
@@ -20,7 +19,7 @@ export default function Dashboard() {
     return () => clearInterval(t)
   }, [])
 
-  if (!st) return <p className="muted">{err || 'Loading…'}</p>
+  if (!st) return <p className="muted">Loading…</p>
 
   const rtt = st.profile?.delayMs ? st.profile.delayMs * 2 : 0
 

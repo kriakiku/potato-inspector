@@ -40,19 +40,16 @@ func Exists(path string) bool {
 
 // Settings persisted in /data/settings.json
 type Settings struct {
-	PasswordHash     string  `json:"passwordHash"`
-	WGEndpoint       string  `json:"wgEndpoint"`
-	WGSubnet         string  `json:"wgSubnet"`
-	WGPort           int     `json:"wgPort"`
-	Uplink           string  `json:"uplink"`
-	ActiveProfileID  string  `json:"activeProfileId"`
-	MITMEnabled      bool    `json:"mitmEnabled"`
-	ExtraDelayMs     int     `json:"extraDelayMs"`
-	CaptureEnabled   bool    `json:"captureEnabled"`
-	DNSIntercept     bool    `json:"dnsIntercept"`
-	ClientDNS        string  `json:"clientDns"`
-	PanelTLSCert     string  `json:"panelTlsCert,omitempty"`
-	PanelTLSKey      string  `json:"panelTlsKey,omitempty"`
+	WGEndpoint      string `json:"wgEndpoint"`
+	WGSubnet        string `json:"wgSubnet"`
+	WGPort          int    `json:"wgPort"`
+	Uplink          string `json:"uplink"`
+	ActiveProfileID string `json:"activeProfileId"`
+	MITMEnabled     bool   `json:"mitmEnabled"`
+	ExtraDelayMs    int    `json:"extraDelayMs"`
+	CaptureEnabled  bool   `json:"captureEnabled"`
+	DNSIntercept    bool   `json:"dnsIntercept"`
+	ClientDNS       string `json:"clientDns"`
 }
 
 func DefaultSettings(subnet string, port int, uplink string) Settings {

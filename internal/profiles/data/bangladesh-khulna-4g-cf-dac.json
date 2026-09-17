@@ -1,6 +1,6 @@
 {
   "id": "bangladesh-khulna-4g-cf-dac",
-  "name": "Bangladesh Khulna 4G → CF DAC",
+  "name": "🇧🇩 Bangladesh Khulna 4G → CF DAC",
   "description": "Typical Khulna 4G to Cloudflare DAC (~60 ms RTT).",
   "delayMs": 30,
   "downloadMbps": 32,

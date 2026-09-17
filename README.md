@@ -13,7 +13,6 @@ docker pull ghcr.io/kriakiku/potato-inspector:latest
 docker run --cap-add=NET_ADMIN --device=/dev/net/tun \
   -p 51820:51820/udp -p 8443:8443 \
   -v potatoinspector-data:/data \
-  -e POTATOINSPECTOR_PASSWORD=potato \
   ghcr.io/kriakiku/potato-inspector:latest
 ```
 
@@ -27,7 +26,6 @@ docker build -t potatoinspector:latest .
 docker run --cap-add=NET_ADMIN --device=/dev/net/tun \
   -p 51820:51820/udp -p 8443:8443 \
   -v potatoinspector-data:/data \
-  -e POTATOINSPECTOR_PASSWORD=potato \
   potatoinspector:latest
 ```
 
@@ -37,7 +35,7 @@ Or:
 docker compose up -d --build
 ```
 
-Open **https://\<host\>:8443** (self-signed panel cert). Default password: `potato` (or `POTATOINSPECTOR_PASSWORD`).
+Open **http://\<host\>:8443** (plain HTTP — terminate TLS on your reverse proxy). No panel login — protect via reverse proxy / network if needed.
 
 ### Required flags
 
@@ -46,7 +44,7 @@ Open **https://\<host\>:8443** (self-signed panel cert). Default password: `pota
 | `--cap-add=NET_ADMIN` | TUN, qdisc, iptables NAT/TPROXY |
 | `--device=/dev/net/tun` | userspace WireGuard (`wireguard-go`) |
 | `-p 51820:51820/udp` | WireGuard |
-| `-p 8443:8443` | Panel HTTPS |
+| `-p 8443:8443` | Panel HTTP (TLS via reverse proxy) |
 | `-v …:/data` | JSON settings, peers, CA |
 
 Host should allow forwarding (`net.ipv4.ip_forward=1`). Compose sets this via `sysctls`.
@@ -75,8 +73,7 @@ In the panel: set **Settings → Public WG endpoint**, create a **Peer**, downlo
 | `POTATOINSPECTOR_DATA` | `/data` |
 | `POTATOINSPECTOR_WG_SUBNET` | `10.8.0.0/24` |
 | `POTATOINSPECTOR_WG_PORT` | `51820` |
-| `POTATOINSPECTOR_PANEL` | `8443` |
-| `POTATOINSPECTOR_PASSWORD` | `potato` (first boot only) |
+| `POTATOINSPECTOR_PANEL` | `8443` (plain HTTP; put TLS on the reverse proxy) |
 | `POTATOINSPECTOR_UPLINK` | `eth0` |
 | `POTATOINSPECTOR_WG_IFACE` | `wg0` |
 
@@ -84,7 +81,7 @@ In the panel: set **Settings → Public WG endpoint**, create a **Peer**, downlo
 
 Atomic JSON writes (temp + rename):
 
-- `settings.json` — password hash, WG endpoint, subnet, uplink, active profile, MITM, extra delay, capture, DNS intercept
+- `settings.json` — WG endpoint, subnet, uplink, active profile, MITM, extra delay, capture, DNS intercept
 - `peers.json` — WireGuard peers
 - `profiles/custom.json` — user last-mile profiles
 - `mitm-rules.json` — path/host regex, bypass SNI
@@ -144,9 +141,9 @@ Last-mile shaping hits every packet the same, including TLS handshake. After the
 - **Profiles** — built-ins + custom; Apply; Passthrough
 - **MITM** — enable, extra delay, rules, bypass, CA download
 - **Inspector** — HTTP / TLS / DNS timeline; filter; clear; optional HAR
-- **Settings** — public WG endpoint, DNS intercept, password
+- **Settings** — public WG endpoint, DNS intercept
 
-Auth: panel password (not world-open). Privacy: MITM decrypts HTTPS on this tunnel; DNS names appear in the in-memory inspector ring while capture is on.
+No panel auth (use reverse proxy / network ACL). Privacy: MITM decrypts HTTPS on this tunnel; DNS names appear in the in-memory inspector ring while capture is on.
 
 ## What this is not
 
