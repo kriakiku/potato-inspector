@@ -1,8 +1,8 @@
 # Single-image wrapper for PotatoInspector.
 services:
   potatoinspector:
+    image: ghcr.io/kriakiku/potato-inspector:latest
     build: .
-    image: potatoinspector:latest
     container_name: potatoinspector
     cap_add:
       - NET_ADMIN
