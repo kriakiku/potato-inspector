@@ -1,0 +1,10 @@
+{
+  "id": "passthrough",
+  "name": "Passthrough",
+  "description": "No qdisc — unshaped inner traffic.",
+  "delayMs": 0,
+  "downloadMbps": 0,
+  "uploadMbps": 0,
+  "lossPercent": 0,
+  "passthrough": true
+}

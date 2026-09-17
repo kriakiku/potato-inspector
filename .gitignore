@@ -1,0 +1,9 @@
+/data/
+*.tmp
+web/node_modules/
+web/package-lock.json
+*.exe
+/potatoinspector
+.DS_Store
+.env
+*.test

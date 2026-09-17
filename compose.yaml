@@ -1,0 +1,25 @@
+# Single-image wrapper for PotatoInspector.
+services:
+  potatoinspector:
+    build: .
+    image: potatoinspector:latest
+    container_name: potatoinspector
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - "51820:51820/udp"
+      - "8443:8443"
+    volumes:
+      - potatoinspector-data:/data
+    environment:
+      POTATOINSPECTOR_PASSWORD: potato
+      # Set to your public host:port as WireGuard clients see it
+      # (written into peer configs after you set it in the panel Settings).
+    sysctls:
+      - net.ipv4.ip_forward=1
+    restart: unless-stopped
+
+volumes:
+  potatoinspector-data:
