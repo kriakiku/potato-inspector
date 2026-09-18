@@ -6,7 +6,7 @@ weight: 20
 Base URL: `http://<host>:7783` (publish only the API port from the PotatoNetwork container).
 
 Opening `http://<host>:7783/` in a browser **302-redirects** to this OpenAPI section
-(`https://kriakiku.github.io/potato-network/docs/api/#openapi`).
+(`https://kriakiku.github.io/potato-network/api/#openapi`).
 JSON API lives under `/v1/…`.
 
 Auth (optional): `Authorization: Bearer <POTATONETWORK_API_TOKEN>`. If the token ENV/file is empty, auth is off. `/v1/health` and `GET /` are always open.
@@ -39,8 +39,8 @@ Interactive reference (ReDoc) plus downloadable specs:
 | Method | Path | Body / notes |
 |--------|------|----------------|
 | GET | `/v1/health` | liveness + profile summary |
-| GET | `/v1/profile` | current profile |
-| PUT | `/v1/profile` | `{"country":"BD","tier":"typical"}` or `{"passthrough":true}` |
+| GET | `/v1/profile` | current profile (`emulationLimited` / `warning` when host is already slower than the country) |
+| PUT | `/v1/profile` | `{"country":"BD","tier":"typical"}` or `{"passthrough":true}` — same fields; limited cases log `WARN` but still apply |
 | GET | `/v1/baseline` | `hostRtt`, `probedAt` |
 | POST | `/v1/baseline/probe` | TCP RTT probe to catalog destinations |
 | PUT | `/v1/baseline` | `{"hostRtt":{"cf":12,"aws-eu-central-1":20}}` |

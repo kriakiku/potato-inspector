@@ -139,6 +139,9 @@ func (s *State) ApplyCountryTier(country, tier string) (profiles.Profile, error)
 	}
 	p.Country = country
 	p.Tier = tier
+	if p.EmulationLimited && p.Warning != "" {
+		log.Printf("WARN profile %s/%s: %s", country, tier, p.Warning)
+	}
 	if err := s.shape.Apply(p); err != nil {
 		return profiles.Profile{}, err
 	}

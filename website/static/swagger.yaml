@@ -136,6 +136,8 @@ definitions:
         type: string
       downloadMbps:
         type: number
+      emulationLimited:
+        type: boolean
       id:
         type: string
       lossPercent:
@@ -148,6 +150,8 @@ definitions:
         type: string
       uploadMbps:
         type: number
+      warning:
+        type: string
     type: object
 host: localhost:7783
 info:

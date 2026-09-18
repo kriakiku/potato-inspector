@@ -584,6 +584,9 @@
                 "downloadMbps": {
                     "type": "number"
                 },
+                "emulationLimited": {
+                    "type": "boolean"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -601,6 +604,9 @@
                 },
                 "uploadMbps": {
                     "type": "number"
+                },
+                "warning": {
+                    "type": "string"
                 }
             }
         }

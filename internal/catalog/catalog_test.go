@@ -50,4 +50,21 @@ func TestProfileForClampsWhenHostSlower(t *testing.T) {
 	if p.DelayMs != 0 {
 		t.Fatalf("DelayMs=%d want 0 when host CF RTT exceeds country", p.DelayMs)
 	}
+	if !p.EmulationLimited || p.Warning == "" {
+		t.Fatalf("expected EmulationLimited+Warning, got limited=%v warning=%q", p.EmulationLimited, p.Warning)
+	}
+}
+
+func TestProfileForNoLimitWhenHostFaster(t *testing.T) {
+	m, err := catalog.NewManager(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	p, err := m.ProfileFor("BD", "typical", map[string]int{"cf": 10})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if p.EmulationLimited || p.Warning != "" {
+		t.Fatalf("unexpected limit: %+v", p)
+	}
 }

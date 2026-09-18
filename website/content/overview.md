@@ -24,3 +24,5 @@ sidecar ──► PotatoNetwork netns
 3. **TLS handshake delay** — extra sleep before local MITM ServerHello so client-visible SSL time is not ~0 under MITM.
 
 API traffic and DNS **upstream** queries are fwmark-exempt from netem (nftables mark + netlink fw filter). Redirect uses nftables NAT.
+
+See also [Limitations](limitations) — statistical emulation, not a live replica of a country’s internet.

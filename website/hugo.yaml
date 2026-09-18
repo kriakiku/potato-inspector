@@ -23,14 +23,14 @@ markup:
 
 menu:
   main:
-    - name: Docs
-      pageRef: /docs
+    - name: Home
+      pageRef: /
       weight: 1
     - name: API
-      pageRef: /docs/api
+      pageRef: /api
       weight: 2
     - name: Profiles
-      pageRef: /docs/profiles-gallery
+      pageRef: /profiles-gallery
       weight: 3
     - name: Search
       weight: 4

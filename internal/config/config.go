@@ -16,7 +16,7 @@ const (
 const MITMPort = 8443
 
 // DocsURL is where GET / on the API port redirects (GitHub Pages / Hextra docs).
-const DocsURL = "https://kriakiku.github.io/potato-network/docs/api/#openapi"
+const DocsURL = "https://kriakiku.github.io/potato-network/api/#openapi"
 
 type Config struct {
 	DataDir         string

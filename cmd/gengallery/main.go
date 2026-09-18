@@ -28,7 +28,7 @@ var (
 func main() {
 	root := findRoot()
 	catalogPath := filepath.Join(root, "internal", "catalog", "data", "catalog.json")
-	outPath := filepath.Join(root, "website", "content", "docs", "profiles-gallery.md")
+	outPath := filepath.Join(root, "website", "content", "profiles-gallery.md")
 
 	raw, err := os.ReadFile(catalogPath)
 	if err != nil {

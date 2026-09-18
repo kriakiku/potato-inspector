@@ -160,21 +160,33 @@ func (m *Manager) ProfileFor(countryID, tier string, hostRtt map[string]int) (pr
 		hostCf = hostRtt["cf"]
 	}
 	effectiveRtt := targetRtt - hostCf
+	limited := false
+	warn := ""
+	if hostCf > 0 && hostCf >= targetRtt {
+		// Host already as slow or slower than the country profile — cannot add meaningful last-mile delay.
+		limited = true
+		warn = fmt.Sprintf(
+			"host CF RTT (%dms) >= country CF RTT (%dms); last-mile delay clamped to 0 — cannot quality-emulate a better network than yours",
+			hostCf, targetRtt,
+		)
+	}
 	if effectiveRtt < 0 {
 		effectiveRtt = 0
 	}
 	delay := effectiveRtt / 2
 	return profiles.Profile{
-		ID:           fmt.Sprintf("catalog:%s:%s", countryID, tier),
-		Name:         fmt.Sprintf("%s (%s)", c.Name, tier),
-		Description:  fmt.Sprintf("Last-mile %s/%s; base delay vs CF (target RTT %dms, host CF %dms)", countryID, tier, targetRtt, hostCf),
-		Country:      countryID,
-		Tier:         tier,
-		DelayMs:      delay,
-		DownloadMbps: t.DownloadMbps,
-		UploadMbps:   t.UploadMbps,
-		LossPercent:  t.LossPercent,
-		Passthrough:  false,
+		ID:               fmt.Sprintf("catalog:%s:%s", countryID, tier),
+		Name:             fmt.Sprintf("%s (%s)", c.Name, tier),
+		Description:      fmt.Sprintf("Last-mile %s/%s; base delay vs CF (target RTT %dms, host CF %dms)", countryID, tier, targetRtt, hostCf),
+		Country:          countryID,
+		Tier:             tier,
+		DelayMs:          delay,
+		DownloadMbps:     t.DownloadMbps,
+		UploadMbps:       t.UploadMbps,
+		LossPercent:      t.LossPercent,
+		Passthrough:      false,
+		EmulationLimited: limited,
+		Warning:          warn,
 	}, nil
 }
 
