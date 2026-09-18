@@ -455,9 +455,16 @@ func EnableForwarding() error {
 }
 
 func SetupNAT(subnet, uplink string) error {
+	uplink = strings.TrimSpace(uplink)
+	if uplink == "" {
+		return fmt.Errorf("MASQUERADE: empty uplink")
+	}
+	if !IfaceExists(uplink) {
+		return fmt.Errorf("MASQUERADE: uplink %q not found", uplink)
+	}
 	if err := exec.Command("iptables", "-t", "nat", "-C", "POSTROUTING", "-s", subnet, "-o", uplink, "-j", "MASQUERADE").Run(); err != nil {
 		if err := exec.Command("iptables", "-t", "nat", "-A", "POSTROUTING", "-s", subnet, "-o", uplink, "-j", "MASQUERADE").Run(); err != nil {
-			return fmt.Errorf("MASQUERADE: %w", err)
+			return fmt.Errorf("MASQUERADE -o %s: %w", uplink, err)
 		}
 	}
 	iface := os.Getenv("POTATOINSPECTOR_WG_IFACE")
@@ -474,7 +481,52 @@ func SetupNAT(subnet, uplink string) error {
 }
 
 func ClearNAT(subnet, uplink string) {
+	uplink = strings.TrimSpace(uplink)
+	if uplink == "" {
+		return
+	}
 	_ = exec.Command("iptables", "-t", "nat", "-D", "POSTROUTING", "-s", subnet, "-o", uplink, "-j", "MASQUERADE").Run()
+	iface := os.Getenv("POTATOINSPECTOR_WG_IFACE")
+	if iface == "" {
+		iface = "wg0"
+	}
+	_ = exec.Command("iptables", "-D", "FORWARD", "-i", iface, "-o", uplink, "-j", "ACCEPT").Run()
+	_ = exec.Command("iptables", "-D", "FORWARD", "-i", uplink, "-o", iface, "-m", "state", "--state", "RELATED,ESTABLISHED", "-j", "ACCEPT").Run()
 }
 
-// NewStdNetBind is in bind_linux.go / bind_stub.go
+// ApplyUplink replaces the NAT uplink, clearing previous iptables rules when already started.
+func (m *Manager) ApplyUplink(uplink string) error {
+	uplink = strings.TrimSpace(uplink)
+	if uplink == "" {
+		return fmt.Errorf("empty uplink")
+	}
+	if !IfaceExists(uplink) {
+		return fmt.Errorf("uplink %q not found", uplink)
+	}
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	if m.uplink == uplink {
+		return nil
+	}
+	prev := m.uplink
+	if m.started && prev != "" {
+		ClearNAT(m.subnet.String(), prev)
+	}
+	m.uplink = uplink
+	if m.started {
+		if err := SetupNAT(m.subnet.String(), uplink); err != nil {
+			m.uplink = prev
+			if prev != "" {
+				_ = SetupNAT(m.subnet.String(), prev)
+			}
+			return err
+		}
+	}
+	return nil
+}
+
+func (m *Manager) Uplink() string {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	return m.uplink
+}

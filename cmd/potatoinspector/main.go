@@ -41,6 +41,20 @@ func main() {
 		log.Fatal(err)
 	}
 
+	uplink, how, err := wg.ResolveUplink(settings.Uplink)
+	if err != nil {
+		log.Fatalf("uplink: %v", err)
+	}
+	if uplink != settings.Uplink {
+		log.Printf("uplink: %q → %q (%s)", settings.Uplink, uplink, how)
+		settings.Uplink = uplink
+		if err := st.SaveSettings(settings); err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		log.Printf("uplink: %q (%s)", uplink, how)
+	}
+
 	if !store.Exists(st.MITMRulesPath()) {
 		_ = st.SaveMITMRules(store.DefaultMITMRules())
 	}

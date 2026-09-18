@@ -56,7 +56,7 @@ On-tunnel: **http://potato.local** (CA install → Share after trust).
 | `POTATOINSPECTOR_WG_SUBNET` | `10.8.0.0/24` |
 | `POTATOINSPECTOR_WG_PORT` | `51820` |
 | `POTATOINSPECTOR_PANEL` | `8443` |
-| `POTATOINSPECTOR_UPLINK` | `eth0` |
+| `POTATOINSPECTOR_UPLINK` | `eth0` (overrides saved `settings.json`; must exist, or startup fails; if unset, uses saved iface or default-route device) |
 | `POTATOINSPECTOR_WG_IFACE` | `wg0` |
 
 Persisted under `/data`: settings, peers, catalog pull, MITM rules, CA. Inspector events are in-memory only.
