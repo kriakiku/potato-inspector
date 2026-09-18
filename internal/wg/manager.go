@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
+	"log"
 	"net"
 	"os"
 	"os/exec"
@@ -467,6 +468,10 @@ func SetupNAT(subnet, uplink string) error {
 			return fmt.Errorf("MASQUERADE -o %s: %w", uplink, err)
 		}
 	}
+	// Confirm the rule is actually present (iptables can accept -o for a missing iface at add time on some setups).
+	if err := exec.Command("iptables", "-t", "nat", "-C", "POSTROUTING", "-s", subnet, "-o", uplink, "-j", "MASQUERADE").Run(); err != nil {
+		return fmt.Errorf("MASQUERADE rule missing after setup (-s %s -o %s): %w", subnet, uplink, err)
+	}
 	iface := os.Getenv("POTATOINSPECTOR_WG_IFACE")
 	if iface == "" {
 		iface = "wg0"
@@ -477,6 +482,7 @@ func SetupNAT(subnet, uplink string) error {
 	if exec.Command("iptables", "-C", "FORWARD", "-i", uplink, "-o", iface, "-m", "state", "--state", "RELATED,ESTABLISHED", "-j", "ACCEPT").Run() != nil {
 		_ = exec.Command("iptables", "-A", "FORWARD", "-i", uplink, "-o", iface, "-m", "state", "--state", "RELATED,ESTABLISHED", "-j", "ACCEPT").Run()
 	}
+	log.Printf("NAT: MASQUERADE -s %s -o %s (FORWARD %s <-> %s)", subnet, uplink, iface, uplink)
 	return nil
 }
 

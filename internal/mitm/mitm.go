@@ -9,6 +9,7 @@ import (
 	"encoding/pem"
 	"fmt"
 	"io"
+	"log"
 	"math/big"
 	"net"
 	"net/http"
@@ -394,11 +395,18 @@ func (m *Manager) Start() error {
 		return err
 	}
 	go func() {
-		_ = cmd.Wait()
+		err := cmd.Wait()
 		m.mu.Lock()
+		// Drop TPROXY/REDIRECT so :80/:443 are not RST'd into a dead :8080.
+		ClearTPROXY(m.wgIface)
 		m.cmd = nil
 		m.enabled = false
 		m.mu.Unlock()
+		if err != nil {
+			log.Printf("WARN: mitmdump exited (%v) — TPROXY cleared; restart MITM from the panel", err)
+		} else {
+			log.Printf("mitmdump exited — TPROXY cleared")
+		}
 	}()
 	return nil
 }

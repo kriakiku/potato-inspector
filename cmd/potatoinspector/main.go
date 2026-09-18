@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -105,10 +106,14 @@ func main() {
 
 	wgOK := false
 	if err := wgm.Start(); err != nil {
-		log.Printf("WARN: WireGuard start failed (panel still up): %v", err)
+		if strings.Contains(err.Error(), "MASQUERADE") || strings.Contains(err.Error(), "uplink") {
+			log.Printf("WARN: NAT uplink failed — clients will see connection aborted / no internet: %v", err)
+		} else {
+			log.Printf("WARN: WireGuard start failed (panel still up): %v", err)
+		}
 	} else {
 		wgOK = true
-		log.Printf("WireGuard up on %s port %d pub=%s", cfg.WGIface, settings.WGPort, wgm.ServerPublicKey())
+		log.Printf("WireGuard up on %s port %d pub=%s uplink=%s", cfg.WGIface, settings.WGPort, wgm.ServerPublicKey(), wgm.Uplink())
 	}
 
 	hostRtt := ensureHostRtt(cat, st, &settings)
