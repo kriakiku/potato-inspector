@@ -1184,6 +1184,57 @@ h1 {
   border-top: 1px solid var(--line);
   margin: 1.25rem 0;
 }
+.docs-article table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0.35rem 0 1rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg0);
+  display: block;
+  overflow-x: auto;
+}
+.docs-article th,
+.docs-article td {
+  text-align: left;
+  padding: 0.55rem 0.75rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+.docs-article th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--bg2) 70%, var(--bg0));
+  white-space: nowrap;
+}
+.docs-article td {
+  color: color-mix(in srgb, var(--text) 92%, var(--muted));
+}
+.docs-article td:first-child {
+  color: var(--text);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.docs-article tbody tr:last-child th,
+.docs-article tbody tr:last-child td {
+  border-bottom: none;
+}
+.docs-article tbody tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--bg1) 55%, transparent);
+}
+.docs-article tbody tr:hover td {
+  background: color-mix(in srgb, var(--accent, #c4e86a) 8%, var(--bg1));
+}
+.docs-article td code {
+  white-space: nowrap;
+}
 @media (max-width: 720px) {
   .docs-shell {
     grid-template-columns: 1fr;

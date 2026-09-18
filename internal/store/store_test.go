@@ -11,7 +11,7 @@ import (
 func TestAtomicWriteJSON(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "settings.json")
-	v := store.Settings{ActiveProfileID: "bangladesh-dhaka-4g-europe", ForceDisableCache: true}
+	v := store.Settings{ActiveProfileID: "passthrough", ForceDisableCache: true}
 	if err := store.AtomicWriteJSON(path, v); err != nil {
 		t.Fatal(err)
 	}

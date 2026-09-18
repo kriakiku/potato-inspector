@@ -8,3 +8,4 @@ web/package-lock.json
 .env
 *.test
 __pycache__
+/dist
