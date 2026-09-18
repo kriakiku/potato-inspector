@@ -19,9 +19,13 @@ html {
   height: 100%;
   background: var(--bg0);
 }
-html, body, #root { margin: 0; }
+html, body, #root {
+  margin: 0;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
 body {
-  min-height: 100%;
   font-family: var(--font);
   color: var(--text);
   /* Fixed atmosphere layer — does not tile when content scrolls */
@@ -34,8 +38,8 @@ body {
   background-size: auto;
 }
 #root {
-  min-height: 100%;
-  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 .pi-toast {
@@ -122,8 +126,10 @@ input[type="checkbox"]:disabled {
 .shell {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
-  min-height: 100dvh;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
 }
 .nav {
   display: flex;
@@ -416,7 +422,7 @@ h1 {
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  height: 100%;
+  overflow: hidden;
 }
 .insp-toolbar {
   display: flex;
@@ -562,7 +568,7 @@ h1 {
   gap: 0;
   flex: 1;
   min-height: 0;
-  height: auto;
+  overflow: hidden;
 }
 .net-list, .net-side {
   display: flex;
@@ -617,10 +623,8 @@ h1 {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  position: sticky;
-  top: 0;
+  flex-shrink: 0;
   background: var(--bg1);
-  z-index: 1;
   align-items: center;
 }
 .net-row {
@@ -751,7 +755,9 @@ h1 {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  flex: 1;
   height: 100%;
+  overflow: hidden;
 }
 .net-detail-title {
   padding: 0.7rem 0.85rem;
@@ -760,6 +766,7 @@ h1 {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 0.85rem;
+  flex-shrink: 0;
 }
 .net-method {
   color: var(--accent);
@@ -854,11 +861,10 @@ h1 {
 @media (max-width: 960px) {
   .net-shell {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
   }
   .net-list, .net-side {
     min-height: 0;
-    height: auto;
     border-right: none;
     border-bottom: 1px solid var(--line);
   }

@@ -16,6 +16,7 @@ var builtin = []string{
 	"youtube.com",
 	"ytimg.com",
 	"googlezip.net",
+	"gvt2.com",
 	// Apple
 	"apple.com",
 	"icloud.com",

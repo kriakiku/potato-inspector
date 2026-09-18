@@ -11,6 +11,7 @@ func TestMatch(t *testing.T) {
 		{"www.google.com", true},
 		{"clients3.google.com", true},
 		{"connectivitycheck.gstatic.com", true},
+		{"redirector.gvt2.com", true},
 		{"captive.apple.com", true},
 		{"foo.bar.icloud.com", true},
 		{"example.com", false},

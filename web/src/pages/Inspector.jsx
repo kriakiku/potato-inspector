@@ -528,14 +528,14 @@ export default function Inspector() {
 
       <div className="net-shell">
         <div className="net-list panel-box">
+          <div className="net-list-head">
+            <span className="col-status">Status</span>
+            <span className="col-method">Method</span>
+            <span className="col-name">Request</span>
+            <span className="col-size">Size</span>
+            <span className="col-time">Time</span>
+          </div>
           <div className="net-list-scroll net-scroll" ref={listRef}>
-            <div className="net-list-head">
-              <span className="col-status">Status</span>
-              <span className="col-method">Method</span>
-              <span className="col-name">Request</span>
-              <span className="col-size">Size</span>
-              <span className="col-time">Time</span>
-            </div>
             {rows.length === 0 && (
               <div className="net-empty muted">
                 {events.length === 0
