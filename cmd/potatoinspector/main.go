@@ -67,6 +67,7 @@ func main() {
 	ign := ignore.NewRuntime(settings.SystemIgnoreEnabled, settings.CustomIgnore)
 	shaper := shape.New(cfg.WGIface)
 	shaper.SetIgnoreExempt(ign.Active())
+	shaper.SetDisablePacketLoss(settings.DisablePacketLoss)
 
 	addonDir := getenv("POTATOINSPECTOR_ADDON", "/app/mitmaddon")
 	if _, err := os.Stat(addonDir); err != nil {

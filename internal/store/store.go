@@ -51,6 +51,7 @@ type Settings struct {
 	ActiveTier        string `json:"activeTier"`
 	MITMEnabled       bool   `json:"mitmEnabled"`
 	ForceDisableCache bool   `json:"forceDisableCache"`
+	DisablePacketLoss bool   `json:"disablePacketLoss"` // keep delay/rate; force netem loss to 0
 	CaptureEnabled    bool   `json:"captureEnabled"` // always on; kept for older settings files
 	DNSIntercept      bool             `json:"dnsIntercept"`
 	ClientDNS         string           `json:"clientDns"`
@@ -76,6 +77,7 @@ func DefaultSettings(subnet string, port int, uplink string) Settings {
 		ActiveTier:        "typical",
 		MITMEnabled:       true,
 		ForceDisableCache: false,
+		DisablePacketLoss: false,
 		CaptureEnabled:    true,
 		DNSIntercept:        true,
 		ClientDNS:           "1.1.1.1",

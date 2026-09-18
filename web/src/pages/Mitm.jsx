@@ -100,10 +100,6 @@ export default function Mitm() {
           (HTTPS API at <code>potato-share.local</code>). See also{' '}
           <Link to="/docs/ca-android">Docs → CA</Link>.
         </p>
-        <p className="muted" style={{ marginTop: 6 }}>
-          iOS: Settings → General → VPN & Device Management → install profile, then enable full trust under Certificate Trust Settings.
-          Android: install CA as user cert (varies by OEM); some apps ignore user CAs.
-        </p>
       </div>
 
       <div className="panel-box">

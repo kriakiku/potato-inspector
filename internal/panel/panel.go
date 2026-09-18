@@ -157,6 +157,7 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 		"profile":          prof,
 		"mitmEnabled":      s.MITM.Enabled(),
 		"forceDisableCache": st.ForceDisableCache,
+		"disablePacketLoss": st.DisablePacketLoss,
 		"dnsShortTtl":      st.DNSShortTTL,
 		"dnsTtl":           st.DNSTTL,
 		"systemIgnoreEnabled": st.SystemIgnoreEnabled,
@@ -209,6 +210,7 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 			"dnsRewriteRules":    st.DNSRewriteRules,
 			"dnsBuiltinRules":    s.dnsBuiltinRules(),
 			"favoriteCountries":  st.FavoriteCountries,
+			"disablePacketLoss":  st.DisablePacketLoss,
 			"hostRttPinned":      st.HostRttPinned,
 		})
 	case http.MethodPut:
@@ -228,6 +230,9 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 		}
 		if v, ok := body["dnsTtl"].(float64); ok {
 			st.DNSTTL = store.NormalizeDNSTTL(int(v))
+		}
+		if v, ok := body["disablePacketLoss"].(bool); ok {
+			st.DisablePacketLoss = v
 		}
 		if _, ok := body["captureEnabled"]; ok {
 			// Capture is always on; Pause in Inspector gates recording at runtime.
@@ -258,12 +263,16 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 			writeJSON(w, 500, map[string]string{"error": err.Error()})
 			return
 		}
+		if s.Shape != nil {
+			s.Shape.SetDisablePacketLoss(st.DisablePacketLoss)
+		}
 		if s.DNS != nil {
 			if err := s.DNS.ApplyConfig(st.ClientDNS, st.DNSRewriteRules, st.DNSShortTTL, st.DNSTTL); err != nil {
 				// Forwarder still updated; resolv.conf may be RO (e.g. macOS host run).
 				writeJSON(w, 200, map[string]any{
 					"ok":                true,
 					"favoriteCountries": st.FavoriteCountries,
+					"disablePacketLoss": st.DisablePacketLoss,
 					"systemDnsWarning":  err.Error(),
 				})
 				_ = s.MITM.ReloadConfig()
@@ -271,7 +280,11 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		_ = s.MITM.ReloadConfig()
-		writeJSON(w, 200, map[string]any{"ok": true, "favoriteCountries": st.FavoriteCountries})
+		writeJSON(w, 200, map[string]any{
+			"ok":                true,
+			"favoriteCountries": st.FavoriteCountries,
+			"disablePacketLoss": st.DisablePacketLoss,
+		})
 	default:
 		http.Error(w, "method", http.StatusMethodNotAllowed)
 	}

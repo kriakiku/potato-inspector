@@ -108,7 +108,12 @@ export default function Share() {
     <div className="share-shell">
       <div className="share-toolbar">
         <h1>Share</h1>
-        <p className="lead share-lead">Live notepad — edits sync to every open tab (last write wins).</p>
+        <p className="lead share-lead">
+          Live notepad — edits sync to every open tab (last write wins). Tunnel clients that have
+          installed and trusted the MITM CA can use the same pad at{' '}
+          <a href="http://potato.local" target="_blank" rel="noreferrer">http://potato.local</a>
+          {' '}(no panel login needed).
+        </p>
         <div className="row share-actions">
           <button type="button" onClick={clear}>Clear</button>
           <button type="button" onClick={copy}>Copy</button>

@@ -11,12 +11,13 @@ import (
 )
 
 type Manager struct {
-	mu           sync.RWMutex
-	iface        string
-	active       string
-	status       string
-	ignoreExempt bool // route fwmark to passthrough class
-	lastProfile  profiles.Profile
+	mu                sync.RWMutex
+	iface             string
+	active            string
+	status            string
+	ignoreExempt      bool // route fwmark to passthrough class
+	disablePacketLoss bool // force netem loss to 0; keep delay/rate
+	lastProfile       profiles.Profile
 }
 
 func New(iface string) *Manager {
@@ -49,6 +50,23 @@ func (m *Manager) SetIgnoreExempt(on bool) {
 	if has && !p.Passthrough {
 		_ = m.Apply(p)
 	}
+}
+
+func (m *Manager) SetDisablePacketLoss(on bool) {
+	m.mu.Lock()
+	m.disablePacketLoss = on
+	p := m.lastProfile
+	has := m.active != "" && m.active != "passthrough"
+	m.mu.Unlock()
+	if has && !p.Passthrough {
+		_ = m.Apply(p)
+	}
+}
+
+func (m *Manager) DisablePacketLoss() bool {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	return m.disablePacketLoss
 }
 
 func (m *Manager) Clear() error {
@@ -90,9 +108,13 @@ func (m *Manager) Apply(p profiles.Profile) error {
 
 	jitter := p.DelayMs / 10
 	exempt := m.ignoreExempt
+	loss := p.LossPercent
+	if m.disablePacketLoss {
+		loss = 0
+	}
 
 	// Egress = upload
-	if err := applyHTBNetem(m.iface, p.DelayMs, jitter, p.LossPercent, p.UploadMbps, exempt); err != nil {
+	if err := applyHTBNetem(m.iface, p.DelayMs, jitter, loss, p.UploadMbps, exempt); err != nil {
 		return fmt.Errorf("egress(upload): %w", err)
 	}
 
@@ -100,7 +122,7 @@ func (m *Manager) Apply(p profiles.Profile) error {
 	if err := setupIFB(m.iface); err != nil {
 		return fmt.Errorf("ifb: %w", err)
 	}
-	if err := applyHTBNetem("ifb0", p.DelayMs, jitter, p.LossPercent, p.DownloadMbps, exempt); err != nil {
+	if err := applyHTBNetem("ifb0", p.DelayMs, jitter, loss, p.DownloadMbps, exempt); err != nil {
 		return fmt.Errorf("ingress(download): %w", err)
 	}
 
@@ -114,8 +136,11 @@ func (m *Manager) Apply(p profiles.Profile) error {
 	if exempt {
 		extra = " ignore-exempt=on"
 	}
+	if m.disablePacketLoss {
+		extra += " loss-off"
+	}
 	m.status = fmt.Sprintf("delay=%dms(one-way≈%dms RTT) loss=%.2f%% down=%.1fMbps up=%.1fMbps%s",
-		p.DelayMs, p.DelayMs*2, p.LossPercent, p.DownloadMbps, p.UploadMbps, extra)
+		p.DelayMs, p.DelayMs*2, loss, p.DownloadMbps, p.UploadMbps, extra)
 	return nil
 }
 

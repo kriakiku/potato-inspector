@@ -16,6 +16,7 @@ export default function Profiles() {
   const [favorites, setFavorites] = useState([])
   const [hostCfRtt, setHostCfRtt] = useState(0)
   const [activeCountry, setActiveCountry] = useState('')
+  const [disablePacketLoss, setDisablePacketLoss] = useState(false)
   const [busy, setBusy] = useState(false)
 
   async function load() {
@@ -27,6 +28,7 @@ export default function Profiles() {
     setFavorites(st.favoriteCountries || [])
     setHostCfRtt(st.hostRtt?.cf || 0)
     setActiveCountry(st.activeCountry || '')
+    setDisablePacketLoss(!!st.disablePacketLoss)
   }
 
   useEffect(() => {
@@ -66,6 +68,20 @@ export default function Profiles() {
     }
   }
 
+  async function toggleDisablePacketLoss() {
+    const next = !disablePacketLoss
+    try {
+      const res = await api('/api/settings', {
+        method: 'PUT',
+        body: { disablePacketLoss: next },
+      })
+      setDisablePacketLoss(!!res.disablePacketLoss)
+      notifySuccess(next ? 'Packet loss disabled' : 'Packet loss from profile')
+    } catch (e) {
+      notifyError(e.message)
+    }
+  }
+
   async function apply(country, tier) {
     try {
       await api('/api/catalog/apply', {
@@ -100,10 +116,19 @@ export default function Profiles() {
         <button className="primary" disabled={busy} onClick={refreshCatalog}>
           {busy ? 'Updating…' : 'Update catalog from GitHub'}
         </button>
+        <label className="form-check" title="Keep delay and bandwidth; force netem loss to 0%">
+          <input
+            type="checkbox"
+            checked={disablePacketLoss}
+            onChange={toggleDisablePacketLoss}
+          />
+          Disable packet loss
+        </label>
         <span className="muted mono" style={{ fontSize: '0.8rem' }}>
           {catalog.source || '—'} · {catalog.generatedAt || ''}
           {favorites.length ? ` · ${favorites.length} ⭐` : ''}
           {tooCloseCount ? ` · ${tooCloseCount} 💩` : ''}
+          {disablePacketLoss ? ' · loss off' : ''}
         </span>
       </div>
 
