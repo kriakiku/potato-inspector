@@ -7,3 +7,4 @@ web/package-lock.json
 .DS_Store
 .env
 *.test
+__pycache__
