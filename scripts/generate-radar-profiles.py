@@ -351,7 +351,10 @@ def country_list(token: str | None) -> list[tuple[str, str, str, float, float]]:
     out = []
     if token:
         try:
+            print("fetching Radar locations…", file=sys.stderr)
+            sys.stderr.flush()
             locs = radar_locations(token)
+            print(f"radar locations raw: {len(locs)}", file=sys.stderr)
             for loc in locs:
                 code = (loc.get("alpha2") or "").upper()
                 if len(code) != 2:
@@ -368,10 +371,15 @@ def country_list(token: str | None) -> list[tuple[str, str, str, float, float]]:
                         lat, lon = 0.0, 0.0
                 out.append((code, name, flag, lat, lon))
             if out:
+                print(f"radar locations usable: {len(out)}", file=sys.stderr)
+                sys.stderr.flush()
                 return sorted(out, key=lambda x: x[0])
         except Exception as e:
             print(f"radar locations failed: {e}", file=sys.stderr)
+            sys.stderr.flush()
     # fallback: COUNTRY_META keys that we care about (seed + extras)
+    print(f"using COUNTRY_META seed list ({len(COUNTRY_META)} countries)", file=sys.stderr)
+    sys.stderr.flush()
     for code, (name, flag, lat, lon) in sorted(COUNTRY_META.items()):
         out.append((code, name, flag, lat, lon))
     return out
@@ -383,7 +391,13 @@ def main() -> int:
         "CLOUDPING_URL", "https://www.cloudping.co/api/latencies"
     )
 
-    print("fetching CloudPing matrix…", file=sys.stderr)
+    if token:
+        print("CLOUDFLARE_API_TOKEN set — using Radar last-mile", file=sys.stderr)
+    else:
+        print("CLOUDFLARE_API_TOKEN missing — seed last-mile only", file=sys.stderr)
+
+    print(f"fetching CloudPing matrix… ({cloudping_url})", file=sys.stderr)
+    sys.stderr.flush()
     try:
         matrix = fetch_cloudping(cloudping_url)
         print(f"cloudping regions: {len(matrix)}", file=sys.stderr)
@@ -392,9 +406,20 @@ def main() -> int:
         print(f"cloudping failed ({e}), using geo backbone", file=sys.stderr)
         matrix = {}
         source = "radar+geo" if token else "seed+geo"
+    sys.stderr.flush()
+
+    print("loading country list…", file=sys.stderr)
+    sys.stderr.flush()
+    countries = country_list(token if token else None)
+    print(f"countries to process: {len(countries)}", file=sys.stderr)
+    sys.stderr.flush()
 
     countries_out = []
-    for code, name, flag, lat, lon in country_list(token if token else None):
+    radar_ok = 0
+    radar_fail = 0
+    seed_ok = 0
+    total = len(countries)
+    for i, (code, name, flag, lat, lon) in enumerate(countries, start=1):
         if lat == 0 and lon == 0 and code in COUNTRY_META:
             _, flag, lat, lon = COUNTRY_META[code]
 
@@ -412,8 +437,14 @@ def main() -> int:
                     idle = float(summary.get("latencyIdle") or rtt_cf)
                     rtt_cf = max(1, int(round(idle)))
                     rtt_source = "radar"
+                    radar_ok += 1
                 except (TypeError, ValueError):
-                    pass
+                    radar_fail += 1
+            else:
+                radar_fail += 1
+                print(f"  [{i}/{total}] {code} radar miss → seed", file=sys.stderr)
+        else:
+            seed_ok += 1
 
         nearest_id = nearest_aws(lat, lon) if (lat or lon) else "aws-eu-central-1"
         nearest_region = AWS_DESTS[nearest_id]["region"]
@@ -434,6 +465,15 @@ def main() -> int:
             }
         )
 
+        # Progress: every country when using Radar (slow), every 25 otherwise.
+        if token or i == 1 or i == total or i % 25 == 0:
+            print(
+                f"  [{i}/{total}] {code} {name} · {rtt_source} · "
+                f"↓{down:.0f}/↑{up:.0f} loss={loss:.2f}% cf={rtt['cf']}ms · nearest={nearest_id}",
+                file=sys.stderr,
+            )
+            sys.stderr.flush()
+
     catalog = {
         "generatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "source": source,
@@ -445,6 +485,13 @@ def main() -> int:
     OUT.write_text(text, encoding="utf-8")
     EMBED.parent.mkdir(parents=True, exist_ok=True)
     EMBED.write_text(text, encoding="utf-8")
+    print(
+        f"done: {len(countries_out)} countries · source={source} · "
+        f"radar_ok={radar_ok} radar_fail={radar_fail} seed={seed_ok}",
+        file=sys.stderr,
+    )
+    print(f"wrote {OUT}", file=sys.stderr)
+    print(f"wrote {EMBED}", file=sys.stderr)
     print(f"wrote {OUT} ({len(countries_out)} countries, source={source})")
     return 0
 
