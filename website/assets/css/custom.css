@@ -1,0 +1,19 @@
+/* Full-bleed ReDoc: sidebar is already hidden via front matter; widen the reading column. */
+body:has(#redoc-container) {
+  --hextra-max-content-width: 100%;
+  --hextra-max-page-width: 100%;
+}
+
+#redoc-container.pn-redoc {
+  width: 100%;
+  min-height: calc(100vh - 8rem);
+  margin-top: 1rem;
+}
+
+/* ReDoc brings its own chrome; drop pager noise under it. */
+body:has(#redoc-container) nav[aria-label="pagination"],
+body:has(#redoc-container) .hextra-pagination,
+body:has(#redoc-container) .hx\\:mt-16:has(a[rel="prev"]),
+body:has(#redoc-container) .hx\\:mt-16:has(a[rel="next"]) {
+  display: none !important;
+}

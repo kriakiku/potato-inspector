@@ -90,11 +90,11 @@ func main() {
 		}
 		nearest, _ := c["nearestAws"].(string)
 		title := fmt.Sprintf("## %s %s (`%s`)", flagEmoji(cid), name, cid)
-		if nearest != "" {
-			title += fmt.Sprintf(" · nearest AWS `%s`", shortLabel(nearest, cat.Destinations))
-		}
 		b.WriteString(title)
 		b.WriteString("\n\n")
+		if nearest != "" {
+			fmt.Fprintf(&b, "Nearest AWS: `%s`.\n\n", shortLabel(nearest, cat.Destinations))
+		}
 		b.WriteString("| " + strings.Join(headers, " | ") + " |\n")
 		b.WriteString("| " + strings.Join(sep, " | ") + " |\n")
 

@@ -5,34 +5,15 @@ weight: 20
 
 Base URL: `http://<host>:7783` (publish only the API port from the PotatoNetwork container).
 
-Opening `http://<host>:7783/` in a browser **302-redirects** to this OpenAPI section
-(`https://kriakiku.github.io/potato-network/api/#openapi`).
+Opening `http://<host>:7783/` in a browser **302-redirects** to the full-width [OpenAPI / ReDoc](openapi) page
+(`https://kriakiku.github.io/potato-network/openapi/`).
 JSON API lives under `/v1/…`.
 
 Auth (optional): `Authorization: Bearer <POTATONETWORK_API_TOKEN>`. If the token ENV/file is empty, auth is off. `/v1/health` and `GET /` are always open.
 
 When `POTATONETWORK_API_TOKEN` is set, the API answers CORS preflight (`OPTIONS`) and allows any origin / method / header (so browser UIs can call with the Bearer token).
 
-## OpenAPI {#openapi}
-
-Interactive reference (ReDoc) plus downloadable specs:
-
-- [swagger.json](https://kriakiku.github.io/potato-network/swagger.json)
-- [swagger.yaml](https://kriakiku.github.io/potato-network/swagger.yaml)
-
-<div id="redoc-container"></div>
-<script src="https://cdn.redoc.ly/redoc/v2.1.5/bundles/redoc.standalone.js"></script>
-<script>
-  Redoc.init(
-    "https://kriakiku.github.io/potato-network/swagger.json",
-    {
-      scrollYOffset: 60,
-      hideDownloadButton: false,
-      expandResponses: "200",
-    },
-    document.getElementById("redoc-container")
-  );
-</script>
+Interactive reference: **[OpenAPI (ReDoc)](openapi)** — also [swagger.json](https://kriakiku.github.io/potato-network/swagger.json) · [swagger.yaml](https://kriakiku.github.io/potato-network/swagger.yaml).
 
 ## Endpoints (summary)
 

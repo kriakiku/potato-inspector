@@ -3,7 +3,7 @@
 [![Go](https://img.shields.io/badge/Go-1.26-00ADD8?logo=go&logoColor=white)](https://go.dev/)
 [![CI](https://github.com/kriakiku/potato-network/actions/workflows/ci.yml/badge.svg)](https://github.com/kriakiku/potato-network/actions/workflows/ci.yml)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue?logo=github)](https://kriakiku.github.io/potato-network/)
-[![OpenAPI](https://img.shields.io/badge/OpenAPI-Swagger-85EA2D?logo=swagger&logoColor=black)](https://kriakiku.github.io/potato-network/api/#openapi)
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-Swagger-85EA2D?logo=swagger&logoColor=black)](https://kriakiku.github.io/potato-network/openapi/)
 
 Go-only last-mile network emulator for Docker: run PotatoNetwork as a container, attach apps with `network_mode: service:potatonetwork`, pick a country profile via API, and traffic (including DNS) gets shaped. Transparent MITM applies path delay from an [expr](https://github.com/expr-lang/expr) script. No WireGuard, no web UI.
 
@@ -60,7 +60,7 @@ Sidecars share the netns, so DNS is already `127.0.0.1` after PotatoNetwork rewr
 | `POTATONETWORK_BASELINE_CRON` | empty | Empty/unset = every 3h at random UTC minute; `false` = disable; or `M */N * * *` |
 | `POTATONETWORK_UPLINK` | auto | Egress iface for netlink shaping |
 
-`GET /` on the API port always redirects to the OpenAPI docs (`https://kriakiku.github.io/potato-network/api/#openapi`).
+`GET /` on the API port always redirects to the OpenAPI docs (`https://kriakiku.github.io/potato-network/openapi/`).
 
 DNS upstream comes from the container’s `/etc/resolv.conf` (Docker embedded `127.0.0.11`, or Compose `dns:`). After boot, resolv is rewritten to `127.0.0.1` so the netns uses PotatoNetwork’s shaped `:53`. Do not set `dns: [127.0.0.1]` on the potatonetwork service — that hides the real upstream.
 
@@ -71,10 +71,10 @@ Boot profile is **passthrough** unless `POTATONETWORK_PROFILE_COUNTRY` is set (t
 Site sources live under [`website/`](website/) ([Hextra](https://imfing.github.io/hextra/)); published via GitHub Pages.
 
 - Docs home: https://kriakiku.github.io/potato-network/
-- OpenAPI (ReDoc): https://kriakiku.github.io/potato-network/api/#openapi
-- Spec download: [swagger.json](https://kriakiku.github.io/potato-network/swagger.json) · [swagger.yaml](https://kriakiku.github.io/potato-network/swagger.yaml)
+- OpenAPI (ReDoc): https://kriakiku.github.io/potato-network/openapi/
+- Spec download: [swagger.json](https://kriakiku.github.io/potato-network/swagger.json) · [swagger.yaml](https://kriakiku.github.io/potato-network/swagger.yaml) (generated on Pages build / CI; not stored in git)
 
-Regenerate OpenAPI locally:
+Regenerate OpenAPI locally (writes ignored files under `website/static/` before `hugo`):
 
 ```bash
 go run github.com/swaggo/swag/cmd/swag@v1.16.4 init \

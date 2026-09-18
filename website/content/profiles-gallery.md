@@ -9,7 +9,9 @@ RTT columns are milliseconds to catalog destinations. Last-mile one-way delay at
 
 Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland, `IAD` = AWS N. Virginia, `PDX` = AWS Oregon, `SIN` = AWS Singapore, `NRT` = AWS Tokyo, `BOM` = AWS Mumbai.
 
-## 🇦🇫 Afghanistan (`AF`) · nearest AWS `BOM`
+## 🇦🇫 Afghanistan (`AF`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -17,7 +19,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 9.2 | 6.6 | 2.92 | 106 | 235 | 228 | 303 | 346 | 168 | 237 | 106 |
 | poor | 1.8 | 1.3 | 8.77 | 148 | 329 | 319 | 424 | 484 | 235 | 332 | 148 |
 
-## 🇦🇽 Aland Islands (`AX`) · nearest AWS `FRA`
+## 🇦🇽 Aland Islands (`AX`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -25,7 +29,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇦🇱 Albania (`AL`) · nearest AWS `FRA`
+## 🇦🇱 Albania (`AL`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -33,7 +39,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 140.8 | 60 | 0.28 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 28.2 | 12 | 1 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇩🇿 Algeria (`DZ`) · nearest AWS `FRA`
+## 🇩🇿 Algeria (`DZ`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -41,7 +49,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 110.5 | 54.2 | 0.07 | 37 | 37 | 59 | 127 | 185 | 199 | 264 | 165 |
 | poor | 22.1 | 10.8 | 1 | 52 | 52 | 83 | 178 | 259 | 279 | 370 | 231 |
 
-## 🇦🇸 American Samoa (`AS`) · nearest AWS `NRT`
+## 🇦🇸 American Samoa (`AS`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -49,7 +59,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇦🇩 Andorra (`AD`) · nearest AWS `FRA`
+## 🇦🇩 Andorra (`AD`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -57,7 +69,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 163.8 | 119.7 | 0.24 | 35 | 35 | 57 | 125 | 183 | 197 | 262 | 163 |
 | poor | 32.8 | 23.9 | 1 | 49 | 49 | 80 | 175 | 256 | 276 | 367 | 228 |
 
-## 🇦🇴 Angola (`AO`) · nearest AWS `FRA`
+## 🇦🇴 Angola (`AO`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -65,7 +79,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 31.8 | 13 | 0.06 | 81 | 81 | 103 | 171 | 229 | 243 | 308 | 209 |
 | poor | 6.4 | 2.6 | 1 | 113 | 113 | 144 | 239 | 321 | 340 | 431 | 293 |
 
-## 🇦🇮 Anguilla (`AI`) · nearest AWS `IAD`
+## 🇦🇮 Anguilla (`AI`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -73,7 +89,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 133 | 108 | 40 | 107 | 258 | 188 | 239 |
 | poor | 8 | 3 | 1.2 | 56 | 186 | 151 | 56 | 150 | 361 | 263 | 335 |
 
-## 🇦🇶 Antarctica (`AQ`) · nearest AWS `SIN`
+## 🇦🇶 Antarctica (`AQ`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -81,7 +99,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 201 | 212 | 260 | 220 | 40 | 109 | 102 |
 | poor | 8 | 3 | 1.2 | 56 | 281 | 297 | 364 | 308 | 56 | 153 | 143 |
 
-## 🇦🇬 Antigua and Barbuda (`AG`) · nearest AWS `IAD`
+## 🇦🇬 Antigua and Barbuda (`AG`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -89,7 +109,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 51.9 | 22.3 | 0.03 | 59 | 152 | 127 | 59 | 126 | 277 | 207 | 258 |
 | poor | 10.4 | 4.5 | 1 | 83 | 213 | 178 | 83 | 176 | 388 | 290 | 361 |
 
-## 🇦🇷 Argentina (`AR`) · nearest AWS `IAD`
+## 🇦🇷 Argentina (`AR`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -97,7 +119,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 187.2 | 94.8 | 0.36 | 30 | 123 | 98 | 30 | 97 | 248 | 178 | 229 |
 | poor | 37.4 | 19 | 1.08 | 42 | 172 | 137 | 42 | 136 | 347 | 249 | 321 |
 
-## 🇦🇲 Armenia (`AM`) · nearest AWS `FRA`
+## 🇦🇲 Armenia (`AM`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -105,7 +129,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 150.7 | 100.1 | 0.1 | 24 | 24 | 46 | 114 | 172 | 186 | 251 | 152 |
 | poor | 30.1 | 20 | 1 | 34 | 34 | 64 | 160 | 241 | 260 | 351 | 213 |
 
-## 🇦🇼 Aruba (`AW`) · nearest AWS `IAD`
+## 🇦🇼 Aruba (`AW`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -113,7 +139,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 156.2 | 28.3 | 0.07 | 56 | 149 | 124 | 56 | 123 | 274 | 204 | 255 |
 | poor | 31.2 | 5.7 | 1 | 78 | 209 | 174 | 78 | 172 | 384 | 286 | 357 |
 
-## ● Asia/Pacific Region (`AP`) · nearest AWS `FRA`
+## ● Asia/Pacific Region (`AP`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -121,7 +149,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇦🇺 Australia (`AU`) · nearest AWS `SIN`
+## 🇦🇺 Australia (`AU`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -129,7 +159,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 177.8 | 36.7 | 0.02 | 29 | 190 | 201 | 249 | 209 | 29 | 98 | 91 |
 | poor | 35.6 | 7.3 | 1 | 41 | 266 | 281 | 349 | 293 | 41 | 137 | 127 |
 
-## 🇦🇹 Austria (`AT`) · nearest AWS `FRA`
+## 🇦🇹 Austria (`AT`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -137,7 +169,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 159 | 42.9 | 0.03 | 32 | 32 | 54 | 122 | 180 | 194 | 259 | 160 |
 | poor | 31.8 | 8.6 | 1 | 45 | 45 | 76 | 171 | 252 | 272 | 363 | 224 |
 
-## 🇦🇿 Azerbaijan (`AZ`) · nearest AWS `BOM`
+## 🇦🇿 Azerbaijan (`AZ`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -145,7 +179,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 174.2 | 108.7 | 0.34 | 22 | 151 | 144 | 219 | 262 | 84 | 153 | 22 |
 | poor | 34.8 | 21.7 | 1.03 | 31 | 211 | 202 | 307 | 367 | 118 | 214 | 31 |
 
-## 🇧🇸 Bahamas (`BS`) · nearest AWS `IAD`
+## 🇧🇸 Bahamas (`BS`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -153,7 +189,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 114.4 | 67.5 | 0.09 | 20 | 113 | 88 | 20 | 87 | 238 | 168 | 219 |
 | poor | 22.9 | 13.5 | 1 | 28 | 158 | 123 | 28 | 122 | 333 | 235 | 307 |
 
-## 🇧🇭 Bahrain (`BH`) · nearest AWS `BOM`
+## 🇧🇭 Bahrain (`BH`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -161,7 +199,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 165.6 | 54.1 | 0 | 20 | 149 | 142 | 217 | 260 | 82 | 151 | 20 |
 | poor | 33.1 | 10.8 | 1 | 28 | 209 | 199 | 304 | 364 | 115 | 211 | 28 |
 
-## 🇧🇩 Bangladesh (`BD`) · nearest AWS `BOM`
+## 🇧🇩 Bangladesh (`BD`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -169,7 +209,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 62.2 | 52.5 | 0.23 | 26 | 155 | 148 | 223 | 266 | 88 | 157 | 26 |
 | poor | 12.4 | 10.5 | 1 | 36 | 217 | 207 | 312 | 372 | 123 | 220 | 36 |
 
-## 🇧🇧 Barbados (`BB`) · nearest AWS `IAD`
+## 🇧🇧 Barbados (`BB`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -177,7 +219,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 158.8 | 95.8 | 0 | 46 | 139 | 114 | 46 | 113 | 264 | 194 | 245 |
 | poor | 31.8 | 19.2 | 1 | 64 | 195 | 160 | 64 | 158 | 370 | 272 | 343 |
 
-## ● Belarus (`BY`) · nearest AWS `FRA`
+## ● Belarus (`BY`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -185,7 +229,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 108.5 | 78.7 | 0.01 | 29 | 29 | 51 | 119 | 177 | 191 | 256 | 157 |
 | poor | 21.7 | 15.7 | 1 | 41 | 41 | 71 | 167 | 248 | 267 | 358 | 220 |
 
-## 🇧🇪 Belgium (`BE`) · nearest AWS `FRA`
+## 🇧🇪 Belgium (`BE`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -193,7 +239,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 211 | 44.5 | 0.02 | 22 | 22 | 44 | 112 | 170 | 184 | 249 | 150 |
 | poor | 42.2 | 8.9 | 1 | 31 | 31 | 62 | 157 | 238 | 258 | 349 | 210 |
 
-## 🇧🇿 Belize (`BZ`) · nearest AWS `IAD`
+## 🇧🇿 Belize (`BZ`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -201,7 +249,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 64.2 | 38.5 | 0.28 | 39 | 132 | 107 | 39 | 106 | 257 | 187 | 238 |
 | poor | 12.8 | 7.7 | 1 | 55 | 185 | 150 | 55 | 148 | 360 | 262 | 333 |
 
-## 🇧🇯 Benin (`BJ`) · nearest AWS `FRA`
+## 🇧🇯 Benin (`BJ`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -209,7 +259,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 21.6 | 7.8 | 0.71 | 135 | 135 | 157 | 225 | 283 | 297 | 362 | 263 |
 | poor | 4.3 | 1.6 | 2.14 | 189 | 189 | 220 | 315 | 396 | 416 | 507 | 368 |
 
-## 🇧🇲 Bermuda (`BM`) · nearest AWS `IAD`
+## 🇧🇲 Bermuda (`BM`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -217,7 +269,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 195.9 | 62.7 | 0 | 46 | 139 | 114 | 46 | 113 | 264 | 194 | 245 |
 | poor | 39.2 | 12.5 | 1 | 64 | 195 | 160 | 64 | 158 | 370 | 272 | 343 |
 
-## 🇧🇹 Bhutan (`BT`) · nearest AWS `BOM`
+## 🇧🇹 Bhutan (`BT`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -225,7 +279,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 49 | 34.6 | 0.85 | 74 | 203 | 196 | 271 | 314 | 136 | 205 | 74 |
 | poor | 9.8 | 6.9 | 2.54 | 104 | 284 | 274 | 379 | 440 | 190 | 287 | 104 |
 
-## 🇧🇴 Bolivia (`BO`) · nearest AWS `IAD`
+## 🇧🇴 Bolivia (`BO`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -233,7 +289,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 125.4 | 43.2 | 0.63 | 45 | 138 | 113 | 45 | 112 | 263 | 193 | 244 |
 | poor | 25.1 | 8.6 | 1.88 | 63 | 193 | 158 | 63 | 157 | 368 | 270 | 342 |
 
-## 🇧🇶 Bonaire (`BQ`) · nearest AWS `FRA`
+## 🇧🇶 Bonaire (`BQ`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -241,7 +299,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 121.2 | 27.5 | 0.02 | 54 | 54 | 76 | 144 | 202 | 216 | 281 | 182 |
 | poor | 24.2 | 5.5 | 1 | 76 | 76 | 106 | 202 | 283 | 302 | 393 | 255 |
 
-## 🇧🇦 Bosnia and Herzegovina (`BA`) · nearest AWS `FRA`
+## 🇧🇦 Bosnia and Herzegovina (`BA`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -249,7 +309,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 71.6 | 14.5 | 0.5 | 43 | 43 | 65 | 133 | 191 | 205 | 270 | 171 |
 | poor | 14.3 | 2.9 | 1.51 | 60 | 60 | 91 | 186 | 267 | 287 | 378 | 239 |
 
-## 🇧🇼 Botswana (`BW`) · nearest AWS `BOM`
+## 🇧🇼 Botswana (`BW`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -257,7 +319,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 50.7 | 21.7 | 0.22 | 48 | 177 | 170 | 245 | 288 | 110 | 179 | 48 |
 | poor | 10.1 | 4.3 | 1 | 67 | 248 | 238 | 343 | 403 | 154 | 251 | 67 |
 
-## 🇧🇻 Bouvet Island (`BV`) · nearest AWS `BOM`
+## 🇧🇻 Bouvet Island (`BV`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -265,7 +329,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 169 | 162 | 237 | 280 | 102 | 171 | 40 |
 | poor | 8 | 3 | 1.2 | 56 | 237 | 227 | 332 | 392 | 143 | 239 | 56 |
 
-## 🇧🇷 Brazil (`BR`) · nearest AWS `IAD`
+## 🇧🇷 Brazil (`BR`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -273,7 +339,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 298.8 | 141 | 0.28 | 29 | 122 | 97 | 29 | 96 | 247 | 177 | 228 |
 | poor | 59.8 | 28.2 | 1 | 41 | 171 | 136 | 41 | 134 | 346 | 248 | 319 |
 
-## 🇮🇴 British Indian Ocean Territory (`IO`) · nearest AWS `BOM`
+## 🇮🇴 British Indian Ocean Territory (`IO`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -281,7 +349,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 169 | 162 | 237 | 280 | 102 | 171 | 40 |
 | poor | 8 | 3 | 1.2 | 56 | 237 | 227 | 332 | 392 | 143 | 239 | 56 |
 
-## 🇧🇳 Brunei Darussalam (`BN`) · nearest AWS `SIN`
+## 🇧🇳 Brunei Darussalam (`BN`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -289,7 +359,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 97.9 | 67.6 | 0.02 | 13 | 174 | 185 | 233 | 193 | 13 | 82 | 75 |
 | poor | 19.6 | 13.5 | 1 | 18 | 244 | 259 | 326 | 270 | 18 | 115 | 105 |
 
-## 🇧🇬 Bulgaria (`BG`) · nearest AWS `FRA`
+## 🇧🇬 Bulgaria (`BG`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -297,7 +369,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 153.1 | 87.5 | 0.1 | 26 | 26 | 48 | 116 | 174 | 188 | 253 | 154 |
 | poor | 30.6 | 17.5 | 1 | 36 | 36 | 67 | 162 | 244 | 263 | 354 | 216 |
 
-## 🇧🇫 Burkina Faso (`BF`) · nearest AWS `FRA`
+## 🇧🇫 Burkina Faso (`BF`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -305,7 +379,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 57.2 | 17.6 | 0.17 | 73 | 73 | 95 | 163 | 221 | 235 | 300 | 201 |
 | poor | 11.4 | 3.5 | 1 | 102 | 102 | 133 | 228 | 309 | 329 | 420 | 281 |
 
-## 🇧🇮 Burundi (`BI`) · nearest AWS `BOM`
+## 🇧🇮 Burundi (`BI`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -313,7 +389,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 14 | 9.5 | 2.92 | 150 | 279 | 272 | 347 | 390 | 212 | 281 | 150 |
 | poor | 2.8 | 1.9 | 8.75 | 210 | 391 | 381 | 486 | 546 | 297 | 393 | 210 |
 
-## 🇰🇭 Cambodia (`KH`) · nearest AWS `SIN`
+## 🇰🇭 Cambodia (`KH`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -321,7 +399,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 59.3 | 45.3 | 0.19 | 64 | 225 | 236 | 284 | 244 | 64 | 133 | 126 |
 | poor | 11.9 | 9.1 | 1 | 90 | 315 | 330 | 398 | 342 | 90 | 186 | 176 |
 
-## 🇨🇲 Cameroon (`CM`) · nearest AWS `FRA`
+## 🇨🇲 Cameroon (`CM`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -329,7 +409,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 16 | 8 | 0.27 | 119 | 119 | 141 | 209 | 267 | 281 | 346 | 247 |
 | poor | 3.2 | 1.6 | 1 | 167 | 167 | 197 | 293 | 374 | 393 | 484 | 346 |
 
-## 🇨🇦 Canada (`CA`) · nearest AWS `IAD`
+## 🇨🇦 Canada (`CA`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -337,7 +419,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 264.3 | 107.4 | 0.04 | 28 | 121 | 96 | 28 | 95 | 246 | 176 | 227 |
 | poor | 52.9 | 21.5 | 1 | 39 | 169 | 134 | 39 | 133 | 344 | 246 | 318 |
 
-## 🇨🇻 Cape Verde (`CV`) · nearest AWS `DUB`
+## 🇨🇻 Cape Verde (`CV`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -345,7 +429,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 59.2 | 29 | 0.08 | 52 | 74 | 52 | 121 | 177 | 227 | 256 | 175 |
 | poor | 11.8 | 5.8 | 1 | 73 | 104 | 73 | 169 | 248 | 318 | 358 | 245 |
 
-## 🇰🇾 Cayman Islands (`KY`) · nearest AWS `IAD`
+## 🇰🇾 Cayman Islands (`KY`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -353,7 +439,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 223.5 | 109.3 | 0.36 | 46 | 139 | 114 | 46 | 113 | 264 | 194 | 245 |
 | poor | 44.7 | 21.9 | 1.07 | 64 | 195 | 160 | 64 | 158 | 370 | 272 | 343 |
 
-## 🇨🇫 Central African Republic (`CF`) · nearest AWS `FRA`
+## 🇨🇫 Central African Republic (`CF`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -361,7 +449,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 34.5 | 15.2 | 0.73 | 123 | 123 | 145 | 213 | 271 | 285 | 350 | 251 |
 | poor | 6.9 | 3 | 2.18 | 172 | 172 | 203 | 298 | 379 | 399 | 490 | 351 |
 
-## 🇹🇩 Chad (`TD`) · nearest AWS `FRA`
+## 🇹🇩 Chad (`TD`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -369,7 +459,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇨🇱 Chile (`CL`) · nearest AWS `IAD`
+## 🇨🇱 Chile (`CL`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -377,7 +469,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 351.9 | 175.6 | 0.05 | 22 | 115 | 90 | 22 | 89 | 240 | 170 | 221 |
 | poor | 70.4 | 35.1 | 1 | 31 | 161 | 126 | 31 | 125 | 336 | 238 | 309 |
 
-## 🇨🇳 China (`CN`) · nearest AWS `NRT`
+## 🇨🇳 China (`CN`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -385,7 +479,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 32 | 31.6 | 8.07 | 204 | 431 | 407 | 353 | 311 | 274 | 204 | 336 |
 | poor | 6.4 | 6.3 | 24.22 | 286 | 603 | 570 | 494 | 435 | 384 | 286 | 470 |
 
-## 🇨🇽 Christmas Island (`CX`) · nearest AWS `SIN`
+## 🇨🇽 Christmas Island (`CX`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -393,7 +489,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 201 | 212 | 260 | 220 | 40 | 109 | 102 |
 | poor | 8 | 3 | 1.2 | 56 | 281 | 297 | 364 | 308 | 56 | 153 | 143 |
 
-## 🇨🇨 Cocos (Keeling) Islands (`CC`) · nearest AWS `SIN`
+## 🇨🇨 Cocos (Keeling) Islands (`CC`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -401,7 +499,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 201 | 212 | 260 | 220 | 40 | 109 | 102 |
 | poor | 8 | 3 | 1.2 | 56 | 281 | 297 | 364 | 308 | 56 | 153 | 143 |
 
-## 🇨🇴 Colombia (`CO`) · nearest AWS `IAD`
+## 🇨🇴 Colombia (`CO`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -409,7 +509,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 192.3 | 89.9 | 0.17 | 44 | 137 | 112 | 44 | 111 | 262 | 192 | 243 |
 | poor | 38.5 | 18 | 1 | 62 | 192 | 157 | 62 | 155 | 367 | 269 | 340 |
 
-## 🇰🇲 Comoros (`KM`) · nearest AWS `BOM`
+## 🇰🇲 Comoros (`KM`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -417,7 +519,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 169 | 162 | 237 | 280 | 102 | 171 | 40 |
 | poor | 8 | 3 | 1.2 | 56 | 237 | 227 | 332 | 392 | 143 | 239 | 56 |
 
-## 🇨🇬 Congo (`CG`) · nearest AWS `FRA`
+## 🇨🇬 Congo (`CG`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -425,7 +529,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 55.7 | 16.4 | 0.12 | 94 | 94 | 116 | 184 | 242 | 256 | 321 | 222 |
 | poor | 11.1 | 3.3 | 1 | 132 | 132 | 162 | 258 | 339 | 358 | 449 | 311 |
 
-## 🇨🇩 Congo (Kinchasa) (`CD`) · nearest AWS `FRA`
+## 🇨🇩 Congo (Kinchasa) (`CD`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -433,7 +539,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 24.9 | 11.4 | 0.52 | 114 | 114 | 136 | 204 | 262 | 276 | 341 | 242 |
 | poor | 5 | 2.3 | 1.57 | 160 | 160 | 190 | 286 | 367 | 386 | 477 | 339 |
 
-## 🇨🇰 Cook Islands (`CK`) · nearest AWS `PDX`
+## 🇨🇰 Cook Islands (`CK`)
+
+Nearest AWS: `PDX`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -441,7 +549,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 112.6 | 10.7 | 1.19 | 56 | 199 | 174 | 116 | 56 | 230 | 155 | 288 |
 | poor | 22.5 | 2.1 | 3.58 | 78 | 279 | 244 | 162 | 78 | 322 | 217 | 403 |
 
-## 🇨🇷 Costa Rica (`CR`) · nearest AWS `IAD`
+## 🇨🇷 Costa Rica (`CR`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -449,7 +559,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 217.4 | 144.5 | 0.01 | 41 | 134 | 109 | 41 | 108 | 259 | 189 | 240 |
 | poor | 43.5 | 28.9 | 1 | 57 | 188 | 153 | 57 | 151 | 363 | 265 | 336 |
 
-## 🇭🇷 Croatia (`HR`) · nearest AWS `FRA`
+## 🇭🇷 Croatia (`HR`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -457,7 +569,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 122.4 | 48.2 | 0.02 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 24.5 | 9.6 | 1 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇨🇺 Cuba (`CU`) · nearest AWS `IAD`
+## 🇨🇺 Cuba (`CU`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -465,7 +579,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 12.9 | 8.9 | 4.02 | 119 | 212 | 187 | 119 | 186 | 337 | 267 | 318 |
 | poor | 2.6 | 1.8 | 12.07 | 167 | 297 | 262 | 167 | 260 | 472 | 374 | 445 |
 
-## 🇨🇼 Curaçao (`CW`) · nearest AWS `FRA`
+## 🇨🇼 Curaçao (`CW`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -473,7 +589,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 152 | 35.9 | 0.02 | 54 | 54 | 76 | 144 | 202 | 216 | 281 | 182 |
 | poor | 30.4 | 7.2 | 1 | 76 | 76 | 106 | 202 | 283 | 302 | 393 | 255 |
 
-## 🇨🇾 Cyprus (`CY`) · nearest AWS `FRA`
+## 🇨🇾 Cyprus (`CY`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -481,7 +599,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 203.8 | 95.6 | 0.36 | 32 | 32 | 54 | 122 | 180 | 194 | 259 | 160 |
 | poor | 40.8 | 19.1 | 1.08 | 45 | 45 | 76 | 171 | 252 | 272 | 363 | 224 |
 
-## 🇨🇿 Czech Republic (`CZ`) · nearest AWS `FRA`
+## 🇨🇿 Czech Republic (`CZ`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -489,7 +609,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 167 | 77.4 | 0.19 | 23 | 23 | 45 | 113 | 171 | 185 | 250 | 151 |
 | poor | 33.4 | 15.5 | 1 | 32 | 32 | 63 | 158 | 239 | 259 | 350 | 211 |
 
-## 🇨🇮 Côte d'Ivoire (`CI`) · nearest AWS `FRA`
+## 🇨🇮 Côte d'Ivoire (`CI`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -497,7 +619,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 73.5 | 24.2 | 0.24 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 14.7 | 4.8 | 1 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇩🇰 Denmark (`DK`) · nearest AWS `FRA`
+## 🇩🇰 Denmark (`DK`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -505,7 +629,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 271.3 | 128.1 | 0.01 | 21 | 21 | 43 | 111 | 169 | 183 | 248 | 149 |
 | poor | 54.3 | 25.6 | 1 | 29 | 29 | 60 | 155 | 237 | 256 | 347 | 209 |
 
-## 🇩🇯 Djibouti (`DJ`) · nearest AWS `BOM`
+## 🇩🇯 Djibouti (`DJ`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -513,7 +639,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 169 | 162 | 237 | 280 | 102 | 171 | 40 |
 | poor | 8 | 3 | 1.2 | 56 | 237 | 227 | 332 | 392 | 143 | 239 | 56 |
 
-## 🇩🇲 Dominica (`DM`) · nearest AWS `IAD`
+## 🇩🇲 Dominica (`DM`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -521,7 +649,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 114.5 | 61 | 0.1 | 76 | 169 | 144 | 76 | 143 | 294 | 224 | 275 |
 | poor | 22.9 | 12.2 | 1 | 106 | 237 | 202 | 106 | 200 | 412 | 314 | 385 |
 
-## 🇩🇴 Dominican Republic (`DO`) · nearest AWS `IAD`
+## 🇩🇴 Dominican Republic (`DO`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -529,7 +659,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 121.6 | 62.3 | 0.11 | 39 | 132 | 107 | 39 | 106 | 257 | 187 | 238 |
 | poor | 24.3 | 12.5 | 1 | 55 | 185 | 150 | 55 | 148 | 360 | 262 | 333 |
 
-## 🇪🇨 Ecuador (`EC`) · nearest AWS `IAD`
+## 🇪🇨 Ecuador (`EC`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -537,7 +669,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 204.8 | 119.5 | 0.17 | 36 | 129 | 104 | 36 | 103 | 254 | 184 | 235 |
 | poor | 41 | 23.9 | 1 | 50 | 181 | 146 | 50 | 144 | 356 | 258 | 329 |
 
-## 🇪🇬 Egypt (`EG`) · nearest AWS `FRA`
+## 🇪🇬 Egypt (`EG`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -545,7 +679,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 27.2 | 9.1 | 0.04 | 66 | 66 | 88 | 156 | 214 | 228 | 293 | 194 |
 | poor | 5.4 | 1.8 | 1 | 92 | 92 | 123 | 218 | 300 | 319 | 410 | 272 |
 
-## 🇸🇻 El Salvador (`SV`) · nearest AWS `IAD`
+## 🇸🇻 El Salvador (`SV`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -553,7 +689,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 145.4 | 46.3 | 0.04 | 58 | 151 | 126 | 58 | 125 | 276 | 206 | 257 |
 | poor | 29.1 | 9.3 | 1 | 81 | 211 | 176 | 81 | 175 | 386 | 288 | 360 |
 
-## 🇬🇶 Equatorial Guinea (`GQ`) · nearest AWS `FRA`
+## 🇬🇶 Equatorial Guinea (`GQ`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -561,7 +699,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇪🇷 Eritrea (`ER`) · nearest AWS `BOM`
+## 🇪🇷 Eritrea (`ER`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -569,7 +709,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 169 | 162 | 237 | 280 | 102 | 171 | 40 |
 | poor | 8 | 3 | 1.2 | 56 | 237 | 227 | 332 | 392 | 143 | 239 | 56 |
 
-## 🇪🇪 Estonia (`EE`) · nearest AWS `FRA`
+## 🇪🇪 Estonia (`EE`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -577,7 +719,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 149.4 | 60.4 | 0.1 | 53 | 53 | 75 | 143 | 201 | 215 | 280 | 181 |
 | poor | 29.9 | 12.1 | 1 | 74 | 74 | 105 | 200 | 281 | 301 | 392 | 253 |
 
-## 🇪🇹 Ethiopia (`ET`) · nearest AWS `BOM`
+## 🇪🇹 Ethiopia (`ET`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -585,7 +729,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 41.7 | 31.6 | 0.23 | 34 | 163 | 156 | 231 | 274 | 96 | 165 | 34 |
 | poor | 8.3 | 6.3 | 1 | 48 | 228 | 218 | 323 | 384 | 134 | 231 | 48 |
 
-## 🇪🇺 Europe (`EU`) · nearest AWS `FRA`
+## 🇪🇺 Europe (`EU`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -593,7 +739,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇫🇰 Falkland Islands (`FK`) · nearest AWS `IAD`
+## 🇫🇰 Falkland Islands (`FK`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -601,7 +749,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 133 | 108 | 40 | 107 | 258 | 188 | 239 |
 | poor | 8 | 3 | 1.2 | 56 | 186 | 151 | 56 | 150 | 361 | 263 | 335 |
 
-## 🇫🇴 Faroe Islands (`FO`) · nearest AWS `DUB`
+## 🇫🇴 Faroe Islands (`FO`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -609,7 +759,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 68.1 | 43.2 | 0.06 | 49 | 71 | 49 | 118 | 174 | 224 | 253 | 172 |
 | poor | 13.6 | 8.6 | 1 | 69 | 99 | 69 | 165 | 244 | 314 | 354 | 241 |
 
-## 🇫🇯 Fiji (`FJ`) · nearest AWS `NRT`
+## 🇫🇯 Fiji (`FJ`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -617,7 +769,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 43.8 | 19.2 | 0.08 | 58 | 285 | 261 | 207 | 165 | 128 | 58 | 190 |
 | poor | 8.8 | 3.8 | 1 | 81 | 399 | 365 | 290 | 231 | 179 | 81 | 266 |
 
-## 🇫🇮 Finland (`FI`) · nearest AWS `FRA`
+## 🇫🇮 Finland (`FI`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -625,7 +779,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 189.3 | 61.6 | 0.03 | 36 | 36 | 58 | 126 | 184 | 198 | 263 | 164 |
 | poor | 37.9 | 12.3 | 1 | 50 | 50 | 81 | 176 | 258 | 277 | 368 | 230 |
 
-## 🇫🇷 France (`FR`) · nearest AWS `FRA`
+## 🇫🇷 France (`FR`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -633,7 +789,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 292.2 | 162 | 0.04 | 28 | 28 | 50 | 118 | 176 | 190 | 255 | 156 |
 | poor | 58.4 | 32.4 | 1 | 39 | 39 | 70 | 165 | 246 | 266 | 357 | 218 |
 
-## 🇬🇫 French Guiana (`GF`) · nearest AWS `IAD`
+## 🇬🇫 French Guiana (`GF`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -641,7 +799,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 133 | 108 | 40 | 107 | 258 | 188 | 239 |
 | poor | 8 | 3 | 1.2 | 56 | 186 | 151 | 56 | 150 | 361 | 263 | 335 |
 
-## 🇵🇫 French Polynesia (`PF`) · nearest AWS `PDX`
+## 🇵🇫 French Polynesia (`PF`)
+
+Nearest AWS: `PDX`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -649,7 +809,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 179.8 | 64.7 | 0.13 | 27 | 170 | 145 | 87 | 27 | 201 | 126 | 259 |
 | poor | 36 | 12.9 | 1 | 38 | 238 | 203 | 122 | 38 | 281 | 176 | 363 |
 
-## 🇹🇫 French Southern Lands (`TF`) · nearest AWS `SIN`
+## 🇹🇫 French Southern Lands (`TF`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -657,7 +819,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 201 | 212 | 260 | 220 | 40 | 109 | 102 |
 | poor | 8 | 3 | 1.2 | 56 | 281 | 297 | 364 | 308 | 56 | 153 | 143 |
 
-## 🇬🇦 Gabon (`GA`) · nearest AWS `FRA`
+## 🇬🇦 Gabon (`GA`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -665,7 +829,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 63.5 | 21.1 | 1.69 | 123 | 123 | 145 | 213 | 271 | 285 | 350 | 251 |
 | poor | 12.7 | 4.2 | 5.06 | 172 | 172 | 203 | 298 | 379 | 399 | 490 | 351 |
 
-## 🇬🇲 Gambia (`GM`) · nearest AWS `DUB`
+## 🇬🇲 Gambia (`GM`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -673,7 +839,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 26.8 | 18.1 | 1.54 | 109 | 131 | 109 | 178 | 234 | 284 | 313 | 232 |
 | poor | 5.4 | 3.6 | 4.63 | 153 | 183 | 153 | 249 | 328 | 398 | 438 | 325 |
 
-## 🇬🇪 Georgia (`GE`) · nearest AWS `FRA`
+## 🇬🇪 Georgia (`GE`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -681,7 +849,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 63.6 | 48.1 | 0.2 | 25 | 25 | 47 | 115 | 173 | 187 | 252 | 153 |
 | poor | 12.7 | 9.6 | 1 | 35 | 35 | 66 | 161 | 242 | 262 | 353 | 214 |
 
-## 🇩🇪 Germany (`DE`) · nearest AWS `FRA`
+## 🇩🇪 Germany (`DE`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -689,7 +859,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 150 | 45.9 | 0.08 | 33 | 33 | 55 | 123 | 181 | 195 | 260 | 161 |
 | poor | 30 | 9.2 | 1 | 46 | 46 | 77 | 172 | 253 | 273 | 364 | 225 |
 
-## 🇬🇭 Ghana (`GH`) · nearest AWS `FRA`
+## 🇬🇭 Ghana (`GH`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -697,7 +869,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 51.3 | 39.4 | 0.13 | 45 | 45 | 67 | 135 | 193 | 207 | 272 | 173 |
 | poor | 10.3 | 7.9 | 1 | 63 | 63 | 94 | 189 | 270 | 290 | 381 | 242 |
 
-## 🇬🇮 Gibraltar (`GI`) · nearest AWS `DUB`
+## 🇬🇮 Gibraltar (`GI`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -705,7 +879,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 310.1 | 107.9 | 0 | 36 | 58 | 36 | 105 | 161 | 211 | 240 | 159 |
 | poor | 62 | 21.6 | 1 | 50 | 81 | 50 | 147 | 225 | 295 | 336 | 223 |
 
-## 🇬🇷 Greece (`GR`) · nearest AWS `FRA`
+## 🇬🇷 Greece (`GR`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -713,7 +889,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 129 | 53.7 | 0.07 | 25 | 25 | 47 | 115 | 173 | 187 | 252 | 153 |
 | poor | 25.8 | 10.7 | 1 | 35 | 35 | 66 | 161 | 242 | 262 | 353 | 214 |
 
-## 🇬🇱 Greenland (`GL`) · nearest AWS `DUB`
+## 🇬🇱 Greenland (`GL`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -721,7 +899,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 62 | 40 | 109 | 165 | 215 | 244 | 163 |
 | poor | 8 | 3 | 1.2 | 56 | 87 | 56 | 153 | 231 | 301 | 342 | 228 |
 
-## 🇬🇩 Grenada (`GD`) · nearest AWS `IAD`
+## 🇬🇩 Grenada (`GD`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -729,7 +909,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 52.7 | 29 | 1.37 | 73 | 166 | 141 | 73 | 140 | 291 | 221 | 272 |
 | poor | 10.5 | 5.8 | 4.1 | 102 | 232 | 197 | 102 | 196 | 407 | 309 | 381 |
 
-## 🇬🇵 Guadeloupe (`GP`) · nearest AWS `IAD`
+## 🇬🇵 Guadeloupe (`GP`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -737,7 +919,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 118.2 | 31.9 | 0.06 | 105 | 198 | 173 | 105 | 172 | 323 | 253 | 304 |
 | poor | 23.6 | 6.4 | 1 | 147 | 277 | 242 | 147 | 241 | 452 | 354 | 426 |
 
-## 🇬🇺 Guam (`GU`) · nearest AWS `NRT`
+## 🇬🇺 Guam (`GU`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -745,7 +929,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 97.7 | 13.4 | 0.1 | 72 | 299 | 275 | 221 | 179 | 142 | 72 | 204 |
 | poor | 19.5 | 2.7 | 1 | 101 | 419 | 385 | 309 | 251 | 199 | 101 | 286 |
 
-## 🇬🇹 Guatemala (`GT`) · nearest AWS `IAD`
+## 🇬🇹 Guatemala (`GT`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -753,7 +939,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 142.6 | 40.9 | 0.04 | 48 | 141 | 116 | 48 | 115 | 266 | 196 | 247 |
 | poor | 28.5 | 8.2 | 1 | 67 | 197 | 162 | 67 | 161 | 372 | 274 | 346 |
 
-## 🇬🇬 Guernsey (`GG`) · nearest AWS `DUB`
+## 🇬🇬 Guernsey (`GG`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -761,7 +949,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 314.3 | 154.9 | 0 | 26 | 48 | 26 | 95 | 151 | 201 | 230 | 149 |
 | poor | 62.9 | 31 | 1 | 36 | 67 | 36 | 133 | 211 | 281 | 322 | 209 |
 
-## 🇬🇳 Guinea (`GN`) · nearest AWS `FRA`
+## 🇬🇳 Guinea (`GN`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -769,7 +959,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 23 | 13.2 | 0.54 | 92 | 92 | 114 | 182 | 240 | 254 | 319 | 220 |
 | poor | 4.6 | 2.6 | 1.61 | 129 | 129 | 160 | 255 | 336 | 356 | 447 | 308 |
 
-## 🇬🇼 Guinea-Bissau (`GW`) · nearest AWS `DUB`
+## 🇬🇼 Guinea-Bissau (`GW`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -777,7 +969,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 66.4 | 32.1 | 0.46 | 60 | 82 | 60 | 129 | 185 | 235 | 264 | 183 |
 | poor | 13.3 | 6.4 | 1.38 | 84 | 115 | 84 | 181 | 259 | 329 | 370 | 256 |
 
-## 🇬🇾 Guyana (`GY`) · nearest AWS `IAD`
+## 🇬🇾 Guyana (`GY`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -785,7 +979,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 176.7 | 61.2 | 0.01 | 58 | 151 | 126 | 58 | 125 | 276 | 206 | 257 |
 | poor | 35.3 | 12.2 | 1 | 81 | 211 | 176 | 81 | 175 | 386 | 288 | 360 |
 
-## 🇭🇹 Haiti (`HT`) · nearest AWS `IAD`
+## 🇭🇹 Haiti (`HT`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -793,7 +989,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 43 | 28.8 | 0.53 | 53 | 146 | 121 | 53 | 120 | 271 | 201 | 252 |
 | poor | 8.6 | 5.8 | 1.59 | 74 | 204 | 169 | 74 | 168 | 379 | 281 | 353 |
 
-## 🇭🇲 Heard Island and McDonald Mcdonald Islands (`HM`) · nearest AWS `SIN`
+## 🇭🇲 Heard Island and McDonald Mcdonald Islands (`HM`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -801,7 +999,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 201 | 212 | 260 | 220 | 40 | 109 | 102 |
 | poor | 8 | 3 | 1.2 | 56 | 281 | 297 | 364 | 308 | 56 | 153 | 143 |
 
-## 🇭🇳 Honduras (`HN`) · nearest AWS `IAD`
+## 🇭🇳 Honduras (`HN`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -809,7 +1009,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 122.7 | 64 | 0.04 | 46 | 139 | 114 | 46 | 113 | 264 | 194 | 245 |
 | poor | 24.5 | 12.8 | 1 | 64 | 195 | 160 | 64 | 158 | 370 | 272 | 343 |
 
-## 🇭🇰 Hong Kong (`HK`) · nearest AWS `SIN`
+## 🇭🇰 Hong Kong (`HK`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -817,7 +1019,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 180.3 | 93.4 | 0.67 | 45 | 206 | 217 | 265 | 225 | 45 | 114 | 107 |
 | poor | 36.1 | 18.7 | 2.01 | 63 | 288 | 304 | 371 | 315 | 63 | 160 | 150 |
 
-## 🇭🇺 Hungary (`HU`) · nearest AWS `FRA`
+## 🇭🇺 Hungary (`HU`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -825,7 +1029,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 331.9 | 104 | 0.02 | 25 | 25 | 47 | 115 | 173 | 187 | 252 | 153 |
 | poor | 66.4 | 20.8 | 1 | 35 | 35 | 66 | 161 | 242 | 262 | 353 | 214 |
 
-## 🇮🇸 Iceland (`IS`) · nearest AWS `DUB`
+## 🇮🇸 Iceland (`IS`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -833,7 +1039,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 277.9 | 101.4 | 0.04 | 37 | 59 | 37 | 106 | 162 | 212 | 241 | 160 |
 | poor | 55.6 | 20.3 | 1 | 52 | 83 | 52 | 148 | 227 | 297 | 337 | 224 |
 
-## 🇮🇳 India (`IN`) · nearest AWS `BOM`
+## 🇮🇳 India (`IN`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -841,7 +1049,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 95.4 | 48.3 | 0.04 | 42 | 171 | 164 | 239 | 282 | 104 | 173 | 42 |
 | poor | 19.1 | 9.7 | 1 | 59 | 239 | 230 | 335 | 395 | 146 | 242 | 59 |
 
-## 🇮🇩 Indonesia (`ID`) · nearest AWS `SIN`
+## 🇮🇩 Indonesia (`ID`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -849,7 +1059,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 71 | 46.5 | 0.56 | 33 | 194 | 205 | 253 | 213 | 33 | 102 | 95 |
 | poor | 14.2 | 9.3 | 1.68 | 46 | 272 | 287 | 354 | 298 | 46 | 143 | 133 |
 
-## 🇮🇷 Iran (`IR`) · nearest AWS `BOM`
+## 🇮🇷 Iran (`IR`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -857,7 +1069,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 37 | 12.5 | 1.79 | 124 | 253 | 246 | 321 | 364 | 186 | 255 | 124 |
 | poor | 7.4 | 2.5 | 5.36 | 174 | 354 | 344 | 449 | 510 | 260 | 357 | 174 |
 
-## 🇮🇶 Iraq (`IQ`) · nearest AWS `BOM`
+## 🇮🇶 Iraq (`IQ`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -865,7 +1079,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 46.2 | 40.4 | 0.63 | 50 | 179 | 172 | 247 | 290 | 112 | 181 | 50 |
 | poor | 9.2 | 8.1 | 1.88 | 70 | 251 | 241 | 346 | 406 | 157 | 253 | 70 |
 
-## 🇮🇪 Ireland (`IE`) · nearest AWS `DUB`
+## 🇮🇪 Ireland (`IE`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -873,7 +1089,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 216 | 58.9 | 0.06 | 27 | 49 | 27 | 96 | 152 | 202 | 231 | 150 |
 | poor | 43.2 | 11.8 | 1 | 38 | 69 | 38 | 134 | 213 | 283 | 323 | 210 |
 
-## 🇮🇲 Isle of Man (`IM`) · nearest AWS `DUB`
+## 🇮🇲 Isle of Man (`IM`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -881,7 +1099,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 148.2 | 30.2 | 0.03 | 28 | 50 | 28 | 97 | 153 | 203 | 232 | 151 |
 | poor | 29.6 | 6 | 1 | 39 | 70 | 39 | 136 | 214 | 284 | 325 | 211 |
 
-## 🇮🇱 Israel (`IL`) · nearest AWS `FRA`
+## 🇮🇱 Israel (`IL`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -889,7 +1109,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 198.8 | 62.5 | 0.08 | 30 | 30 | 52 | 120 | 178 | 192 | 257 | 158 |
 | poor | 39.8 | 12.5 | 1 | 42 | 42 | 73 | 168 | 249 | 269 | 360 | 221 |
 
-## 🇮🇹 Italy (`IT`) · nearest AWS `FRA`
+## 🇮🇹 Italy (`IT`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -897,7 +1119,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 151.7 | 67.4 | 0.04 | 37 | 37 | 59 | 127 | 185 | 199 | 264 | 165 |
 | poor | 30.3 | 13.5 | 1 | 52 | 52 | 83 | 178 | 259 | 279 | 370 | 231 |
 
-## 🇯🇲 Jamaica (`JM`) · nearest AWS `IAD`
+## 🇯🇲 Jamaica (`JM`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -905,7 +1129,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 128.6 | 49.8 | 0.02 | 38 | 131 | 106 | 38 | 105 | 256 | 186 | 237 |
 | poor | 25.7 | 10 | 1 | 53 | 183 | 148 | 53 | 147 | 358 | 260 | 332 |
 
-## 🇯🇵 Japan (`JP`) · nearest AWS `NRT`
+## 🇯🇵 Japan (`JP`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -913,7 +1139,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 247.7 | 134.7 | 0.06 | 25 | 252 | 228 | 174 | 132 | 95 | 25 | 157 |
 | poor | 49.5 | 26.9 | 1 | 35 | 353 | 319 | 244 | 185 | 133 | 35 | 220 |
 
-## 🇯🇪 Jersey (`JE`) · nearest AWS `DUB`
+## 🇯🇪 Jersey (`JE`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -921,7 +1149,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 214.8 | 124.5 | 0 | 21 | 43 | 21 | 90 | 146 | 196 | 225 | 144 |
 | poor | 43 | 24.9 | 1 | 29 | 60 | 29 | 126 | 204 | 274 | 315 | 202 |
 
-## 🇯🇴 Jordan (`JO`) · nearest AWS `FRA`
+## 🇯🇴 Jordan (`JO`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -929,7 +1159,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 207.1 | 119.1 | 0 | 18 | 18 | 40 | 108 | 166 | 180 | 245 | 146 |
 | poor | 41.4 | 23.8 | 1 | 25 | 25 | 56 | 151 | 232 | 252 | 343 | 204 |
 
-## 🇰🇿 Kazakhstan (`KZ`) · nearest AWS `BOM`
+## 🇰🇿 Kazakhstan (`KZ`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -937,7 +1169,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 109.6 | 54.9 | 0.11 | 54 | 183 | 176 | 251 | 294 | 116 | 185 | 54 |
 | poor | 21.9 | 11 | 1 | 76 | 256 | 246 | 351 | 412 | 162 | 259 | 76 |
 
-## 🇰🇪 Kenya (`KE`) · nearest AWS `BOM`
+## 🇰🇪 Kenya (`KE`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -945,7 +1179,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 38 | 28 | 0.98 | 63 | 192 | 185 | 260 | 303 | 125 | 194 | 63 |
 | poor | 7.6 | 5.6 | 2.93 | 88 | 269 | 259 | 364 | 424 | 175 | 272 | 88 |
 
-## 🇰🇮 Kiribati (`KI`) · nearest AWS `NRT`
+## 🇰🇮 Kiribati (`KI`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -953,7 +1189,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇰🇵 Korea, North (`KP`) · nearest AWS `NRT`
+## 🇰🇵 Korea, North (`KP`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -961,7 +1199,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇰🇷 Korea, South (`KR`) · nearest AWS `NRT`
+## 🇰🇷 Korea, South (`KR`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -969,7 +1209,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 270.3 | 197.7 | 0.04 | 18 | 245 | 221 | 167 | 125 | 88 | 18 | 150 |
 | poor | 54.1 | 39.5 | 1 | 25 | 343 | 309 | 234 | 175 | 123 | 25 | 210 |
 
-## 🇽🇰 Kosovo (`XK`) · nearest AWS `FRA`
+## 🇽🇰 Kosovo (`XK`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -977,7 +1219,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 179.9 | 134.5 | 1.01 | 31 | 31 | 53 | 121 | 179 | 193 | 258 | 159 |
 | poor | 36 | 26.9 | 3.02 | 43 | 43 | 74 | 169 | 251 | 270 | 361 | 223 |
 
-## 🇰🇼 Kuwait (`KW`) · nearest AWS `BOM`
+## 🇰🇼 Kuwait (`KW`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -985,7 +1229,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 189.5 | 44.5 | 0.03 | 29 | 158 | 151 | 226 | 269 | 91 | 160 | 29 |
 | poor | 37.9 | 8.9 | 1 | 41 | 221 | 211 | 316 | 377 | 127 | 224 | 41 |
 
-## 🇰🇬 Kyrgyzstan (`KG`) · nearest AWS `BOM`
+## 🇰🇬 Kyrgyzstan (`KG`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -993,7 +1239,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 94 | 52.3 | 0.16 | 38 | 167 | 160 | 235 | 278 | 100 | 169 | 38 |
 | poor | 18.8 | 10.5 | 1 | 53 | 234 | 224 | 329 | 389 | 140 | 237 | 53 |
 
-## 🇱🇦 Lao People's Democratic Republic (`LA`) · nearest AWS `SIN`
+## 🇱🇦 Lao People's Democratic Republic (`LA`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1001,7 +1249,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 58.6 | 51.4 | 0.03 | 21 | 182 | 193 | 241 | 201 | 21 | 90 | 83 |
 | poor | 11.7 | 10.3 | 1 | 29 | 255 | 270 | 337 | 281 | 29 | 126 | 116 |
 
-## 🇱🇻 Latvia (`LV`) · nearest AWS `FRA`
+## 🇱🇻 Latvia (`LV`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1009,7 +1259,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 201.4 | 119.1 | 0.02 | 31 | 31 | 53 | 121 | 179 | 193 | 258 | 159 |
 | poor | 40.3 | 23.8 | 1 | 43 | 43 | 74 | 169 | 251 | 270 | 361 | 223 |
 
-## 🇱🇧 Lebanon (`LB`) · nearest AWS `FRA`
+## 🇱🇧 Lebanon (`LB`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1017,7 +1269,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 16.9 | 27.4 | 1.42 | 39 | 39 | 61 | 129 | 187 | 201 | 266 | 167 |
 | poor | 3.4 | 5.5 | 4.26 | 55 | 55 | 85 | 181 | 262 | 281 | 372 | 234 |
 
-## 🇱🇸 Lesotho (`LS`) · nearest AWS `BOM`
+## 🇱🇸 Lesotho (`LS`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1025,7 +1279,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 49.1 | 32.4 | 0.23 | 51 | 180 | 173 | 248 | 291 | 113 | 182 | 51 |
 | poor | 9.8 | 6.5 | 1 | 71 | 252 | 242 | 347 | 407 | 158 | 255 | 71 |
 
-## 🇱🇷 Liberia (`LR`) · nearest AWS `FRA`
+## 🇱🇷 Liberia (`LR`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1033,7 +1289,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40.3 | 7.2 | 0.06 | 101 | 101 | 123 | 191 | 249 | 263 | 328 | 229 |
 | poor | 8.1 | 1.4 | 1 | 141 | 141 | 172 | 267 | 349 | 368 | 459 | 321 |
 
-## 🇱🇾 Libya (`LY`) · nearest AWS `FRA`
+## 🇱🇾 Libya (`LY`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1041,7 +1299,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 26.4 | 14.8 | 1.06 | 64 | 64 | 86 | 154 | 212 | 226 | 291 | 192 |
 | poor | 5.3 | 3 | 3.17 | 90 | 90 | 120 | 216 | 297 | 316 | 407 | 269 |
 
-## 🇱🇮 Liechtenstein (`LI`) · nearest AWS `FRA`
+## 🇱🇮 Liechtenstein (`LI`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1049,7 +1309,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 373.1 | 233.3 | 0 | 15 | 15 | 37 | 105 | 163 | 177 | 242 | 143 |
 | poor | 74.6 | 46.7 | 1 | 21 | 21 | 52 | 147 | 228 | 248 | 339 | 200 |
 
-## 🇱🇹 Lithuania (`LT`) · nearest AWS `FRA`
+## 🇱🇹 Lithuania (`LT`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1057,7 +1319,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 190.9 | 105.2 | 0.04 | 35 | 35 | 57 | 125 | 183 | 197 | 262 | 163 |
 | poor | 38.2 | 21 | 1 | 49 | 49 | 80 | 175 | 256 | 276 | 367 | 228 |
 
-## 🇱🇺 Luxembourg (`LU`) · nearest AWS `FRA`
+## 🇱🇺 Luxembourg (`LU`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1065,7 +1329,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 277.4 | 136.5 | 0.01 | 22 | 22 | 44 | 112 | 170 | 184 | 249 | 150 |
 | poor | 55.5 | 27.3 | 1 | 31 | 31 | 62 | 157 | 238 | 258 | 349 | 210 |
 
-## 🇲🇴 Macao (`MO`) · nearest AWS `SIN`
+## 🇲🇴 Macao (`MO`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1073,7 +1339,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 271.3 | 138 | 0.03 | 23 | 184 | 195 | 243 | 203 | 23 | 92 | 85 |
 | poor | 54.3 | 27.6 | 1 | 32 | 258 | 273 | 340 | 284 | 32 | 129 | 119 |
 
-## 🇲🇰 Macedonia, the Former Yugoslav Republic of (`MK`) · nearest AWS `FRA`
+## 🇲🇰 Macedonia, the Former Yugoslav Republic of (`MK`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1081,7 +1349,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 108.6 | 51.4 | 0.08 | 26 | 26 | 48 | 116 | 174 | 188 | 253 | 154 |
 | poor | 21.7 | 10.3 | 1 | 36 | 36 | 67 | 162 | 244 | 263 | 354 | 216 |
 
-## 🇲🇬 Madagascar (`MG`) · nearest AWS `BOM`
+## 🇲🇬 Madagascar (`MG`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1089,7 +1359,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 101.2 | 62.1 | 0.12 | 43 | 172 | 165 | 240 | 283 | 105 | 174 | 43 |
 | poor | 20.2 | 12.4 | 1 | 60 | 241 | 231 | 336 | 396 | 147 | 244 | 60 |
 
-## 🇲🇼 Malawi (`MW`) · nearest AWS `BOM`
+## 🇲🇼 Malawi (`MW`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1097,7 +1369,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 19.5 | 10 | 0.17 | 129 | 258 | 251 | 326 | 369 | 191 | 260 | 129 |
 | poor | 3.9 | 2 | 1 | 181 | 361 | 351 | 456 | 517 | 267 | 364 | 181 |
 
-## 🇲🇾 Malaysia (`MY`) · nearest AWS `SIN`
+## 🇲🇾 Malaysia (`MY`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1105,7 +1379,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 173.3 | 71.9 | 0.04 | 36 | 197 | 208 | 256 | 216 | 36 | 105 | 98 |
 | poor | 34.7 | 14.4 | 1 | 50 | 276 | 291 | 358 | 302 | 50 | 147 | 137 |
 
-## 🇲🇻 Maldives (`MV`) · nearest AWS `BOM`
+## 🇲🇻 Maldives (`MV`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1113,7 +1389,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 72 | 49.3 | 0.01 | 17 | 146 | 139 | 214 | 257 | 79 | 148 | 17 |
 | poor | 14.4 | 9.9 | 1 | 24 | 204 | 195 | 300 | 360 | 111 | 207 | 24 |
 
-## 🇲🇱 Mali (`ML`) · nearest AWS `FRA`
+## 🇲🇱 Mali (`ML`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1121,7 +1399,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 66.4 | 30.9 | 0.2 | 92 | 92 | 114 | 182 | 240 | 254 | 319 | 220 |
 | poor | 13.3 | 6.2 | 1 | 129 | 129 | 160 | 255 | 336 | 356 | 447 | 308 |
 
-## 🇲🇹 Malta (`MT`) · nearest AWS `FRA`
+## 🇲🇹 Malta (`MT`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1129,7 +1409,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 248 | 50.8 | 0.01 | 35 | 35 | 57 | 125 | 183 | 197 | 262 | 163 |
 | poor | 49.6 | 10.2 | 1 | 49 | 49 | 80 | 175 | 256 | 276 | 367 | 228 |
 
-## 🇲🇭 Marshall Islands (`MH`) · nearest AWS `NRT`
+## 🇲🇭 Marshall Islands (`MH`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1137,7 +1419,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇲🇶 Martinique (`MQ`) · nearest AWS `IAD`
+## 🇲🇶 Martinique (`MQ`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1145,7 +1429,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 90 | 36 | 1.91 | 88 | 181 | 156 | 88 | 155 | 306 | 236 | 287 |
 | poor | 18 | 7.2 | 5.72 | 123 | 253 | 218 | 123 | 217 | 428 | 330 | 402 |
 
-## 🇲🇷 Mauritania (`MR`) · nearest AWS `DUB`
+## 🇲🇷 Mauritania (`MR`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1153,7 +1439,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 66.6 | 38.6 | 0.42 | 73 | 95 | 73 | 142 | 198 | 248 | 277 | 196 |
 | poor | 13.3 | 7.7 | 1.25 | 102 | 133 | 102 | 199 | 277 | 347 | 388 | 274 |
 
-## 🇲🇺 Mauritius (`MU`) · nearest AWS `BOM`
+## 🇲🇺 Mauritius (`MU`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1161,7 +1449,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 100.1 | 49.5 | 0 | 19 | 148 | 141 | 216 | 259 | 81 | 150 | 19 |
 | poor | 20 | 9.9 | 1 | 27 | 207 | 197 | 302 | 363 | 113 | 210 | 27 |
 
-## 🇾🇹 Mayotte (`YT`) · nearest AWS `BOM`
+## 🇾🇹 Mayotte (`YT`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1169,7 +1459,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 169 | 162 | 237 | 280 | 102 | 171 | 40 |
 | poor | 8 | 3 | 1.2 | 56 | 237 | 227 | 332 | 392 | 143 | 239 | 56 |
 
-## 🇲🇽 Mexico (`MX`) · nearest AWS `IAD`
+## 🇲🇽 Mexico (`MX`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1177,7 +1469,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 147.1 | 93.8 | 0.33 | 50 | 143 | 118 | 50 | 117 | 268 | 198 | 249 |
 | poor | 29.4 | 18.8 | 1 | 70 | 200 | 165 | 70 | 164 | 375 | 277 | 349 |
 
-## 🇫🇲 Micronesia (`FM`) · nearest AWS `NRT`
+## 🇫🇲 Micronesia (`FM`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1185,7 +1479,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 63.2 | 39.3 | 0.05 | 59 | 286 | 262 | 208 | 166 | 129 | 59 | 191 |
 | poor | 12.6 | 7.9 | 1 | 83 | 400 | 367 | 291 | 232 | 181 | 83 | 267 |
 
-## 🇲🇩 Moldova (`MD`) · nearest AWS `FRA`
+## 🇲🇩 Moldova (`MD`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1193,7 +1489,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 226.4 | 136.3 | 0.01 | 26 | 26 | 48 | 116 | 174 | 188 | 253 | 154 |
 | poor | 45.3 | 27.3 | 1 | 36 | 36 | 67 | 162 | 244 | 263 | 354 | 216 |
 
-## 🇲🇨 Monaco (`MC`) · nearest AWS `FRA`
+## 🇲🇨 Monaco (`MC`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1201,7 +1499,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 761.9 | 308 | 0.02 | 23 | 23 | 45 | 113 | 171 | 185 | 250 | 151 |
 | poor | 152.4 | 61.6 | 1 | 32 | 32 | 63 | 158 | 239 | 259 | 350 | 211 |
 
-## 🇲🇳 Mongolia (`MN`) · nearest AWS `NRT`
+## 🇲🇳 Mongolia (`MN`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1209,7 +1509,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 105.5 | 83.4 | 0.08 | 20 | 247 | 223 | 169 | 127 | 90 | 20 | 152 |
 | poor | 21.1 | 16.7 | 1 | 28 | 346 | 312 | 237 | 178 | 126 | 28 | 213 |
 
-## 🇲🇪 Montenegro (`ME`) · nearest AWS `FRA`
+## 🇲🇪 Montenegro (`ME`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1217,7 +1519,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 93.7 | 26.8 | 0.07 | 43 | 43 | 65 | 133 | 191 | 205 | 270 | 171 |
 | poor | 18.7 | 5.4 | 1 | 60 | 60 | 91 | 186 | 267 | 287 | 378 | 239 |
 
-## 🇲🇸 Montserrat (`MS`) · nearest AWS `IAD`
+## 🇲🇸 Montserrat (`MS`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1225,7 +1529,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 133 | 108 | 40 | 107 | 258 | 188 | 239 |
 | poor | 8 | 3 | 1.2 | 56 | 186 | 151 | 56 | 150 | 361 | 263 | 335 |
 
-## 🇲🇦 Morocco (`MA`) · nearest AWS `DUB`
+## 🇲🇦 Morocco (`MA`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1233,7 +1539,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 82.8 | 65.4 | 0 | 43 | 65 | 43 | 112 | 168 | 218 | 247 | 166 |
 | poor | 16.6 | 13.1 | 1 | 60 | 91 | 60 | 157 | 235 | 305 | 346 | 232 |
 
-## 🇲🇿 Mozambique (`MZ`) · nearest AWS `BOM`
+## 🇲🇿 Mozambique (`MZ`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1241,7 +1549,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 31.3 | 16.7 | 0.22 | 55 | 184 | 177 | 252 | 295 | 117 | 186 | 55 |
 | poor | 6.3 | 3.3 | 1 | 77 | 258 | 248 | 353 | 413 | 164 | 260 | 77 |
 
-## 🇲🇲 Myanmar (`MM`) · nearest AWS `SIN`
+## 🇲🇲 Myanmar (`MM`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1249,7 +1559,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 39.9 | 31.8 | 1.12 | 51 | 212 | 223 | 271 | 231 | 51 | 120 | 113 |
 | poor | 8 | 6.4 | 3.37 | 71 | 297 | 312 | 379 | 323 | 71 | 168 | 158 |
 
-## 🇳🇦 Namibia (`NA`) · nearest AWS `BOM`
+## 🇳🇦 Namibia (`NA`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1257,7 +1569,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 41.7 | 31.7 | 0.84 | 57 | 186 | 179 | 254 | 297 | 119 | 188 | 57 |
 | poor | 8.3 | 6.3 | 2.52 | 80 | 260 | 251 | 356 | 416 | 167 | 263 | 80 |
 
-## 🇳🇷 Nauru (`NR`) · nearest AWS `NRT`
+## 🇳🇷 Nauru (`NR`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1265,7 +1579,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇳🇵 Nepal (`NP`) · nearest AWS `BOM`
+## 🇳🇵 Nepal (`NP`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1273,7 +1589,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 113.6 | 84.6 | 0.04 | 16 | 145 | 138 | 213 | 256 | 78 | 147 | 16 |
 | poor | 22.7 | 16.9 | 1 | 22 | 203 | 193 | 298 | 358 | 109 | 206 | 22 |
 
-## 🇳🇱 Netherlands (`NL`) · nearest AWS `FRA`
+## 🇳🇱 Netherlands (`NL`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1281,7 +1599,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 203.5 | 118 | 0.16 | 45 | 45 | 67 | 135 | 193 | 207 | 272 | 173 |
 | poor | 40.7 | 23.6 | 1 | 63 | 63 | 94 | 189 | 270 | 290 | 381 | 242 |
 
-## ● Netherlands Antilles (`AN`) · nearest AWS `IAD`
+## ● Netherlands Antilles (`AN`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1289,7 +1609,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 133 | 108 | 40 | 107 | 258 | 188 | 239 |
 | poor | 8 | 3 | 1.2 | 56 | 186 | 151 | 56 | 150 | 361 | 263 | 335 |
 
-## 🇳🇨 New Caledonia (`NC`) · nearest AWS `NRT`
+## 🇳🇨 New Caledonia (`NC`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1297,7 +1619,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 159 | 140.4 | 1.28 | 14 | 241 | 217 | 163 | 121 | 84 | 14 | 146 |
 | poor | 31.8 | 28.1 | 3.83 | 20 | 337 | 304 | 228 | 169 | 118 | 20 | 204 |
 
-## 🇳🇿 New Zealand (`NZ`) · nearest AWS `SIN`
+## 🇳🇿 New Zealand (`NZ`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1305,7 +1629,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 223.5 | 90.6 | 0.02 | 24 | 185 | 196 | 244 | 204 | 24 | 93 | 86 |
 | poor | 44.7 | 18.1 | 1 | 34 | 259 | 274 | 342 | 286 | 34 | 130 | 120 |
 
-## 🇳🇮 Nicaragua (`NI`) · nearest AWS `IAD`
+## 🇳🇮 Nicaragua (`NI`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1313,7 +1639,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 120 | 35.3 | 0.02 | 65 | 158 | 133 | 65 | 132 | 283 | 213 | 264 |
 | poor | 24 | 7.1 | 1 | 91 | 221 | 186 | 91 | 185 | 396 | 298 | 370 |
 
-## 🇳🇪 Niger (`NE`) · nearest AWS `FRA`
+## 🇳🇪 Niger (`NE`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1321,7 +1649,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇳🇬 Nigeria (`NG`) · nearest AWS `FRA`
+## 🇳🇬 Nigeria (`NG`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1329,7 +1659,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 27.8 | 13.8 | 0.21 | 162 | 162 | 184 | 252 | 310 | 324 | 389 | 290 |
 | poor | 5.6 | 2.8 | 1 | 227 | 227 | 258 | 353 | 434 | 454 | 545 | 406 |
 
-## 🇳🇺 Niue (`NU`) · nearest AWS `NRT`
+## 🇳🇺 Niue (`NU`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1337,7 +1669,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇳🇫 Norfolk Island (`NF`) · nearest AWS `SIN`
+## 🇳🇫 Norfolk Island (`NF`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1345,7 +1679,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 201 | 212 | 260 | 220 | 40 | 109 | 102 |
 | poor | 8 | 3 | 1.2 | 56 | 281 | 297 | 364 | 308 | 56 | 153 | 143 |
 
-## 🇲🇵 Northern Mariana Islands (`MP`) · nearest AWS `NRT`
+## 🇲🇵 Northern Mariana Islands (`MP`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1353,7 +1689,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇳🇴 Norway (`NO`) · nearest AWS `FRA`
+## 🇳🇴 Norway (`NO`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1361,7 +1699,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 238.6 | 142.6 | 0.01 | 44 | 44 | 66 | 134 | 192 | 206 | 271 | 172 |
 | poor | 47.7 | 28.5 | 1 | 62 | 62 | 92 | 188 | 269 | 288 | 379 | 241 |
 
-## 🇴🇲 Oman (`OM`) · nearest AWS `BOM`
+## 🇴🇲 Oman (`OM`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1369,7 +1709,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 161 | 64.6 | 0.04 | 24 | 153 | 146 | 221 | 264 | 86 | 155 | 24 |
 | poor | 32.2 | 12.9 | 1 | 34 | 214 | 204 | 309 | 370 | 120 | 217 | 34 |
 
-## 🇵🇰 Pakistan (`PK`) · nearest AWS `BOM`
+## 🇵🇰 Pakistan (`PK`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1377,7 +1719,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 35.8 | 30.3 | 0.47 | 61 | 190 | 183 | 258 | 301 | 123 | 192 | 61 |
 | poor | 7.2 | 6.1 | 1.42 | 85 | 266 | 256 | 361 | 421 | 172 | 269 | 85 |
 
-## 🇵🇼 Palau (`PW`) · nearest AWS `NRT`
+## 🇵🇼 Palau (`PW`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1385,7 +1729,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇵🇸 Palestine (`PS`) · nearest AWS `FRA`
+## 🇵🇸 Palestine (`PS`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1393,7 +1739,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 147.5 | 87.8 | 0.04 | 22 | 22 | 44 | 112 | 170 | 184 | 249 | 150 |
 | poor | 29.5 | 17.6 | 1 | 31 | 31 | 62 | 157 | 238 | 258 | 349 | 210 |
 
-## 🇵🇦 Panama (`PA`) · nearest AWS `IAD`
+## 🇵🇦 Panama (`PA`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1401,7 +1749,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 233.6 | 46 | 0.01 | 48 | 141 | 116 | 48 | 115 | 266 | 196 | 247 |
 | poor | 46.7 | 9.2 | 1 | 67 | 197 | 162 | 67 | 161 | 372 | 274 | 346 |
 
-## 🇵🇬 Papua New Guinea (`PG`) · nearest AWS `SIN`
+## 🇵🇬 Papua New Guinea (`PG`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1409,7 +1759,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 44.2 | 25.6 | 0.62 | 78 | 239 | 250 | 298 | 258 | 78 | 147 | 140 |
 | poor | 8.8 | 5.1 | 1.86 | 109 | 335 | 350 | 417 | 361 | 109 | 206 | 196 |
 
-## 🇵🇾 Paraguay (`PY`) · nearest AWS `IAD`
+## 🇵🇾 Paraguay (`PY`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1417,7 +1769,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 205.1 | 88.4 | 0.24 | 30 | 123 | 98 | 30 | 97 | 248 | 178 | 229 |
 | poor | 41 | 17.7 | 1 | 42 | 172 | 137 | 42 | 136 | 347 | 249 | 321 |
 
-## 🇵🇪 Peru (`PE`) · nearest AWS `IAD`
+## 🇵🇪 Peru (`PE`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1425,7 +1779,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 205.6 | 108.2 | 0.16 | 50 | 143 | 118 | 50 | 117 | 268 | 198 | 249 |
 | poor | 41.1 | 21.6 | 1 | 70 | 200 | 165 | 70 | 164 | 375 | 277 | 349 |
 
-## 🇵🇭 Philippines (`PH`) · nearest AWS `SIN`
+## 🇵🇭 Philippines (`PH`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1433,7 +1789,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 148.2 | 110.7 | 0.15 | 37 | 198 | 209 | 257 | 217 | 37 | 106 | 99 |
 | poor | 29.6 | 22.1 | 1 | 52 | 277 | 293 | 360 | 304 | 52 | 148 | 139 |
 
-## 🇵🇳 Pitcairn (`PN`) · nearest AWS `PDX`
+## 🇵🇳 Pitcairn (`PN`)
+
+Nearest AWS: `PDX`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1441,7 +1799,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 183 | 158 | 100 | 40 | 214 | 139 | 272 |
 | poor | 8 | 3 | 1.2 | 56 | 256 | 221 | 140 | 56 | 300 | 195 | 381 |
 
-## 🇵🇱 Poland (`PL`) · nearest AWS `FRA`
+## 🇵🇱 Poland (`PL`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1449,7 +1809,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 241.5 | 73.9 | 0.08 | 31 | 31 | 53 | 121 | 179 | 193 | 258 | 159 |
 | poor | 48.3 | 14.8 | 1 | 43 | 43 | 74 | 169 | 251 | 270 | 361 | 223 |
 
-## 🇵🇹 Portugal (`PT`) · nearest AWS `DUB`
+## 🇵🇹 Portugal (`PT`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1457,7 +1819,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 265.7 | 111.7 | 0.02 | 22 | 44 | 22 | 91 | 147 | 197 | 226 | 145 |
 | poor | 53.1 | 22.3 | 1 | 31 | 62 | 31 | 127 | 206 | 276 | 316 | 203 |
 
-## 🇵🇷 Puerto Rico (`PR`) · nearest AWS `IAD`
+## 🇵🇷 Puerto Rico (`PR`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1465,7 +1829,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 230.4 | 103.5 | 0.05 | 35 | 128 | 103 | 35 | 102 | 253 | 183 | 234 |
 | poor | 46.1 | 20.7 | 1 | 49 | 179 | 144 | 49 | 143 | 354 | 256 | 328 |
 
-## 🇶🇦 Qatar (`QA`) · nearest AWS `BOM`
+## 🇶🇦 Qatar (`QA`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1473,7 +1839,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 277 | 155 | 0 | 11 | 140 | 133 | 208 | 251 | 73 | 142 | 11 |
 | poor | 55.4 | 31 | 1 | 15 | 196 | 186 | 291 | 351 | 102 | 199 | 15 |
 
-## 🇷🇪 Reunion (`RE`) · nearest AWS `BOM`
+## 🇷🇪 Reunion (`RE`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1481,7 +1849,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 248 | 110.9 | 0 | 42 | 171 | 164 | 239 | 282 | 104 | 173 | 42 |
 | poor | 49.6 | 22.2 | 1 | 59 | 239 | 230 | 335 | 395 | 146 | 242 | 59 |
 
-## 🇷🇴 Romania (`RO`) · nearest AWS `FRA`
+## 🇷🇴 Romania (`RO`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1489,7 +1859,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 255.7 | 170.6 | 0.03 | 45 | 45 | 67 | 135 | 193 | 207 | 272 | 173 |
 | poor | 51.1 | 34.1 | 1 | 63 | 63 | 94 | 189 | 270 | 290 | 381 | 242 |
 
-## ● Russian Federation (`RU`) · nearest AWS `FRA`
+## ● Russian Federation (`RU`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1497,7 +1869,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 100.7 | 69.8 | 0.43 | 59 | 59 | 81 | 149 | 207 | 221 | 286 | 187 |
 | poor | 20.1 | 14 | 1.29 | 83 | 83 | 113 | 209 | 290 | 309 | 400 | 262 |
 
-## 🇷🇼 Rwanda (`RW`) · nearest AWS `BOM`
+## 🇷🇼 Rwanda (`RW`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1505,7 +1879,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 30.4 | 18.7 | 0.2 | 109 | 238 | 231 | 306 | 349 | 171 | 240 | 109 |
 | poor | 6.1 | 3.7 | 1 | 153 | 333 | 323 | 428 | 489 | 239 | 336 | 153 |
 
-## 🇧🇱 Saint Barthelemy (`BL`) · nearest AWS `FRA`
+## 🇧🇱 Saint Barthelemy (`BL`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1513,7 +1889,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇸🇭 Saint Helena (`SH`) · nearest AWS `FRA`
+## 🇸🇭 Saint Helena (`SH`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1521,7 +1899,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇰🇳 Saint Kitts and Nevis (`KN`) · nearest AWS `IAD`
+## 🇰🇳 Saint Kitts and Nevis (`KN`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1529,7 +1909,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 58.1 | 38.7 | 0.46 | 56 | 149 | 124 | 56 | 123 | 274 | 204 | 255 |
 | poor | 11.6 | 7.7 | 1.38 | 78 | 209 | 174 | 78 | 172 | 384 | 286 | 357 |
 
-## 🇱🇨 Saint Lucia (`LC`) · nearest AWS `IAD`
+## 🇱🇨 Saint Lucia (`LC`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1537,7 +1919,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 116.7 | 41 | 0.64 | 70 | 163 | 138 | 70 | 137 | 288 | 218 | 269 |
 | poor | 23.3 | 8.2 | 1.91 | 98 | 228 | 193 | 98 | 192 | 403 | 305 | 377 |
 
-## 🇲🇫 Saint Martin (French part) (`MF`) · nearest AWS `FRA`
+## 🇲🇫 Saint Martin (French part) (`MF`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1545,7 +1929,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇵🇲 Saint Pierre and Miquelon (`PM`) · nearest AWS `IAD`
+## 🇵🇲 Saint Pierre and Miquelon (`PM`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1553,7 +1939,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 133 | 108 | 40 | 107 | 258 | 188 | 239 |
 | poor | 8 | 3 | 1.2 | 56 | 186 | 151 | 56 | 150 | 361 | 263 | 335 |
 
-## 🇻🇨 Saint Vincent and the Grenadines (`VC`) · nearest AWS `IAD`
+## 🇻🇨 Saint Vincent and the Grenadines (`VC`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1561,7 +1949,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 192.4 | 55.2 | 0.06 | 56 | 149 | 124 | 56 | 123 | 274 | 204 | 255 |
 | poor | 38.5 | 11 | 1 | 78 | 209 | 174 | 78 | 172 | 384 | 286 | 357 |
 
-## 🇼🇸 Samoa (`WS`) · nearest AWS `NRT`
+## 🇼🇸 Samoa (`WS`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1569,7 +1959,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇸🇲 San Marino (`SM`) · nearest AWS `FRA`
+## 🇸🇲 San Marino (`SM`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1577,7 +1969,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇸🇹 Sao Tome and Principe (`ST`) · nearest AWS `FRA`
+## 🇸🇹 Sao Tome and Principe (`ST`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1585,7 +1979,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇸🇦 Saudi Arabia (`SA`) · nearest AWS `BOM`
+## 🇸🇦 Saudi Arabia (`SA`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1593,7 +1989,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 153.5 | 48 | 0.02 | 65 | 194 | 187 | 262 | 305 | 127 | 196 | 65 |
 | poor | 30.7 | 9.6 | 1 | 91 | 272 | 262 | 367 | 427 | 178 | 274 | 91 |
 
-## 🇸🇳 Senegal (`SN`) · nearest AWS `DUB`
+## 🇸🇳 Senegal (`SN`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1601,7 +1999,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 69.4 | 32.4 | 0.94 | 25 | 47 | 25 | 94 | 150 | 200 | 229 | 148 |
 | poor | 13.9 | 6.5 | 2.82 | 35 | 66 | 35 | 132 | 210 | 280 | 321 | 207 |
 
-## 🇷🇸 Serbia (`RS`) · nearest AWS `FRA`
+## 🇷🇸 Serbia (`RS`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1609,7 +2009,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 188.5 | 71 | 0.01 | 32 | 32 | 54 | 122 | 180 | 194 | 259 | 160 |
 | poor | 37.7 | 14.2 | 1 | 45 | 45 | 76 | 171 | 252 | 272 | 363 | 224 |
 
-## 🇸🇨 Seychelles (`SC`) · nearest AWS `BOM`
+## 🇸🇨 Seychelles (`SC`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1617,7 +2019,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 64.1 | 58.6 | 0.15 | 85 | 214 | 207 | 282 | 325 | 147 | 216 | 85 |
 | poor | 12.8 | 11.7 | 1 | 119 | 300 | 290 | 395 | 455 | 206 | 302 | 119 |
 
-## 🇸🇱 Sierra Leone (`SL`) · nearest AWS `FRA`
+## 🇸🇱 Sierra Leone (`SL`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1625,7 +2029,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 9.9 | 4.7 | 6.56 | 161 | 161 | 183 | 251 | 309 | 323 | 388 | 289 |
 | poor | 2 | 0.9 | 19.69 | 225 | 225 | 256 | 351 | 433 | 452 | 543 | 405 |
 
-## 🇸🇬 Singapore (`SG`) · nearest AWS `SIN`
+## 🇸🇬 Singapore (`SG`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1633,7 +2039,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 197.4 | 113.5 | 0.32 | 60 | 221 | 232 | 280 | 240 | 60 | 129 | 122 |
 | poor | 39.5 | 22.7 | 1 | 84 | 309 | 325 | 392 | 336 | 84 | 181 | 171 |
 
-## 🇸🇽 Sint Maarten (Dutch part) (`SX`) · nearest AWS `FRA`
+## 🇸🇽 Sint Maarten (Dutch part) (`SX`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1641,7 +2049,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 43.3 | 14.7 | 0.04 | 65 | 65 | 87 | 155 | 213 | 227 | 292 | 193 |
 | poor | 8.7 | 2.9 | 1 | 91 | 91 | 122 | 217 | 298 | 318 | 409 | 270 |
 
-## 🇸🇰 Slovakia (`SK`) · nearest AWS `FRA`
+## 🇸🇰 Slovakia (`SK`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1649,7 +2059,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 223.1 | 85.1 | 0.09 | 25 | 25 | 47 | 115 | 173 | 187 | 252 | 153 |
 | poor | 44.6 | 17 | 1 | 35 | 35 | 66 | 161 | 242 | 262 | 353 | 214 |
 
-## 🇸🇮 Slovenia (`SI`) · nearest AWS `FRA`
+## 🇸🇮 Slovenia (`SI`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1657,7 +2069,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 246.3 | 85.2 | 0.01 | 22 | 22 | 44 | 112 | 170 | 184 | 249 | 150 |
 | poor | 49.3 | 17 | 1 | 31 | 31 | 62 | 157 | 238 | 258 | 349 | 210 |
 
-## 🇸🇧 Solomon Islands (`SB`) · nearest AWS `NRT`
+## 🇸🇧 Solomon Islands (`SB`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1665,7 +2079,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 59.7 | 14.6 | 0.05 | 71 | 298 | 274 | 220 | 178 | 141 | 71 | 203 |
 | poor | 11.9 | 2.9 | 1 | 99 | 417 | 384 | 308 | 249 | 197 | 99 | 284 |
 
-## 🇸🇴 Somalia (`SO`) · nearest AWS `BOM`
+## 🇸🇴 Somalia (`SO`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1673,7 +2089,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 42.6 | 23.2 | 0.47 | 110 | 239 | 232 | 307 | 350 | 172 | 241 | 110 |
 | poor | 8.5 | 4.6 | 1.42 | 154 | 335 | 325 | 430 | 490 | 241 | 337 | 154 |
 
-## 🇿🇦 South Africa (`ZA`) · nearest AWS `BOM`
+## 🇿🇦 South Africa (`ZA`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1681,7 +2099,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 63 | 39.7 | 0.25 | 36 | 165 | 158 | 233 | 276 | 98 | 167 | 36 |
 | poor | 12.6 | 7.9 | 1 | 50 | 231 | 221 | 326 | 386 | 137 | 234 | 50 |
 
-## 🇬🇸 South Georgia and the South Sandwich Islands (`GS`) · nearest AWS `IAD`
+## 🇬🇸 South Georgia and the South Sandwich Islands (`GS`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1689,7 +2109,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 133 | 108 | 40 | 107 | 258 | 188 | 239 |
 | poor | 8 | 3 | 1.2 | 56 | 186 | 151 | 56 | 150 | 361 | 263 | 335 |
 
-## 🇸🇸 South Sudan (`SS`) · nearest AWS `FRA`
+## 🇸🇸 South Sudan (`SS`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1697,7 +2119,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 33.2 | 29.3 | 2.32 | 88 | 88 | 110 | 178 | 236 | 250 | 315 | 216 |
 | poor | 6.6 | 5.9 | 6.96 | 123 | 123 | 154 | 249 | 330 | 350 | 441 | 302 |
 
-## 🇪🇸 Spain (`ES`) · nearest AWS `FRA`
+## 🇪🇸 Spain (`ES`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1705,7 +2129,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 330.9 | 201.9 | 0.04 | 25 | 25 | 47 | 115 | 173 | 187 | 252 | 153 |
 | poor | 66.2 | 40.4 | 1 | 35 | 35 | 66 | 161 | 242 | 262 | 353 | 214 |
 
-## 🇱🇰 Sri Lanka (`LK`) · nearest AWS `BOM`
+## 🇱🇰 Sri Lanka (`LK`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1713,7 +2139,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 37.3 | 15.1 | 0.1 | 59 | 188 | 181 | 256 | 299 | 121 | 190 | 59 |
 | poor | 7.5 | 3 | 1 | 83 | 263 | 253 | 358 | 419 | 169 | 266 | 83 |
 
-## 🇸🇩 Sudan (`SD`) · nearest AWS `FRA`
+## 🇸🇩 Sudan (`SD`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1721,7 +2149,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 18.4 | 9.7 | 0.56 | 138 | 138 | 160 | 228 | 286 | 300 | 365 | 266 |
 | poor | 3.7 | 1.9 | 1.67 | 193 | 193 | 224 | 319 | 400 | 420 | 511 | 372 |
 
-## 🇸🇷 Suriname (`SR`) · nearest AWS `IAD`
+## 🇸🇷 Suriname (`SR`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1729,7 +2159,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 195 | 100.8 | 0.01 | 25 | 118 | 93 | 25 | 92 | 243 | 173 | 224 |
 | poor | 39 | 20.2 | 1 | 35 | 165 | 130 | 35 | 129 | 340 | 242 | 314 |
 
-## 🇸🇯 Svalbard and Jan Mayen Islands (`SJ`) · nearest AWS `DUB`
+## 🇸🇯 Svalbard and Jan Mayen Islands (`SJ`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1737,7 +2169,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 62 | 40 | 109 | 165 | 215 | 244 | 163 |
 | poor | 8 | 3 | 1.2 | 56 | 87 | 56 | 153 | 231 | 301 | 342 | 228 |
 
-## 🇸🇿 Swaziland (`SZ`) · nearest AWS `BOM`
+## 🇸🇿 Swaziland (`SZ`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1745,7 +2179,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 31.1 | 15.4 | 0.08 | 59 | 188 | 181 | 256 | 299 | 121 | 190 | 59 |
 | poor | 6.2 | 3.1 | 1 | 83 | 263 | 253 | 358 | 419 | 169 | 266 | 83 |
 
-## 🇸🇪 Sweden (`SE`) · nearest AWS `FRA`
+## 🇸🇪 Sweden (`SE`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1753,7 +2189,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 207.5 | 118.3 | 0.02 | 25 | 25 | 47 | 115 | 173 | 187 | 252 | 153 |
 | poor | 41.5 | 23.7 | 1 | 35 | 35 | 66 | 161 | 242 | 262 | 353 | 214 |
 
-## 🇨🇭 Switzerland (`CH`) · nearest AWS `FRA`
+## 🇨🇭 Switzerland (`CH`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1761,7 +2199,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 193.8 | 98.4 | 0.1 | 30 | 30 | 52 | 120 | 178 | 192 | 257 | 158 |
 | poor | 38.8 | 19.7 | 1 | 42 | 42 | 73 | 168 | 249 | 269 | 360 | 221 |
 
-## 🇸🇾 Syria (`SY`) · nearest AWS `FRA`
+## 🇸🇾 Syria (`SY`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1769,7 +2209,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 8 | 4.6 | 7.98 | 95 | 95 | 117 | 185 | 243 | 257 | 322 | 223 |
 | poor | 1.6 | 0.9 | 23.95 | 133 | 133 | 164 | 259 | 340 | 360 | 451 | 312 |
 
-## 🇹🇼 Taiwan (`TW`) · nearest AWS `NRT`
+## 🇹🇼 Taiwan (`TW`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1777,7 +2219,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 104.7 | 32.9 | 0.15 | 37 | 264 | 240 | 186 | 144 | 107 | 37 | 169 |
 | poor | 20.9 | 6.6 | 1 | 52 | 370 | 336 | 260 | 202 | 150 | 52 | 237 |
 
-## 🇹🇯 Tajikistan (`TJ`) · nearest AWS `BOM`
+## 🇹🇯 Tajikistan (`TJ`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1785,7 +2229,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 137.6 | 33 | 0.7 | 99 | 228 | 221 | 296 | 339 | 161 | 230 | 99 |
 | poor | 27.5 | 6.6 | 2.11 | 139 | 319 | 309 | 414 | 475 | 225 | 322 | 139 |
 
-## 🇹🇿 Tanzania (`TZ`) · nearest AWS `BOM`
+## 🇹🇿 Tanzania (`TZ`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1793,7 +2239,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 33.1 | 26.5 | 0.5 | 68 | 197 | 190 | 265 | 308 | 130 | 199 | 68 |
 | poor | 6.6 | 5.3 | 1.51 | 95 | 276 | 266 | 371 | 431 | 182 | 279 | 95 |
 
-## 🇹🇭 Thailand (`TH`) · nearest AWS `SIN`
+## 🇹🇭 Thailand (`TH`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1801,7 +2249,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 190.4 | 108.1 | 0.03 | 34 | 195 | 206 | 254 | 214 | 34 | 103 | 96 |
 | poor | 38.1 | 21.6 | 1 | 48 | 273 | 288 | 356 | 300 | 48 | 144 | 134 |
 
-## 🇹🇱 Timor-Leste (`TL`) · nearest AWS `SIN`
+## 🇹🇱 Timor-Leste (`TL`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1809,7 +2259,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 201 | 212 | 260 | 220 | 40 | 109 | 102 |
 | poor | 8 | 3 | 1.2 | 56 | 281 | 297 | 364 | 308 | 56 | 153 | 143 |
 
-## 🇹🇬 Togo (`TG`) · nearest AWS `FRA`
+## 🇹🇬 Togo (`TG`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1817,7 +2269,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 37 | 10 | 0.12 | 107 | 107 | 129 | 197 | 255 | 269 | 334 | 235 |
 | poor | 7.4 | 2 | 1 | 150 | 150 | 181 | 276 | 357 | 377 | 468 | 329 |
 
-## 🇹🇰 Tokelau (`TK`) · nearest AWS `NRT`
+## 🇹🇰 Tokelau (`TK`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1825,7 +2279,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇹🇴 Tonga (`TO`) · nearest AWS `NRT`
+## 🇹🇴 Tonga (`TO`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1833,7 +2289,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇹🇹 Trinidad and Tobago (`TT`) · nearest AWS `IAD`
+## 🇹🇹 Trinidad and Tobago (`TT`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1841,7 +2299,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 253.2 | 97.2 | 0.09 | 20 | 113 | 88 | 20 | 87 | 238 | 168 | 219 |
 | poor | 50.6 | 19.4 | 1 | 28 | 158 | 123 | 28 | 122 | 333 | 235 | 307 |
 
-## 🇹🇳 Tunisia (`TN`) · nearest AWS `FRA`
+## 🇹🇳 Tunisia (`TN`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1849,7 +2309,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 35.3 | 15.5 | 0.24 | 46 | 46 | 68 | 136 | 194 | 208 | 273 | 174 |
 | poor | 7.1 | 3.1 | 1 | 64 | 64 | 95 | 190 | 272 | 291 | 382 | 244 |
 
-## 🇹🇷 Turkey (`TR`) · nearest AWS `FRA`
+## 🇹🇷 Turkey (`TR`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1857,7 +2319,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 121.2 | 28.7 | 0.14 | 41 | 41 | 63 | 131 | 189 | 203 | 268 | 169 |
 | poor | 24.2 | 5.7 | 1 | 57 | 57 | 88 | 183 | 265 | 284 | 375 | 237 |
 
-## 🇹🇲 Turkmenistan (`TM`) · nearest AWS `BOM`
+## 🇹🇲 Turkmenistan (`TM`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1865,7 +2329,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 5.5 | 19.1 | 22.22 | 44 | 173 | 166 | 241 | 284 | 106 | 175 | 44 |
 | poor | 1.5 | 3.8 | 66.65 | 62 | 242 | 232 | 337 | 398 | 148 | 245 | 62 |
 
-## 🇹🇨 Turks and Caicos Islands (`TC`) · nearest AWS `IAD`
+## 🇹🇨 Turks and Caicos Islands (`TC`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1873,7 +2339,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 133 | 108 | 40 | 107 | 258 | 188 | 239 |
 | poor | 8 | 3 | 1.2 | 56 | 186 | 151 | 56 | 150 | 361 | 263 | 335 |
 
-## 🇹🇻 Tuvalu (`TV`) · nearest AWS `NRT`
+## 🇹🇻 Tuvalu (`TV`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1881,7 +2349,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇺🇬 Uganda (`UG`) · nearest AWS `BOM`
+## 🇺🇬 Uganda (`UG`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1889,7 +2359,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 56 | 35.5 | 0.37 | 67 | 196 | 189 | 264 | 307 | 129 | 198 | 67 |
 | poor | 11.2 | 7.1 | 1.12 | 94 | 274 | 265 | 370 | 430 | 181 | 277 | 94 |
 
-## 🇺🇦 Ukraine (`UA`) · nearest AWS `FRA`
+## 🇺🇦 Ukraine (`UA`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1897,7 +2369,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 168.3 | 108.5 | 0.3 | 35 | 35 | 57 | 125 | 183 | 197 | 262 | 163 |
 | poor | 33.7 | 21.7 | 1 | 49 | 49 | 80 | 175 | 256 | 276 | 367 | 228 |
 
-## 🇦🇪 United Arab Emirates (`AE`) · nearest AWS `BOM`
+## 🇦🇪 United Arab Emirates (`AE`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1905,7 +2379,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 216 | 100.4 | 0.03 | 18 | 147 | 140 | 215 | 258 | 80 | 149 | 18 |
 | poor | 43.2 | 20.1 | 1 | 25 | 206 | 196 | 301 | 361 | 112 | 209 | 25 |
 
-## 🇬🇧 United Kingdom (`GB`) · nearest AWS `DUB`
+## 🇬🇧 United Kingdom (`GB`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1913,7 +2389,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 192.3 | 64 | 0.06 | 26 | 48 | 26 | 95 | 151 | 201 | 230 | 149 |
 | poor | 38.5 | 12.8 | 1 | 36 | 67 | 36 | 133 | 211 | 281 | 322 | 209 |
 
-## 🇺🇸 United States (`US`) · nearest AWS `IAD`
+## 🇺🇸 United States (`US`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1921,7 +2399,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 270.8 | 83.7 | 0.08 | 41 | 134 | 109 | 41 | 108 | 259 | 189 | 240 |
 | poor | 54.2 | 16.7 | 1 | 57 | 188 | 153 | 57 | 151 | 363 | 265 | 336 |
 
-## 🇺🇲 United States Minor Outlying Islands (`UM`) · nearest AWS `FRA`
+## 🇺🇲 United States Minor Outlying Islands (`UM`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1929,7 +2409,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇺🇾 Uruguay (`UY`) · nearest AWS `IAD`
+## 🇺🇾 Uruguay (`UY`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1937,7 +2419,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 221.5 | 35.4 | 0.02 | 28 | 121 | 96 | 28 | 95 | 246 | 176 | 227 |
 | poor | 44.3 | 7.1 | 1 | 39 | 169 | 134 | 39 | 133 | 344 | 246 | 318 |
 
-## 🇺🇿 Uzbekistan (`UZ`) · nearest AWS `BOM`
+## 🇺🇿 Uzbekistan (`UZ`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1945,7 +2429,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 68.6 | 46 | 0.07 | 108 | 237 | 230 | 305 | 348 | 170 | 239 | 108 |
 | poor | 13.7 | 9.2 | 1 | 151 | 332 | 322 | 427 | 487 | 238 | 335 | 151 |
 
-## 🇻🇺 Vanuatu (`VU`) · nearest AWS `NRT`
+## 🇻🇺 Vanuatu (`VU`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1953,7 +2439,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇻🇦 Vatican City (`VA`) · nearest AWS `FRA`
+## 🇻🇦 Vatican City (`VA`)
+
+Nearest AWS: `FRA`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1961,7 +2449,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 40 | 62 | 130 | 188 | 202 | 267 | 168 |
 | poor | 8 | 3 | 1.2 | 56 | 56 | 87 | 182 | 263 | 283 | 374 | 235 |
 
-## 🇻🇪 Venezuela (`VE`) · nearest AWS `IAD`
+## 🇻🇪 Venezuela (`VE`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1969,7 +2459,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 144 | 103.1 | 0.28 | 61 | 154 | 129 | 61 | 128 | 279 | 209 | 260 |
 | poor | 28.8 | 20.6 | 1 | 85 | 216 | 181 | 85 | 179 | 391 | 293 | 364 |
 
-## 🇻🇳 Vietnam (`VN`) · nearest AWS `SIN`
+## 🇻🇳 Vietnam (`VN`)
+
+Nearest AWS: `SIN`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1977,7 +2469,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 187.3 | 120.6 | 0.52 | 50 | 211 | 222 | 270 | 230 | 50 | 119 | 112 |
 | poor | 37.5 | 24.1 | 1.56 | 70 | 295 | 311 | 378 | 322 | 70 | 167 | 157 |
 
-## 🇻🇬 Virgin Islands, British (`VG`) · nearest AWS `IAD`
+## 🇻🇬 Virgin Islands, British (`VG`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1985,7 +2479,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 145.9 | 70.5 | 0.2 | 50 | 143 | 118 | 50 | 117 | 268 | 198 | 249 |
 | poor | 29.2 | 14.1 | 1 | 70 | 200 | 165 | 70 | 164 | 375 | 277 | 349 |
 
-## 🇻🇮 Virgin Islands, U. S. (`VI`) · nearest AWS `IAD`
+## 🇻🇮 Virgin Islands, U. S. (`VI`)
+
+Nearest AWS: `IAD`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1993,7 +2489,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 90.4 | 38.8 | 0.04 | 53 | 146 | 121 | 53 | 120 | 271 | 201 | 252 |
 | poor | 18.1 | 7.8 | 1 | 74 | 204 | 169 | 74 | 168 | 379 | 281 | 353 |
 
-## 🇼🇫 Wallis and Futuna Island (`WF`) · nearest AWS `NRT`
+## 🇼🇫 Wallis and Futuna Island (`WF`)
+
+Nearest AWS: `NRT`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -2001,7 +2499,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 267 | 243 | 189 | 147 | 110 | 40 | 172 |
 | poor | 8 | 3 | 1.2 | 56 | 374 | 340 | 265 | 206 | 154 | 56 | 241 |
 
-## 🇪🇭 Western Sahara (`EH`) · nearest AWS `DUB`
+## 🇪🇭 Western Sahara (`EH`)
+
+Nearest AWS: `DUB`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -2009,7 +2509,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 40 | 15 | 0.4 | 40 | 62 | 40 | 109 | 165 | 215 | 244 | 163 |
 | poor | 8 | 3 | 1.2 | 56 | 87 | 56 | 153 | 231 | 301 | 342 | 228 |
 
-## 🇾🇪 Yemen (`YE`) · nearest AWS `BOM`
+## 🇾🇪 Yemen (`YE`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -2017,7 +2519,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 13.2 | 4.9 | 1.15 | 98 | 227 | 220 | 295 | 338 | 160 | 229 | 98 |
 | poor | 2.6 | 1 | 3.46 | 137 | 318 | 308 | 413 | 473 | 224 | 321 | 137 |
 
-## 🇿🇲 Zambia (`ZM`) · nearest AWS `BOM`
+## 🇿🇲 Zambia (`ZM`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -2025,7 +2529,9 @@ Destinations: `CF` = Cloudflare Edge, `FRA` = AWS Frankfurt, `DUB` = AWS Ireland
 | typical | 29.1 | 9.5 | 0.51 | 90 | 219 | 212 | 287 | 330 | 152 | 221 | 90 |
 | poor | 5.8 | 1.9 | 1.52 | 126 | 307 | 297 | 402 | 462 | 213 | 309 | 126 |
 
-## 🇿🇼 Zimbabwe (`ZW`) · nearest AWS `BOM`
+## 🇿🇼 Zimbabwe (`ZW`)
+
+Nearest AWS: `BOM`.
 
 | Tier | ↓ Mbps | ↑ Mbps | Loss % | CF | FRA | DUB | IAD | PDX | SIN | NRT | BOM |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
