@@ -229,13 +229,20 @@ class PotatoAddon:
         stubbed = False
         body_bytes = 0
         if resp is not None:
-            raw = resp.raw_content if resp.raw_content is not None else b""
+            # Prefer decoded body — raw_content is often still gzip/br/zstd on the wire.
+            try:
+                raw = resp.content if resp.content is not None else b""
+            except Exception:
+                raw = resp.raw_content if resp.raw_content is not None else b""
+            if raw is None:
+                raw = b""
             body_bytes = len(raw)
+            ce = (resp.headers.get("content-encoding", "") or "").lower()
             if ct.startswith(("image/", "audio/", "video/", "application/octet-stream", "application/pdf", "application/zip", "font/", "application/wasm")):
                 body_preview = f"[binary omitted: {ct}; {body_bytes} bytes]"
                 stubbed = True
             else:
-                # Never decode the full body — cap raw bytes first, then decode preview only.
+                # Never decode the full body — cap bytes first, then decode preview only.
                 chunk = raw[:65536]
                 charset = "utf-8"
                 try:
@@ -246,7 +253,14 @@ class PotatoAddon:
                     body_preview = chunk.decode(charset, errors="replace")
                 except Exception:
                     body_preview = chunk.decode("utf-8", errors="replace")
-                if body_bytes > 65536:
+                # If decode still looks like wire gzip, decoding failed (rare).
+                if len(chunk) >= 2 and chunk[:2] == b"\x1f\x8b":
+                    body_preview = (
+                        f"[compressed body not decoded; content-encoding={ce or '?'}; "
+                        f"{body_bytes} bytes]"
+                    )
+                    stubbed = True
+                elif body_bytes > 65536:
                     body_preview += "\n…[truncated]"
                     stubbed = True
 
