@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	pnruntime "github.com/potatoinspector/potato-inspector/internal/runtime"
+	pnruntime "github.com/kriakiku/potato-network/internal/runtime"
 )
 
 // Schedule describes how often to re-probe host baseline.

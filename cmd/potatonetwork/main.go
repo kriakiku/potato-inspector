@@ -11,17 +11,17 @@ import (
 
 	_ "github.com/breml/rootcerts" // embed Mozilla CA roots (no system ca-certificates package)
 
-	"github.com/potatoinspector/potato-inspector/internal/api"
-	"github.com/potatoinspector/potato-inspector/internal/ca"
-	"github.com/potatoinspector/potato-inspector/internal/catalog"
-	"github.com/potatoinspector/potato-inspector/internal/config"
-	"github.com/potatoinspector/potato-inspector/internal/cronbaseline"
-	"github.com/potatoinspector/potato-inspector/internal/croncatalog"
-	"github.com/potatoinspector/potato-inspector/internal/dnsfwd"
-	"github.com/potatoinspector/potato-inspector/internal/mitm"
-	"github.com/potatoinspector/potato-inspector/internal/rules"
-	pnruntime "github.com/potatoinspector/potato-inspector/internal/runtime"
-	"github.com/potatoinspector/potato-inspector/internal/shape"
+	"github.com/kriakiku/potato-network/internal/api"
+	"github.com/kriakiku/potato-network/internal/ca"
+	"github.com/kriakiku/potato-network/internal/catalog"
+	"github.com/kriakiku/potato-network/internal/config"
+	"github.com/kriakiku/potato-network/internal/cronbaseline"
+	"github.com/kriakiku/potato-network/internal/croncatalog"
+	"github.com/kriakiku/potato-network/internal/dnsfwd"
+	"github.com/kriakiku/potato-network/internal/mitm"
+	"github.com/kriakiku/potato-network/internal/rules"
+	pnruntime "github.com/kriakiku/potato-network/internal/runtime"
+	"github.com/kriakiku/potato-network/internal/shape"
 )
 
 func main() {

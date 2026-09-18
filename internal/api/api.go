@@ -7,12 +7,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/potatoinspector/potato-inspector/internal/ca"
-	"github.com/potatoinspector/potato-inspector/internal/catalog"
-	"github.com/potatoinspector/potato-inspector/internal/config"
-	"github.com/potatoinspector/potato-inspector/internal/rules"
-	pnruntime "github.com/potatoinspector/potato-inspector/internal/runtime"
-	"github.com/potatoinspector/potato-inspector/internal/shape"
+	"github.com/kriakiku/potato-network/internal/ca"
+	"github.com/kriakiku/potato-network/internal/catalog"
+	"github.com/kriakiku/potato-network/internal/config"
+	"github.com/kriakiku/potato-network/internal/rules"
+	pnruntime "github.com/kriakiku/potato-network/internal/runtime"
+	"github.com/kriakiku/potato-network/internal/shape"
 )
 
 type Server struct {

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/potatoinspector/potato-inspector/internal/profiles"
+	"github.com/kriakiku/potato-network/internal/profiles"
 )
 
 // Manager is a no-op shaper outside Linux (dev builds).

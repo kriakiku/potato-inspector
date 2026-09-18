@@ -7,9 +7,9 @@ import (
 	"os/exec"
 	"sync"
 
-	"github.com/potatoinspector/potato-inspector/internal/config"
-	"github.com/potatoinspector/potato-inspector/internal/datapath"
-	"github.com/potatoinspector/potato-inspector/internal/profiles"
+	"github.com/kriakiku/potato-network/internal/config"
+	"github.com/kriakiku/potato-network/internal/datapath"
+	"github.com/kriakiku/potato-network/internal/profiles"
 	"github.com/vishvananda/netlink"
 	"golang.org/x/sys/unix"
 )

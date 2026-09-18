@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/potatoinspector/potato-inspector/internal/profiles"
+	"github.com/kriakiku/potato-network/internal/profiles"
 )
 
 //go:embed data/catalog.json

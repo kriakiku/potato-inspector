@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/potatoinspector/potato-inspector/internal/catalog"
+	"github.com/kriakiku/potato-network/internal/catalog"
 )
 
 // Start schedules catalog refresh.

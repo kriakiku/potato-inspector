@@ -12,9 +12,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/potatoinspector/potato-inspector/internal/ca"
-	"github.com/potatoinspector/potato-inspector/internal/rules"
-	pnruntime "github.com/potatoinspector/potato-inspector/internal/runtime"
+	"github.com/kriakiku/potato-network/internal/ca"
+	"github.com/kriakiku/potato-network/internal/rules"
+	pnruntime "github.com/kriakiku/potato-network/internal/runtime"
 )
 
 // Proxy is a transparent HTTP(S) MITM (REDIRECT + SO_ORIGINAL_DST).

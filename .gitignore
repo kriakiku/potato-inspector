@@ -3,7 +3,7 @@
 web/node_modules/
 web/package-lock.json
 *.exe
-/potatoinspector
+/potatonetwork
 .DS_Store
 .env
 *.test

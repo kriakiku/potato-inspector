@@ -1,6 +1,6 @@
 site_name: 🥔 PotatoNetwork
 site_description: Last-mile network emulator for Docker sidecars
-repo_url: https://github.com/kriakiku/potato-inspector
+repo_url: https://github.com/kriakiku/potato-network
 theme:
   name: material
   palette:

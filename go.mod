@@ -1,4 +1,4 @@
-module github.com/potatoinspector/potato-inspector
+module github.com/kriakiku/potato-network
 
 go 1.26.0
 

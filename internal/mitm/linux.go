@@ -10,8 +10,8 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/potatoinspector/potato-inspector/internal/config"
-	"github.com/potatoinspector/potato-inspector/internal/datapath"
+	"github.com/kriakiku/potato-network/internal/config"
+	"github.com/kriakiku/potato-network/internal/datapath"
 )
 
 func dialMarked(addr string) (net.Conn, error) {

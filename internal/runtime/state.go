@@ -6,10 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/potatoinspector/potato-inspector/internal/baseline"
-	"github.com/potatoinspector/potato-inspector/internal/catalog"
-	"github.com/potatoinspector/potato-inspector/internal/profiles"
-	"github.com/potatoinspector/potato-inspector/internal/shape"
+	"github.com/kriakiku/potato-network/internal/baseline"
+	"github.com/kriakiku/potato-network/internal/catalog"
+	"github.com/kriakiku/potato-network/internal/profiles"
+	"github.com/kriakiku/potato-network/internal/shape"
 )
 
 // State holds ephemeral profile + baseline (baseline also persisted under dataDir).

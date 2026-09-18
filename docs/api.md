@@ -3,7 +3,7 @@
 Base URL: `http://<host>:7783` (publish only the API port from the PotatoNetwork container).
 
 Opening `http://<host>:7783/` in a browser **302-redirects** to the GitHub Pages API docs
-(`POTATONETWORK_DOCS_URL`, default `https://kriakiku.github.io/potato-inspector/api/`).
+(`POTATONETWORK_DOCS_URL`, default `https://kriakiku.github.io/potato-network/api/`).
 JSON API lives under `/v1/…`.
 
 Auth (optional): `Authorization: Bearer <POTATONETWORK_API_TOKEN>`. If the token ENV/file is empty, auth is off. `/v1/health` is always open.

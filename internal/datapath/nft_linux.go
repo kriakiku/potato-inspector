@@ -11,7 +11,7 @@ import (
 	"github.com/google/nftables"
 	"github.com/google/nftables/binaryutil"
 	"github.com/google/nftables/expr"
-	"github.com/potatoinspector/potato-inspector/internal/config"
+	"github.com/kriakiku/potato-network/internal/config"
 	"golang.org/x/sys/unix"
 )
 
