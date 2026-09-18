@@ -9,21 +9,17 @@ mise.toml
 .DS_Store
 
 # Docs & generators (catalog is go:embed'd from internal/)
-docs
-site
-scripts
-mkdocs.yml
-catalog.json
+website
 compose.yaml
+compose.e2e.yaml
+e2e
+testdata
 README.md
 LICENSE
 *.md
 
 # Local runtime leftovers
 data
-__pycache__
-.venv
-venv
 *.tmp
 *.exe
 *.test

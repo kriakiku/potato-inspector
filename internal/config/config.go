@@ -15,6 +15,9 @@ const (
 // Not published; not configurable — only the process and nftables need to agree.
 const MITMPort = 8443
 
+// DocsURL is where GET / on the API port redirects (GitHub Pages / Hextra docs).
+const DocsURL = "https://kriakiku.github.io/potato-network/docs/api/#openapi"
+
 type Config struct {
 	DataDir         string
 	APIAddr         string
@@ -23,7 +26,8 @@ type Config struct {
 	BaselineCron    string
 	Uplink          string
 	RadarCatalogURL string
-	DocsURL         string // browser hit on / → redirect here
+	ProfileCountry  string // empty = passthrough at boot
+	ProfileTier     string // used when ProfileCountry is set; default typical
 }
 
 func FromEnv() Config {
@@ -35,20 +39,26 @@ func FromEnv() Config {
 			}
 		}
 	}
+	country := strings.ToUpper(strings.TrimSpace(os.Getenv("POTATONETWORK_PROFILE_COUNTRY")))
+	tier := ""
+	if country != "" {
+		tier = strings.TrimSpace(os.Getenv("POTATONETWORK_PROFILE_TIER"))
+		if tier == "" {
+			tier = "typical"
+		}
+	}
 	return Config{
-		DataDir:      getenv("POTATONETWORK_DATA", "/data"),
-		APIAddr:      getenv("POTATONETWORK_API_ADDR", ":7783"),
-		APIToken:     token,
-		CatalogCron:  getenv("POTATONETWORK_CATALOG_CRON", ""),
-		BaselineCron: getenv("POTATONETWORK_BASELINE_CRON", ""),
-		Uplink:       getenv("POTATONETWORK_UPLINK", ""),
+		DataDir:        getenv("POTATONETWORK_DATA", "/data"),
+		APIAddr:        getenv("POTATONETWORK_API_ADDR", ":7783"),
+		APIToken:       token,
+		CatalogCron:    getenv("POTATONETWORK_CATALOG_CRON", ""),
+		BaselineCron:   getenv("POTATONETWORK_BASELINE_CRON", ""),
+		Uplink:         getenv("POTATONETWORK_UPLINK", ""),
+		ProfileCountry: country,
+		ProfileTier:    tier,
 		RadarCatalogURL: getenv(
 			"POTATONETWORK_RADAR_CATALOG_URL",
 			"https://raw.githubusercontent.com/kriakiku/potato-network/main/catalog.json",
-		),
-		DocsURL: getenv(
-			"POTATONETWORK_DOCS_URL",
-			"https://kriakiku.github.io/potato-network/api/",
 		),
 	}
 }

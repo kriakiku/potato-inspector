@@ -1,0 +1,30 @@
+# Compose file for e2e tests (Linux + NET_ADMIN).
+services:
+  potatonetwork:
+    build: .
+    image: potatonetwork:e2e
+    container_name: potatonetwork-e2e
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    ports:
+      - "7783:7783"
+    volumes:
+      - ./testdata/e2e/data:/data
+    environment:
+      POTATONETWORK_DATA: /data
+      POTATONETWORK_API_ADDR: ":7783"
+      POTATONETWORK_CATALOG_CRON: "false"
+      POTATONETWORK_BASELINE_CRON: "false"
+      POTATONETWORK_UPLINK: eth0
+    sysctls:
+      - net.ipv4.ip_forward=1
+
+  # Same netns: MITM REDIRECT :80 → proxy → dialMarked back to this origin.
+  # Loopback skips netem; this asserts rules path delay, not last-mile qdisc.
+  origin:
+    image: hashicorp/http-echo:1.0
+    network_mode: "service:potatonetwork"
+    depends_on:
+      - potatonetwork
+    command: ["-text=potato-e2e-origin", "-listen=:80"]

@@ -1,4 +1,7 @@
-# Overview
+---
+title: Overview
+weight: 10
+---
 
 **🥔 PotatoNetwork** makes Docker sidecars experience a chosen country’s last-mile network (delay, loss, bandwidth) plus optional HTTPS path delay (e.g. “as if API is farther than CF edge”).
 

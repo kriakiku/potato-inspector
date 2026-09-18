@@ -1,0 +1,59 @@
+baseURL: https://kriakiku.github.io/potato-network/
+languageCode: en-us
+title: 🥔 PotatoNetwork
+
+module:
+  imports:
+    - path: github.com/imfing/hextra
+
+outputs:
+  home: [HTML]
+  page: [HTML]
+  section: [HTML, RSS]
+
+defaultContentLanguage: en
+enableRobotsTXT: true
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+
+menu:
+  main:
+    - name: Docs
+      pageRef: /docs
+      weight: 1
+    - name: API
+      pageRef: /docs/api
+      weight: 2
+    - name: Profiles
+      pageRef: /docs/profiles-gallery
+      weight: 3
+    - name: Search
+      weight: 4
+      params:
+        type: search
+    - name: GitHub
+      weight: 5
+      url: https://github.com/kriakiku/potato-network
+      params:
+        icon: github
+
+params:
+  description: Last-mile network emulator for Docker sidecars
+  navbar:
+    displayTitle: true
+    displayLogo: false
+  theme:
+    default: system
+    displayToggle: true
+  footer:
+    displayCopyright: false
+    displayPoweredBy: true
+  editURL:
+    enable: true
+    base: https://github.com/kriakiku/potato-network/edit/main/website/content
+

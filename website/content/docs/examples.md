@@ -1,4 +1,7 @@
-# Examples
+---
+title: Examples
+weight: 50
+---
 
 ## Puppeteer / Playwright sidecar
 

@@ -1,0 +1,182 @@
+{
+  "BD": {
+    "down": 32,
+    "up": 12,
+    "loss": 0.5,
+    "rtt_cf": 48
+  },
+  "IN": {
+    "down": 40,
+    "up": 15,
+    "loss": 0.4,
+    "rtt_cf": 35
+  },
+  "PH": {
+    "down": 28,
+    "up": 10,
+    "loss": 0.6,
+    "rtt_cf": 30
+  },
+  "NG": {
+    "down": 18,
+    "up": 8,
+    "loss": 0.8,
+    "rtt_cf": 55
+  },
+  "BR": {
+    "down": 50,
+    "up": 20,
+    "loss": 0.3,
+    "rtt_cf": 25
+  },
+  "DE": {
+    "down": 80,
+    "up": 30,
+    "loss": 0.1,
+    "rtt_cf": 12
+  },
+  "US": {
+    "down": 100,
+    "up": 40,
+    "loss": 0.1,
+    "rtt_cf": 15
+  },
+  "GB": {
+    "down": 75,
+    "up": 28,
+    "loss": 0.15,
+    "rtt_cf": 14
+  },
+  "SG": {
+    "down": 90,
+    "up": 35,
+    "loss": 0.1,
+    "rtt_cf": 8
+  },
+  "JP": {
+    "down": 85,
+    "up": 35,
+    "loss": 0.1,
+    "rtt_cf": 12
+  },
+  "ID": {
+    "down": 35,
+    "up": 12,
+    "loss": 0.5,
+    "rtt_cf": 28
+  },
+  "PK": {
+    "down": 25,
+    "up": 10,
+    "loss": 0.7,
+    "rtt_cf": 50
+  },
+  "EG": {
+    "down": 30,
+    "up": 10,
+    "loss": 0.6,
+    "rtt_cf": 40
+  },
+  "ZA": {
+    "down": 40,
+    "up": 15,
+    "loss": 0.4,
+    "rtt_cf": 35
+  },
+  "AU": {
+    "down": 70,
+    "up": 25,
+    "loss": 0.2,
+    "rtt_cf": 20
+  },
+  "CA": {
+    "down": 90,
+    "up": 35,
+    "loss": 0.1,
+    "rtt_cf": 18
+  },
+  "MX": {
+    "down": 45,
+    "up": 15,
+    "loss": 0.4,
+    "rtt_cf": 30
+  },
+  "FR": {
+    "down": 80,
+    "up": 30,
+    "loss": 0.1,
+    "rtt_cf": 14
+  },
+  "IT": {
+    "down": 70,
+    "up": 25,
+    "loss": 0.2,
+    "rtt_cf": 18
+  },
+  "ES": {
+    "down": 70,
+    "up": 25,
+    "loss": 0.2,
+    "rtt_cf": 20
+  },
+  "NL": {
+    "down": 100,
+    "up": 40,
+    "loss": 0.1,
+    "rtt_cf": 10
+  },
+  "KR": {
+    "down": 90,
+    "up": 35,
+    "loss": 0.1,
+    "rtt_cf": 12
+  },
+  "TH": {
+    "down": 45,
+    "up": 15,
+    "loss": 0.4,
+    "rtt_cf": 28
+  },
+  "VN": {
+    "down": 40,
+    "up": 12,
+    "loss": 0.5,
+    "rtt_cf": 32
+  },
+  "TR": {
+    "down": 50,
+    "up": 18,
+    "loss": 0.3,
+    "rtt_cf": 30
+  },
+  "PL": {
+    "down": 70,
+    "up": 25,
+    "loss": 0.2,
+    "rtt_cf": 18
+  },
+  "AE": {
+    "down": 80,
+    "up": 30,
+    "loss": 0.2,
+    "rtt_cf": 20
+  },
+  "SA": {
+    "down": 60,
+    "up": 20,
+    "loss": 0.3,
+    "rtt_cf": 35
+  },
+  "AR": {
+    "down": 40,
+    "up": 15,
+    "loss": 0.5,
+    "rtt_cf": 40
+  },
+  "CO": {
+    "down": 35,
+    "up": 12,
+    "loss": 0.5,
+    "rtt_cf": 45
+  }
+}

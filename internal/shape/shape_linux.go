@@ -4,6 +4,7 @@ package shape
 
 import (
 	"fmt"
+	"net"
 	"os/exec"
 	"sync"
 
@@ -307,6 +308,21 @@ func ResolveUplink(preferred string) (string, error) {
 			}
 			return link.Attrs().Name, nil
 		}
+	}
+	// No default route yet (some Docker / early boot) — first non-loopback iface.
+	links, err := netlink.LinkList()
+	if err != nil {
+		return "", fmt.Errorf("no default route device")
+	}
+	for _, link := range links {
+		attrs := link.Attrs()
+		if attrs.Name == "lo" || attrs.Flags&net.FlagLoopback != 0 {
+			continue
+		}
+		if attrs.Flags&net.FlagUp == 0 {
+			continue
+		}
+		return attrs.Name, nil
 	}
 	return "", fmt.Errorf("no default route device")
 }

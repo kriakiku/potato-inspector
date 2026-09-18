@@ -1,4 +1,7 @@
-# Path rules (`rules.expr`)
+---
+title: Path rules (`rules.expr`)
+weight: 30
+---
 
 File: `/data/rules.expr` (hot-reloaded on mtime). Language: [expr](https://github.com/expr-lang/expr).
 

@@ -1,4 +1,7 @@
-# CA
+---
+title: CA
+weight: 40
+---
 
 Root CA lives at:
 

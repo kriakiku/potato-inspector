@@ -1,10 +1,15 @@
-# 🥔 PotatoNetwork
+---
+title: Documentation
+weight: 1
+cascade:
+  type: docs
+---
 
 **Last-mile network lab for Docker** — make browsers, scrapers, and APIs feel like they run from Bangladesh, Brazil, or Japan without VPNs, agents, or a heavy proxy stack.
 
 Attach workloads with `network_mode: service:potatonetwork`, pick a country profile over a tiny JSON API, and every packet in that netns — including DNS — gets the delay, loss, and bandwidth of real last-mile. Transparent HTTPS MITM adds path delay on top (edge vs origin), so Waterfall timings look believable under interception.
 
-[Overview](overview.md) · [API](api.md) · [Rules](rules.md) · [CA](ca.md) · [Examples](examples.md) · [Profiles](profiles-gallery.md)
+[Overview](overview) · [API](api) · [Rules](rules) · [CA](ca) · [Examples](examples) · [Profiles](profiles-gallery)
 
 ---
 
@@ -15,7 +20,7 @@ Attach workloads with `network_mode: service:potatonetwork`, pick a country prof
 | **Country last-mile** | Delay, loss, down/up rates from a Radar-backed catalog (stable / typical / poor tiers) |
 | **Shared Docker netns** | Sidecars inherit shaping automatically — no SOCKS config, no per-app agents |
 | **Shaped DNS** | Local `:53` forwarder so lookups suffer the same last-mile as TCP |
-| **Transparent MITM** | nftables REDIRECT of 80/443 → in-process TLS terminator; path delay via [`rules.expr`](rules.md) |
+| **Transparent MITM** | nftables REDIRECT of 80/443 → in-process TLS terminator; path delay via [`rules.expr`](rules) |
 | **Host baseline** | Persisted RTT probe so delay = country − *your* edge, not absolute fiction |
 | **API-only control** | `PUT /v1/profile`, CA download, catalog refresh — CI-friendly, no panel |
 
@@ -56,4 +61,4 @@ What you *don’t* ship: a GUI, a VPN mesh, or a multi-service compose of “emu
 - **CDN / edge debugging** — path extra latency when the origin sits farther than CF
 - **CI** — token-gated API, cron-refreshable catalog and baseline, docs on GitHub Pages
 
-Start with [Overview](overview.md) for the shaping model, or [Examples](examples.md) for a Playwright sidecar.
+Start with [Overview](overview) for the shaping model, or [Examples](examples) for a Playwright sidecar.

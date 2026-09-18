@@ -10,14 +10,14 @@
 *.test
 *.out
 
-# Docs build (mkdocs)
+# Hugo / Hextra
+website/public/
+website/.hugo_build.lock
 /site/
 
-# Python (gallery / radar scripts)
-__pycache__/
-*.py[cod]
-.venv/
-venv/
+# E2E runtime leftovers in mounted testdata
+testdata/e2e/data/ca/
+testdata/e2e/data/catalog.json
 
 # Editor / junk
 *.tmp
@@ -25,3 +25,4 @@ venv/
 *~
 .idea/
 .vscode/
+*.code-workspace

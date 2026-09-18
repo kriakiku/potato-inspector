@@ -24,6 +24,20 @@ import (
 	"github.com/kriakiku/potato-network/internal/shape"
 )
 
+// @title						PotatoNetwork API
+// @version					1.0
+// @description				Last-mile network emulator control plane for Docker sidecars.
+// @description				Optional Bearer auth when POTATONETWORK_API_TOKEN is set.
+// @contact.name				PotatoNetwork
+// @contact.url				https://github.com/kriakiku/potato-network
+// @license.name				See repository LICENSE
+// @license.url				https://github.com/kriakiku/potato-network
+// @host						localhost:7783
+// @BasePath					/
+// @securityDefinitions.apikey	BearerAuth
+// @in							header
+// @name						Authorization
+// @description				Optional. Format: Bearer followed by the API token.
 func main() {
 	cfg := config.FromEnv()
 	if err := os.MkdirAll(cfg.DataDir, 0o755); err != nil {
@@ -56,7 +70,15 @@ func main() {
 
 	sh := shape.New(uplink, apiPort, dnsUpstream)
 	st := pnruntime.New(cfg.DataDir, cat, sh)
-	_ = st.ClearPassthrough()
+	if cfg.ProfileCountry != "" {
+		p, err := st.ApplyCountryTier(cfg.ProfileCountry, cfg.ProfileTier)
+		if err != nil {
+			log.Fatalf("boot profile %s/%s: %v", cfg.ProfileCountry, cfg.ProfileTier, err)
+		}
+		log.Printf("boot profile country=%s tier=%s id=%s", p.Country, p.Tier, p.ID)
+	} else if err := st.ClearPassthrough(); err != nil {
+		log.Fatalf("boot passthrough: %v", err)
+	}
 
 	bundle, err := ca.LoadOrCreate(cfg.DataDir)
 	if err != nil {

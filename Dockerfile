@@ -1,14 +1,15 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.23-bookworm AS gobuild
+FROM golang:1.26-bookworm AS gobuild
 WORKDIR /src
-RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates upx-ucl \
+RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates \
+    && (apt-get install -y --no-install-recommends upx-ucl || true) \
     && rm -rf /var/lib/apt/lists/*
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o /out/potatonetwork ./cmd/potatonetwork \
-    && upx --best --lzma /out/potatonetwork
+    && (command -v upx >/dev/null && upx --best --lzma /out/potatonetwork || true)
 
 # Smallest suitable runtime: scratch + single static binary.
 # Catalog is go:embed'd; Mozilla roots via breml/rootcerts; netlink/nftables need no userland helpers.

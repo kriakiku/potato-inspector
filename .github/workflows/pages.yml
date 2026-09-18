@@ -4,10 +4,13 @@ on:
   push:
     branches: [main]
     paths:
-      - "docs/**"
-      - "mkdocs.yml"
+      - "website/**"
       - "internal/catalog/data/catalog.json"
-      - "scripts/generate-profiles-gallery.py"
+      - "internal/api/**"
+      - "internal/profiles/**"
+      - "internal/catalog/**"
+      - "cmd/gengallery/**"
+      - "cmd/potatonetwork/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -25,15 +28,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - run: pip install mkdocs-material
-      - run: python3 scripts/generate-profiles-gallery.py
-      - run: mkdocs build
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.x"
+      - name: Generate profiles gallery
+        run: go run -tags gallery ./cmd/gengallery/
+      - name: Generate OpenAPI
+        run: |
+          go run github.com/swaggo/swag/cmd/swag@v1.16.4 init \
+            -g main.go \
+            -d ./cmd/potatonetwork,./internal/api,./internal/profiles,./internal/catalog \
+            -o ./website/static \
+            --outputTypes json,yaml \
+            --parseDependency --parseInternal
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.147.8"
+          extended: true
+      - name: Build
+        working-directory: website
+        run: |
+          hugo mod tidy
+          hugo --minify
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: website/public
   deploy:
     needs: build
     runs-on: ubuntu-latest
