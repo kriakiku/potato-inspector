@@ -1,6 +1,8 @@
 ---
-title: 🥔 PotatoNetwork
+title: Overview
 weight: 1
+aliases:
+  - /overview
 cascade:
   type: docs
 ---
@@ -9,7 +11,31 @@ cascade:
 
 Attach workloads with `network_mode: service:potatonetwork`, pick a country profile over a tiny JSON API, and every packet in that netns — including DNS — gets the delay, loss, and bandwidth of real last-mile. Transparent HTTPS MITM adds path delay on top (edge vs origin), so Waterfall timings look believable under interception.
 
-[Overview](overview) · [API](api) · [Rules](rules) · [CA](ca) · [Examples](examples) · [Profiles](profiles-gallery) · [Limitations](limitations)
+[API](api) · [Rules](rules) · [CA](ca) · [Examples](examples) · [Profiles](profiles-gallery) · [Limitations](limitations)
+
+---
+
+## Architecture
+
+```text
+sidecar ──► PotatoNetwork netns
+              ├─ DNS :53 (shaped) → Docker/resolv upstream (exempt)
+              ├─ netem on uplink via netlink (shaped)
+              ├─ transparent MITM 80/443 (nftables redirect) → expr path delay
+              └─ API :7783 (exempt — no lab delay)
+```
+
+- **No WireGuard** inside PotatoNetwork — for phones, run a separate WG container with `network_mode: service:potatonetwork`.
+- **No web UI** — JSON API only.
+- **Go only** — no Python / mitmproxy.
+
+## Layers
+
+1. **Last-mile (netlink netem)** — one-way delay ≈ `(country_cf_rtt − host_cf_rtt) / 2`, plus loss and rates from the catalog tier.
+2. **Path delay (`rules.expr`)** — after origin response headers, sleep `delay_ms` or PathExtra for `dest` (Frankfurt vs CF, Via/CloudFront, etc.).
+3. **TLS handshake delay** — extra sleep before local MITM ServerHello so client-visible SSL time is not ~0 under MITM.
+
+API traffic and DNS **upstream** queries are fwmark-exempt from netem (nftables mark + netlink fw filter). Redirect uses nftables NAT.
 
 ---
 
@@ -64,4 +90,4 @@ What you *don’t* ship: a GUI, a VPN mesh, or a multi-service compose of “emu
 - **CDN / edge debugging** — path extra latency when the origin sits farther than CF
 - **CI** — token-gated API, cron-refreshable catalog and baseline, docs on GitHub Pages
 
-Start with [Overview](overview) for the shaping model, or [Examples](examples) for a Playwright sidecar.
+See also [Limitations](limitations) — statistical emulation, not a live replica of a country’s internet. Start with [Examples](examples) for a Playwright sidecar.

@@ -23,36 +23,27 @@ markup:
 
 menu:
   main:
-    - name: Home
-      pageRef: /
-      weight: 1
-    - name: API
-      pageRef: /api
-      weight: 2
-    - name: Profiles
-      pageRef: /profiles-gallery
-      weight: 3
-    - name: Search
-      weight: 4
-      params:
-        type: search
     - name: ""
-      weight: 5
+      weight: 1
       url: https://github.com/kriakiku/potato-network
       params:
         icon: github
 
 params:
   description: Last-mile network emulator for Docker sidecars
+  images:
+    - images/social-preview.png
   navbar:
     displayTitle: true
     displayLogo: false
   theme:
-    default: system
-    displayToggle: true
+    default: dark
+    displayToggle: false
+  search:
+    enable: false
   footer:
     displayCopyright: false
-    displayPoweredBy: true
+    displayPoweredBy: false
   editURL:
     enable: true
     base: https://github.com/kriakiku/potato-network/edit/main/website/content

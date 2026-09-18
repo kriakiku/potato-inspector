@@ -32,6 +32,7 @@ import (
 // @description				`http://<host>:7783` — publish **only** the API port from the PotatoNetwork container. JSON lives under `/v1/…`. Opening `http://<host>:7783/` **302-redirects** to these docs.
 // @description
 // @description				## Spec downloads
+// @description				Machine-readable OpenAPI remains available alongside the Markdown API page:
 // @description				- [swagger.json](https://kriakiku.github.io/potato-network/swagger.json)
 // @description				- [swagger.yaml](https://kriakiku.github.io/potato-network/swagger.yaml)
 // @description

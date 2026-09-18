@@ -85,10 +85,10 @@ func (s *Server) auth(next http.Handler) http.Handler {
 	})
 }
 
-// handleRoot redirects browsers to the published API docs (OpenAPI / ReDoc).
+// handleRoot redirects browsers to the published API docs.
 //
 //	@Summary		Redirect to docs
-//	@Description	302 to GitHub Pages OpenAPI section
+//	@Description	302 to GitHub Pages API docs
 //	@Tags			system
 //	@Produce		json
 //	@Success		302	{string}	string	"Location: docs URL"

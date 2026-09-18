@@ -21,7 +21,7 @@
     }
 
     function navLinks() {
-      // Only the Hextra navbar — never touch ReDoc / content links.
+      // Only the Hextra navbar — never rewrite content links.
       return document.querySelectorAll(
         '.hextra-nav-container a[href="' + HREF + '"], .hextra-nav-container a[href="' + HREF + '/"]'
       );

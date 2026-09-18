@@ -1,3 +1,59 @@
+/* Navbar catalog stats (replaces Home / API / Profiles links) */
+a.pn-nav-stats {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  min-width: 0;
+  margin-left: 0.15rem;
+  padding: 0.2rem 0;
+  color: rgb(107 114 128);
+  text-decoration: none !important;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+:is(html.dark, .dark) a.pn-nav-stats {
+  color: rgb(163 163 163);
+}
+
+a.pn-nav-stats:hover {
+  color: inherit;
+}
+
+a.pn-nav-stats .pn-nav-stats__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+a.pn-nav-stats .pn-nav-stats__value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: rgb(17 24 39);
+}
+
+:is(html.dark, .dark) a.pn-nav-stats .pn-nav-stats__value {
+  color: rgb(243 244 246);
+}
+
+a.pn-nav-stats .pn-nav-stats__label {
+  font-weight: 500;
+}
+
+a.pn-nav-stats .pn-nav-stats__sep {
+  opacity: 0.45;
+  font-weight: 400;
+}
+
+@media (max-width: 767px) {
+  a.pn-nav-stats .pn-nav-stats__item--secondary,
+  a.pn-nav-stats .pn-nav-stats__sep--secondary {
+    display: none;
+  }
+}
+
 /* Navbar GitHub badge: octocat + owner/repo + stars on the right */
 a.pn-github-star {
   display: inline-flex !important;
@@ -89,55 +145,4 @@ a.pn-github-star .pn-github-star__count--pending {
   a.pn-github-star .pn-github-star__slash {
     display: none;
   }
-}
-
-/* API page: keep Hextra navbar; ReDoc fills the rest of the dynamic viewport. */
-body:has(#redoc-container) {
-  overflow: hidden;
-  --hextra-max-content-width: 100%;
-  --hextra-max-page-width: 100%;
-}
-
-body:has(#redoc-container) .hextra-footer,
-body:has(#redoc-container) .hextra-toc,
-body:has(#redoc-container) nav[aria-label="breadcrumb"],
-body:has(#redoc-container) .hextra-breadcrumb,
-body:has(#redoc-container) main h1,
-body:has(#redoc-container) .content > .hx\:flex:has(h1),
-body:has(#redoc-container) .hx\:mt-16,
-body:has(#redoc-container) a[rel="prev"],
-body:has(#redoc-container) a[rel="next"],
-body:has(#redoc-container) .hextra-pagination {
-  display: none !important;
-}
-
-body:has(#redoc-container) article,
-body:has(#redoc-container) main#content,
-body:has(#redoc-container) .content {
-  max-width: none !important;
-  width: 100% !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  min-height: 0 !important;
-}
-
-#redoc-container.pn-redoc {
-  position: fixed;
-  top: var(--navbar-height, 4rem);
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: auto;
-  height: calc(100dvh - var(--navbar-height, 4rem));
-  max-height: calc(100dvh - var(--navbar-height, 4rem));
-  overflow: hidden;
-  z-index: 10;
-  background: #1b1b1b;
-}
-
-/* Let ReDoc's own columns scroll inside the fixed viewport. */
-#redoc-container.pn-redoc > div,
-#redoc-container.pn-redoc .redoc-wrap {
-  height: 100% !important;
-  max-height: 100% !important;
 }

@@ -1,0 +1,26 @@
+{{- $stats := .Site.Data.catalog -}}
+{{- if $stats -}}
+  {{- $gallery := relURL "profiles-gallery/" -}}
+  {{- $updated := "" -}}
+  {{- with $stats.generatedAt -}}
+    {{- $updated = time.Format "2 Jan 2006" (time.AsTime .) -}}
+  {{- end -}}
+  <a class="pn-nav-stats" href="{{ $gallery }}" title="Profiles gallery · catalog {{ $stats.source }} · {{ $stats.generatedAt }}">
+    <span class="pn-nav-stats__item">
+      <span class="pn-nav-stats__value">{{ $stats.countries }}</span>
+      <span class="pn-nav-stats__label">countries</span>
+    </span>
+    <span class="pn-nav-stats__sep" aria-hidden="true">·</span>
+    <span class="pn-nav-stats__item pn-nav-stats__item--secondary">
+      <span class="pn-nav-stats__value">{{ $stats.destinations }}</span>
+      <span class="pn-nav-stats__label">destinations</span>
+    </span>
+    {{- with $updated -}}
+      <span class="pn-nav-stats__sep pn-nav-stats__sep--secondary" aria-hidden="true">·</span>
+      <span class="pn-nav-stats__item pn-nav-stats__item--secondary">
+        <span class="pn-nav-stats__label">updated</span>
+        <span class="pn-nav-stats__value pn-nav-stats__value--date">{{ . }}</span>
+      </span>
+    {{- end -}}
+  </a>
+{{- end -}}

@@ -10,6 +10,7 @@ on:
       - "internal/profiles/**"
       - "internal/catalog/**"
       - "cmd/gengallery/**"
+      - "cmd/genapi/**"
       - "cmd/potatonetwork/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
@@ -43,6 +44,8 @@ jobs:
             -o ./website/static \
             --outputTypes json,yaml \
             --parseDependency --parseInternal
+      - name: Generate API markdown
+        run: go run -tags genapi ./cmd/genapi/
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:

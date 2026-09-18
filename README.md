@@ -71,10 +71,10 @@ Boot profile is **passthrough** unless `POTATONETWORK_PROFILE_COUNTRY` is set (t
 Site sources live under [`website/`](website/) ([Hextra](https://imfing.github.io/hextra/)); published via GitHub Pages.
 
 - Docs home: https://kriakiku.github.io/potato-network/
-- API (ReDoc): https://kriakiku.github.io/potato-network/api/
+- API: https://kriakiku.github.io/potato-network/api/ (Markdown generated from OpenAPI, same Hextra styling as the rest of the docs)
 - Spec download: [swagger.json](https://kriakiku.github.io/potato-network/swagger.json) · [swagger.yaml](https://kriakiku.github.io/potato-network/swagger.yaml) (generated on Pages build / CI; not stored in git)
 
-Regenerate OpenAPI locally (writes ignored files under `website/static/` before `hugo`):
+Regenerate OpenAPI + API page locally (swagger files under `website/static/` are gitignored; `api.md` is written into content):
 
 ```bash
 go run github.com/swaggo/swag/cmd/swag@v1.16.4 init \
@@ -83,6 +83,7 @@ go run github.com/swaggo/swag/cmd/swag@v1.16.4 init \
   -o ./website/static \
   --outputTypes json,yaml \
   --parseDependency --parseInternal
+go run -tags genapi ./cmd/genapi/
 ```
 
 ## Tests
@@ -90,6 +91,7 @@ go run github.com/swaggo/swag/cmd/swag@v1.16.4 init \
 - `go test ./...` — unit tests (no root / Docker).
 - `go test -tags e2e ./e2e/` — integration against `compose.e2e.yaml` (local origin `:80`, not the public internet).
 - `go run -tags gallery ./cmd/gengallery/` — regenerate profiles gallery markdown.
+- `go run -tags genapi ./cmd/genapi/` — regenerate API markdown from `website/static/swagger.json`.
 - `go run -tags radar ./cmd/genradar/` — refresh Radar/CloudPing catalog (optional `CLOUDFLARE_API_TOKEN`).
 
 ## License
