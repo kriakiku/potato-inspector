@@ -1,9 +1,57 @@
+/* Navbar GitHub → Star badge (count from api.github.com) */
+a.pn-github-star {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.55rem !important;
+  border-radius: 9999px;
+  border: 1px solid rgb(229 231 235);
+  background: rgb(249 250 251);
+  color: inherit;
+  text-decoration: none !important;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+:is(html.dark, .dark) a.pn-github-star {
+  border-color: rgb(64 64 64);
+  background: rgb(38 38 38);
+}
+
+a.pn-github-star:hover {
+  background: rgb(243 244 246);
+}
+
+:is(html.dark, .dark) a.pn-github-star:hover {
+  background: rgb(50 50 50);
+}
+
+a.pn-github-star .pn-github-star__icon {
+  color: #e3b341;
+  font-size: 0.95em;
+}
+
+a.pn-github-star .pn-github-star__count {
+  padding: 0.05rem 0.4rem;
+  border-radius: 9999px;
+  background: rgb(229 231 235);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+:is(html.dark, .dark) a.pn-github-star .pn-github-star__count {
+  background: rgb(64 64 64);
+}
+
+a.pn-github-star > svg {
+  display: none !important;
+}
+
 /* API page: keep Hextra navbar; ReDoc fills the rest of the dynamic viewport. */
 body:has(#redoc-container) {
   overflow: hidden;
-}
-
-body:has(#redoc-container) {
   --hextra-max-content-width: 100%;
   --hextra-max-page-width: 100%;
 }
@@ -38,9 +86,16 @@ body:has(#redoc-container) .content {
   right: 0;
   bottom: 0;
   width: auto;
-  height: auto;
+  height: calc(100dvh - var(--navbar-height, 4rem));
   max-height: calc(100dvh - var(--navbar-height, 4rem));
   overflow: hidden;
   z-index: 10;
   background: #1b1b1b;
+}
+
+/* Let ReDoc's own columns scroll inside the fixed viewport. */
+#redoc-container.pn-redoc > div,
+#redoc-container.pn-redoc .redoc-wrap {
+  height: 100% !important;
+  max-height: 100% !important;
 }

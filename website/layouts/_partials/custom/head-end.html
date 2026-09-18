@@ -1,0 +1,66 @@
+<script>
+  (function () {
+    var REPO = "kriakiku/potato-network";
+    var API = "https://api.github.com/repos/" + REPO;
+    var CACHE_KEY = "pn-gh-stars";
+    var CACHE_MS = 30 * 60 * 1000;
+
+    function formatCount(n) {
+      if (n >= 1000) return (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, "") + "k";
+      return String(n);
+    }
+
+    function apply(count) {
+      var links = document.querySelectorAll(
+        'a[href="https://github.com/' + REPO + '"], a[href="https://github.com/' + REPO + '/"]'
+      );
+      links.forEach(function (a) {
+        if (a.dataset.pnStars === "1") return;
+        a.dataset.pnStars = "1";
+        a.classList.add("pn-github-star");
+        a.title = "Star " + REPO + " on GitHub";
+        a.setAttribute("aria-label", "Star " + REPO + " on GitHub");
+        a.innerHTML =
+          '<span class="pn-github-star__icon" aria-hidden="true">★</span>' +
+          '<span class="pn-github-star__label">Star</span>' +
+          (count != null
+            ? '<span class="pn-github-star__count">' + formatCount(count) + "</span>"
+            : "");
+      });
+    }
+
+    function load() {
+      try {
+        var cached = sessionStorage.getItem(CACHE_KEY);
+        if (cached) {
+          var parsed = JSON.parse(cached);
+          if (parsed && Date.now() - parsed.ts < CACHE_MS) {
+            apply(parsed.count);
+            return;
+          }
+        }
+      } catch (e) {}
+
+      apply(null);
+      fetch(API, { headers: { Accept: "application/vnd.github+json" } })
+        .then(function (r) {
+          if (!r.ok) throw new Error("github api " + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          var count = data.stargazers_count;
+          try {
+            sessionStorage.setItem(CACHE_KEY, JSON.stringify({ count: count, ts: Date.now() }));
+          } catch (e) {}
+          apply(count);
+        })
+        .catch(function () {});
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", load);
+    } else {
+      load();
+    }
+  })();
+</script>

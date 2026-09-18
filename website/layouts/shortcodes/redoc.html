@@ -8,10 +8,10 @@
     Redoc.init(
       document.getElementById("redoc-container").dataset.spec,
       {
-        scrollYOffset: navH,
         hideDownloadButton: false,
         expandResponses: "200",
-        nativeScrollbars: true,
+        nativeScrollbars: false,
+        scrollYOffset: navH,
         theme: {
           colors: {
             primary: { main: "#7eb8ff" },

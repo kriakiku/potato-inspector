@@ -15,6 +15,7 @@ website/public/
 website/.hugo_build.lock
 website/static/swagger.json
 website/static/swagger.yaml
+website/_vendor/
 /site/
 
 # E2E runtime leftovers in mounted testdata
