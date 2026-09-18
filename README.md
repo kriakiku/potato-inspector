@@ -1,79 +1,67 @@
-# 🥔 PotatoInspector
+# 🥔 PotatoNetwork
 
-Single Docker container that makes phones, laptops, and a router (as a WireGuard client) experience a chosen wide-area mobile network — with one web control panel.
-
-Last-mile delay/loss/rate uses Linux `tc` netem on the WireGuard TUN. MITM (custom CA) adds per-request path delay and feeds an Inspector for HTTP, TLS, and DNS.
-
-In-app docs (same content after you open the panel): **Docs** tab, or the markdown under [`docs/`](docs/).
-
-## Docs
-
-| Topic | Link |
-|-------|------|
-| Overview & limitations | [docs/overview.md](docs/overview.md) |
-| WireGuard / lab setup | [docs/wireguard.md](docs/wireguard.md) |
-| Profiles data & formulas | [docs/profiles.md](docs/profiles.md) |
-| Root CA · Android | [docs/ca-android.md](docs/ca-android.md) |
-| Root CA · iOS | [docs/ca-ios.md](docs/ca-ios.md) |
-| Root CA · macOS | [docs/ca-macos.md](docs/ca-macos.md) |
-| Root CA · Windows | [docs/ca-windows.md](docs/ca-windows.md) |
+Go-only last-mile network emulator for Docker: run PotatoNetwork as a container, attach apps with `network_mode: service:potatonetwork`, pick a country profile via API, and traffic (including DNS) gets shaped. Transparent MITM applies path delay from an [expr](https://github.com/expr-lang/expr) script. No WireGuard, no web UI.
 
 ## Quick start
 
-```bash
-docker pull ghcr.io/kriakiku/potato-inspector:latest
-docker run --cap-add=NET_ADMIN --device=/dev/net/tun \
-  -p 51820:51820/udp -p 8443:8443 \
-  -v potatoinspector-data:/data \
-  ghcr.io/kriakiku/potato-inspector:latest
-```
-
-If `docker pull` asks for login, set the GHCR package to **Public**:  
-https://github.com/kriakiku/potato-inspector/pkgs/container/potato-inspector
-
-Or build locally / compose:
+Runtime image is **`scratch` + UPX-compressed static binary** (catalog and Mozilla CA roots are embedded; no apt packages).
 
 ```bash
 docker compose up -d --build
+curl -s localhost:7783/v1/health
+curl -s -X POST localhost:7783/v1/baseline/probe
+curl -s -X PUT localhost:7783/v1/profile \
+  -H 'Content-Type: application/json' \
+  -d '{"country":"BD","tier":"typical"}'
 ```
 
-Open **http://\<host\>:8443** (plain HTTP — put TLS on a reverse proxy). No panel login.
+Sidecar example:
 
-Needs: `NET_ADMIN`, `/dev/net/tun`, UDP `51820`, TCP `8443`, a `/data` volume, and host `net.ipv4.ip_forward=1` (compose sets this via `sysctls`).
-
-## Lab (short)
-
-Phone → Potato SSID → router as WG client → PotatoInspector TUN (`tc` + MITM) → NAT → Internet.  
-WG UDP handshake stays unshaped. Set **Public WG endpoint**, create a peer, apply `.conf` / QR. Details: [WireGuard docs](docs/wireguard.md).
-
-On-tunnel: **http://potato.local** (CA install → Share after trust).
-
-## Env
-
-| Variable | Default |
-|----------|---------|
-| `POTATOINSPECTOR_DATA` | `/data` |
-| `POTATOINSPECTOR_WG_SUBNET` | `10.8.0.0/24` |
-| `POTATOINSPECTOR_WG_PORT` | `51820` |
-| `POTATOINSPECTOR_PANEL` | `8443` |
-| `POTATOINSPECTOR_UPLINK` | `eth0` (overrides saved `settings.json`; must exist, or startup fails; if unset, uses saved iface or default-route device) |
-| `POTATOINSPECTOR_WG_IFACE` | `wg0` |
-
-Persisted under `/data`: settings, peers, catalog pull, MITM rules, CA. Inspector events are in-memory only.
-
-## Panel map
-
-Inspector · Profiles · Baseline · Ignore · MITM · Share · DNS · WireGuard · Docs — see [overview](docs/overview.md). Profiles math: [profiles](docs/profiles.md).
-
-## Catalog refresh (CI)
-
-Weekly / manual workflow **Radar profile catalog** runs `scripts/generate-radar-profiles.py` (needs secret `CLOUDFLARE_API_TOKEN` = Account → Radar → Read). Then **Profiles → Update catalog from GitHub** on the live panel.
-
-## Dev
-
-```bash
-cd web && npm install && npm run build && cd ..
-go run ./cmd/potatoinspector
+```yaml
+services:
+  potatonetwork:
+    build: .
+    cap_add: [NET_ADMIN]
+    ports: ["7783:7783"]
+    volumes: ["pn-data:/data"]
+  browser:
+    image: zenika/alpine-chrome
+    network_mode: service:potatonetwork
+    depends_on: [potatonetwork]
 ```
 
-Full stack needs Linux + TUN (Docker). macOS can serve the panel UI only.
+Sidecars share the netns, so DNS is already `127.0.0.1` after PotatoNetwork rewrites resolv.conf. Trust CA from `/data/ca/potatonetwork-ca.pem` or `GET /v1/ca.pem`.
+
+## Data volume (`/data`)
+
+| Path | Purpose |
+|------|---------|
+| `ca/potatonetwork-ca.pem` | MITM root CA (auto-created) |
+| `ca/potatonetwork-ca-key.pem` | CA private key |
+| `rules.expr` | Path-delay policy (expr script) |
+| `catalog.json` | Country profiles (Radar catalog) |
+| `baseline.json` | Host RTT baseline + `probedAt` |
+
+## ENV
+
+| Variable | Default | Notes |
+|----------|---------|--------|
+| `POTATONETWORK_DATA` | `/data` | |
+| `POTATONETWORK_API_ADDR` | `:7783` | Not shaped (7783 ≈ SPUD on a phone keypad) |
+| `POTATONETWORK_API_TOKEN` / `_FILE` | empty | Empty = no auth |
+| `POTATONETWORK_CATALOG_CRON` | empty | Empty/unset = Tuesday random UTC; `false` = disable; or `M H * * D` |
+| `POTATONETWORK_BASELINE_CRON` | empty | Empty/unset = every 3h at random UTC minute; `false` = disable; or `M */N * * *` |
+| `POTATONETWORK_UPLINK` | auto | Egress iface for netlink shaping |
+| `POTATONETWORK_DOCS_URL` | GitHub Pages API docs | `GET /` on the API port redirects here |
+
+DNS upstream comes from the container’s `/etc/resolv.conf` (Docker embedded `127.0.0.11`, or Compose `dns:`). After boot, resolv is rewritten to `127.0.0.1` so the netns uses PotatoNetwork’s shaped `:53`. Do not set `dns: [127.0.0.1]` on the potatonetwork service — that hides the real upstream.
+
+Boot profile is always **passthrough** until you `PUT /v1/profile`.
+
+## Docs
+
+See [docs/](docs/) — also published via GitHub Pages (API reference, expr rules, profiles gallery, examples).
+
+## License
+
+See repository license.

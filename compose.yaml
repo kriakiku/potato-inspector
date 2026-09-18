@@ -1,22 +1,46 @@
-# Single-image wrapper for PotatoInspector.
+# PotatoNetwork — use as the network namespace for app sidecars.
+#
+#   services:
+#     potatonetwork:
+#       ...
+#     app:
+#       network_mode: "service:potatonetwork"
+#       depends_on: [potatonetwork]
+#
 services:
-  potatoinspector:
-    image: ghcr.io/kriakiku/potato-inspector:latest
+  potatonetwork:
+    image: ghcr.io/kriakiku/potato-network:latest
     build: .
-    container_name: potatoinspector
+    container_name: potatonetwork
     cap_add:
       - NET_ADMIN
-    devices:
-      - /dev/net/tun:/dev/net/tun
     ports:
-      - "51820:51820/udp"
-      - "8443:8443"
+      - "7783:7783"   # API (not shaped)
+      # DNS :53 is available inside the netns for sidecars; publish only if needed:
+      # - "53:53/udp"
+      # - "53:53/tcp"
+    # Optional: override upstream via Docker DNS (default is Docker embedded 127.0.0.11).
+    # Do not set dns: [127.0.0.1] here — PotatoNetwork rewrites resolv.conf after reading upstream.
+    # dns:
+    #   - 1.1.1.1
     volumes:
-      - potatoinspector-data:/data
-    # Optional env: POTATOINSPECTOR_WG_SUBNET, POTATOINSPECTOR_PANEL, …
+      - potatonetwork-data:/data
+    environment:
+      POTATONETWORK_DATA: /data
+      POTATONETWORK_API_ADDR: ":7783"
+      # POTATONETWORK_CATALOG_CRON: ""        # empty/unset = Tuesday random UTC; false = disable
+      # POTATONETWORK_BASELINE_CRON: ""       # empty/unset = every 3h random minute; false = disable
+      # POTATONETWORK_API_TOKEN: ""   # empty = no auth
     sysctls:
       - net.ipv4.ip_forward=1
     restart: unless-stopped
 
+  # Example sidecar (uncomment):
+  # app:
+  #   image: curlimages/curl:latest
+  #   network_mode: "service:potatonetwork"
+  #   depends_on: [potatonetwork]
+  #   entrypoint: ["sleep", "infinity"]
+
 volumes:
-  potatoinspector-data:
+  potatonetwork-data:

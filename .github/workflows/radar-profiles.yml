@@ -20,11 +20,14 @@ jobs:
           CLOUDPING_URL: https://www.cloudping.co/api/latencies
         run: python3 scripts/generate-radar-profiles.py
 
+      - name: Profiles gallery
+        run: python3 scripts/generate-profiles-gallery.py
+
       - name: Commit catalog
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add profiles/radar/catalog.json internal/catalog/data/catalog.json
+          git add profiles/radar/catalog.json internal/catalog/data/catalog.json docs/profiles-gallery.md
           if git diff --staged --quiet; then
             echo "No catalog changes"
             exit 0

@@ -1,33 +1,23 @@
 # Overview
 
-PotatoInspector is a single Docker container that makes phones, laptops, and a home/office gateway — connected as a WireGuard client — experience a chosen wide-area mobile network. One web panel controls shaping, MITM path delay, DNS, and an in-memory Inspector.
+**🥔 PotatoNetwork** makes Docker sidecars experience a chosen country’s last-mile network (delay, loss, bandwidth) plus optional HTTPS path delay (e.g. “as if API is farther than CF edge”).
 
-## What you can test
+```text
+sidecar ──► PotatoNetwork netns
+              ├─ DNS :53 (shaped) → Docker/resolv upstream (exempt)
+              ├─ netem on uplink via netlink (shaped)
+              ├─ transparent MITM 80/443 (nftables redirect) → expr path delay
+              └─ API :7783 (exempt — no lab delay)
+```
 
-- **Last-mile shape** — delay, loss, and rate via Linux `tc` netem on the WireGuard TUN, driven by country/speed profiles.
-- **Path-aware API delay** — MITM rules add extra delay by URL path and destination (e.g. Cloudflare vs AWS regions) after decrypt.
-- **Inspector** — decrypted HTTP (headers/body), TLS handshakes, and DNS queries in one log (Pause stops recording).
-- **DNS** — always-on intercept on the tunnel: rewrite rules, TTL clamp, upstream forwarder.
-- **Ignore** — skip MITM / delay for system and custom hosts (pinned apps, vendor domains).
+- **No WireGuard** inside PotatoNetwork — for phones, run a separate WG container with `network_mode: service:potatonetwork`.
+- **No web UI** — JSON API only.
+- **Go only** — no Python / mitmproxy.
 
-## Recommended lab shape
+## Layers
 
-1. Dedicated Wi-Fi SSID (e.g. **Potato**) on a VLAN.
-2. Router runs WireGuard as a **client** (`AllowedIPs = 0.0.0.0/0`) to PotatoInspector.
-3. Devices on that SSID get the shaped path without installing WG on each phone.
-4. For HTTPS inspect, install and trust the PotatoInspector **root CA** on each client that should be decrypted (the router does not install the CA for you).
+1. **Last-mile (netlink netem)** — one-way delay ≈ `(country_cf_rtt − host_cf_rtt) / 2`, plus loss and rates from the catalog tier.
+2. **Path delay (`rules.expr`)** — after origin response headers, sleep `delay_ms` or PathExtra for `dest` (Frankfurt vs CF, Via/CloudFront, etc.).
+3. **TLS handshake delay** — extra sleep before local MITM ServerHello so client-visible SSL time is not ~0 under MITM.
 
-## Limitations
-
-- **Shared tunnel** — all peers share one shaped TUN. Traffic from different devices is **not** separated in the Inspector. For a readable Inspect session, use **one active client device at a time** (or pause capture when others are busy).
-- **Packet-level shaping is uniform** — every packet on the TUN gets the same netem (including TLS handshake). You cannot split “static vs API” for one hostname at the packet layer; use MITM path rules for dest-based API delay.
-- **QUIC** — UDP/443 is dropped so clients fall back to TCP/TLS through MITM.
-- **IPv4-only path** — DNS answers AAAA with empty NOERROR; peer configs use `AllowedIPs = 0.0.0.0/0` only (no IPv6 MITM/NAT yet).
-- **Certificate pinning** — apps that pin will fail unless the host is on the **Ignore** list.
-- **Egress region** — after the container you leave from *your* region; country profiles model “the client is far,” not a full remote PoP for every origin hop.
-
-## Next steps
-
-1. [WireGuard setup](/docs/wireguard) — prefer the router; end-device clients are fine too.
-2. On a device already on the tunnel, open **http://potato.local** — it detects your OS, shows install steps, and lets you download the CA (no panel required). After the CA is trusted, the same page switches to the live **Share** notepad (`https://potato-share.local`). Platform guides: [Android](/docs/ca-android) · [iOS](/docs/ca-ios) · [macOS](/docs/ca-macos) · [Windows](/docs/ca-windows).
-3. Read [Profiles catalog](/docs/profiles) — Radar / CloudPing sources and how delay is calculated — then apply a country+tier in the panel and generate traffic from a single device.
+API traffic and DNS **upstream** queries are fwmark-exempt from netem (nftables mark + netlink fw filter). Redirect uses nftables NAT.

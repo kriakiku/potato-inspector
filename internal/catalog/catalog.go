@@ -7,12 +7,11 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"sort"
+	"path/filepath"
 	"sync"
 	"time"
 
 	"github.com/potatoinspector/potato-inspector/internal/profiles"
-	"github.com/potatoinspector/potato-inspector/internal/store"
 )
 
 //go:embed data/catalog.json
@@ -49,16 +48,16 @@ type Catalog struct {
 }
 
 type Manager struct {
-	mu       sync.RWMutex
-	store    *store.Store
-	cat      Catalog
-	hostRtt  map[string]int // dest id -> ms
+	mu        sync.RWMutex
+	dataDir   string
+	cat       Catalog
+	hostRtt   map[string]int
 	lastProbe time.Time
 }
 
-func NewManager(st *store.Store) (*Manager, error) {
+func NewManager(dataDir string) (*Manager, error) {
 	m := &Manager{
-		store:   st,
+		dataDir: dataDir,
 		hostRtt: make(map[string]int),
 	}
 	if err := m.Load(); err != nil {
@@ -68,21 +67,17 @@ func NewManager(st *store.Store) (*Manager, error) {
 }
 
 func (m *Manager) catalogPath() string {
-	return m.store.DataDir() + "/profiles/catalog.json"
+	return filepath.Join(m.dataDir, "catalog.json")
 }
 
 func (m *Manager) Load() error {
 	path := m.catalogPath()
 	var data []byte
-	if store.Exists(path) {
-		b, err := os.ReadFile(path)
-		if err != nil {
-			return err
-		}
+	if b, err := os.ReadFile(path); err == nil {
 		data = b
 	} else {
 		data = embeddedCatalog
-		_ = os.MkdirAll(m.store.DataDir()+"/profiles", 0o755)
+		_ = os.MkdirAll(m.dataDir, 0o755)
 		_ = os.WriteFile(path, embeddedCatalog, 0o644)
 	}
 	var cat Catalog
@@ -122,52 +117,27 @@ func (m *Manager) Destinations() map[string]Destination {
 	return out
 }
 
-func (m *Manager) DestinationIDs() []string {
-	m.mu.RLock()
-	defer m.mu.RUnlock()
-	ids := make([]string, 0, len(m.cat.Destinations))
-	for id := range m.cat.Destinations {
-		ids = append(ids, id)
-	}
-	sort.Slice(ids, func(i, j int) bool {
-		if ids[i] == "cf" {
-			return true
-		}
-		if ids[j] == "cf" {
-			return false
-		}
-		return ids[i] < ids[j]
-	})
-	return ids
-}
-
-// Pull downloads catalog from url and saves to /data.
-func (m *Manager) Pull(url string) error {
-	if url == "" {
-		return fmt.Errorf("catalog url empty")
-	}
-	client := &http.Client{Timeout: 30 * time.Second}
-	resp, err := client.Get(url)
+func (m *Manager) RefreshFromURL(url string) error {
+	resp, err := http.Get(url)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("catalog fetch: HTTP %d", resp.StatusCode)
+		return fmt.Errorf("catalog HTTP %d", resp.StatusCode)
 	}
-	data, err := io.ReadAll(io.LimitReader(resp.Body, 8<<20))
+	data, err := io.ReadAll(io.LimitReader(resp.Body, 32<<20))
 	if err != nil {
 		return err
 	}
 	var cat Catalog
 	if err := json.Unmarshal(data, &cat); err != nil {
-		return fmt.Errorf("invalid catalog json: %w", err)
+		return fmt.Errorf("parse catalog: %w", err)
 	}
-	if len(cat.Countries) == 0 {
-		return fmt.Errorf("catalog has no countries")
+	if err := os.MkdirAll(m.dataDir, 0o755); err != nil {
+		return err
 	}
-	path := m.catalogPath()
-	if err := store.AtomicWriteJSON(path, cat); err != nil {
+	if err := os.WriteFile(m.catalogPath(), data, 0o644); err != nil {
 		return err
 	}
 	m.mu.Lock()
@@ -176,7 +146,6 @@ func (m *Manager) Pull(url string) error {
 	return nil
 }
 
-// ProfileFor builds a shaping profile for country+tier with host CF baseline subtracted.
 func (m *Manager) ProfileFor(countryID, tier string, hostRtt map[string]int) (profiles.Profile, error) {
 	c, ok := m.Country(countryID)
 	if !ok {
@@ -200,16 +169,16 @@ func (m *Manager) ProfileFor(countryID, tier string, hostRtt map[string]int) (pr
 		ID:           fmt.Sprintf("catalog:%s:%s", countryID, tier),
 		Name:         fmt.Sprintf("%s %s (%s)", c.Flag, c.Name, tier),
 		Description:  fmt.Sprintf("Last-mile %s/%s; base delay vs CF (target RTT %dms, host CF %dms)", countryID, tier, targetRtt, hostCf),
+		Country:      countryID,
+		Tier:         tier,
 		DelayMs:      delay,
 		DownloadMbps: t.DownloadMbps,
 		UploadMbps:   t.UploadMbps,
 		LossPercent:  t.LossPercent,
 		Passthrough:  false,
-		Builtin:      true,
 	}, nil
 }
 
-// PathExtraDelayMs returns one-way extra MITM delay for dest relative to cf.
 func (m *Manager) PathExtraDelayMs(countryID, tier, dest string, hostRtt map[string]int) int {
 	if dest == "" || dest == "cf" {
 		return 0
@@ -271,25 +240,4 @@ func (m *Manager) LastProbe() time.Time {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 	return m.lastProbe
-}
-
-// RuntimePathDelay builds the block written into mitm-runtime.json.
-func (m *Manager) RuntimePathDelay(countryID, tier string) map[string]any {
-	c, ok := m.Country(countryID)
-	if !ok {
-		return map[string]any{"country": countryID, "tier": tier, "rttToDest": map[string]int{}, "hostRtt": m.HostRtt()}
-	}
-	t := c.Tiers[tier]
-	rtt := map[string]int{}
-	if t.RttToDest != nil {
-		for k, v := range t.RttToDest {
-			rtt[k] = v
-		}
-	}
-	return map[string]any{
-		"country":   countryID,
-		"tier":      tier,
-		"rttToDest": rtt,
-		"hostRtt":   m.HostRtt(),
-	}
 }

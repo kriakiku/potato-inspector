@@ -1,15 +1,24 @@
 module github.com/potatoinspector/potato-inspector
 
-go 1.23.1
+go 1.26.0
 
 require (
-	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
-	golang.org/x/crypto v0.37.0
-	golang.zx2c4.com/wireguard v0.0.0-20260522210424-ecfc5a8d5446
+	github.com/breml/rootcerts v0.3.7
+	github.com/expr-lang/expr v1.17.0
+	github.com/google/nftables v0.2.0
+	github.com/miekg/dns v1.1.62
+	github.com/vishvananda/netlink v1.3.0
+	golang.org/x/sys v0.48.0
 )
 
 require (
+	github.com/google/go-cmp v0.6.0 // indirect
+	github.com/josharian/native v1.1.0 // indirect
+	github.com/mdlayher/netlink v1.7.2 // indirect
+	github.com/mdlayher/socket v0.5.0 // indirect
+	github.com/vishvananda/netns v0.0.4 // indirect
+	golang.org/x/mod v0.18.0 // indirect
 	golang.org/x/net v0.39.0 // indirect
-	golang.org/x/sys v0.32.0 // indirect
-	golang.zx2c4.com/wintun v0.0.0-20230126152724-0fa3db229ce2 // indirect
+	golang.org/x/sync v0.7.0 // indirect
+	golang.org/x/tools v0.22.0 // indirect
 )
