@@ -31,6 +31,8 @@ var builtin = []string{
 	"office.com",
 	"office.net",
 	"msn.com",
+	// IoT / vendor
+	"switchbot.net",
 }
 
 // Domains returns a copy of the builtin suffix list.

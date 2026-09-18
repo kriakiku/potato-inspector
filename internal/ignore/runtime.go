@@ -99,13 +99,21 @@ func (r *Runtime) SetEnabled(on bool) { r.SetSystemEnabled(on) }
 // Enabled reports builtin system-ignore pack state.
 func (r *Runtime) Enabled() bool { return r.SystemEnabled() }
 
-// ObserveDNS adds A/AAAA answers to ipsets when qname matches an active ignore rule.
-func (r *Runtime) ObserveDNS(qname string, answers []string) {
+// Matches reports whether qname matches the active system pack and/or custom rules.
+func (r *Runtime) Matches(qname string) bool {
+	if r == nil {
+		return false
+	}
 	r.mu.RLock()
 	system := r.system
 	custom := r.custom
 	r.mu.RUnlock()
-	if !MatchAny(qname, system, custom) {
+	return MatchAny(qname, system, custom)
+}
+
+// ObserveDNS adds A/AAAA answers to ipsets when qname matches an active ignore rule.
+func (r *Runtime) ObserveDNS(qname string, answers []string) {
+	if !r.Matches(qname) {
 		return
 	}
 	_ = EnsureIPSets()

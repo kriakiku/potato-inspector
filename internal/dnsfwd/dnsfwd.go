@@ -259,11 +259,13 @@ func (s *Server) handleUDP(query []byte, addr *net.UDPAddr) {
 		detail["rewritten"] = true
 		detail["pattern"] = pattern
 	}
-	s.flows.Emit(flows.Event{
-		Type:    flows.TypeDNS,
-		Summary: summary,
-		Detail:  detail,
-	})
+	if s.ignore == nil || !s.ignore.Matches(qname) {
+		s.flows.Emit(flows.Event{
+			Type:    flows.TypeDNS,
+			Summary: summary,
+			Detail:  detail,
+		})
+	}
 	if err == nil {
 		if s.ignore != nil {
 			s.ignore.ObserveDNS(qname, answers)
@@ -321,11 +323,13 @@ func (s *Server) handleTCP(conn net.Conn) {
 	if rewritten {
 		summary = fmt.Sprintf("DNS %s %s → %v rewrite:%s (%s)", qtype, qname, answers, pattern, rtt.Round(time.Millisecond))
 	}
-	s.flows.Emit(flows.Event{
-		Type:    flows.TypeDNS,
-		Summary: summary,
-		Detail:  detail,
-	})
+	if s.ignore == nil || !s.ignore.Matches(qname) {
+		s.flows.Emit(flows.Event{
+			Type:    flows.TypeDNS,
+			Summary: summary,
+			Detail:  detail,
+		})
+	}
 	if err != nil {
 		return
 	}

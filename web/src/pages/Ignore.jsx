@@ -61,9 +61,10 @@ export default function Ignore() {
     <>
       <h1>Ignore</h1>
       <p className="lead">
-        Skip MITM decrypt / inspector noise and last-mile delay for matched hosts (suffix match).
-        Builtin pack covers OS/vendor domains; custom list is a simple hosts-style file —
-        use it for cert-pinned apps too.
+        Skip MITM decrypt, Inspector rows (including DNS), and last-mile delay for matched hosts
+        (suffix match). DNS is still intercepted so shape exemption can learn IPs. Builtin pack
+        covers OS/vendor domains; custom list is a simple hosts-style file — use it for
+        cert-pinned apps too.
       </p>
 
       <div className="panel-box">
@@ -124,7 +125,8 @@ export default function Ignore() {
           <span>
             System ignore
             <span className="muted" style={{ display: 'block', fontSize: '0.85rem', marginTop: 2 }}>
-              Default on. Google / Apple / Microsoft / … pack. Shape exemption needs DNS intercept.
+              Default on. Google / Apple / Microsoft / SwitchBot / … pack. DNS still
+              intercepts for shape exemption; matched queries are hidden from Inspector.
             </span>
           </span>
         </label>

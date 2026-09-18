@@ -16,6 +16,8 @@ func TestMatch(t *testing.T) {
 		{"example.com", false},
 		{"notgoogle.com", false},
 		{"GOOGLE.COM", true},
+		{"switchbot.net", true},
+		{"api.switchbot.net", true},
 		{"", false},
 	}
 	for _, c := range cases {
