@@ -4,6 +4,25 @@ export const TIER_EMOJI = {
   poor: '🥔',
 }
 
+/** ISO 3166-1 alpha-2 → regional-indicator flag emoji (no extra dependency). */
+export function countryFlagEmoji(code) {
+  const cc = String(code || '')
+    .trim()
+    .toUpperCase()
+  if (!/^[A-Z]{2}$/.test(cc)) return ''
+  const A = 0x1f1e6
+  return String.fromCodePoint(
+    A + cc.charCodeAt(0) - 65,
+    A + cc.charCodeAt(1) - 65,
+  )
+}
+
+/** Prefer catalog flag; otherwise derive from country id. */
+export function countryFlag(country) {
+  if (country?.flag) return country.flag
+  return countryFlagEmoji(country?.id)
+}
+
 export function tierLabel(tier) {
   const e = TIER_EMOJI[tier] || ''
   return e ? `${e} ${tier}` : tier
@@ -50,7 +69,8 @@ export function sortCountries(list, favorites, hostCfRtt) {
 export function countrySelectLabel(country, { favorite, tooClose } = {}) {
   const parts = []
   if (favorite) parts.push('⭐')
-  if (country.flag) parts.push(country.flag)
+  const flag = countryFlag(country)
+  if (flag) parts.push(flag)
   parts.push(country.name || country.id)
   let label = parts.join(' ')
   if (tooClose) label = `${label}  ·  💩`

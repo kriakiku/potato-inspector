@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm'
 
 import overview from '@docs/overview.md?raw'
 import wireguard from '@docs/wireguard.md?raw'
+import profiles from '@docs/profiles.md?raw'
 import caAndroid from '@docs/ca-android.md?raw'
 import caIos from '@docs/ca-ios.md?raw'
 import caMacos from '@docs/ca-macos.md?raw'
@@ -12,6 +13,7 @@ import caWindows from '@docs/ca-windows.md?raw'
 const PAGES = [
   { slug: 'overview', title: 'Overview', source: overview },
   { slug: 'wireguard', title: 'WireGuard', source: wireguard },
+  { slug: 'profiles', title: 'Profiles', source: profiles },
   { slug: 'ca-android', title: 'CA · Android', source: caAndroid },
   { slug: 'ca-ios', title: 'CA · iOS', source: caIos },
   { slug: 'ca-macos', title: 'CA · macOS', source: caMacos },

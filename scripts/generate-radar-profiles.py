@@ -77,6 +77,14 @@ AWS_DESTS = {
     },
 }
 
+def flag_emoji(code: str) -> str:
+    """ISO 3166-1 alpha-2 → regional-indicator flag emoji."""
+    cc = (code or "").strip().upper()
+    if len(cc) != 2 or not cc.isalpha():
+        return ""
+    return "".join(chr(0x1F1E6 + ord(c) - ord("A")) for c in cc)
+
+
 # Capitals / approximate centroids for nearest-AWS mapping + seed.
 COUNTRY_META: dict[str, tuple[str, str, float, float]] = {
     # code: name, flag, lat, lon
@@ -364,11 +372,14 @@ def country_list(token: str | None) -> list[tuple[str, str, str, float, float]]:
                 if code in COUNTRY_META:
                     _, flag, lat, lon = COUNTRY_META[code]
                 else:
+                    flag = flag_emoji(code)
                     try:
                         lat = float(loc.get("latitude") or 0)
                         lon = float(loc.get("longitude") or 0)
                     except (TypeError, ValueError):
                         lat, lon = 0.0, 0.0
+                if not flag:
+                    flag = flag_emoji(code)
                 out.append((code, name, flag, lat, lon))
             if out:
                 print(f"radar locations usable: {len(out)}", file=sys.stderr)

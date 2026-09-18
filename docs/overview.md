@@ -29,4 +29,4 @@ PotatoInspector is a single Docker container that makes phones, laptops, and a U
 
 1. [WireGuard setup](/docs/wireguard) — prefer the router; end-device clients are fine too.
 2. On a device already on the tunnel, open **http://potato.local** — it detects your OS, shows install steps, and lets you download the CA (no panel required). After the CA is trusted, the same page switches to the live **Share** notepad (`https://potato-share.local`). Platform guides: [Android](/docs/ca-android) · [iOS](/docs/ca-ios) · [macOS](/docs/ca-macos) · [Windows](/docs/ca-windows).
-3. Open **Inspector**, apply a profile, and generate traffic from that single device.
+3. Read [Profiles catalog](/docs/profiles) — Radar / CloudPing sources and how delay is calculated — then apply a country+tier in the panel and generate traffic from a single device.

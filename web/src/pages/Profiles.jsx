@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { api } from '../api'
 import {
+  countryFlag,
   isTooCloseToBaseline,
   sortCountries,
   tierLabel,
@@ -109,7 +111,8 @@ export default function Profiles() {
         (Radar last-mile + CloudPing backbone). Star favorites to pin them at the top here
         and in the Inspector. Use <strong>Direct</strong> in the Inspector status bar for no
         artificial delay. Locations marked 💩 are as fast or faster than your host baseline
-        (CF {hostCfRtt || '—'} ms) — delay would clamp to 0.
+        (CF {hostCfRtt || '—'} ms) — delay would clamp to 0. How the catalog is built:{' '}
+        <Link to="/docs/profiles">Docs → Profiles</Link>.
       </p>
 
       <div className="row" style={{ marginBottom: 12 }}>
@@ -137,6 +140,7 @@ export default function Profiles() {
           const starred = favSet.has(c.id)
           const tooClose = isTooCloseToBaseline(c, hostCfRtt)
           const countryActive = activeCountry === c.id
+          const flag = countryFlag(c)
           return (
             <div
               key={c.id}
@@ -155,7 +159,7 @@ export default function Profiles() {
                   >
                     {starred ? '★' : '☆'}
                   </button>
-                  <strong>{c.flag ? `${c.flag} ` : ''}{c.name}</strong>
+                  <strong>{flag ? `${flag} ` : ''}{c.name}</strong>
                   <span className="badge">{c.id}</span>
                   {countryActive && <span className="badge">active</span>}
                   {tooClose && (
