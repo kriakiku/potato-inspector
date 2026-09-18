@@ -13,7 +13,7 @@ Machine-readable OpenAPI remains available alongside the Markdown API page:
 - [swagger.json](https://kriakiku.github.io/potato-network/swagger.json)
 - [swagger.yaml](https://kriakiku.github.io/potato-network/swagger.yaml)
 
-## Auth (`POTATONETWORK_API_TOKEN`)
+## Auth
 Optional. Set `POTATONETWORK_API_TOKEN` or `POTATONETWORK_API_TOKEN_FILE`. Send `Authorization: Bearer <token>`. If the token is empty, auth is off. `GET /` and `GET /v1/health` stay public.
 When a token **is** set, the API also answers CORS with allow-all (`Access-Control-Allow-Origin/Methods/Headers: *`) so browser UIs can call with Bearer.
 

@@ -4,7 +4,7 @@
 {{- $tags := (T "tags") | default "Tags" -}}
 {{- $editThisPage := (T "editThisPage") | default "Edit this page" -}}
 {{- $backToTop := (T "backToTop") | default "Scroll to top" -}}
-{{- $poweredBy := (T "poweredBy") | default "Powered by Hextra" -}}
+{{- $poweredBy := "Docs powered by Hextra" -}}
 
 <nav class="hextra-toc hx:order-last hx:hidden hx:w-64 hx:shrink-0 hx:xl:block hx:print:hidden hx:px-4" aria-label="{{ (T "tableOfContents") | default "Table of contents" }}">
   {{- if $toc }}

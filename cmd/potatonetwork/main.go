@@ -36,7 +36,7 @@ import (
 // @description				- [swagger.json](https://kriakiku.github.io/potato-network/swagger.json)
 // @description				- [swagger.yaml](https://kriakiku.github.io/potato-network/swagger.yaml)
 // @description
-// @description				## Auth (`POTATONETWORK_API_TOKEN`)
+// @description				## Auth
 // @description				Optional. Set `POTATONETWORK_API_TOKEN` or `POTATONETWORK_API_TOKEN_FILE`. Send `Authorization: Bearer <token>`. If the token is empty, auth is off. `GET /` and `GET /v1/health` stay public.
 // @description				When a token **is** set, the API also answers CORS with allow-all (`Access-Control-Allow-Origin/Methods/Headers: *`) so browser UIs can call with Bearer.
 // @description

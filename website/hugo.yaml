@@ -1,6 +1,6 @@
 baseURL: https://kriakiku.github.io/potato-network/
 languageCode: en-us
-title: 🥔 PotatoNetwork
+title: PotatoNetwork 🥔
 
 module:
   imports:
