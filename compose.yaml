@@ -11,9 +11,6 @@ services:
     ports:
       - "51820:51820/udp"
       - "8443:8443"
-      - "8444:80"
-      # Optional host debug for HTTPS Share API (WG clients use potato-share.local:443 inside the tunnel)
-      - "8445:443"
     volumes:
       - potatoinspector-data:/data
     # Optional env: POTATOINSPECTOR_WG_SUBNET, POTATOINSPECTOR_PANEL, …
