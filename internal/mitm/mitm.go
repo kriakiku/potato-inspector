@@ -19,6 +19,7 @@ import (
 	"time"
 
 	"github.com/potatoinspector/potato-inspector/internal/catalog"
+	"github.com/potatoinspector/potato-inspector/internal/dnsfwd"
 	"github.com/potatoinspector/potato-inspector/internal/flows"
 	"github.com/potatoinspector/potato-inspector/internal/ignore"
 	"github.com/potatoinspector/potato-inspector/internal/store"
@@ -72,6 +73,7 @@ func (m *Manager) RegenerateCA() (certPath string, err error) {
 	_ = os.MkdirAll(dir, 0o755)
 	for _, name := range []string{
 		"ca.crt", "ca.key",
+		"share-portal.crt", "share-portal.key",
 		"mitmproxy-ca.pem", "mitmproxy-ca-cert.pem", "mitmproxy-ca-cert.p12", "mitmproxy-ca-cert.cer",
 	} {
 		_ = os.Remove(filepath.Join(dir, name))
@@ -91,10 +93,110 @@ func (m *Manager) RegenerateCA() (certPath string, err error) {
 	if err != nil {
 		return "", err
 	}
+	if _, _, err := m.EnsureShareLeaf(); err != nil {
+		return certPath, err
+	}
 	if err := m.Start(); err != nil {
 		return certPath, err
 	}
 	return certPath, nil
+}
+
+// EnsureShareLeaf issues (or returns) a leaf cert for ShareHost signed by the MITM CA.
+func (m *Manager) EnsureShareLeaf() (certPath, keyPath string, err error) {
+	dir := m.store.CADir()
+	certPath = filepath.Join(dir, "share-portal.crt")
+	keyPath = filepath.Join(dir, "share-portal.key")
+	if store.Exists(certPath) && store.Exists(keyPath) {
+		return certPath, keyPath, nil
+	}
+	if _, _, err := m.EnsureCA(); err != nil {
+		return "", "", err
+	}
+	return m.writeShareLeaf(dir, certPath, keyPath)
+}
+
+func (m *Manager) writeShareLeaf(dir, certPath, keyPath string) (string, string, error) {
+	caCertPEM, err := os.ReadFile(filepath.Join(dir, "ca.crt"))
+	if err != nil {
+		return "", "", err
+	}
+	caKeyPEM, err := os.ReadFile(filepath.Join(dir, "ca.key"))
+	if err != nil {
+		return "", "", err
+	}
+	caBlock, _ := pem.Decode(caCertPEM)
+	if caBlock == nil {
+		return "", "", fmt.Errorf("decode CA cert")
+	}
+	caCert, err := x509.ParseCertificate(caBlock.Bytes)
+	if err != nil {
+		return "", "", err
+	}
+	keyBlock, _ := pem.Decode(caKeyPEM)
+	if keyBlock == nil {
+		return "", "", fmt.Errorf("decode CA key")
+	}
+	var caKey *rsa.PrivateKey
+	switch keyBlock.Type {
+	case "RSA PRIVATE KEY":
+		caKey, err = x509.ParsePKCS1PrivateKey(keyBlock.Bytes)
+	case "PRIVATE KEY":
+		var k any
+		k, err = x509.ParsePKCS8PrivateKey(keyBlock.Bytes)
+		if err == nil {
+			var ok bool
+			caKey, ok = k.(*rsa.PrivateKey)
+			if !ok {
+				err = fmt.Errorf("CA key is not RSA")
+			}
+		}
+	default:
+		err = fmt.Errorf("unsupported CA key type %q", keyBlock.Type)
+	}
+	if err != nil {
+		return "", "", err
+	}
+
+	leafKey, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		return "", "", err
+	}
+	serial, err := rand.Int(rand.Reader, big.NewInt(1<<62))
+	if err != nil {
+		serial = big.NewInt(time.Now().UnixNano())
+	}
+	host := dnsfwd.ShareHost
+	tmpl := &x509.Certificate{
+		SerialNumber: serial,
+		Subject: pkix.Name{
+			CommonName:   host,
+			Organization: []string{"PotatoInspector"},
+		},
+		DNSNames:              []string{host},
+		NotBefore:             time.Now().Add(-time.Hour),
+		NotAfter:              time.Now().Add(825 * 24 * time.Hour),
+		KeyUsage:              x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment,
+		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
+		BasicConstraintsValid: true,
+	}
+	der, err := x509.CreateCertificate(rand.Reader, tmpl, caCert, &leafKey.PublicKey, caKey)
+	if err != nil {
+		return "", "", err
+	}
+	certOut, err := os.Create(certPath)
+	if err != nil {
+		return "", "", err
+	}
+	_ = pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: der})
+	_ = certOut.Close()
+	keyOut, err := os.OpenFile(keyPath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0o600)
+	if err != nil {
+		return "", "", err
+	}
+	_ = pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(leafKey)})
+	_ = keyOut.Close()
+	return certPath, keyPath, nil
 }
 
 func (m *Manager) writeNewCA(dir, certPath, keyPath string) (string, string, error) {
@@ -323,6 +425,10 @@ func SetupTPROXY(wgIface string) error {
 	_ = exec.Command("iptables", "-I", "FORWARD", "1", "-i", wgIface, "-p", "udp", "--dport", "443", "-j", "DROP").Run()
 	_ = exec.Command("iptables", "-t", "mangle", "-N", "POTATO_MITM").Run()
 	_ = exec.Command("iptables", "-t", "mangle", "-F", "POTATO_MITM").Run()
+	// Skip local gateway destinations so potato.local (:80) and potato-share.local (:443) hit container listeners.
+	if gw := ifaceIPv4(wgIface); gw != "" {
+		_ = exec.Command("iptables", "-t", "mangle", "-A", "POTATO_MITM", "-d", gw, "-j", "RETURN").Run()
+	}
 	rules := [][]string{
 		{"-t", "mangle", "-A", "POTATO_MITM", "-p", "tcp", "--dport", "80", "-j", "TPROXY", "--on-port", "8080", "--on-ip", "127.0.0.1", "--tproxy-mark", "1"},
 		{"-t", "mangle", "-A", "POTATO_MITM", "-p", "tcp", "--dport", "443", "-j", "TPROXY", "--on-port", "8080", "--on-ip", "127.0.0.1", "--tproxy-mark", "1"},
@@ -333,12 +439,34 @@ func SetupTPROXY(wgIface string) error {
 	}
 	_ = exec.Command("iptables", "-t", "nat", "-N", "POTATO_MITM_NAT").Run()
 	_ = exec.Command("iptables", "-t", "nat", "-F", "POTATO_MITM_NAT").Run()
+	if gw := ifaceIPv4(wgIface); gw != "" {
+		_ = exec.Command("iptables", "-t", "nat", "-A", "POTATO_MITM_NAT", "-d", gw, "-j", "RETURN").Run()
+	}
 	_ = exec.Command("iptables", "-t", "nat", "-A", "POTATO_MITM_NAT", "-p", "tcp", "--dport", "80", "-j", "REDIRECT", "--to-ports", "8080").Run()
 	_ = exec.Command("iptables", "-t", "nat", "-A", "POTATO_MITM_NAT", "-p", "tcp", "--dport", "443", "-j", "REDIRECT", "--to-ports", "8080").Run()
 	_ = exec.Command("iptables", "-t", "nat", "-A", "PREROUTING", "-i", wgIface, "-j", "POTATO_MITM_NAT").Run()
 	_ = exec.Command("ip", "rule", "add", "fwmark", "1", "lookup", "100").Run()
 	_ = exec.Command("ip", "route", "add", "local", "0.0.0.0/0", "dev", "lo", "table", "100").Run()
 	return nil
+}
+
+func ifaceIPv4(name string) string {
+	ifi, err := net.InterfaceByName(name)
+	if err != nil {
+		return ""
+	}
+	addrs, err := ifi.Addrs()
+	if err != nil {
+		return ""
+	}
+	for _, a := range addrs {
+		if ipn, ok := a.(*net.IPNet); ok {
+			if v4 := ipn.IP.To4(); v4 != nil {
+				return v4.String()
+			}
+		}
+	}
+	return ""
 }
 
 func ClearTPROXY(wgIface string) {

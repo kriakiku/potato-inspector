@@ -112,7 +112,7 @@ export default function Dns() {
           <div className="panel-box">
             <h2 style={{ marginTop: 0, fontSize: '1.05rem' }}>Rewrite rules</h2>
             <p className="muted" style={{ marginTop: 0, fontSize: '0.85rem' }}>
-              First match wins. Patterns: <span className="mono">example.com</span> (exact) or{' '}
+              First match wins (built-in first). Patterns: <span className="mono">example.com</span> (exact) or{' '}
               <span className="mono">*.domain.com</span> / <span className="mono">*.local</span> (suffix). IPv4 only.
             </p>
             <table className="table">
@@ -125,6 +125,22 @@ export default function Dns() {
                 </tr>
               </thead>
               <tbody>
+                {(s.dnsBuiltinRules || []).map((r) => (
+                  <tr key={r.id || r.pattern} className="dns-rule-builtin">
+                    <td>
+                      <input className="mono" value={r.pattern || ''} readOnly disabled title={r.note || 'Built-in'} />
+                    </td>
+                    <td>
+                      <input className="mono" value={r.ip || '—'} readOnly disabled title="WG gateway" />
+                    </td>
+                    <td>
+                      <input type="checkbox" checked disabled title="Always on" />
+                    </td>
+                    <td>
+                      <span className="badge" title={r.note || ''}>builtin</span>
+                    </td>
+                  </tr>
+                ))}
                 {rules.map((r, i) => (
                   <tr key={r.id || i}>
                     <td>

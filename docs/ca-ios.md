@@ -1,6 +1,6 @@
 # Install root CA · iOS / iPadOS
 
-**Preferred:** on the iPhone/iPad already on the WireGuard tunnel, open Safari to **[http://potato.local](http://potato.local)** — iOS steps and CA download.
+**Preferred:** on the iPhone/iPad already on the WireGuard tunnel, open Safari to **[http://potato.local](http://potato.local)** — iOS steps and CA download. After Full Trust, reopen potato.local for the Share notepad.
 
 You can also download from this panel: **[ca.crt](/api/mitm/ca.crt)** (MITM page). On iOS you must both **install** the profile and enable **full trust**.
 

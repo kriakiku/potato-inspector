@@ -20,6 +20,8 @@ import (
 	"github.com/potatoinspector/potato-inspector/internal/panel"
 	"github.com/potatoinspector/potato-inspector/internal/profiles"
 	"github.com/potatoinspector/potato-inspector/internal/shape"
+	"github.com/potatoinspector/potato-inspector/internal/share"
+	"github.com/potatoinspector/potato-inspector/internal/shareportal"
 	"github.com/potatoinspector/potato-inspector/internal/store"
 	"github.com/potatoinspector/potato-inspector/internal/wg"
 	"github.com/potatoinspector/potato-inspector/web"
@@ -74,6 +76,7 @@ func main() {
 	}
 	mm := mitm.New(st, fw, cat, addonDir, cfg.WGIface)
 	_, _, _ = mm.EnsureCA()
+	_, _, _ = mm.EnsureShareLeaf()
 
 	dns := dnsfwd.New(fw, settings.ClientDNS, cfg.WGIface, ign)
 	dns.SetGateway(wgm.GatewayIP())
@@ -81,7 +84,9 @@ func main() {
 		log.Printf("WARN: system DNS (/etc/resolv.conf): %v", err)
 	}
 
+	pad := share.New(st)
 	portal := caportal.New(mm)
+	sharePortal := shareportal.New(mm, pad)
 
 	wgOK := false
 	if err := wgm.Start(); err != nil {
@@ -133,9 +138,14 @@ func main() {
 		} else {
 			log.Printf("CA portal http://%s/ (WG clients)", dnsfwd.PortalHost)
 		}
+		if err := sharePortal.Start(); err != nil {
+			log.Printf("WARN: Share portal (:443 / %s): %v", dnsfwd.ShareHost, err)
+		} else {
+			log.Printf("Share portal https://%s/ (WG clients)", dnsfwd.ShareHost)
+		}
 	}
 
-	srv := panel.New(st, wgm, shaper, reg, cat, mm, dns, ign, fw, web.FS(), cfg.PanelPort, cfg.RadarCatalogURL)
+	srv := panel.New(st, wgm, shaper, reg, cat, mm, dns, ign, fw, pad, web.FS(), cfg.PanelPort, cfg.RadarCatalogURL)
 
 	addr := fmt.Sprintf(":%d", cfg.PanelPort)
 	httpServer := &http.Server{Addr: addr, Handler: srv.Handler()}
@@ -151,6 +161,7 @@ func main() {
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
 	<-ch
 	log.Println("shutting down")
+	sharePortal.Stop()
 	portal.Stop()
 	_ = mm.Stop()
 	dns.Stop()

@@ -162,6 +162,7 @@ func (s *Store) CustomProfilesPath() string {
 	return filepath.Join(s.dataDir, "profiles", "custom.json")
 }
 func (s *Store) CADir() string { return filepath.Join(s.dataDir, "ca") }
+func (s *Store) SharePath() string { return filepath.Join(s.dataDir, "share.json") }
 
 func (s *Store) EnsureDirs() error {
 	for _, d := range []string{

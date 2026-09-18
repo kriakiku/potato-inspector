@@ -45,6 +45,6 @@ ENV POTATOINSPECTOR_DATA=/data \
     PATH="/opt/mitm/bin:${PATH}"
 
 VOLUME ["/data"]
-EXPOSE 51820/udp 8443 80
+EXPOSE 51820/udp 8443 80 443
 
 ENTRYPOINT ["/usr/local/bin/potatoinspector"]

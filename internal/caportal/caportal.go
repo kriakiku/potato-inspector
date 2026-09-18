@@ -93,10 +93,12 @@ func (s *Server) handleFavicon(w http.ResponseWriter, r *http.Request) {
 }
 
 type pageData struct {
-	Host     string
-	OS       string // android|ios|macos|windows|unknown
-	ShowAll  bool
-	TitleOS  string
+	Host         string
+	ShareHost    string
+	OS           string // android|ios|macos|windows|unknown
+	ShowAll      bool
+	TitleOS      string
+	ForceInstall bool
 }
 
 func detectOS(ua string) string {
@@ -144,11 +146,14 @@ func (s *Server) handleIndex(w http.ResponseWriter, r *http.Request) {
 	if showAll {
 		osName = "unknown"
 	}
+	install := r.URL.Query().Get("install") == "1" || r.URL.Query().Get("install") == "true"
 	data := pageData{
-		Host:    dnsfwd.PortalHost,
-		OS:      osName,
-		ShowAll: showAll,
-		TitleOS: osTitle(osName),
+		Host:         dnsfwd.PortalHost,
+		ShareHost:    dnsfwd.ShareHost,
+		OS:           osName,
+		ShowAll:      showAll,
+		TitleOS:      osTitle(osName),
+		ForceInstall: install,
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.Header().Set("Cache-Control", "no-store")
@@ -162,7 +167,7 @@ const indexHTML = `<!DOCTYPE html>
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>PotatoInspector CA · {{.Host}}</title>
+<title>PotatoInspector · {{.Host}}</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -187,6 +192,7 @@ const indexHTML = `<!DOCTYPE html>
     line-height: 1.5;
   }
   .wrap { max-width: 36rem; margin: 0 auto; padding: 1.5rem 1.15rem 2.5rem; }
+  .wrap.share-mode { max-width: 48rem; display: flex; flex-direction: column; min-height: calc(100vh - 3rem); }
   .brand {
     display: flex; align-items: center; gap: 0.4rem;
     font-weight: 600; font-size: 0.95rem; letter-spacing: -0.02em;
@@ -225,80 +231,262 @@ const indexHTML = `<!DOCTYPE html>
   .section.on { display: block; }
   .all .section { display: block; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
   code { font-family: ui-monospace, monospace; font-size: 0.88em; background: var(--bg2); padding: 0.1em 0.35em; border-radius: 4px; }
+  .probe-status { font-size: 0.85rem; color: var(--muted); margin: 0 0 1rem; }
+  .probe-status.ok { color: var(--accent); }
+  .hidden { display: none !important; }
+  .share-toolbar { margin-bottom: 0.75rem; }
+  .share-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0.75rem 0 0; }
+  .share-actions button {
+    font: inherit; font-size: 0.9rem; padding: 0.45rem 0.85rem;
+    border-radius: 8px; border: 1px solid var(--line);
+    background: var(--bg2); color: var(--text); cursor: pointer;
+  }
+  .share-actions button:hover { border-color: var(--accent); }
+  .share-actions button.primary {
+    background: color-mix(in srgb, var(--accent) 22%, var(--bg2));
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  }
+  .share-meta { margin-left: auto; font-family: ui-monospace, monospace; font-size: 0.8rem; color: var(--muted); }
+  .share-textarea {
+    flex: 1; width: 100%; min-height: 16rem;
+    font-family: ui-monospace, monospace; font-size: 0.9rem;
+    padding: 0.85rem; border-radius: 10px;
+    border: 1px solid var(--line); background: var(--bg1); color: var(--text);
+    resize: vertical; line-height: 1.45;
+  }
+  .share-textarea:focus { outline: 2px solid color-mix(in srgb, var(--accent) 40%, transparent); outline-offset: 1px; }
+  .share-footer { margin-top: 0.75rem; font-size: 0.8rem; }
+  .share-footer a { color: var(--link); }
 </style>
 </head>
 <body>
-<div class="wrap{{if .ShowAll}} all{{end}}">
+<div class="wrap{{if .ShowAll}} all{{end}}" id="wrap">
   <div class="brand">
     <span class="brand-logo" aria-hidden="true">🥔</span>
     PotatoInspector
     <span class="brand-host">· {{.Host}}</span>
   </div>
-  <h1>Install the MITM root CA</h1>
-  <p class="lead">
-    {{if .ShowAll}}Pick your platform below, download the certificate, then follow the steps.
-    {{else}}Detected <strong>{{.TitleOS}}</strong>. Download the certificate, then follow the steps.
-    {{end}}
-  </p>
 
-  <a class="dl" href="/ca.crt" download="potatoinspector-ca.crt">
-    <span class="dl-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3a1 1 0 0 1 1 1v9.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42L11 13.59V4a1 1 0 0 1 1-1zm-7 14a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"/></svg>
-    </span>
-    <span class="dl-label">Download CA certificate</span>
-    <span class="dl-sub">potatoinspector-ca.crt</span>
-  </a>
+  <div id="install">
+    <h1>Install the MITM root CA</h1>
+    <p class="lead">
+      {{if .ShowAll}}Pick your platform below, download the certificate, then follow the steps.
+      {{else}}Detected <strong>{{.TitleOS}}</strong>. Download the certificate, then follow the steps.
+      {{end}}
+      After the CA is trusted, this page switches to the live Share notepad.
+    </p>
+    <p class="probe-status" id="probe-status">Checking HTTPS trust…</p>
 
-  <div class="os-nav">
-    <a href="/?os=android">Android</a>
-    <a href="/?os=ios">iOS</a>
-    <a href="/?os=macos">macOS</a>
-    <a href="/?os=windows">Windows</a>
-    <a href="/?os=all">Show all</a>
+    <a class="dl" href="/ca.crt" download="potatoinspector-ca.crt">
+      <span class="dl-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3a1 1 0 0 1 1 1v9.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42L11 13.59V4a1 1 0 0 1 1-1zm-7 14a1 1 0 0 1 1 1v1h12v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1z"/></svg>
+      </span>
+      <span class="dl-label">Download CA certificate</span>
+      <span class="dl-sub">potatoinspector-ca.crt</span>
+    </a>
+
+    <div class="os-nav">
+      <a href="/?os=android&amp;install=1">Android</a>
+      <a href="/?os=ios&amp;install=1">iOS</a>
+      <a href="/?os=macos&amp;install=1">macOS</a>
+      <a href="/?os=windows&amp;install=1">Windows</a>
+      <a href="/?os=all&amp;install=1">Show all</a>
+    </div>
+
+    <div class="section{{if or (eq .OS "android") .ShowAll}} on{{end}}" id="android">
+      <h2>Android</h2>
+      <ol>
+        <li>Tap <strong>Download CA certificate</strong> above (or open the file from Downloads).</li>
+        <li>Go to <strong>Settings → Security → Encryption &amp; credentials → Install a certificate → CA certificate</strong> (wording varies by OEM).</li>
+        <li>Confirm the warning — expected for this lab.</li>
+        <li>Name it e.g. <code>PotatoInspector</code>. It should appear under <strong>User</strong> trusted credentials.</li>
+      </ol>
+      <p class="note">Some apps ignore user CAs. Put those hosts on the Ignore list in the panel.</p>
+    </div>
+
+    <div class="section{{if or (eq .OS "ios") .ShowAll}} on{{end}}" id="ios">
+      <h2>iOS / iPadOS</h2>
+      <ol>
+        <li>Tap <strong>Download CA certificate</strong> and allow the profile download.</li>
+        <li><strong>Settings → General → VPN &amp; Device Management</strong> → install the downloaded profile.</li>
+        <li><strong>Settings → General → About → Certificate Trust Settings</strong>.</li>
+        <li>Enable <strong>Full Trust</strong> for the PotatoInspector root. Confirm the warning.</li>
+      </ol>
+      <p class="note">Without Full Trust, Safari and apps will still reject MITM certificates.</p>
+    </div>
+
+    <div class="section{{if or (eq .OS "macos") .ShowAll}} on{{end}}" id="macos">
+      <h2>macOS</h2>
+      <ol>
+        <li>Click <strong>Download CA certificate</strong>.</li>
+        <li>Open the file in <strong>Keychain Access</strong> (login or System keychain).</li>
+        <li>Double-click the cert → <strong>Trust</strong> → set <strong>When using this certificate</strong> to <strong>Always Trust</strong>.</li>
+        <li>Close and authenticate if prompted. Restart the browser if needed.</li>
+      </ol>
+    </div>
+
+    <div class="section{{if or (eq .OS "windows") .ShowAll}} on{{end}}" id="windows">
+      <h2>Windows</h2>
+      <ol>
+        <li>Click <strong>Download CA certificate</strong>.</li>
+        <li>Run <code>certmgr.msc</code> (or open the .crt → Install Certificate).</li>
+        <li>Import into <strong>Trusted Root Certification Authorities</strong>.</li>
+        <li>Accept the security warning. Restart the browser if HTTPS still fails.</li>
+      </ol>
+    </div>
   </div>
 
-  <div class="section{{if or (eq .OS "android") .ShowAll}} on{{end}}" id="android">
-    <h2>Android</h2>
-    <ol>
-      <li>Tap <strong>Download CA certificate</strong> above (or open the file from Downloads).</li>
-      <li>Go to <strong>Settings → Security → Encryption &amp; credentials → Install a certificate → CA certificate</strong> (wording varies by OEM).</li>
-      <li>Confirm the warning — expected for this lab.</li>
-      <li>Name it e.g. <code>PotatoInspector</code>. It should appear under <strong>User</strong> trusted credentials.</li>
-    </ol>
-    <p class="note">Some apps ignore user CAs. Put those hosts on the Ignore list in the panel.</p>
-  </div>
-
-  <div class="section{{if or (eq .OS "ios") .ShowAll}} on{{end}}" id="ios">
-    <h2>iOS / iPadOS</h2>
-    <ol>
-      <li>Tap <strong>Download CA certificate</strong> and allow the profile download.</li>
-      <li><strong>Settings → General → VPN &amp; Device Management</strong> → install the downloaded profile.</li>
-      <li><strong>Settings → General → About → Certificate Trust Settings</strong>.</li>
-      <li>Enable <strong>Full Trust</strong> for the PotatoInspector root. Confirm the warning.</li>
-    </ol>
-    <p class="note">Without Full Trust, Safari and apps will still reject MITM certificates.</p>
-  </div>
-
-  <div class="section{{if or (eq .OS "macos") .ShowAll}} on{{end}}" id="macos">
-    <h2>macOS</h2>
-    <ol>
-      <li>Click <strong>Download CA certificate</strong>.</li>
-      <li>Open the file in <strong>Keychain Access</strong> (login or System keychain).</li>
-      <li>Double-click the cert → <strong>Trust</strong> → set <strong>When using this certificate</strong> to <strong>Always Trust</strong>.</li>
-      <li>Close and authenticate if prompted. Restart the browser if needed.</li>
-    </ol>
-  </div>
-
-  <div class="section{{if or (eq .OS "windows") .ShowAll}} on{{end}}" id="windows">
-    <h2>Windows</h2>
-    <ol>
-      <li>Click <strong>Download CA certificate</strong>.</li>
-      <li>Run <code>certmgr.msc</code> (or open the .crt → Install Certificate).</li>
-      <li>Import into <strong>Trusted Root Certification Authorities</strong>.</li>
-      <li>Accept the security warning. Restart the browser if HTTPS still fails.</li>
-    </ol>
+  <div id="share" class="hidden">
+    <div class="share-toolbar">
+      <h1>Share</h1>
+      <p class="lead" style="margin-bottom:0">Live notepad — edits sync across tunnel clients (last write wins).</p>
+      <div class="share-actions">
+        <button type="button" id="btn-clear">Clear</button>
+        <button type="button" id="btn-copy">Copy</button>
+        <button type="button" class="primary" id="btn-paste">Paste</button>
+        <span class="share-meta" id="share-meta">v0</span>
+      </div>
+    </div>
+    <textarea class="share-textarea" id="share-text" placeholder="Loading…" spellcheck="false" disabled></textarea>
+    <p class="share-footer note">
+      CA install guide: <a href="/?install=1">show again</a>
+      · API <code>https://{{.ShareHost}}</code>
+    </p>
   </div>
 </div>
+<script>
+(function () {
+  var SHARE_BASE = "https://{{.ShareHost}}";
+  var FORCE_INSTALL = {{if .ForceInstall}}true{{else}}false{{end}};
+  var DEBOUNCE_MS = 300;
+  var installEl = document.getElementById("install");
+  var shareEl = document.getElementById("share");
+  var wrap = document.getElementById("wrap");
+  var probeEl = document.getElementById("probe-status");
+  var textEl = document.getElementById("share-text");
+  var metaEl = document.getElementById("share-meta");
+  var version = 0;
+  var applyingRemote = false;
+  var debounceTimer = null;
+  var es = null;
+  var shareReady = false;
+
+  function showInstall() {
+    installEl.classList.remove("hidden");
+    shareEl.classList.add("hidden");
+    wrap.classList.remove("share-mode");
+  }
+  function showShare() {
+    installEl.classList.add("hidden");
+    shareEl.classList.remove("hidden");
+    wrap.classList.add("share-mode");
+  }
+
+  function setProbe(msg, ok) {
+    if (!probeEl) return;
+    probeEl.textContent = msg;
+    probeEl.className = "probe-status" + (ok ? " ok" : "");
+  }
+
+  async function probe() {
+    try {
+      var res = await fetch(SHARE_BASE + "/health", { method: "GET", cache: "no-store" });
+      if (!res.ok) throw new Error("status " + res.status);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function pushText(next) {
+    if (debounceTimer) clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(async function () {
+      try {
+        var res = await fetch(SHARE_BASE + "/api/share", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: next })
+        });
+        if (!res.ok) throw new Error("save failed");
+        var snap = await res.json();
+        version = snap.version || 0;
+        metaEl.textContent = "v" + version;
+      } catch (e) { /* keep local */ }
+    }, DEBOUNCE_MS);
+  }
+
+  function bootShare() {
+    if (shareReady) return;
+    shareReady = true;
+    showShare();
+    fetch(SHARE_BASE + "/api/share", { cache: "no-store" })
+      .then(function (r) { return r.json(); })
+      .then(function (snap) {
+        version = snap.version || 0;
+        metaEl.textContent = "v" + version;
+        textEl.value = snap.text || "";
+        textEl.disabled = false;
+        textEl.placeholder = "Type here…";
+      })
+      .catch(function () {
+        textEl.placeholder = "Could not load share pad";
+      });
+
+    if (es) es.close();
+    es = new EventSource(SHARE_BASE + "/api/share/stream");
+    es.onmessage = function (ev) {
+      try {
+        var snap = JSON.parse(ev.data);
+        if ((snap.version || 0) <= version) return;
+        version = snap.version;
+        metaEl.textContent = "v" + version;
+        applyingRemote = true;
+        textEl.value = snap.text || "";
+        queueMicrotask(function () { applyingRemote = false; });
+      } catch (e) {}
+    };
+  }
+
+  textEl.addEventListener("input", function () {
+    if (applyingRemote) return;
+    pushText(textEl.value);
+  });
+  document.getElementById("btn-clear").addEventListener("click", function () {
+    textEl.value = "";
+    pushText("");
+  });
+  document.getElementById("btn-copy").addEventListener("click", function () {
+    navigator.clipboard.writeText(textEl.value).catch(function () {});
+  });
+  document.getElementById("btn-paste").addEventListener("click", function () {
+    navigator.clipboard.readText().then(function (clip) {
+      textEl.value = clip;
+      pushText(clip);
+    }).catch(function () {});
+  });
+
+  async function tick() {
+    var ok = await probe();
+    if (ok) {
+      setProbe("CA trusted — Share is ready.", true);
+      if (!FORCE_INSTALL) bootShare();
+      else setProbe("CA trusted. Close install view or open / without ?install=1 for Share.", true);
+      return;
+    }
+    setProbe("Waiting for CA trust… probing https://{{.ShareHost}}", false);
+    showInstall();
+    setTimeout(tick, 4000);
+  }
+
+  if (FORCE_INSTALL) {
+    showInstall();
+    tick();
+  } else {
+    showInstall();
+    tick();
+  }
+})();
+</script>
 </body>
 </html>
 `

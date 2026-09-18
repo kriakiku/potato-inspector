@@ -2,7 +2,7 @@
 
 The MITM root certificate lets Android trust HTTPS intercepted by PotatoInspector.
 
-**Preferred:** on a device already on the WireGuard tunnel, open **[http://potato.local](http://potato.local)** — Android steps and a one-tap CA download.
+**Preferred:** on a device already on the WireGuard tunnel, open **[http://potato.local](http://potato.local)** — Android steps and a one-tap CA download. After the CA is trusted, that page becomes the Share notepad.
 
 You can also download from this panel: **[ca.crt](/api/mitm/ca.crt)** (MITM page).
 

@@ -21,6 +21,7 @@ import (
 	"github.com/potatoinspector/potato-inspector/internal/mitm"
 	"github.com/potatoinspector/potato-inspector/internal/profiles"
 	"github.com/potatoinspector/potato-inspector/internal/shape"
+	"github.com/potatoinspector/potato-inspector/internal/share"
 	"github.com/potatoinspector/potato-inspector/internal/store"
 	"github.com/potatoinspector/potato-inspector/internal/wg"
 )
@@ -35,12 +36,16 @@ type Server struct {
 	DNS             *dnsfwd.Server
 	Ignore          *ignore.Runtime
 	Flows           *flows.Writer
+	Share           *share.Pad
 	Static          fs.FS
 	PanelPort       int
 	RadarCatalogURL string
 }
 
-func New(st *store.Store, wgm *wg.Manager, sh *shape.Manager, pr *profiles.Registry, cat *catalog.Manager, mm *mitm.Manager, dns *dnsfwd.Server, ign *ignore.Runtime, fw *flows.Writer, static fs.FS, panelPort int, radarURL string) *Server {
+func New(st *store.Store, wgm *wg.Manager, sh *shape.Manager, pr *profiles.Registry, cat *catalog.Manager, mm *mitm.Manager, dns *dnsfwd.Server, ign *ignore.Runtime, fw *flows.Writer, pad *share.Pad, static fs.FS, panelPort int, radarURL string) *Server {
+	if pad == nil {
+		pad = share.New(st)
+	}
 	return &Server{
 		Store:           st,
 		WG:              wgm,
@@ -51,6 +56,7 @@ func New(st *store.Store, wgm *wg.Manager, sh *shape.Manager, pr *profiles.Regis
 		DNS:             dns,
 		Ignore:          ign,
 		Flows:           fw,
+		Share:           pad,
 		Static:          static,
 		PanelPort:       panelPort,
 		RadarCatalogURL: radarURL,
@@ -80,6 +86,8 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("/api/inspector/clear", s.handleInspectorClear)
 	mux.HandleFunc("/api/inspector/pause", s.handleInspectorPause)
 	mux.HandleFunc("/api/inspector/har", s.handleHAR)
+	mux.HandleFunc("/api/share", s.handleShare)
+	mux.HandleFunc("/api/share/stream", s.handleShareStream)
 
 	if s.Static != nil {
 		fileServer := http.FileServer(http.FS(s.Static))
@@ -199,6 +207,7 @@ func (s *Server) handleSettings(w http.ResponseWriter, r *http.Request) {
 			"dnsShortTtl":        st.DNSShortTTL,
 			"dnsTtl":             st.DNSTTL,
 			"dnsRewriteRules":    st.DNSRewriteRules,
+			"dnsBuiltinRules":    s.dnsBuiltinRules(),
 			"favoriteCountries":  st.FavoriteCountries,
 			"hostRttPinned":      st.HostRttPinned,
 		})
@@ -315,17 +324,48 @@ func parseDNSRewriteRules(raw any) ([]store.DNSRewriteRule, error) {
 		if r.Pattern == "" {
 			return nil, fmt.Errorf("dns rewrite rule missing pattern")
 		}
+		// Built-in portal names — always handled by dnsfwd, not user rules.
+		if dnsfwd.IsBuiltinHost(r.Pattern) {
+			continue
+		}
 		ip := net.ParseIP(r.IP)
 		if ip == nil || ip.To4() == nil {
 			return nil, fmt.Errorf("dns rewrite rule %q: need IPv4", r.Pattern)
 		}
 		r.IP = ip.To4().String()
-						if r.ID == "" {
-							r.ID = fmt.Sprintf("dns-%d-%d", time.Now().UnixNano(), len(out))
-						}
+		if r.ID == "" {
+			r.ID = fmt.Sprintf("dns-%d-%d", time.Now().UnixNano(), len(out))
+		}
 		out = append(out, r)
 	}
 	return out, nil
+}
+
+func (s *Server) dnsBuiltinRules() []map[string]any {
+	ip := ""
+	if s.WG != nil {
+		if g := s.WG.GatewayIP(); g != nil {
+			ip = g.String()
+		}
+	}
+	return []map[string]any{
+		{
+			"id":      "builtin-potato-local",
+			"pattern": dnsfwd.PortalHost,
+			"ip":      ip,
+			"enabled": true,
+			"builtin": true,
+			"note":    "CA install portal (http://" + dnsfwd.PortalHost + ")",
+		},
+		{
+			"id":      "builtin-potato-share-local",
+			"pattern": dnsfwd.ShareHost,
+			"ip":      ip,
+			"enabled": true,
+			"builtin": true,
+			"note":    "HTTPS Share API (https://" + dnsfwd.ShareHost + ")",
+		},
+	}
 }
 
 func (s *Server) handlePeers(w http.ResponseWriter, r *http.Request) {
@@ -984,6 +1024,64 @@ func (s *Server) handleInspectorPause(w http.ResponseWriter, r *http.Request) {
 		"paused":        *body.Paused,
 		"capturePaused": *body.Paused,
 	})
+}
+
+func (s *Server) handleShare(w http.ResponseWriter, r *http.Request) {
+	if s.Share == nil {
+		writeJSON(w, 500, map[string]string{"error": "share unavailable"})
+		return
+	}
+	switch r.Method {
+	case http.MethodGet:
+		writeJSON(w, 200, s.Share.Get())
+	case http.MethodPut:
+		var body struct {
+			Text *string `json:"text"`
+		}
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil || body.Text == nil {
+			writeJSON(w, 400, map[string]string{"error": "text string required"})
+			return
+		}
+		snap, err := s.Share.Set(*body.Text)
+		if err != nil {
+			writeJSON(w, 400, map[string]string{"error": err.Error()})
+			return
+		}
+		writeJSON(w, 200, snap)
+	default:
+		http.Error(w, "method", http.StatusMethodNotAllowed)
+	}
+}
+
+func (s *Server) handleShareStream(w http.ResponseWriter, r *http.Request) {
+	if s.Share == nil {
+		http.Error(w, "share unavailable", 500)
+		return
+	}
+	flusher, ok := w.(http.Flusher)
+	if !ok {
+		http.Error(w, "no flush", 500)
+		return
+	}
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache")
+	w.Header().Set("Connection", "keep-alive")
+	ch := s.Share.Subscribe()
+	defer s.Share.Unsubscribe(ch)
+	notify := r.Context().Done()
+	for {
+		select {
+		case <-notify:
+			return
+		case snap, ok := <-ch:
+			if !ok {
+				return
+			}
+			data, _ := json.Marshal(snap)
+			_, _ = fmt.Fprintf(w, "data: %s\n\n", data)
+			flusher.Flush()
+		}
+	}
 }
 
 func (s *Server) handleInspectorStream(w http.ResponseWriter, r *http.Request) {

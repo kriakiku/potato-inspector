@@ -15,9 +15,17 @@ import (
 )
 
 const (
-	// PortalHost is the built-in name for the on-tunnel CA install portal.
+	// PortalHost is the built-in name for the on-tunnel CA install portal (HTTP :80).
 	PortalHost = "potato.local"
+	// ShareHost is the built-in name for the HTTPS Share API (TLS :443).
+	ShareHost = "potato-share.local"
 )
+
+// IsBuiltinHost reports whether name is a built-in portal A record (exact match).
+func IsBuiltinHost(name string) bool {
+	n := normalizeName(name)
+	return n == PortalHost || n == ShareHost
+}
 
 type Server struct {
 	mu        sync.Mutex
@@ -179,9 +187,11 @@ func (s *Server) serveUDP() {
 func (s *Server) resolve(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
 	upstream, rules, shortTTL, ttlSec, gateway := s.configSnapshot()
 	qname, qtype = parseQuestion(query)
-	if gateway != nil && gateway.To4() != nil && normalizeName(qname) == PortalHost {
-		resp, err = buildRewriteResponse(query, gateway, ttlSec)
-		return resp, qname, qtype, true, PortalHost, err
+	if gateway != nil && gateway.To4() != nil {
+		if host := normalizeName(qname); IsBuiltinHost(host) {
+			resp, err = buildRewriteResponse(query, gateway, ttlSec)
+			return resp, qname, qtype, true, host, err
+		}
 	}
 	if rule := MatchRewrite(qname, rules); rule != nil {
 		ip := net.ParseIP(strings.TrimSpace(rule.IP))
@@ -201,9 +211,11 @@ func (s *Server) resolve(query []byte) (resp []byte, qname, qtype string, rewrit
 func (s *Server) resolveTCP(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
 	upstream, rules, shortTTL, ttlSec, gateway := s.configSnapshot()
 	qname, qtype = parseQuestion(query)
-	if gateway != nil && gateway.To4() != nil && normalizeName(qname) == PortalHost {
-		resp, err = buildRewriteResponse(query, gateway, ttlSec)
-		return resp, qname, qtype, true, PortalHost, err
+	if gateway != nil && gateway.To4() != nil {
+		if host := normalizeName(qname); IsBuiltinHost(host) {
+			resp, err = buildRewriteResponse(query, gateway, ttlSec)
+			return resp, qname, qtype, true, host, err
+		}
 	}
 	if rule := MatchRewrite(qname, rules); rule != nil {
 		ip := net.ParseIP(strings.TrimSpace(rule.IP))

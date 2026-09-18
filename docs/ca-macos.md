@@ -1,6 +1,6 @@
 # Install root CA · macOS
 
-**Preferred:** while connected to the WireGuard tunnel, open **[http://potato.local](http://potato.local)** in a browser — macOS steps and CA download.
+**Preferred:** while connected to the WireGuard tunnel, open **[http://potato.local](http://potato.local)** in a browser — macOS steps and CA download. After Always Trust, the same page switches to Share.
 
 You can also download from this panel: **[ca.crt](/api/mitm/ca.crt)** (MITM page).
 

@@ -96,7 +96,8 @@ export default function Mitm() {
         </p>
         <p className="muted" style={{ marginTop: 6 }}>
           Easiest on a tunnel client: open <a href="http://potato.local" target="_blank" rel="noreferrer"><strong>http://potato.local</strong></a>{' '}
-          — OS-specific install steps and a one-tap CA download (no panel needed). See also{' '}
+          — OS-specific install steps and CA download. Once the CA is trusted, that page switches to the live Share notepad
+          (HTTPS API at <code>potato-share.local</code>). See also{' '}
           <Link to="/docs/ca-android">Docs → CA</Link>.
         </p>
         <p className="muted" style={{ marginTop: 6 }}>

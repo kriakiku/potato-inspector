@@ -245,6 +245,16 @@ h1 {
 .badge.http { border-color: var(--ok); color: var(--ok); }
 .badge.tls { border-color: var(--warn); color: var(--warn); }
 .badge.dns { border-color: #6aa8e8; color: #6aa8e8; }
+.dns-rule-builtin td input:disabled {
+  opacity: 0.85;
+  cursor: default;
+}
+.dns-rule-builtin .badge {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
 .panel-box {
   background: var(--bg1);
   border: 1px solid var(--line);
@@ -567,6 +577,7 @@ h1 {
   top: 0;
   background: var(--bg1);
   z-index: 1;
+  align-items: center;
 }
 .net-row {
   display: grid;
@@ -681,8 +692,13 @@ h1 {
 }
 .col-name { min-width: 0; }
 .col-status, .col-method, .col-size, .col-time { font-variant-numeric: tabular-nums; }
-.col-status, .col-method { padding-top: 0.15rem; }
-.col-size, .col-time { padding-top: 0.15rem; justify-self: start; }
+/* Optical align with first URL line in data rows only — not the sticky header */
+.net-row .col-status,
+.net-row .col-method,
+.net-row .col-size,
+.net-row .col-time { padding-top: 0.15rem; }
+.net-row .col-size,
+.net-row .col-time { justify-self: start; }
 .net-empty {
   padding: 2rem 1rem;
   text-align: center;
@@ -1137,4 +1153,50 @@ h1 {
     gap: 0.25rem;
   }
 }
+
+/* —— Share —— */
+.share-shell {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem 1.15rem;
+  gap: 0.75rem;
+}
+.share-toolbar h1 {
+  margin: 0;
+}
+.share-lead {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+}
+.share-actions {
+  margin-top: 0.65rem;
+  align-items: center;
+}
+.share-meta {
+  margin-left: auto;
+  font-size: 0.8rem;
+}
+.share-textarea {
+  flex: 1;
+  min-height: 12rem;
+  width: 100%;
+  resize: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg0);
+  color: var(--text);
+  padding: 0.85rem 1rem;
+  line-height: 1.45;
+  font-size: 0.9rem;
+}
+.share-textarea:focus {
+  outline: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 0;
+}
+.share-textarea:disabled {
+  opacity: 0.6;
+}
+
 

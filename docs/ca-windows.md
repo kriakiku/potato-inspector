@@ -1,6 +1,6 @@
 # Install root CA · Windows
 
-**Preferred:** while connected to the WireGuard tunnel, open **[http://potato.local](http://potato.local)** — Windows steps and CA download.
+**Preferred:** while connected to the WireGuard tunnel, open **[http://potato.local](http://potato.local)** — Windows steps and CA download. After the CA is in Trusted Root, reopen for Share.
 
 You can also download from this panel: **[ca.crt](/api/mitm/ca.crt)** (MITM page).
 
