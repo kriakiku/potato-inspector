@@ -89,6 +89,10 @@ function durationMs(ev) {
   return Math.max(0, Math.round((t.timestampEnd - t.timestampStart) * 1000))
 }
 
+const PROXY_TIME_TIP =
+  'MITM ↔ origin only (after decrypt). Last-mile netem on the tunnel is outside this interval — see status-bar delay.'
+
+
 function HeaderTable({ headers }) {
   const entries = Object.entries(headers || {})
   if (!entries.length) return <p className="muted">No headers</p>
@@ -150,7 +154,7 @@ function CdnBadges({ detail, compact = false }) {
   )
 }
 
-function DetailPane({ selected, tab, setTab }) {
+function DetailPane({ selected, tab, setTab, lastMileDelayMs }) {
   if (!selected) {
     return <div className="net-empty muted">Select a request to inspect headers and body</div>
   }
@@ -159,6 +163,7 @@ function DetailPane({ selected, tab, setTab }) {
   const tabs = selected.type === 'http'
     ? ['Headers', 'Preview', 'Timing']
     : ['Detail']
+  const proxyMs = durationMs(selected)
 
   return (
     <div className="net-detail">
@@ -235,10 +240,28 @@ function DetailPane({ selected, tab, setTab }) {
         {selected.type === 'http' && tab === 'Timing' && (
           <table className="hdr-table">
             <tbody>
-              <tr><th>Duration</th><td className="mono">{durationMs(selected) != null ? `${durationMs(selected)} ms` : '—'}</td></tr>
+              <tr>
+                <th title={PROXY_TIME_TIP}>Proxy duration</th>
+                <td className="mono" title={PROXY_TIME_TIP}>
+                  {proxyMs != null ? `${proxyMs} ms` : '—'}
+                </td>
+              </tr>
+              <tr>
+                <th title="One-way tc netem on the WireGuard TUN (status bar). ≈2× on the phone RTT. Not included in Proxy duration.">
+                  Last-mile one-way
+                </th>
+                <td className="mono">
+                  {lastMileDelayMs > 0 ? `${lastMileDelayMs} ms` : '0 ms (passthrough / Direct)'}
+                </td>
+              </tr>
+              <tr>
+                <th title="MITM path-rule sleep after decrypt (included in Proxy duration).">
+                  Extra MITM delay
+                </th>
+                <td className="mono">{d.extraDelayMs ? `${d.extraDelayMs} ms` : '—'}</td>
+              </tr>
               <tr><th>Start</th><td className="mono">{d.timing?.timestampStart ?? '—'}</td></tr>
               <tr><th>End</th><td className="mono">{d.timing?.timestampEnd ?? '—'}</td></tr>
-              <tr><th>Extra delay</th><td className="mono">{d.extraDelayMs ? `${d.extraDelayMs} ms` : '—'}</td></tr>
             </tbody>
           </table>
         )}
@@ -533,7 +556,7 @@ export default function Inspector() {
             <span className="col-method">Method</span>
             <span className="col-name">Request</span>
             <span className="col-size">Size</span>
-            <span className="col-time">Time</span>
+            <span className="col-time" title={PROXY_TIME_TIP}>Proxy</span>
           </div>
           <div className="net-list-scroll net-scroll" ref={listRef}>
             {rows.length === 0 && (
@@ -568,14 +591,24 @@ export default function Inspector() {
                     </span>
                   </span>
                   <span className="col-size mono">{ev.type === 'http' ? formatBytes(d.bodyBytes) : '—'}</span>
-                  <span className="col-time mono">{dur != null ? `${dur} ms` : new Date(ev.ts).toLocaleTimeString()}</span>
+                  <span
+                    className="col-time mono"
+                    title={dur != null ? PROXY_TIME_TIP : undefined}
+                  >
+                    {dur != null ? `${dur} ms` : new Date(ev.ts).toLocaleTimeString()}
+                  </span>
                 </button>
               )
             })}
           </div>
         </div>
         <div className="net-side panel-box">
-          <DetailPane selected={selected} tab={tab} setTab={setTab} />
+          <DetailPane
+            selected={selected}
+            tab={tab}
+            setTab={setTab}
+            lastMileDelayMs={direct ? 0 : appliedDelay}
+          />
         </div>
       </div>
 

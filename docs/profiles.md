@@ -73,6 +73,12 @@ When you apply country+tier:
    `((rttToDest[D] − rttToDest.cf) − (hostRtt[D] − hostRtt.cf)) / 2`  
    on top of last-mile netem (after decrypt), not a second packet-level path.
 
+### Inspector **Proxy** time vs last-mile
+
+The Inspector list column **Proxy** (Timing → *Proxy duration*) is mitmproxy’s `timestampEnd − timestampStart`: decrypt → fetch origin → response at the proxy (plus any MITM path-rule sleep). It does **not** include WireGuard last-mile netem.
+
+Last-mile delay is applied on the TUN **before** the request is fully seen by MITM and **after** the response leaves MITM toward the phone. Client-perceived RTT ≈ **2×** the one-way value shown in the status bar (`delay N ms`). A fast origin can therefore show **Proxy 17 ms** while the profile still adds **≥20 ms** one-way on the wire.
+
 ## Refreshing the catalog
 
 1. GitHub Actions → **Radar profile catalog** → Run workflow (with `CLOUDFLARE_API_TOKEN` set).
