@@ -36,6 +36,13 @@ func (m *Manager) Status() string {
 	return m.status
 }
 
+// LastProfile returns the profile last passed to Apply/Clear (what netem is based on).
+func (m *Manager) LastProfile() profiles.Profile {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+	return m.lastProfile
+}
+
 func (m *Manager) SetIgnoreExempt(on bool) {
 	m.mu.Lock()
 	m.ignoreExempt = on

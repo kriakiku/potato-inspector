@@ -150,6 +150,15 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 	if s.Catalog != nil {
 		hostRtt = s.Catalog.HostRtt()
 	}
+	// Catalog profiles (catalog:BD:typical) are not in Profiles registry — prefer shaper
+	// state, then recompute from catalog, else builtin/custom registry entry.
+	if lp := s.Shape.LastProfile(); lp.ID != "" {
+		prof = lp
+	} else if s.Catalog != nil && st.ActiveCountry != "" && st.ActiveCountry != "direct" && st.ActiveTier != "" {
+		if p, err := s.Catalog.ProfileFor(st.ActiveCountry, st.ActiveTier, hostRtt); err == nil {
+			prof = p
+		}
+	}
 	writeJSON(w, 200, map[string]any{
 		"product":          "PotatoInspector",
 		"activeProfileId":  st.ActiveProfileID,

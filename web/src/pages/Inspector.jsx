@@ -154,7 +154,7 @@ function CdnBadges({ detail, compact = false }) {
   )
 }
 
-function DetailPane({ selected, tab, setTab, lastMileDelayMs }) {
+function DetailPane({ selected, tab, setTab, lastMileDelayMs, direct }) {
   if (!selected) {
     return <div className="net-empty muted">Select a request to inspect headers and body</div>
   }
@@ -263,7 +263,11 @@ function DetailPane({ selected, tab, setTab, lastMileDelayMs }) {
                   Last-mile one-way
                 </th>
                 <td className="mono">
-                  {lastMileDelayMs > 0 ? `${lastMileDelayMs} ms` : '0 ms (passthrough / Direct)'}
+                  {lastMileDelayMs > 0
+                    ? `${lastMileDelayMs} ms`
+                    : direct
+                      ? '0 ms (passthrough / Direct)'
+                      : '0 ms (clamped vs host CF baseline)'}
                 </td>
               </tr>
               <tr>
@@ -620,6 +624,7 @@ export default function Inspector() {
             tab={tab}
             setTab={setTab}
             lastMileDelayMs={direct ? 0 : appliedDelay}
+            direct={direct}
           />
         </div>
       </div>
