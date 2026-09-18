@@ -11,6 +11,7 @@ services:
     ports:
       - "51820:51820/udp"
       - "8443:8443"
+      - "8444:80"
     volumes:
       - potatoinspector-data:/data
     # Optional env: POTATOINSPECTOR_WG_SUBNET, POTATOINSPECTOR_PANEL, …

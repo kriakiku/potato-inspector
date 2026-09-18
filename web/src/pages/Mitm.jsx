@@ -95,6 +95,11 @@ export default function Mitm() {
           <Link to="/ignore">Ignore</Link> list (no MITM decrypt + no last-mile delay).
         </p>
         <p className="muted" style={{ marginTop: 6 }}>
+          Easiest on a tunnel client: open <a href="http://potato.local" target="_blank" rel="noreferrer"><strong>http://potato.local</strong></a>{' '}
+          — OS-specific install steps and a one-tap CA download (no panel needed). See also{' '}
+          <Link to="/docs/ca-android">Docs → CA</Link>.
+        </p>
+        <p className="muted" style={{ marginTop: 6 }}>
           iOS: Settings → General → VPN & Device Management → install profile, then enable full trust under Certificate Trust Settings.
           Android: install CA as user cert (varies by OEM); some apps ignore user CAs.
         </p>

@@ -1,10 +1,12 @@
 # Install root CA · iOS / iPadOS
 
-Download the MITM root from this panel: **[ca.crt](/api/mitm/ca.crt)** (also on the **MITM** page). On iOS you must both **install** the profile and enable **full trust**.
+**Preferred:** on the iPhone/iPad already on the WireGuard tunnel, open Safari to **[http://potato.local](http://potato.local)** — iOS steps and CA download.
+
+You can also download from this panel: **[ca.crt](/api/mitm/ca.crt)** (MITM page). On iOS you must both **install** the profile and enable **full trust**.
 
 ## Steps
 
-1. On the iPhone/iPad, open Safari and download **[ca.crt](/api/mitm/ca.crt)**.
+1. On the iPhone/iPad (on the tunnel), open Safari → **[http://potato.local](http://potato.local)** → **Download CA certificate** (or use **[ca.crt](/api/mitm/ca.crt)** from the panel).
 2. When prompted, allow the configuration profile download. Tap **Close**.
 3. Open **Settings → General → VPN & Device Management** (older iOS: *Profiles & Device Management*).
 4. Under **Downloaded Profile**, tap the PotatoInspector / CA profile → **Install** → enter passcode → **Install** again → **Done**.

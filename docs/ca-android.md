@@ -1,16 +1,20 @@
 # Install root CA · Android
 
-The MITM root certificate lets Android trust HTTPS intercepted by PotatoInspector. Download it from this panel: **[ca.crt](/api/mitm/ca.crt)** (also on the **MITM** page).
+The MITM root certificate lets Android trust HTTPS intercepted by PotatoInspector.
+
+**Preferred:** on a device already on the WireGuard tunnel, open **[http://potato.local](http://potato.local)** — Android steps and a one-tap CA download.
+
+You can also download from this panel: **[ca.crt](/api/mitm/ca.crt)** (MITM page).
 
 OEM menus differ slightly; steps below cover stock-style Android / Pixel and common variants.
 
 ## Steps
 
-1. On the phone, open **[Download CA cert](/api/mitm/ca.crt)** in Chrome (or copy the file from another device).
+1. On the phone (while on the tunnel), open **[http://potato.local](http://potato.local)** and tap **Download CA certificate**, or use **[ca.crt](/api/mitm/ca.crt)** from the panel.
 2. Open the downloaded `.crt` / `.cer` file, or go to **Settings → Security → Encryption & credentials → Install a certificate → CA certificate** (wording varies: *Trusted credentials*, *Install from storage*).
 3. Confirm the warning that a CA can monitor traffic — that is expected for this lab.
 4. Name the certificate (e.g. `PotatoInspector`) and finish install. It should appear under **User** trusted credentials (not System).
-5. Connect via WireGuard (router SSID or on-device client) and load an HTTPS site. In **Inspector** you should see decrypted HTTP when MITM is up.
+5. Load an HTTPS site. In **Inspector** you should see decrypted HTTP when MITM is up.
 
 ## Important
 

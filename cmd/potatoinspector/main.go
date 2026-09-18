@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/potatoinspector/potato-inspector/internal/caportal"
 	"github.com/potatoinspector/potato-inspector/internal/catalog"
 	"github.com/potatoinspector/potato-inspector/internal/config"
 	"github.com/potatoinspector/potato-inspector/internal/dnsfwd"
@@ -75,9 +76,12 @@ func main() {
 	_, _, _ = mm.EnsureCA()
 
 	dns := dnsfwd.New(fw, settings.ClientDNS, cfg.WGIface, ign)
+	dns.SetGateway(wgm.GatewayIP())
 	if err := dns.ApplyConfig(settings.ClientDNS, settings.DNSRewriteRules, settings.DNSShortTTL, settings.DNSTTL); err != nil {
 		log.Printf("WARN: system DNS (/etc/resolv.conf): %v", err)
 	}
+
+	portal := caportal.New(mm)
 
 	wgOK := false
 	if err := wgm.Start(); err != nil {
@@ -123,6 +127,12 @@ func main() {
 			settings.MITMEnabled = true
 			_ = st.SaveSettings(settings)
 		}
+		dns.SetGateway(wgm.GatewayIP())
+		if err := portal.Start(); err != nil {
+			log.Printf("WARN: CA portal (:80 / %s): %v", dnsfwd.PortalHost, err)
+		} else {
+			log.Printf("CA portal http://%s/ (WG clients)", dnsfwd.PortalHost)
+		}
 	}
 
 	srv := panel.New(st, wgm, shaper, reg, cat, mm, dns, ign, fw, web.FS(), cfg.PanelPort, cfg.RadarCatalogURL)
@@ -141,6 +151,7 @@ func main() {
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
 	<-ch
 	log.Println("shutting down")
+	portal.Stop()
 	_ = mm.Stop()
 	dns.Stop()
 	ignore.ClearMangle()

@@ -14,25 +14,44 @@ import (
 	"github.com/potatoinspector/potato-inspector/internal/store"
 )
 
+const (
+	// PortalHost is the built-in name for the on-tunnel CA install portal.
+	PortalHost = "potato.local"
+)
+
 type Server struct {
-	mu       sync.Mutex
-	flows    *flows.Writer
-	upstream string
-	rules    []store.DNSRewriteRule
-	shortTTL bool
-	ttlSec   uint32
-	udpConn  *net.UDPConn
-	tcpLn    net.Listener
-	wgIface  string
-	enabled  bool
-	stopCh   chan struct{}
-	ignore   *ignore.Runtime
+	mu        sync.Mutex
+	flows     *flows.Writer
+	upstream  string
+	rules     []store.DNSRewriteRule
+	shortTTL  bool
+	ttlSec    uint32
+	gatewayIP net.IP
+	udpConn   *net.UDPConn
+	tcpLn     net.Listener
+	wgIface   string
+	enabled   bool
+	stopCh    chan struct{}
+	ignore    *ignore.Runtime
 }
 
 func New(fw *flows.Writer, upstream, wgIface string, ign *ignore.Runtime) *Server {
 	s := &Server{flows: fw, wgIface: wgIface, ignore: ign}
 	s.SetConfig(upstream, nil, false, 30)
 	return s
+}
+
+func (s *Server) SetGateway(ip net.IP) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if ip == nil {
+		s.gatewayIP = nil
+		return
+	}
+	s.gatewayIP = append(net.IP(nil), ip.To4()...)
+	if s.gatewayIP == nil {
+		s.gatewayIP = append(net.IP(nil), ip...)
+	}
 }
 
 func (s *Server) SetConfig(upstream string, rules []store.DNSRewriteRule, shortTTL bool, ttlSec int) {
@@ -60,12 +79,15 @@ func (s *Server) ApplyConfig(upstream string, rules []store.DNSRewriteRule, shor
 	return ApplySystemResolver(upstream)
 }
 
-func (s *Server) configSnapshot() (upstream string, rules []store.DNSRewriteRule, shortTTL bool, ttlSec uint32) {
+func (s *Server) configSnapshot() (upstream string, rules []store.DNSRewriteRule, shortTTL bool, ttlSec uint32, gateway net.IP) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	upstream = s.upstream
 	shortTTL = s.shortTTL
 	ttlSec = s.ttlSec
+	if s.gatewayIP != nil {
+		gateway = append(net.IP(nil), s.gatewayIP...)
+	}
 	if s.rules != nil {
 		rules = append([]store.DNSRewriteRule{}, s.rules...)
 	}
@@ -155,8 +177,12 @@ func (s *Server) serveUDP() {
 }
 
 func (s *Server) resolve(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
-	upstream, rules, shortTTL, ttlSec := s.configSnapshot()
+	upstream, rules, shortTTL, ttlSec, gateway := s.configSnapshot()
 	qname, qtype = parseQuestion(query)
+	if gateway != nil && gateway.To4() != nil && normalizeName(qname) == PortalHost {
+		resp, err = buildRewriteResponse(query, gateway, ttlSec)
+		return resp, qname, qtype, true, PortalHost, err
+	}
 	if rule := MatchRewrite(qname, rules); rule != nil {
 		ip := net.ParseIP(strings.TrimSpace(rule.IP))
 		if ip == nil || ip.To4() == nil {
@@ -173,8 +199,12 @@ func (s *Server) resolve(query []byte) (resp []byte, qname, qtype string, rewrit
 }
 
 func (s *Server) resolveTCP(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
-	upstream, rules, shortTTL, ttlSec := s.configSnapshot()
+	upstream, rules, shortTTL, ttlSec, gateway := s.configSnapshot()
 	qname, qtype = parseQuestion(query)
+	if gateway != nil && gateway.To4() != nil && normalizeName(qname) == PortalHost {
+		resp, err = buildRewriteResponse(query, gateway, ttlSec)
+		return resp, qname, qtype, true, PortalHost, err
+	}
 	if rule := MatchRewrite(qname, rules); rule != nil {
 		ip := net.ParseIP(strings.TrimSpace(rule.IP))
 		if ip == nil || ip.To4() == nil {

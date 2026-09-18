@@ -45,6 +45,7 @@ Open **http://\<host\>:8443** (plain HTTP — terminate TLS on your reverse prox
 | `--device=/dev/net/tun` | userspace WireGuard (`wireguard-go`) |
 | `-p 51820:51820/udp` | WireGuard |
 | `-p 8443:8443` | Panel HTTP (TLS via reverse proxy) |
+| (no host `-p 80`) | On-tunnel CA portal at `http://potato.local` (WG clients → container :80) |
 | `-v …:/data` | JSON settings, peers, CA |
 
 Host should allow forwarding (`net.ipv4.ip_forward=1`). Compose sets this via `sysctls`.
@@ -120,7 +121,7 @@ MITM is **always on** when WireGuard is up:
 - Matching path rules add **extra** delay from dest path delta vs CF (or a per-rule override) inside the proxy after decrypt — not a second netem path (HTTP/2 one connection).
 - Inspector shows HTTP exchanges and TLS handshake rows (SNI, version, ALPN, leaf CN/SAN).
 - UDP/443 (QUIC) is **dropped** so clients fall back to TCP/TLS through MITM.
-- Download the CA from the MITM page; install and trust on the phone/laptop. UniFi WG client does **not** install the CA.
+- Download the CA from the MITM page **or** open **http://potato.local** on a tunnel client (OS-specific install + download).
 - **Regenerate CA** issues a new root; re-install on all clients (old CA stops working).
 
 DoH appears as HTTPS `/dns-query` when those hosts are MITM’d.
@@ -137,7 +138,7 @@ Last-mile shaping hits every packet the same, including TLS handshake. After the
 - **Profiles** — country catalog, favorites, apply tiers
 - **Baseline** — host RTT to CF/AWS: test, save; persists in settings
 - **Ignore** — builtin OS/vendor pack + custom hosts (MITM skip + delay exemption); pinned apps go here
-- **MITM** — path rules (dest = cf / aws-…), CA download / regenerate
+- **MITM** — path rules (dest = cf / aws-…), CA download / regenerate; tunnel clients can use http://potato.local
 - **DNS** — upstream (container `/etc/resolv.conf` + tunnel forwarder), rewrite rules (pattern→IP), Short DNS TTL (0s / 30s / 1m / 5m); DNS intercept always on; peer `.conf` pushes WG gateway as DNS
 - **WireGuard** — peers, public endpoint
 - **Docs** — overview, WireGuard setup, root CA install (Android / iOS / macOS / Windows)

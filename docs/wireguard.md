@@ -33,4 +33,6 @@ Use one active tunnel at a time when inspecting traffic (see [Overview](/docs) l
 3. Apply on the router or device.
 4. Confirm handshake on the WireGuard page.
 
+Then on a phone/laptop on that path, open **http://potato.local** to install the MITM CA (OS auto-detected).
+
 DNS in the peer config uses the WG gateway (tunnel DNS intercept is always on). Upstream DNS for unresolved names is configured on the **DNS** page.

@@ -1,10 +1,12 @@
 # Install root CA · Windows
 
-Download the MITM root from this panel: **[ca.crt](/api/mitm/ca.crt)** (also on the **MITM** page).
+**Preferred:** while connected to the WireGuard tunnel, open **[http://potato.local](http://potato.local)** — Windows steps and CA download.
+
+You can also download from this panel: **[ca.crt](/api/mitm/ca.crt)** (MITM page).
 
 ## Steps (Certificate Manager)
 
-1. Download **[ca.crt](/api/mitm/ca.crt)** and save it (e.g. Downloads).
+1. Download via **[http://potato.local](http://potato.local)** or **[ca.crt](/api/mitm/ca.crt)** and save it (e.g. Downloads).
 2. Press Win+R, run `certmgr.msc` (current user) or `certlm.msc` (local machine — needs admin).
 3. Expand **Trusted Root Certification Authorities** → right-click **Certificates** → **All Tasks → Import…**.
 4. **Next** → **Browse…** → select the `.crt` (change filter to *All Files* if needed) → **Next**.
