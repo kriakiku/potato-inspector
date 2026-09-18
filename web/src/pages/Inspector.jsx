@@ -232,10 +232,22 @@ function DetailPane({ selected, tab, setTab, lastMileDelayMs }) {
           </>
         )}
         {selected.type === 'http' && tab === 'Preview' && (
-          <CodeBlock
-            code={d.bodyPreview || '(empty body)'}
-            language={d.bodyPreview ? languageFromContentType(d.contentType) : 'plain'}
-          />
+          <>
+            <h3>Request</h3>
+            <CodeBlock
+              code={d.requestBodyPreview || '(empty body)'}
+              language={
+                d.requestBodyPreview
+                  ? languageFromContentType(d.requestContentType)
+                  : 'plain'
+              }
+            />
+            <h3>Response</h3>
+            <CodeBlock
+              code={d.bodyPreview || '(empty body)'}
+              language={d.bodyPreview ? languageFromContentType(d.contentType) : 'plain'}
+            />
+          </>
         )}
         {selected.type === 'http' && tab === 'Timing' && (
           <table className="hdr-table">

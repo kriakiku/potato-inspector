@@ -1130,13 +1130,20 @@ func (s *Server) handleHAR(w http.ResponseWriter, r *http.Request) {
 	entries := []map[string]any{}
 	for _, ev := range evs {
 		d := ev.Detail
+		req := map[string]any{
+			"method":  d["method"],
+			"url":     fmt.Sprintf("https://%v%v", d["host"], d["path"]),
+			"headers": headersToHAR(d["requestHeaders"]),
+		}
+		if text, ok := d["requestBodyPreview"].(string); ok && text != "" {
+			req["postData"] = map[string]any{
+				"mimeType": d["requestContentType"],
+				"text":     text,
+			}
+		}
 		entries = append(entries, map[string]any{
 			"startedDateTime": ev.Ts.Format(time.RFC3339Nano),
-			"request": map[string]any{
-				"method": d["method"],
-				"url":    fmt.Sprintf("https://%v%v", d["host"], d["path"]),
-				"headers": headersToHAR(d["requestHeaders"]),
-			},
+			"request":         req,
 			"response": map[string]any{
 				"status":  d["status"],
 				"headers": headersToHAR(d["responseHeaders"]),

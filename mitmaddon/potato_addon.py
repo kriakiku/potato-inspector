@@ -222,47 +222,16 @@ class PotatoAddon:
         req_headers = _headers_to_dict(req.headers)
         resp_headers = _headers_to_dict(resp.headers) if resp is not None else {}
 
+        req_ct = req.headers.get("content-type", "") or ""
+        req_preview, req_stubbed, req_bytes = _body_preview(req, req_ct)
+
         ct = ""
-        if resp is not None:
-            ct = resp.headers.get("content-type", "") or ""
         body_preview = ""
         stubbed = False
         body_bytes = 0
         if resp is not None:
-            # Prefer decoded body — raw_content is often still gzip/br/zstd on the wire.
-            try:
-                raw = resp.content if resp.content is not None else b""
-            except Exception:
-                raw = resp.raw_content if resp.raw_content is not None else b""
-            if raw is None:
-                raw = b""
-            body_bytes = len(raw)
-            ce = (resp.headers.get("content-encoding", "") or "").lower()
-            if ct.startswith(("image/", "audio/", "video/", "application/octet-stream", "application/pdf", "application/zip", "font/", "application/wasm")):
-                body_preview = f"[binary omitted: {ct}; {body_bytes} bytes]"
-                stubbed = True
-            else:
-                # Never decode the full body — cap bytes first, then decode preview only.
-                chunk = raw[:65536]
-                charset = "utf-8"
-                try:
-                    charset = resp.headers.get_charset() or "utf-8"
-                except Exception:
-                    pass
-                try:
-                    body_preview = chunk.decode(charset, errors="replace")
-                except Exception:
-                    body_preview = chunk.decode("utf-8", errors="replace")
-                # If decode still looks like wire gzip, decoding failed (rare).
-                if len(chunk) >= 2 and chunk[:2] == b"\x1f\x8b":
-                    body_preview = (
-                        f"[compressed body not decoded; content-encoding={ce or '?'}; "
-                        f"{body_bytes} bytes]"
-                    )
-                    stubbed = True
-                elif body_bytes > 65536:
-                    body_preview += "\n…[truncated]"
-                    stubbed = True
+            ct = resp.headers.get("content-type", "") or ""
+            body_preview, stubbed, body_bytes = _body_preview(resp, ct)
 
         status = resp.status_code if resp else 0
         scheme = req.scheme or "https"
@@ -281,6 +250,10 @@ class PotatoAddon:
             "status": status,
             "requestHeaders": req_headers,
             "responseHeaders": resp_headers,
+            "requestContentType": req_ct,
+            "requestBodyPreview": req_preview,
+            "requestBodyStubbed": req_stubbed,
+            "requestBodyBytes": req_bytes,
             "bodyPreview": body_preview,
             "bodyStubbed": stubbed,
             "bodyBytes": body_bytes,
@@ -292,6 +265,69 @@ class PotatoAddon:
             },
         }
         self._emit("http", summary, detail)
+
+
+_BODY_PREVIEW_MAX = 65536
+_BINARY_CT_PREFIXES = (
+    "image/",
+    "audio/",
+    "video/",
+    "application/octet-stream",
+    "application/pdf",
+    "application/zip",
+    "font/",
+    "application/wasm",
+)
+
+
+def _body_preview(msg, content_type: str) -> tuple:
+    """Return (preview_text, stubbed, byte_len) from a mitmproxy request/response."""
+    if msg is None:
+        return "", False, 0
+    ct = (content_type or "").lower()
+    ct_main = ct.split(";")[0].strip()
+    try:
+        raw = msg.content if msg.content is not None else b""
+    except Exception:
+        raw = msg.raw_content if getattr(msg, "raw_content", None) is not None else b""
+    if raw is None:
+        raw = b""
+    body_bytes = len(raw)
+    if body_bytes == 0:
+        return "", False, 0
+
+    ce = ""
+    try:
+        ce = (msg.headers.get("content-encoding", "") or "").lower()
+    except Exception:
+        pass
+
+    if ct_main.startswith("multipart/"):
+        return f"[multipart omitted; {body_bytes} bytes]", True, body_bytes
+    if any(ct_main.startswith(p) for p in _BINARY_CT_PREFIXES):
+        return f"[binary omitted: {ct_main or ct}; {body_bytes} bytes]", True, body_bytes
+
+    chunk = raw[:_BODY_PREVIEW_MAX]
+    charset = "utf-8"
+    try:
+        charset = msg.headers.get_charset() or "utf-8"
+    except Exception:
+        pass
+    try:
+        preview = chunk.decode(charset, errors="replace")
+    except Exception:
+        preview = chunk.decode("utf-8", errors="replace")
+    if len(chunk) >= 2 and chunk[:2] == b"\x1f\x8b":
+        return (
+            f"[compressed body not decoded; content-encoding={ce or '?'}; {body_bytes} bytes]",
+            True,
+            body_bytes,
+        )
+    stubbed = False
+    if body_bytes > _BODY_PREVIEW_MAX:
+        preview += "\n…[truncated]"
+        stubbed = True
+    return preview, stubbed, body_bytes
 
 
 _CONDITIONAL_REQ_HEADERS = (
