@@ -89,8 +89,14 @@ function durationMs(ev) {
   return Math.max(0, Math.round((t.timestampEnd - t.timestampStart) * 1000))
 }
 
-const PROXY_TIME_TIP =
-  'MITM ↔ origin only (after decrypt). Last-mile netem on the tunnel is outside this interval — see status-bar delay.'
+/** Rough on-device RTT estimate: MITM↔origin + last-mile both ways. */
+function approxClientMs(proxyMs, lastMileOneWayMs) {
+  if (proxyMs == null) return null
+  return proxyMs + 2 * Math.max(0, lastMileOneWayMs || 0)
+}
+
+const APPROX_TIME_TIP =
+  '≈ on-device: Proxy (MITM↔origin) + 2× last-mile one-way. Rough — ignores TLS/DNS/queueing on the phone path.'
 
 
 function HeaderTable({ headers }) {
@@ -164,6 +170,7 @@ function DetailPane({ selected, tab, setTab, lastMileDelayMs, direct }) {
     ? ['Headers', 'Preview', 'Timing']
     : ['Detail']
   const proxyMs = durationMs(selected)
+  const approxMs = approxClientMs(proxyMs, lastMileDelayMs)
 
   return (
     <div className="net-detail">
@@ -253,13 +260,27 @@ function DetailPane({ selected, tab, setTab, lastMileDelayMs, direct }) {
           <table className="hdr-table">
             <tbody>
               <tr>
-                <th title={PROXY_TIME_TIP}>Proxy duration</th>
-                <td className="mono" title={PROXY_TIME_TIP}>
+                <th title={APPROX_TIME_TIP}>≈ on device</th>
+                <td className="mono" title={APPROX_TIME_TIP}>
+                  {approxMs != null
+                    ? `~${approxMs} ms${
+                        lastMileDelayMs > 0 && proxyMs != null
+                          ? `  (= ${proxyMs} + 2×${lastMileDelayMs})`
+                          : ''
+                      }`
+                    : '—'}
+                </td>
+              </tr>
+              <tr>
+                <th title="MITM ↔ origin only (after decrypt). Measured timestamps; last-mile netem is outside this interval.">
+                  Proxy (MITM↔origin)
+                </th>
+                <td className="mono">
                   {proxyMs != null ? `${proxyMs} ms` : '—'}
                 </td>
               </tr>
               <tr>
-                <th title="One-way tc netem on the WireGuard TUN (status bar). ≈2× on the phone RTT. Not included in Proxy duration.">
+                <th title="One-way tc netem on the WireGuard TUN (status bar). Counted twice in ≈ on device.">
                   Last-mile one-way
                 </th>
                 <td className="mono">
@@ -271,7 +292,7 @@ function DetailPane({ selected, tab, setTab, lastMileDelayMs, direct }) {
                 </td>
               </tr>
               <tr>
-                <th title="MITM path-rule sleep after decrypt (included in Proxy duration).">
+                <th title="MITM path-rule sleep after decrypt (already inside Proxy duration).">
                   Extra MITM delay
                 </th>
                 <td className="mono">{d.extraDelayMs ? `${d.extraDelayMs} ms` : '—'}</td>
@@ -572,7 +593,7 @@ export default function Inspector() {
             <span className="col-method">Method</span>
             <span className="col-name">Request</span>
             <span className="col-size">Size</span>
-            <span className="col-time" title={PROXY_TIME_TIP}>Proxy</span>
+            <span className="col-time" title={APPROX_TIME_TIP}>≈Time</span>
           </div>
           <div className="net-list-scroll net-scroll" ref={listRef}>
             {rows.length === 0 && (
@@ -585,6 +606,8 @@ export default function Inspector() {
             {rows.map((ev) => {
               const d = ev.detail || {}
               const dur = durationMs(ev)
+              const lastMile = direct ? 0 : appliedDelay
+              const approx = approxClientMs(dur, lastMile)
               const active = selected?.id === ev.id
               const url = eventUrl(ev)
               return (
@@ -609,9 +632,9 @@ export default function Inspector() {
                   <span className="col-size mono">{ev.type === 'http' ? formatBytes(d.bodyBytes) : '—'}</span>
                   <span
                     className="col-time mono"
-                    title={dur != null ? PROXY_TIME_TIP : undefined}
+                    title={approx != null ? APPROX_TIME_TIP : undefined}
                   >
-                    {dur != null ? `${dur} ms` : new Date(ev.ts).toLocaleTimeString()}
+                    {approx != null ? `~${approx} ms` : new Date(ev.ts).toLocaleTimeString()}
                   </span>
                 </button>
               )
