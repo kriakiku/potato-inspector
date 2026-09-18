@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T00:58:43Z",
+  "generatedAt": "2026-09-18T01:12:49Z",
   "source": "radar+cloudping",
   "destinations": {
     "cf": {
@@ -54,7 +54,7 @@
     {
       "id": "AD",
       "name": "Andorra",
-      "flag": "",
+      "flag": "🇦🇩",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -216,7 +216,7 @@
     {
       "id": "AG",
       "name": "Antigua and Barbuda",
-      "flag": "",
+      "flag": "🇦🇬",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -270,7 +270,7 @@
     {
       "id": "AI",
       "name": "Anguilla",
-      "flag": "",
+      "flag": "🇦🇮",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -432,7 +432,7 @@
     {
       "id": "AN",
       "name": "Netherlands Antilles",
-      "flag": "",
+      "flag": "🇦🇳",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -486,7 +486,7 @@
     {
       "id": "AO",
       "name": "Angola",
-      "flag": "",
+      "flag": "🇦🇴",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -540,7 +540,7 @@
     {
       "id": "AP",
       "name": "Asia/Pacific Region",
-      "flag": "",
+      "flag": "🇦🇵",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -594,7 +594,7 @@
     {
       "id": "AQ",
       "name": "Antarctica",
-      "flag": "",
+      "flag": "🇦🇶",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -653,48 +653,48 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 234.2,
-          "uploadMbps": 118.6,
+          "downloadMbps": 234.0,
+          "uploadMbps": 118.5,
           "lossPercent": 0.11,
           "rttToDest": {
             "cf": 26,
             "aws-eu-central-1": 105,
-            "aws-eu-west-1": 84,
+            "aws-eu-west-1": 83,
             "aws-us-east-1": 26,
-            "aws-us-west-2": 83,
-            "aws-ap-southeast-1": 212,
-            "aws-ap-northeast-1": 152,
-            "aws-ap-south-1": 196
+            "aws-us-west-2": 82,
+            "aws-ap-southeast-1": 211,
+            "aws-ap-northeast-1": 151,
+            "aws-ap-south-1": 195
           }
         },
         "typical": {
-          "downloadMbps": 187.4,
-          "uploadMbps": 94.9,
+          "downloadMbps": 187.2,
+          "uploadMbps": 94.8,
           "lossPercent": 0.36,
           "rttToDest": {
-            "cf": 31,
-            "aws-eu-central-1": 124,
-            "aws-eu-west-1": 99,
-            "aws-us-east-1": 31,
-            "aws-us-west-2": 98,
-            "aws-ap-southeast-1": 249,
-            "aws-ap-northeast-1": 179,
-            "aws-ap-south-1": 230
+            "cf": 30,
+            "aws-eu-central-1": 123,
+            "aws-eu-west-1": 98,
+            "aws-us-east-1": 30,
+            "aws-us-west-2": 97,
+            "aws-ap-southeast-1": 248,
+            "aws-ap-northeast-1": 178,
+            "aws-ap-south-1": 229
           }
         },
         "poor": {
-          "downloadMbps": 37.5,
+          "downloadMbps": 37.4,
           "uploadMbps": 19.0,
           "lossPercent": 1.08,
           "rttToDest": {
-            "cf": 43,
-            "aws-eu-central-1": 174,
-            "aws-eu-west-1": 139,
-            "aws-us-east-1": 43,
-            "aws-us-west-2": 137,
-            "aws-ap-southeast-1": 349,
-            "aws-ap-northeast-1": 251,
-            "aws-ap-south-1": 322
+            "cf": 42,
+            "aws-eu-central-1": 172,
+            "aws-eu-west-1": 137,
+            "aws-us-east-1": 42,
+            "aws-us-west-2": 136,
+            "aws-ap-southeast-1": 347,
+            "aws-ap-northeast-1": 249,
+            "aws-ap-south-1": 321
           }
         }
       }
@@ -702,7 +702,7 @@
     {
       "id": "AS",
       "name": "American Samoa",
-      "flag": "",
+      "flag": "🇦🇸",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -830,7 +830,7 @@
           }
         },
         "typical": {
-          "downloadMbps": 177.7,
+          "downloadMbps": 177.8,
           "uploadMbps": 36.7,
           "lossPercent": 0.02,
           "rttToDest": {
@@ -845,7 +845,7 @@
           }
         },
         "poor": {
-          "downloadMbps": 35.5,
+          "downloadMbps": 35.6,
           "uploadMbps": 7.3,
           "lossPercent": 1.0,
           "rttToDest": {
@@ -864,7 +864,7 @@
     {
       "id": "AW",
       "name": "Aruba",
-      "flag": "",
+      "flag": "🇦🇼",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -918,7 +918,7 @@
     {
       "id": "AX",
       "name": "Aland Islands",
-      "flag": "",
+      "flag": "🇦🇽",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -1080,7 +1080,7 @@
     {
       "id": "BB",
       "name": "Barbados",
-      "flag": "",
+      "flag": "🇧🇧",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -1100,7 +1100,7 @@
           }
         },
         "typical": {
-          "downloadMbps": 158.7,
+          "downloadMbps": 158.8,
           "uploadMbps": 95.8,
           "lossPercent": 0.0,
           "rttToDest": {
@@ -1115,7 +1115,7 @@
           }
         },
         "poor": {
-          "downloadMbps": 31.7,
+          "downloadMbps": 31.8,
           "uploadMbps": 19.2,
           "lossPercent": 1.0,
           "rttToDest": {
@@ -1242,7 +1242,7 @@
     {
       "id": "BF",
       "name": "Burkina Faso",
-      "flag": "",
+      "flag": "🇧🇫",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -1301,7 +1301,7 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 191.3,
+          "downloadMbps": 191.4,
           "uploadMbps": 109.4,
           "lossPercent": 0.05,
           "rttToDest": {
@@ -1316,7 +1316,7 @@
           }
         },
         "typical": {
-          "downloadMbps": 153.0,
+          "downloadMbps": 153.1,
           "uploadMbps": 87.5,
           "lossPercent": 0.1,
           "rttToDest": {
@@ -1404,7 +1404,7 @@
     {
       "id": "BI",
       "name": "Burundi",
-      "flag": "",
+      "flag": "🇧🇮",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -1458,7 +1458,7 @@
     {
       "id": "BJ",
       "name": "Benin",
-      "flag": "",
+      "flag": "🇧🇯",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -1512,7 +1512,7 @@
     {
       "id": "BL",
       "name": "Saint Barthelemy",
-      "flag": "",
+      "flag": "🇧🇱",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -1566,7 +1566,7 @@
     {
       "id": "BM",
       "name": "Bermuda",
-      "flag": "",
+      "flag": "🇧🇲",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -1620,7 +1620,7 @@
     {
       "id": "BN",
       "name": "Brunei Darussalam",
-      "flag": "",
+      "flag": "🇧🇳",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -1728,7 +1728,7 @@
     {
       "id": "BQ",
       "name": "Bonaire",
-      "flag": "",
+      "flag": "🇧🇶",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -1836,7 +1836,7 @@
     {
       "id": "BS",
       "name": "Bahamas",
-      "flag": "",
+      "flag": "🇧🇸",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -1890,7 +1890,7 @@
     {
       "id": "BT",
       "name": "Bhutan",
-      "flag": "",
+      "flag": "🇧🇹",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -1944,7 +1944,7 @@
     {
       "id": "BV",
       "name": "Bouvet Island",
-      "flag": "",
+      "flag": "🇧🇻",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -1998,7 +1998,7 @@
     {
       "id": "BW",
       "name": "Botswana",
-      "flag": "",
+      "flag": "🇧🇼",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -2106,13 +2106,13 @@
     {
       "id": "BZ",
       "name": "Belize",
-      "flag": "",
+      "flag": "🇧🇿",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 80.7,
-          "uploadMbps": 48.0,
+          "downloadMbps": 80.3,
+          "uploadMbps": 48.1,
           "lossPercent": 0.08,
           "rttToDest": {
             "cf": 33,
@@ -2126,8 +2126,8 @@
           }
         },
         "typical": {
-          "downloadMbps": 64.6,
-          "uploadMbps": 38.4,
+          "downloadMbps": 64.2,
+          "uploadMbps": 38.5,
           "lossPercent": 0.28,
           "rttToDest": {
             "cf": 39,
@@ -2141,7 +2141,7 @@
           }
         },
         "poor": {
-          "downloadMbps": 12.9,
+          "downloadMbps": 12.8,
           "uploadMbps": 7.7,
           "lossPercent": 1.0,
           "rttToDest": {
@@ -2165,7 +2165,7 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 330.2,
+          "downloadMbps": 330.4,
           "uploadMbps": 134.2,
           "lossPercent": 0.05,
           "rttToDest": {
@@ -2180,7 +2180,7 @@
           }
         },
         "typical": {
-          "downloadMbps": 264.2,
+          "downloadMbps": 264.3,
           "uploadMbps": 107.4,
           "lossPercent": 0.04,
           "rttToDest": {
@@ -2195,7 +2195,7 @@
           }
         },
         "poor": {
-          "downloadMbps": 52.8,
+          "downloadMbps": 52.9,
           "uploadMbps": 21.5,
           "lossPercent": 1.0,
           "rttToDest": {
@@ -2214,7 +2214,7 @@
     {
       "id": "CC",
       "name": "Cocos (Keeling) Islands",
-      "flag": "",
+      "flag": "🇨🇨",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -2268,7 +2268,7 @@
     {
       "id": "CD",
       "name": "Congo (Kinchasa)",
-      "flag": "",
+      "flag": "🇨🇩",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -2322,7 +2322,7 @@
     {
       "id": "CF",
       "name": "Central African Republic",
-      "flag": "",
+      "flag": "🇨🇫",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -2376,7 +2376,7 @@
     {
       "id": "CG",
       "name": "Congo",
-      "flag": "",
+      "flag": "🇨🇬",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -2484,7 +2484,7 @@
     {
       "id": "CI",
       "name": "Côte d'Ivoire",
-      "flag": "",
+      "flag": "🇨🇮",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -2538,7 +2538,7 @@
     {
       "id": "CK",
       "name": "Cook Islands",
-      "flag": "",
+      "flag": "🇨🇰",
       "nearestAws": "aws-us-west-2",
       "rttSource": "radar",
       "tiers": {
@@ -2862,7 +2862,7 @@
     {
       "id": "CU",
       "name": "Cuba",
-      "flag": "",
+      "flag": "🇨🇺",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -2916,7 +2916,7 @@
     {
       "id": "CV",
       "name": "Cape Verde",
-      "flag": "",
+      "flag": "🇨🇻",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -2970,7 +2970,7 @@
     {
       "id": "CW",
       "name": "Curaçao",
-      "flag": "",
+      "flag": "🇨🇼",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3024,7 +3024,7 @@
     {
       "id": "CX",
       "name": "Christmas Island",
-      "flag": "",
+      "flag": "🇨🇽",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -3078,7 +3078,7 @@
     {
       "id": "CY",
       "name": "Cyprus",
-      "flag": "",
+      "flag": "🇨🇾",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3240,7 +3240,7 @@
     {
       "id": "DJ",
       "name": "Djibouti",
-      "flag": "",
+      "flag": "🇩🇯",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -3348,7 +3348,7 @@
     {
       "id": "DM",
       "name": "Dominica",
-      "flag": "",
+      "flag": "🇩🇲",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -3672,7 +3672,7 @@
     {
       "id": "EH",
       "name": "Western Sahara",
-      "flag": "",
+      "flag": "🇪🇭",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "seed",
       "tiers": {
@@ -3726,7 +3726,7 @@
     {
       "id": "ER",
       "name": "Eritrea",
-      "flag": "",
+      "flag": "🇪🇷",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -3855,7 +3855,7 @@
         },
         "typical": {
           "downloadMbps": 41.7,
-          "uploadMbps": 31.7,
+          "uploadMbps": 31.6,
           "lossPercent": 0.23,
           "rttToDest": {
             "cf": 34,
@@ -3888,7 +3888,7 @@
     {
       "id": "EU",
       "name": "Europe",
-      "flag": "",
+      "flag": "🇪🇺",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -3996,7 +3996,7 @@
     {
       "id": "FJ",
       "name": "Fiji",
-      "flag": "",
+      "flag": "🇫🇯",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -4050,7 +4050,7 @@
     {
       "id": "FK",
       "name": "Falkland Islands",
-      "flag": "",
+      "flag": "🇫🇰",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -4104,7 +4104,7 @@
     {
       "id": "FM",
       "name": "Micronesia",
-      "flag": "",
+      "flag": "🇫🇲",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -4158,7 +4158,7 @@
     {
       "id": "FO",
       "name": "Faroe Islands",
-      "flag": "",
+      "flag": "🇫🇴",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -4217,7 +4217,7 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 365.3,
+          "downloadMbps": 365.2,
           "uploadMbps": 202.5,
           "lossPercent": 0.05,
           "rttToDest": {
@@ -4266,7 +4266,7 @@
     {
       "id": "GA",
       "name": "Gabon",
-      "flag": "",
+      "flag": "🇬🇦",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -4325,7 +4325,7 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 240.5,
+          "downloadMbps": 240.4,
           "uploadMbps": 80.0,
           "lossPercent": 0.05,
           "rttToDest": {
@@ -4340,7 +4340,7 @@
           }
         },
         "typical": {
-          "downloadMbps": 192.4,
+          "downloadMbps": 192.3,
           "uploadMbps": 64.0,
           "lossPercent": 0.06,
           "rttToDest": {
@@ -4374,7 +4374,7 @@
     {
       "id": "GD",
       "name": "Grenada",
-      "flag": "",
+      "flag": "🇬🇩",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -4482,7 +4482,7 @@
     {
       "id": "GF",
       "name": "French Guiana",
-      "flag": "",
+      "flag": "🇬🇫",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -4536,7 +4536,7 @@
     {
       "id": "GG",
       "name": "Guernsey",
-      "flag": "",
+      "flag": "🇬🇬",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -4644,7 +4644,7 @@
     {
       "id": "GI",
       "name": "Gibraltar",
-      "flag": "",
+      "flag": "🇬🇮",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -4698,7 +4698,7 @@
     {
       "id": "GL",
       "name": "Greenland",
-      "flag": "",
+      "flag": "🇬🇱",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "seed",
       "tiers": {
@@ -4752,7 +4752,7 @@
     {
       "id": "GM",
       "name": "Gambia",
-      "flag": "",
+      "flag": "🇬🇲",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -4806,7 +4806,7 @@
     {
       "id": "GN",
       "name": "Guinea",
-      "flag": "",
+      "flag": "🇬🇳",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -4860,7 +4860,7 @@
     {
       "id": "GP",
       "name": "Guadeloupe",
-      "flag": "",
+      "flag": "🇬🇵",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -4914,7 +4914,7 @@
     {
       "id": "GQ",
       "name": "Equatorial Guinea",
-      "flag": "",
+      "flag": "🇬🇶",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -5022,7 +5022,7 @@
     {
       "id": "GS",
       "name": "South Georgia and the South Sandwich Islands",
-      "flag": "",
+      "flag": "🇬🇸",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -5096,7 +5096,7 @@
           }
         },
         "typical": {
-          "downloadMbps": 142.5,
+          "downloadMbps": 142.6,
           "uploadMbps": 40.9,
           "lossPercent": 0.04,
           "rttToDest": {
@@ -5130,7 +5130,7 @@
     {
       "id": "GU",
       "name": "Guam",
-      "flag": "",
+      "flag": "🇬🇺",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -5184,7 +5184,7 @@
     {
       "id": "GW",
       "name": "Guinea-Bissau",
-      "flag": "",
+      "flag": "🇬🇼",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -5238,13 +5238,13 @@
     {
       "id": "GY",
       "name": "Guyana",
-      "flag": "",
+      "flag": "🇬🇾",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 219.6,
-          "uploadMbps": 76.8,
+          "downloadMbps": 220.9,
+          "uploadMbps": 76.6,
           "lossPercent": 0.05,
           "rttToDest": {
             "cf": 49,
@@ -5258,8 +5258,8 @@
           }
         },
         "typical": {
-          "downloadMbps": 175.7,
-          "uploadMbps": 61.4,
+          "downloadMbps": 176.7,
+          "uploadMbps": 61.2,
           "lossPercent": 0.01,
           "rttToDest": {
             "cf": 58,
@@ -5273,8 +5273,8 @@
           }
         },
         "poor": {
-          "downloadMbps": 35.1,
-          "uploadMbps": 12.3,
+          "downloadMbps": 35.3,
+          "uploadMbps": 12.2,
           "lossPercent": 1.0,
           "rttToDest": {
             "cf": 81,
@@ -5346,7 +5346,7 @@
     {
       "id": "HM",
       "name": "Heard Island and McDonald Mcdonald Islands",
-      "flag": "",
+      "flag": "🇭🇲",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -5400,7 +5400,7 @@
     {
       "id": "HN",
       "name": "Honduras",
-      "flag": "",
+      "flag": "🇭🇳",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -5420,7 +5420,7 @@
           }
         },
         "typical": {
-          "downloadMbps": 122.6,
+          "downloadMbps": 122.7,
           "uploadMbps": 64.0,
           "lossPercent": 0.04,
           "rttToDest": {
@@ -5508,7 +5508,7 @@
     {
       "id": "HT",
       "name": "Haiti",
-      "flag": "",
+      "flag": "🇭🇹",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -5567,8 +5567,8 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 414.7,
-          "uploadMbps": 129.9,
+          "downloadMbps": 414.9,
+          "uploadMbps": 130.0,
           "lossPercent": 0.05,
           "rttToDest": {
             "cf": 21,
@@ -5582,8 +5582,8 @@
           }
         },
         "typical": {
-          "downloadMbps": 331.7,
-          "uploadMbps": 103.9,
+          "downloadMbps": 331.9,
+          "uploadMbps": 104.0,
           "lossPercent": 0.02,
           "rttToDest": {
             "cf": 25,
@@ -5597,7 +5597,7 @@
           }
         },
         "poor": {
-          "downloadMbps": 66.3,
+          "downloadMbps": 66.4,
           "uploadMbps": 20.8,
           "lossPercent": 1.0,
           "rttToDest": {
@@ -5729,7 +5729,7 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 248.8,
+          "downloadMbps": 248.5,
           "uploadMbps": 78.1,
           "lossPercent": 0.05,
           "rttToDest": {
@@ -5744,7 +5744,7 @@
           }
         },
         "typical": {
-          "downloadMbps": 199.1,
+          "downloadMbps": 198.8,
           "uploadMbps": 62.5,
           "lossPercent": 0.08,
           "rttToDest": {
@@ -5778,7 +5778,7 @@
     {
       "id": "IM",
       "name": "Isle of Man",
-      "flag": "",
+      "flag": "🇮🇲",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -5886,7 +5886,7 @@
     {
       "id": "IO",
       "name": "British Indian Ocean Territory",
-      "flag": "",
+      "flag": "🇮🇴",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -5962,7 +5962,7 @@
         "typical": {
           "downloadMbps": 46.2,
           "uploadMbps": 40.4,
-          "lossPercent": 0.62,
+          "lossPercent": 0.63,
           "rttToDest": {
             "cf": 50,
             "aws-eu-central-1": 179,
@@ -5977,7 +5977,7 @@
         "poor": {
           "downloadMbps": 9.2,
           "uploadMbps": 8.1,
-          "lossPercent": 1.86,
+          "lossPercent": 1.88,
           "rttToDest": {
             "cf": 70,
             "aws-eu-central-1": 251,
@@ -5994,7 +5994,7 @@
     {
       "id": "IR",
       "name": "Iran",
-      "flag": "",
+      "flag": "🇮🇷",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -6156,7 +6156,7 @@
     {
       "id": "JE",
       "name": "Jersey",
-      "flag": "",
+      "flag": "🇯🇪",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -6215,8 +6215,8 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 159.8,
-          "uploadMbps": 62.0,
+          "downloadMbps": 160.8,
+          "uploadMbps": 62.3,
           "lossPercent": 0.05,
           "rttToDest": {
             "cf": 32,
@@ -6230,8 +6230,8 @@
           }
         },
         "typical": {
-          "downloadMbps": 127.9,
-          "uploadMbps": 49.6,
+          "downloadMbps": 128.6,
+          "uploadMbps": 49.8,
           "lossPercent": 0.02,
           "rttToDest": {
             "cf": 38,
@@ -6245,8 +6245,8 @@
           }
         },
         "poor": {
-          "downloadMbps": 25.6,
-          "uploadMbps": 9.9,
+          "downloadMbps": 25.7,
+          "uploadMbps": 10.0,
           "lossPercent": 1.0,
           "rttToDest": {
             "cf": 53,
@@ -6323,8 +6323,8 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 309.7,
-          "uploadMbps": 168.5,
+          "downloadMbps": 309.6,
+          "uploadMbps": 168.4,
           "lossPercent": 0.05,
           "rttToDest": {
             "cf": 21,
@@ -6339,7 +6339,7 @@
         },
         "typical": {
           "downloadMbps": 247.7,
-          "uploadMbps": 134.8,
+          "uploadMbps": 134.7,
           "lossPercent": 0.06,
           "rttToDest": {
             "cf": 25,
@@ -6354,7 +6354,7 @@
         },
         "poor": {
           "downloadMbps": 49.5,
-          "uploadMbps": 27.0,
+          "uploadMbps": 26.9,
           "lossPercent": 1.0,
           "rttToDest": {
             "cf": 35,
@@ -6392,7 +6392,7 @@
           }
         },
         "typical": {
-          "downloadMbps": 37.9,
+          "downloadMbps": 38.0,
           "uploadMbps": 28.0,
           "lossPercent": 0.98,
           "rttToDest": {
@@ -6409,7 +6409,7 @@
         "poor": {
           "downloadMbps": 7.6,
           "uploadMbps": 5.6,
-          "lossPercent": 2.94,
+          "lossPercent": 2.93,
           "rttToDest": {
             "cf": 88,
             "aws-eu-central-1": 269,
@@ -6426,7 +6426,7 @@
     {
       "id": "KG",
       "name": "Kyrgyzstan",
-      "flag": "",
+      "flag": "🇰🇬",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -6534,7 +6534,7 @@
     {
       "id": "KI",
       "name": "Kiribati",
-      "flag": "",
+      "flag": "🇰🇮",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -6588,7 +6588,7 @@
     {
       "id": "KM",
       "name": "Comoros",
-      "flag": "",
+      "flag": "🇰🇲",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -6642,7 +6642,7 @@
     {
       "id": "KN",
       "name": "Saint Kitts and Nevis",
-      "flag": "",
+      "flag": "🇰🇳",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -6696,7 +6696,7 @@
     {
       "id": "KP",
       "name": "Korea, North",
-      "flag": "",
+      "flag": "🇰🇵",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -6858,7 +6858,7 @@
     {
       "id": "KY",
       "name": "Cayman Islands",
-      "flag": "",
+      "flag": "🇰🇾",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -6918,7 +6918,7 @@
       "tiers": {
         "stable": {
           "downloadMbps": 137.0,
-          "uploadMbps": 68.6,
+          "uploadMbps": 68.7,
           "lossPercent": 0.05,
           "rttToDest": {
             "cf": 46,
@@ -6966,7 +6966,7 @@
     {
       "id": "LA",
       "name": "Lao People's Democratic Republic",
-      "flag": "",
+      "flag": "🇱🇦",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -7074,7 +7074,7 @@
     {
       "id": "LC",
       "name": "Saint Lucia",
-      "flag": "",
+      "flag": "🇱🇨",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -7128,7 +7128,7 @@
     {
       "id": "LI",
       "name": "Liechtenstein",
-      "flag": "",
+      "flag": "🇱🇮",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7236,7 +7236,7 @@
     {
       "id": "LR",
       "name": "Liberia",
-      "flag": "",
+      "flag": "🇱🇷",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7290,7 +7290,7 @@
     {
       "id": "LS",
       "name": "Lesotho",
-      "flag": "",
+      "flag": "🇱🇸",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -7404,7 +7404,7 @@
       "tiers": {
         "stable": {
           "downloadMbps": 346.7,
-          "uploadMbps": 169.3,
+          "uploadMbps": 170.6,
           "lossPercent": 0.05,
           "rttToDest": {
             "cf": 19,
@@ -7418,8 +7418,8 @@
           }
         },
         "typical": {
-          "downloadMbps": 277.3,
-          "uploadMbps": 135.4,
+          "downloadMbps": 277.4,
+          "uploadMbps": 136.5,
           "lossPercent": 0.01,
           "rttToDest": {
             "cf": 22,
@@ -7434,7 +7434,7 @@
         },
         "poor": {
           "downloadMbps": 55.5,
-          "uploadMbps": 27.1,
+          "uploadMbps": 27.3,
           "lossPercent": 1.0,
           "rttToDest": {
             "cf": 31,
@@ -7506,7 +7506,7 @@
     {
       "id": "LY",
       "name": "Libya",
-      "flag": "",
+      "flag": "🇱🇾",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7515,44 +7515,44 @@
           "uploadMbps": 18.5,
           "lossPercent": 0.32,
           "rttToDest": {
-            "cf": 55,
-            "aws-eu-central-1": 55,
-            "aws-eu-west-1": 74,
-            "aws-us-east-1": 132,
-            "aws-us-west-2": 181,
-            "aws-ap-southeast-1": 193,
-            "aws-ap-northeast-1": 248,
-            "aws-ap-south-1": 164
+            "cf": 54,
+            "aws-eu-central-1": 54,
+            "aws-eu-west-1": 73,
+            "aws-us-east-1": 131,
+            "aws-us-west-2": 180,
+            "aws-ap-southeast-1": 192,
+            "aws-ap-northeast-1": 247,
+            "aws-ap-south-1": 163
           }
         },
         "typical": {
           "downloadMbps": 26.4,
           "uploadMbps": 14.8,
-          "lossPercent": 1.05,
+          "lossPercent": 1.06,
           "rttToDest": {
-            "cf": 65,
-            "aws-eu-central-1": 65,
-            "aws-eu-west-1": 87,
-            "aws-us-east-1": 155,
-            "aws-us-west-2": 213,
-            "aws-ap-southeast-1": 227,
-            "aws-ap-northeast-1": 292,
-            "aws-ap-south-1": 193
+            "cf": 64,
+            "aws-eu-central-1": 64,
+            "aws-eu-west-1": 86,
+            "aws-us-east-1": 154,
+            "aws-us-west-2": 212,
+            "aws-ap-southeast-1": 226,
+            "aws-ap-northeast-1": 291,
+            "aws-ap-south-1": 192
           }
         },
         "poor": {
           "downloadMbps": 5.3,
           "uploadMbps": 3.0,
-          "lossPercent": 3.16,
+          "lossPercent": 3.17,
           "rttToDest": {
-            "cf": 91,
-            "aws-eu-central-1": 91,
-            "aws-eu-west-1": 122,
-            "aws-us-east-1": 217,
-            "aws-us-west-2": 298,
-            "aws-ap-southeast-1": 318,
-            "aws-ap-northeast-1": 409,
-            "aws-ap-south-1": 270
+            "cf": 90,
+            "aws-eu-central-1": 90,
+            "aws-eu-west-1": 120,
+            "aws-us-east-1": 216,
+            "aws-us-west-2": 297,
+            "aws-ap-southeast-1": 316,
+            "aws-ap-northeast-1": 407,
+            "aws-ap-south-1": 269
           }
         }
       }
@@ -7565,7 +7565,7 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 103.4,
+          "downloadMbps": 103.5,
           "uploadMbps": 81.7,
           "lossPercent": 0.05,
           "rttToDest": {
@@ -7614,7 +7614,7 @@
     {
       "id": "MC",
       "name": "Monaco",
-      "flag": "",
+      "flag": "🇲🇨",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7722,7 +7722,7 @@
     {
       "id": "ME",
       "name": "Montenegro",
-      "flag": "",
+      "flag": "🇲🇪",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7776,7 +7776,7 @@
     {
       "id": "MF",
       "name": "Saint Martin (French part)",
-      "flag": "",
+      "flag": "🇲🇫",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -7830,7 +7830,7 @@
     {
       "id": "MG",
       "name": "Madagascar",
-      "flag": "",
+      "flag": "🇲🇬",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -7884,7 +7884,7 @@
     {
       "id": "MH",
       "name": "Marshall Islands",
-      "flag": "",
+      "flag": "🇲🇭",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -7938,7 +7938,7 @@
     {
       "id": "MK",
       "name": "Macedonia, the Former Yugoslav Republic of",
-      "flag": "",
+      "flag": "🇲🇰",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7992,7 +7992,7 @@
     {
       "id": "ML",
       "name": "Mali",
-      "flag": "",
+      "flag": "🇲🇱",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -8100,7 +8100,7 @@
     {
       "id": "MN",
       "name": "Mongolia",
-      "flag": "",
+      "flag": "🇲🇳",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -8154,7 +8154,7 @@
     {
       "id": "MO",
       "name": "Macao",
-      "flag": "",
+      "flag": "🇲🇴",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -8208,7 +8208,7 @@
     {
       "id": "MP",
       "name": "Northern Mariana Islands",
-      "flag": "",
+      "flag": "🇲🇵",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -8262,7 +8262,7 @@
     {
       "id": "MQ",
       "name": "Martinique",
-      "flag": "",
+      "flag": "🇲🇶",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -8316,7 +8316,7 @@
     {
       "id": "MR",
       "name": "Mauritania",
-      "flag": "",
+      "flag": "🇲🇷",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -8370,7 +8370,7 @@
     {
       "id": "MS",
       "name": "Montserrat",
-      "flag": "",
+      "flag": "🇲🇸",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -8424,7 +8424,7 @@
     {
       "id": "MT",
       "name": "Malta",
-      "flag": "",
+      "flag": "🇲🇹",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -8478,7 +8478,7 @@
     {
       "id": "MU",
       "name": "Mauritius",
-      "flag": "",
+      "flag": "🇲🇺",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -8532,7 +8532,7 @@
     {
       "id": "MV",
       "name": "Maldives",
-      "flag": "",
+      "flag": "🇲🇻",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -8586,7 +8586,7 @@
     {
       "id": "MW",
       "name": "Malawi",
-      "flag": "",
+      "flag": "🇲🇼",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -8645,7 +8645,7 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 183.8,
+          "downloadMbps": 183.9,
           "uploadMbps": 117.2,
           "lossPercent": 0.1,
           "rttToDest": {
@@ -8661,7 +8661,7 @@
         },
         "typical": {
           "downloadMbps": 147.1,
-          "uploadMbps": 93.7,
+          "uploadMbps": 93.8,
           "lossPercent": 0.33,
           "rttToDest": {
             "cf": 50,
@@ -8676,7 +8676,7 @@
         },
         "poor": {
           "downloadMbps": 29.4,
-          "uploadMbps": 18.7,
+          "uploadMbps": 18.8,
           "lossPercent": 1.0,
           "rttToDest": {
             "cf": 70,
@@ -8699,7 +8699,7 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 216.5,
+          "downloadMbps": 216.7,
           "uploadMbps": 89.9,
           "lossPercent": 0.05,
           "rttToDest": {
@@ -8714,7 +8714,7 @@
           }
         },
         "typical": {
-          "downloadMbps": 173.2,
+          "downloadMbps": 173.3,
           "uploadMbps": 71.9,
           "lossPercent": 0.04,
           "rttToDest": {
@@ -8729,7 +8729,7 @@
           }
         },
         "poor": {
-          "downloadMbps": 34.6,
+          "downloadMbps": 34.7,
           "uploadMbps": 14.4,
           "lossPercent": 1.0,
           "rttToDest": {
@@ -8748,7 +8748,7 @@
     {
       "id": "MZ",
       "name": "Mozambique",
-      "flag": "",
+      "flag": "🇲🇿",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -8802,7 +8802,7 @@
     {
       "id": "NA",
       "name": "Namibia",
-      "flag": "",
+      "flag": "🇳🇦",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -8856,7 +8856,7 @@
     {
       "id": "NC",
       "name": "New Caledonia",
-      "flag": "",
+      "flag": "🇳🇨",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -8910,7 +8910,7 @@
     {
       "id": "NE",
       "name": "Niger",
-      "flag": "",
+      "flag": "🇳🇪",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -8964,7 +8964,7 @@
     {
       "id": "NF",
       "name": "Norfolk Island",
-      "flag": "",
+      "flag": "🇳🇫",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -9072,7 +9072,7 @@
     {
       "id": "NI",
       "name": "Nicaragua",
-      "flag": "",
+      "flag": "🇳🇮",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -9288,7 +9288,7 @@
     {
       "id": "NR",
       "name": "Nauru",
-      "flag": "",
+      "flag": "🇳🇷",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -9342,7 +9342,7 @@
     {
       "id": "NU",
       "name": "Niue",
-      "flag": "",
+      "flag": "🇳🇺",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -9612,7 +9612,7 @@
     {
       "id": "PF",
       "name": "French Polynesia",
-      "flag": "",
+      "flag": "🇵🇫",
       "nearestAws": "aws-us-west-2",
       "rttSource": "radar",
       "tiers": {
@@ -9666,7 +9666,7 @@
     {
       "id": "PG",
       "name": "Papua New Guinea",
-      "flag": "",
+      "flag": "🇵🇬",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -9882,7 +9882,7 @@
     {
       "id": "PM",
       "name": "Saint Pierre and Miquelon",
-      "flag": "",
+      "flag": "🇵🇲",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -9936,7 +9936,7 @@
     {
       "id": "PN",
       "name": "Pitcairn",
-      "flag": "",
+      "flag": "🇵🇳",
       "nearestAws": "aws-us-west-2",
       "rttSource": "seed",
       "tiers": {
@@ -9990,7 +9990,7 @@
     {
       "id": "PR",
       "name": "Puerto Rico",
-      "flag": "",
+      "flag": "🇵🇷",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -10044,7 +10044,7 @@
     {
       "id": "PS",
       "name": "Palestine",
-      "flag": "",
+      "flag": "🇵🇸",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -10152,7 +10152,7 @@
     {
       "id": "PW",
       "name": "Palau",
-      "flag": "",
+      "flag": "🇵🇼",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -10206,7 +10206,7 @@
     {
       "id": "PY",
       "name": "Paraguay",
-      "flag": "",
+      "flag": "🇵🇾",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -10314,7 +10314,7 @@
     {
       "id": "RE",
       "name": "Reunion",
-      "flag": "",
+      "flag": "🇷🇪",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -10373,7 +10373,7 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 319.5,
+          "downloadMbps": 319.6,
           "uploadMbps": 213.2,
           "lossPercent": 0.05,
           "rttToDest": {
@@ -10388,8 +10388,8 @@
           }
         },
         "typical": {
-          "downloadMbps": 255.6,
-          "uploadMbps": 170.5,
+          "downloadMbps": 255.7,
+          "uploadMbps": 170.6,
           "lossPercent": 0.03,
           "rttToDest": {
             "cf": 45,
@@ -10530,7 +10530,7 @@
     {
       "id": "RW",
       "name": "Rwanda",
-      "flag": "",
+      "flag": "🇷🇼",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -10638,7 +10638,7 @@
     {
       "id": "SB",
       "name": "Solomon Islands",
-      "flag": "",
+      "flag": "🇸🇧",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -10692,7 +10692,7 @@
     {
       "id": "SC",
       "name": "Seychelles",
-      "flag": "",
+      "flag": "🇸🇨",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -10746,7 +10746,7 @@
     {
       "id": "SD",
       "name": "Sudan",
-      "flag": "",
+      "flag": "🇸🇩",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -10859,8 +10859,8 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 246.5,
-          "uploadMbps": 141.7,
+          "downloadMbps": 246.8,
+          "uploadMbps": 141.8,
           "lossPercent": 0.1,
           "rttToDest": {
             "cf": 51,
@@ -10874,8 +10874,8 @@
           }
         },
         "typical": {
-          "downloadMbps": 197.2,
-          "uploadMbps": 113.4,
+          "downloadMbps": 197.4,
+          "uploadMbps": 113.5,
           "lossPercent": 0.32,
           "rttToDest": {
             "cf": 60,
@@ -10889,7 +10889,7 @@
           }
         },
         "poor": {
-          "downloadMbps": 39.4,
+          "downloadMbps": 39.5,
           "uploadMbps": 22.7,
           "lossPercent": 1.0,
           "rttToDest": {
@@ -10908,7 +10908,7 @@
     {
       "id": "SH",
       "name": "Saint Helena",
-      "flag": "",
+      "flag": "🇸🇭",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -11016,7 +11016,7 @@
     {
       "id": "SJ",
       "name": "Svalbard and Jan Mayen Islands",
-      "flag": "",
+      "flag": "🇸🇯",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "seed",
       "tiers": {
@@ -11124,7 +11124,7 @@
     {
       "id": "SL",
       "name": "Sierra Leone",
-      "flag": "",
+      "flag": "🇸🇱",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11178,7 +11178,7 @@
     {
       "id": "SM",
       "name": "San Marino",
-      "flag": "",
+      "flag": "🇸🇲",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -11232,7 +11232,7 @@
     {
       "id": "SN",
       "name": "Senegal",
-      "flag": "",
+      "flag": "🇸🇳",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -11286,7 +11286,7 @@
     {
       "id": "SO",
       "name": "Somalia",
-      "flag": "",
+      "flag": "🇸🇴",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -11340,7 +11340,7 @@
     {
       "id": "SR",
       "name": "Suriname",
-      "flag": "",
+      "flag": "🇸🇷",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -11394,7 +11394,7 @@
     {
       "id": "SS",
       "name": "South Sudan",
-      "flag": "",
+      "flag": "🇸🇸",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11448,7 +11448,7 @@
     {
       "id": "ST",
       "name": "Sao Tome and Principe",
-      "flag": "",
+      "flag": "🇸🇹",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -11502,7 +11502,7 @@
     {
       "id": "SV",
       "name": "El Salvador",
-      "flag": "",
+      "flag": "🇸🇻",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -11556,7 +11556,7 @@
     {
       "id": "SX",
       "name": "Sint Maarten (Dutch part)",
-      "flag": "",
+      "flag": "🇸🇽",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11610,7 +11610,7 @@
     {
       "id": "SY",
       "name": "Syria",
-      "flag": "",
+      "flag": "🇸🇾",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11664,7 +11664,7 @@
     {
       "id": "SZ",
       "name": "Swaziland",
-      "flag": "",
+      "flag": "🇸🇿",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -11718,7 +11718,7 @@
     {
       "id": "TC",
       "name": "Turks and Caicos Islands",
-      "flag": "",
+      "flag": "🇹🇨",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -11772,7 +11772,7 @@
     {
       "id": "TD",
       "name": "Chad",
-      "flag": "",
+      "flag": "🇹🇩",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -11826,7 +11826,7 @@
     {
       "id": "TF",
       "name": "French Southern Lands",
-      "flag": "",
+      "flag": "🇹🇫",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -11880,7 +11880,7 @@
     {
       "id": "TG",
       "name": "Togo",
-      "flag": "",
+      "flag": "🇹🇬",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11988,7 +11988,7 @@
     {
       "id": "TJ",
       "name": "Tajikistan",
-      "flag": "",
+      "flag": "🇹🇯",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -12042,7 +12042,7 @@
     {
       "id": "TK",
       "name": "Tokelau",
-      "flag": "",
+      "flag": "🇹🇰",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -12096,7 +12096,7 @@
     {
       "id": "TL",
       "name": "Timor-Leste",
-      "flag": "",
+      "flag": "🇹🇱",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -12150,7 +12150,7 @@
     {
       "id": "TM",
       "name": "Turkmenistan",
-      "flag": "",
+      "flag": "🇹🇲",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -12204,7 +12204,7 @@
     {
       "id": "TN",
       "name": "Tunisia",
-      "flag": "",
+      "flag": "🇹🇳",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -12258,7 +12258,7 @@
     {
       "id": "TO",
       "name": "Tonga",
-      "flag": "",
+      "flag": "🇹🇴",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -12366,7 +12366,7 @@
     {
       "id": "TT",
       "name": "Trinidad and Tobago",
-      "flag": "",
+      "flag": "🇹🇹",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -12420,7 +12420,7 @@
     {
       "id": "TV",
       "name": "Tuvalu",
-      "flag": "",
+      "flag": "🇹🇻",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -12528,7 +12528,7 @@
     {
       "id": "TZ",
       "name": "Tanzania",
-      "flag": "",
+      "flag": "🇹🇿",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -12587,7 +12587,7 @@
       "rttSource": "radar",
       "tiers": {
         "stable": {
-          "downloadMbps": 210.2,
+          "downloadMbps": 210.4,
           "uploadMbps": 135.6,
           "lossPercent": 0.09,
           "rttToDest": {
@@ -12602,7 +12602,7 @@
           }
         },
         "typical": {
-          "downloadMbps": 168.2,
+          "downloadMbps": 168.3,
           "uploadMbps": 108.5,
           "lossPercent": 0.3,
           "rttToDest": {
@@ -12617,7 +12617,7 @@
           }
         },
         "poor": {
-          "downloadMbps": 33.6,
+          "downloadMbps": 33.7,
           "uploadMbps": 21.7,
           "lossPercent": 1.0,
           "rttToDest": {
@@ -12636,7 +12636,7 @@
     {
       "id": "UG",
       "name": "Uganda",
-      "flag": "",
+      "flag": "🇺🇬",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -12690,7 +12690,7 @@
     {
       "id": "UM",
       "name": "United States Minor Outlying Islands",
-      "flag": "",
+      "flag": "🇺🇲",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -12906,7 +12906,7 @@
     {
       "id": "VA",
       "name": "Vatican City",
-      "flag": "",
+      "flag": "🇻🇦",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -12960,7 +12960,7 @@
     {
       "id": "VC",
       "name": "Saint Vincent and the Grenadines",
-      "flag": "",
+      "flag": "🇻🇨",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -13068,7 +13068,7 @@
     {
       "id": "VG",
       "name": "Virgin Islands, British",
-      "flag": "",
+      "flag": "🇻🇬",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -13122,7 +13122,7 @@
     {
       "id": "VI",
       "name": "Virgin Islands, U. S.",
-      "flag": "",
+      "flag": "🇻🇮",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -13230,7 +13230,7 @@
     {
       "id": "VU",
       "name": "Vanuatu",
-      "flag": "",
+      "flag": "🇻🇺",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -13284,7 +13284,7 @@
     {
       "id": "WF",
       "name": "Wallis and Futuna Island",
-      "flag": "",
+      "flag": "🇼🇫",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -13338,7 +13338,7 @@
     {
       "id": "WS",
       "name": "Samoa",
-      "flag": "",
+      "flag": "🇼🇸",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -13392,7 +13392,7 @@
     {
       "id": "XK",
       "name": "Kosovo",
-      "flag": "",
+      "flag": "🇽🇰",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -13446,7 +13446,7 @@
     {
       "id": "YE",
       "name": "Yemen",
-      "flag": "",
+      "flag": "🇾🇪",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -13500,7 +13500,7 @@
     {
       "id": "YT",
       "name": "Mayotte",
-      "flag": "",
+      "flag": "🇾🇹",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -13608,7 +13608,7 @@
     {
       "id": "ZM",
       "name": "Zambia",
-      "flag": "",
+      "flag": "🇿🇲",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -13662,7 +13662,7 @@
     {
       "id": "ZW",
       "name": "Zimbabwe",
-      "flag": "",
+      "flag": "🇿🇼",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
