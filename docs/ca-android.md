@@ -19,5 +19,6 @@ OEM menus differ slightly; steps below cover stock-style Android / Pixel and com
 ## Important
 
 - Many apps (banking, some Google services) **ignore user CAs**. Put those hosts on the **Ignore** list, or accept that they will fail / stay opaque.
+- Install via **CA certificate**, not “VPN & app user certificate” / Wi‑Fi cert — wrong type still shows “not secure” on HTTPS sites.
 - After **Regenerate CA** on the MITM page, remove the old user CA and install the new file — the old root stops working.
 - Work profile / corporate MDM may block user CA install.

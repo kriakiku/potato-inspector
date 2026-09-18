@@ -297,7 +297,7 @@ const indexHTML = `<!DOCTYPE html>
       <h2>Android</h2>
       <ol>
         <li>Tap <strong>Download CA certificate</strong> above (or open the file from Downloads).</li>
-        <li>Go to <strong>Settings → Security → Encryption &amp; credentials → Install a certificate → CA certificate</strong> (wording varies by OEM).</li>
+        <li>Go to <strong>Settings → Security → Encryption &amp; credentials → Install a certificate → CA certificate</strong> (not VPN/app or Wi‑Fi — wrong type won’t trust HTTPS).</li>
         <li>Confirm the warning — expected for this lab.</li>
         <li>Name it e.g. <code>PotatoInspector</code>. It should appear under <strong>User</strong> trusted credentials.</li>
       </ol>

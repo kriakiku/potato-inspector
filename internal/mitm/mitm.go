@@ -61,10 +61,18 @@ func (m *Manager) EnsureCA() (certPath, keyPath string, err error) {
 	dir := m.store.CADir()
 	certPath = filepath.Join(dir, "ca.crt")
 	keyPath = filepath.Join(dir, "ca.key")
-	if store.Exists(certPath) && store.Exists(keyPath) {
-		return certPath, keyPath, nil
+	if !(store.Exists(certPath) && store.Exists(keyPath)) {
+		certPath, keyPath, err = m.writeNewCA(dir, certPath, keyPath)
+		if err != nil {
+			return "", "", err
+		}
 	}
-	return m.writeNewCA(dir, certPath, keyPath)
+	// mitmproxy reads confdir/mitmproxy-ca.pem — must match ca.crt or it generates a
+	// different CA and browsers show "not secure" while potato.local still serves our ca.crt.
+	if err := m.syncMitmproxyCA(dir); err != nil {
+		return "", "", err
+	}
+	return certPath, keyPath, nil
 }
 
 // RegenerateCA replaces the CA keypair, clears cached leaf material, and restarts MITM.
@@ -220,10 +228,10 @@ func (m *Manager) writeNewCA(dir, certPath, keyPath string) (string, string, err
 		},
 		NotBefore:             time.Now().Add(-time.Hour),
 		NotAfter:              time.Now().Add(10 * 365 * 24 * time.Hour),
-		KeyUsage:              x509.KeyUsageCertSign | x509.KeyUsageCRLSign | x509.KeyUsageDigitalSignature,
+		KeyUsage:              x509.KeyUsageCertSign | x509.KeyUsageCRLSign,
 		BasicConstraintsValid: true,
 		IsCA:                  true,
-		MaxPathLen:            1,
+		MaxPathLenZero:        true,
 	}
 	der, err := x509.CreateCertificate(rand.Reader, tmpl, tmpl, &key.PublicKey, key)
 	if err != nil {
@@ -241,7 +249,35 @@ func (m *Manager) writeNewCA(dir, certPath, keyPath string) (string, string, err
 	}
 	_ = pem.Encode(keyOut, &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(key)})
 	_ = keyOut.Close()
+	if err := m.syncMitmproxyCA(dir); err != nil {
+		return "", "", err
+	}
 	return certPath, keyPath, nil
+}
+
+// syncMitmproxyCA writes mitmproxy's expected CA filenames from Potato ca.crt/ca.key.
+func (m *Manager) syncMitmproxyCA(dir string) error {
+	certPEM, err := os.ReadFile(filepath.Join(dir, "ca.crt"))
+	if err != nil {
+		return err
+	}
+	keyPEM, err := os.ReadFile(filepath.Join(dir, "ca.key"))
+	if err != nil {
+		return err
+	}
+	combined := append(append([]byte{}, keyPEM...), certPEM...)
+	pemPath := filepath.Join(dir, "mitmproxy-ca.pem")
+	if err := os.WriteFile(pemPath, combined, 0o600); err != nil {
+		return err
+	}
+	if err := os.WriteFile(filepath.Join(dir, "mitmproxy-ca-cert.pem"), certPEM, 0o644); err != nil {
+		return err
+	}
+	// Android installers often expect .cer
+	if err := os.WriteFile(filepath.Join(dir, "mitmproxy-ca-cert.cer"), certPEM, 0o644); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (m *Manager) CACertPath() string {
