@@ -135,12 +135,13 @@ func (s *Server) handleStatus(w http.ResponseWriter, r *http.Request) {
 	st, _ := s.Store.LoadSettings()
 	peers, _ := s.WG.ListPeerStatus()
 	activeHS := 0
-	var lastHS time.Time
+	var lastHS *time.Time
 	for _, p := range peers {
-		if !p.LastHandshake.IsZero() {
+		if p.LastHandshake != nil && !p.LastHandshake.IsZero() {
 			activeHS++
-			if p.LastHandshake.After(lastHS) {
-				lastHS = p.LastHandshake
+			if lastHS == nil || p.LastHandshake.After(*lastHS) {
+				t := *p.LastHandshake
+				lastHS = &t
 			}
 		}
 	}

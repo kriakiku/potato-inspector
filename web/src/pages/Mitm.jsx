@@ -90,7 +90,7 @@ export default function Mitm() {
         </div>
         <p className="muted" style={{ marginTop: 10 }}>
           MITM is always on for this tunnel (QUIC/UDP 443 dropped). Install and trust the CA on phones/laptops.
-          UniFi as WG client does not install the CA. After regenerating, remove the old CA and install the new one.
+          A router used only as a WG client does not install the CA for you. After regenerating, remove the old CA and install the new one.
           Apps with cert pinning will fail unless their domains are on the{' '}
           <Link to="/ignore">Ignore</Link> list (no MITM decrypt + no last-mile delay).
         </p>

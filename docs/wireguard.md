@@ -7,7 +7,7 @@ PotatoInspector terminates WireGuard in the container. Clients (router or device
 Best lab setup:
 
 1. Create a dedicated SSID/VLAN for testing (e.g. **Potato**).
-2. On the gateway (UniFi and similar), add a **WireGuard client** (or site VPN) using the peer config from the panel.
+2. On the router/gateway, add a **WireGuard client** (or site VPN) using the peer config from the panel.
 3. Set `AllowedIPs = 0.0.0.0/0` (and `::/0` if present) so that SSID’s traffic is full-tunnelled.
 4. Point the SSID/VLAN at that WG client.
 

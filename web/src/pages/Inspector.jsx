@@ -13,6 +13,12 @@ import {
   TOO_CLOSE_TOOLTIP,
 } from '../countries'
 import { notifyError, notifySuccess } from '../toast'
+import {
+  apiTypeForChip,
+  eventMatchesChip,
+  INSPECTOR_CHIPS,
+  isProtocolChip,
+} from '../resourceType'
 
 function statusClass(code) {
   if (!code) return 'st-zero'
@@ -246,7 +252,7 @@ function DetailPane({ selected, tab, setTab }) {
 
 export default function Inspector() {
   const [events, setEvents] = useState([])
-  const [filter, setFilter] = useState('')
+  const [typeChip, setTypeChip] = useState('all')
   const [search, setSearch] = useState('')
   const [searchRegex, setSearchRegex] = useState(false)
   const [regexOpen, setRegexOpen] = useState(false)
@@ -268,6 +274,8 @@ export default function Inspector() {
   const [favorites, setFavorites] = useState([])
   const esRef = useRef(null)
   const listRef = useRef(null)
+  const typeChipRef = useRef(typeChip)
+  typeChipRef.current = typeChip
 
   async function refreshMeta() {
     const [st, cat] = await Promise.all([
@@ -301,7 +309,8 @@ export default function Inspector() {
   }
 
   async function load() {
-    const q = filter ? `?type=${filter}` : ''
+    const apiType = apiTypeForChip(typeChip)
+    const q = apiType ? `?type=${apiType}` : ''
     setEvents(await api(`/api/inspector${q}`))
   }
 
@@ -312,7 +321,7 @@ export default function Inspector() {
       refreshMeta().catch(() => {})
     }, 5000)
     return () => clearInterval(t)
-  }, [filter])
+  }, [typeChip])
 
   useEffect(() => {
     if (paused) {
@@ -324,12 +333,15 @@ export default function Inspector() {
     es.onmessage = (msg) => {
       try {
         const ev = JSON.parse(msg.data)
-        if (filter && ev.type !== filter) return
+        const chip = typeChipRef.current
+        // Protocol chips: gate at SSE to match API ?type= buffer.
+        // Resource / All: keep all events; rows filter client-side.
+        if (isProtocolChip(chip) && ev.type !== chip) return
         setEvents((prev) => [ev, ...prev].slice(0, 500))
       } catch {}
     }
     return () => es.close()
-  }, [paused, filter])
+  }, [paused, typeChip])
 
   useEffect(() => {
     if (!selected) return
@@ -427,14 +439,15 @@ export default function Inspector() {
 
   const searchCompiled = useMemo(() => compileSearch(search, searchRegex), [search, searchRegex])
   const rows = useMemo(
-    () => events.filter((ev) => searchCompiled.test(ev)),
-    [events, searchCompiled],
+    () => events.filter((ev) => eventMatchesChip(ev, typeChip) && searchCompiled.test(ev)),
+    [events, typeChip, searchCompiled],
   )
   const httpCount = useMemo(() => rows.filter((e) => e.type === 'http').length, [rows])
   const countries = useMemo(
     () => sortCountries(catalog?.countries, favorites, hostCfRtt),
     [catalog, favorites, hostCfRtt],
   )
+  const typeChipLabel = INSPECTOR_CHIPS.find((c) => c.id === typeChip)?.label || typeChip
 
   useEffect(() => {
     if (selected && !rows.some((e) => e.id === selected.id)) {
@@ -450,12 +463,6 @@ export default function Inspector() {
         <a href="/api/inspector/har" download="potatoinspector.har">
           <button type="button">Export HAR</button>
         </a>
-        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-          <option value="">All types</option>
-          <option value="http">HTTP</option>
-          <option value="tls">TLS</option>
-          <option value="dns">DNS</option>
-        </select>
         <div className={`insp-search ${searchCompiled.ok ? '' : 'is-invalid'} ${searchRegex ? 'is-regex' : ''}`}>
           <input
             type="search"
@@ -498,6 +505,19 @@ export default function Inspector() {
               ×
             </button>
           ) : null}
+        </div>
+        <div className="insp-chips" role="toolbar" aria-label="Event type filter">
+          {INSPECTOR_CHIPS.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              className={`insp-chip ${typeChip === c.id ? 'on' : ''}`}
+              aria-pressed={typeChip === c.id}
+              onClick={() => setTypeChip(c.id)}
+            >
+              {c.label}
+            </button>
+          ))}
         </div>
         {!searchCompiled.ok && (
           <span className="insp-search-err" title={searchCompiled.error}>
@@ -579,7 +599,8 @@ export default function Inspector() {
           {search.trim()
             ? `${rows.length} shown · ${events.length} total`
             : `${rows.length} events`}
-          {filter ? ` · ${httpCount} http` : httpCount !== rows.length ? ` · ${httpCount} http` : ''}
+          {typeChip !== 'all' ? ` · ${typeChipLabel}` : ''}
+          {httpCount !== rows.length ? ` · ${httpCount} http` : ''}
           {searchRegex && search.trim() ? ' · regex' : ''}
         </span>
         <span className="insp-status-sep" />

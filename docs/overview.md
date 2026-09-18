@@ -1,6 +1,6 @@
 # Overview
 
-PotatoInspector is a single Docker container that makes phones, laptops, and a UniFi (or similar) gateway — connected as a WireGuard client — experience a chosen wide-area mobile network. One web panel controls shaping, MITM path delay, DNS, and an in-memory Inspector.
+PotatoInspector is a single Docker container that makes phones, laptops, and a home/office gateway — connected as a WireGuard client — experience a chosen wide-area mobile network. One web panel controls shaping, MITM path delay, DNS, and an in-memory Inspector.
 
 ## What you can test
 

@@ -34,15 +34,15 @@ type Manager struct {
 }
 
 type PeerStatus struct {
-	ID            string    `json:"id"`
-	Name          string    `json:"name"`
-	PublicKey     string    `json:"publicKey"`
-	AllowedIP     string    `json:"allowedIP"`
-	CreatedAt     string    `json:"createdAt"`
-	LastHandshake time.Time `json:"lastHandshake,omitempty"`
-	RxBytes       int64     `json:"rxBytes"`
-	TxBytes       int64     `json:"txBytes"`
-	Endpoint      string    `json:"endpoint,omitempty"`
+	ID            string     `json:"id"`
+	Name          string     `json:"name"`
+	PublicKey     string     `json:"publicKey"`
+	AllowedIP     string     `json:"allowedIP"`
+	CreatedAt     string     `json:"createdAt"`
+	LastHandshake *time.Time `json:"lastHandshake,omitempty"`
+	RxBytes       int64      `json:"rxBytes"`
+	TxBytes       int64      `json:"txBytes"`
+	Endpoint      string     `json:"endpoint,omitempty"`
 }
 
 func NewManager(iface, subnetCIDR string, listenPort int, uplink string, st *store.Store) (*Manager, error) {
@@ -360,7 +360,10 @@ func (m *Manager) ListPeerStatus() ([]PeerStatus, error) {
 			CreatedAt: p.CreatedAt,
 		}
 		if rt, ok := handshakeByPub[p.PublicKey]; ok {
-			st.LastHandshake = rt.handshake
+			if !rt.handshake.IsZero() {
+				hs := rt.handshake
+				st.LastHandshake = &hs
+			}
 			st.RxBytes = rt.rx
 			st.TxBytes = rt.tx
 			st.Endpoint = rt.endpoint

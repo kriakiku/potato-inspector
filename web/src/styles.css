@@ -316,6 +316,21 @@ h1 {
   padding: 1.25rem 1.35rem;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
 }
+.wg-qr-modal {
+  width: min(360px, 100%);
+  text-align: center;
+}
+.wg-qr-img {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0.75rem;
+  box-sizing: border-box;
+}
 .regex-editor {
   position: relative;
   margin-top: 6px;
@@ -467,6 +482,35 @@ h1 {
   color: #c45c5c;
   font-size: 0.78rem;
   font-family: var(--mono);
+}
+.insp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  align-items: center;
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+.insp-chip {
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--bg2, var(--bg));
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-family: var(--mono);
+  padding: 0.22rem 0.45rem;
+  line-height: 1.2;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.insp-chip:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent, #c4e86a) 35%, var(--line));
+}
+.insp-chip.on {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent, #c4e86a) 55%, var(--line));
+  background: color-mix(in srgb, var(--accent, #c4e86a) 16%, var(--bg1));
 }
 .insp-statusbar {
   display: flex;

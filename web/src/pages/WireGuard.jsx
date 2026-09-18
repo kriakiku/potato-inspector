@@ -2,12 +2,21 @@ import { useEffect, useState } from 'react'
 import { api } from '../api'
 import { notifyError, notifySuccess } from '../toast'
 
+function formatHandshake(ts) {
+  if (!ts) return '—'
+  const d = new Date(ts)
+  // Go zero time serializes as 0001-01-01; treat as never.
+  if (Number.isNaN(d.getTime()) || d.getUTCFullYear() < 2000) return '—'
+  return d.toLocaleString()
+}
+
 export default function WireGuard() {
   const [peers, setPeers] = useState([])
   const [name, setName] = useState('')
   const [selected, setSelected] = useState(null)
   const [conf, setConf] = useState('')
   const [s, setS] = useState(null)
+  const [qrPeer, setQrPeer] = useState(null) // { id, name }
 
   async function loadPeers() {
     setPeers(await api('/api/peers'))
@@ -21,6 +30,15 @@ export default function WireGuard() {
     loadPeers().catch((e) => notifyError(e.message))
     loadSettings().catch((e) => notifyError(e.message))
   }, [])
+
+  useEffect(() => {
+    if (!qrPeer) return
+    function onKey(e) {
+      if (e.key === 'Escape') setQrPeer(null)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [qrPeer])
 
   async function add() {
     try {
@@ -39,6 +57,7 @@ export default function WireGuard() {
       await api(`/api/peers/${id}`, { method: 'DELETE' })
       setSelected(null)
       setConf('')
+      if (qrPeer?.id === id) setQrPeer(null)
       notifySuccess('Peer revoked')
       await loadPeers()
     } catch (e) {
@@ -97,13 +116,11 @@ export default function WireGuard() {
               <tr key={p.id}>
                 <td>{p.name}</td>
                 <td className="mono">{p.allowedIP}</td>
-                <td className="mono">{p.lastHandshake ? new Date(p.lastHandshake).toLocaleString() : '—'}</td>
+                <td className="mono">{formatHandshake(p.lastHandshake)}</td>
                 <td className="row">
-                  <button onClick={() => showConf(p.id)}>Conf</button>
-                  <a href={`/api/peers/${p.id}/qr`} target="_blank" rel="noreferrer">
-                    <button type="button">QR</button>
-                  </a>
-                  <button className="danger" onClick={() => revoke(p.id)}>Revoke</button>
+                  <button type="button" onClick={() => showConf(p.id)}>Conf</button>
+                  <button type="button" onClick={() => setQrPeer({ id: p.id, name: p.name })}>QR</button>
+                  <button type="button" className="danger" onClick={() => revoke(p.id)}>Revoke</button>
                 </td>
               </tr>
             ))}
@@ -136,6 +153,33 @@ export default function WireGuard() {
           </>
         )}
       </div>
+
+      {qrPeer && (
+        <div className="modal-backdrop" onClick={() => setQrPeer(null)} role="presentation">
+          <div
+            className="modal wg-qr-modal"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`WireGuard QR for ${qrPeer.name || qrPeer.id}`}
+          >
+            <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <h2 style={{ margin: 0, fontSize: '1.1rem' }}>
+                QR · {qrPeer.name || qrPeer.id}
+              </h2>
+              <button type="button" onClick={() => setQrPeer(null)}>Close</button>
+            </div>
+            <p className="muted" style={{ marginTop: 0 }}>
+              Scan with the WireGuard app on the phone.
+            </p>
+            <img
+              className="wg-qr-img"
+              src={`/api/peers/${qrPeer.id}/qr`}
+              alt={`WireGuard QR code for ${qrPeer.name || qrPeer.id}`}
+            />
+          </div>
+        </div>
+      )}
     </>
   )
 }

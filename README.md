@@ -1,6 +1,6 @@
 # 🥔 PotatoInspector
 
-Single Docker container that makes phones, laptops, and a UniFi gateway (as a WireGuard client) experience a chosen wide-area mobile network — with one web control panel.
+Single Docker container that makes phones, laptops, and a router (as a WireGuard client) experience a chosen wide-area mobile network — with one web control panel.
 
 Last-mile delay/loss/rate uses Linux `tc` netem on the WireGuard TUN. MITM (custom CA) adds per-request path delay and feeds an Inspector for HTTP, TLS, and DNS.
 
@@ -43,7 +43,7 @@ Needs: `NET_ADMIN`, `/dev/net/tun`, UDP `51820`, TCP `8443`, a `/data` volume, a
 
 ## Lab (short)
 
-Phone → Potato SSID → UniFi as WG client → PotatoInspector TUN (`tc` + MITM) → NAT → Internet.  
+Phone → Potato SSID → router as WG client → PotatoInspector TUN (`tc` + MITM) → NAT → Internet.  
 WG UDP handshake stays unshaped. Set **Public WG endpoint**, create a peer, apply `.conf` / QR. Details: [WireGuard docs](docs/wireguard.md).
 
 On-tunnel: **http://potato.local** (CA install → Share after trust).

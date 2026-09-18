@@ -4,12 +4,20 @@ export const TIER_EMOJI = {
   poor: '🥔',
 }
 
+/** Neutral pin instead of national flags for selected codes. */
+const FLAG_OVERRIDE = {
+  AP: '◉',
+  RU: '◉',
+  BY: '◉',
+}
+
 /** ISO 3166-1 alpha-2 → regional-indicator flag emoji (no extra dependency). */
 export function countryFlagEmoji(code) {
   const cc = String(code || '')
     .trim()
     .toUpperCase()
   if (!/^[A-Z]{2}$/.test(cc)) return ''
+  if (FLAG_OVERRIDE[cc]) return FLAG_OVERRIDE[cc]
   const A = 0x1f1e6
   return String.fromCodePoint(
     A + cc.charCodeAt(0) - 65,
@@ -17,8 +25,12 @@ export function countryFlagEmoji(code) {
   )
 }
 
-/** Prefer catalog flag; otherwise derive from country id. */
+/** Prefer catalog flag; otherwise derive from country id. Overrides for AP/RU/BY. */
 export function countryFlag(country) {
+  const id = String(country?.id || '')
+    .trim()
+    .toUpperCase()
+  if (FLAG_OVERRIDE[id]) return FLAG_OVERRIDE[id]
   if (country?.flag) return country.flag
   return countryFlagEmoji(country?.id)
 }
