@@ -1,5 +1,31 @@
+# VCS / CI / local tooling (not needed for the binary build)
 .git
-data
-web/node_modules
-*.md
+.github
+.gitignore
+.dockerignore
+mise.toml
+*.code-workspace
+.env
 .DS_Store
+
+# Docs & generators (catalog is go:embed'd from internal/)
+docs
+site
+scripts
+mkdocs.yml
+catalog.json
+compose.yaml
+README.md
+LICENSE
+*.md
+
+# Local runtime leftovers
+data
+__pycache__
+.venv
+venv
+*.tmp
+*.exe
+*.test
+/potatonetwork
+/dist

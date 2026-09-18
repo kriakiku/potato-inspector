@@ -34,7 +34,6 @@ type Tier struct {
 type Country struct {
 	ID         string          `json:"id"`
 	Name       string          `json:"name"`
-	Flag       string          `json:"flag"`
 	NearestAws string          `json:"nearestAws,omitempty"`
 	RttSource  string          `json:"rttSource,omitempty"`
 	Tiers      map[string]Tier `json:"tiers"`
@@ -167,7 +166,7 @@ func (m *Manager) ProfileFor(countryID, tier string, hostRtt map[string]int) (pr
 	delay := effectiveRtt / 2
 	return profiles.Profile{
 		ID:           fmt.Sprintf("catalog:%s:%s", countryID, tier),
-		Name:         fmt.Sprintf("%s %s (%s)", c.Flag, c.Name, tier),
+		Name:         fmt.Sprintf("%s (%s)", c.Name, tier),
 		Description:  fmt.Sprintf("Last-mile %s/%s; base delay vs CF (target RTT %dms, host CF %dms)", countryID, tier, targetRtt, hostCf),
 		Country:      countryID,
 		Tier:         tier,

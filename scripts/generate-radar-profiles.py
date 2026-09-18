@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build profiles/radar/catalog.json from Cloudflare Radar + CloudPing AWS matrix.
+"""Build catalog.json from Cloudflare Radar + CloudPing AWS matrix.
 
 No Globalping. Path RTT to AWS:
   rtt_dest = rtt_cf + cloudping(nearest_aws(country), dest_region)
@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "profiles" / "radar" / "catalog.json"
+OUT = ROOT / "catalog.json"
 EMBED = ROOT / "internal" / "catalog" / "data" / "catalog.json"
 
 # Destinations exposed in the product (cf + selected AWS regions).
@@ -77,116 +77,109 @@ AWS_DESTS = {
     },
 }
 
-def flag_emoji(code: str) -> str:
-    """ISO 3166-1 alpha-2 → regional-indicator flag emoji."""
-    cc = (code or "").strip().upper()
-    if len(cc) != 2 or not cc.isalpha():
-        return ""
-    return "".join(chr(0x1F1E6 + ord(c) - ord("A")) for c in cc)
-
 
 # Capitals / approximate centroids for nearest-AWS mapping + seed.
-COUNTRY_META: dict[str, tuple[str, str, float, float]] = {
-    # code: name, flag, lat, lon
-    "AF": ("Afghanistan", "🇦🇫", 34.5, 69.2),
-    "AL": ("Albania", "🇦🇱", 41.3, 19.8),
-    "DZ": ("Algeria", "🇩🇿", 36.7, 3.1),
-    "AR": ("Argentina", "🇦🇷", -34.6, -58.4),
-    "AM": ("Armenia", "🇦🇲", 40.2, 44.5),
-    "AU": ("Australia", "🇦🇺", -35.3, 149.1),
-    "AT": ("Austria", "🇦🇹", 48.2, 16.4),
-    "AZ": ("Azerbaijan", "🇦🇿", 40.4, 49.9),
-    "BH": ("Bahrain", "🇧🇭", 26.2, 50.6),
-    "BD": ("Bangladesh", "🇧🇩", 23.8, 90.4),
-    "BY": ("Belarus", "🇧🇾", 53.9, 27.6),
-    "BE": ("Belgium", "🇧🇪", 50.8, 4.4),
-    "BO": ("Bolivia", "🇧🇴", -16.5, -68.1),
-    "BA": ("Bosnia and Herzegovina", "🇧🇦", 43.9, 18.4),
-    "BR": ("Brazil", "🇧🇷", -15.8, -47.9),
-    "BG": ("Bulgaria", "🇧🇬", 42.7, 23.3),
-    "KH": ("Cambodia", "🇰🇭", 11.6, 104.9),
-    "CM": ("Cameroon", "🇨🇲", 3.9, 11.5),
-    "CA": ("Canada", "🇨🇦", 45.4, -75.7),
-    "CL": ("Chile", "🇨🇱", -33.4, -70.7),
-    "CN": ("China", "🇨🇳", 39.9, 116.4),
-    "CO": ("Colombia", "🇨🇴", 4.7, -74.1),
-    "CR": ("Costa Rica", "🇨🇷", 9.9, -84.1),
-    "HR": ("Croatia", "🇭🇷", 45.8, 16.0),
-    "CZ": ("Czechia", "🇨🇿", 50.1, 14.4),
-    "DK": ("Denmark", "🇩🇰", 55.7, 12.6),
-    "DO": ("Dominican Republic", "🇩🇴", 18.5, -69.9),
-    "EC": ("Ecuador", "🇪🇨", -0.2, -78.5),
-    "EG": ("Egypt", "🇪🇬", 30.0, 31.2),
-    "EE": ("Estonia", "🇪🇪", 59.4, 24.8),
-    "ET": ("Ethiopia", "🇪🇹", 9.0, 38.7),
-    "FI": ("Finland", "🇫🇮", 60.2, 24.9),
-    "FR": ("France", "🇫🇷", 48.9, 2.3),
-    "GE": ("Georgia", "🇬🇪", 41.7, 44.8),
-    "DE": ("Germany", "🇩🇪", 52.5, 13.4),
-    "GH": ("Ghana", "🇬🇭", 5.6, -0.2),
-    "GR": ("Greece", "🇬🇷", 37.98, 23.7),
-    "GT": ("Guatemala", "🇬🇹", 14.6, -90.5),
-    "HK": ("Hong Kong", "🇭🇰", 22.3, 114.2),
-    "HU": ("Hungary", "🇭🇺", 47.5, 19.0),
-    "IS": ("Iceland", "🇮🇸", 64.1, -21.9),
-    "IN": ("India", "🇮🇳", 28.6, 77.2),
-    "ID": ("Indonesia", "🇮🇩", -6.2, 106.8),
-    "IQ": ("Iraq", "🇮🇶", 33.3, 44.4),
-    "IE": ("Ireland", "🇮🇪", 53.3, -6.3),
-    "IL": ("Israel", "🇮🇱", 31.8, 35.2),
-    "IT": ("Italy", "🇮🇹", 41.9, 12.5),
-    "JM": ("Jamaica", "🇯🇲", 18.0, -76.8),
-    "JP": ("Japan", "🇯🇵", 35.7, 139.7),
-    "JO": ("Jordan", "🇯🇴", 31.9, 35.9),
-    "KZ": ("Kazakhstan", "🇰🇿", 51.2, 71.4),
-    "KE": ("Kenya", "🇰🇪", -1.3, 36.8),
-    "KW": ("Kuwait", "🇰🇼", 29.4, 47.98),
-    "LV": ("Latvia", "🇱🇻", 56.9, 24.1),
-    "LB": ("Lebanon", "🇱🇧", 33.9, 35.5),
-    "LT": ("Lithuania", "🇱🇹", 54.7, 25.3),
-    "LU": ("Luxembourg", "🇱🇺", 49.6, 6.1),
-    "MY": ("Malaysia", "🇲🇾", 3.1, 101.7),
-    "MX": ("Mexico", "🇲🇽", 19.4, -99.1),
-    "MD": ("Moldova", "🇲🇩", 47.0, 28.9),
-    "MA": ("Morocco", "🇲🇦", 34.0, -6.8),
-    "MM": ("Myanmar", "🇲🇲", 16.8, 96.2),
-    "NP": ("Nepal", "🇳🇵", 27.7, 85.3),
-    "NL": ("Netherlands", "🇳🇱", 52.4, 4.9),
-    "NZ": ("New Zealand", "🇳🇿", -41.3, 174.8),
-    "NG": ("Nigeria", "🇳🇬", 9.1, 7.5),
-    "NO": ("Norway", "🇳🇴", 59.9, 10.7),
-    "OM": ("Oman", "🇴🇲", 23.6, 58.5),
-    "PK": ("Pakistan", "🇵🇰", 33.7, 73.1),
-    "PA": ("Panama", "🇵🇦", 9.0, -79.5),
-    "PE": ("Peru", "🇵🇪", -12.0, -77.0),
-    "PH": ("Philippines", "🇵🇭", 14.6, 121.0),
-    "PL": ("Poland", "🇵🇱", 52.2, 21.0),
-    "PT": ("Portugal", "🇵🇹", 38.7, -9.1),
-    "QA": ("Qatar", "🇶🇦", 25.3, 51.5),
-    "RO": ("Romania", "🇷🇴", 44.4, 26.1),
-    "RU": ("Russia", "🇷🇺", 55.8, 37.6),
-    "SA": ("Saudi Arabia", "🇸🇦", 24.7, 46.7),
-    "RS": ("Serbia", "🇷🇸", 44.8, 20.5),
-    "SG": ("Singapore", "🇸🇬", 1.35, 103.8),
-    "SK": ("Slovakia", "🇸🇰", 48.1, 17.1),
-    "SI": ("Slovenia", "🇸🇮", 46.1, 14.5),
-    "ZA": ("South Africa", "🇿🇦", -25.7, 28.2),
-    "KR": ("South Korea", "🇰🇷", 37.6, 127.0),
-    "ES": ("Spain", "🇪🇸", 40.4, -3.7),
-    "LK": ("Sri Lanka", "🇱🇰", 6.9, 79.9),
-    "SE": ("Sweden", "🇸🇪", 59.3, 18.1),
-    "CH": ("Switzerland", "🇨🇭", 46.9, 7.4),
-    "TW": ("Taiwan", "🇹🇼", 25.0, 121.5),
-    "TH": ("Thailand", "🇹🇭", 13.8, 100.5),
-    "TR": ("Turkey", "🇹🇷", 39.9, 32.9),
-    "UA": ("Ukraine", "🇺🇦", 50.5, 30.5),
-    "AE": ("United Arab Emirates", "🇦🇪", 24.5, 54.4),
-    "GB": ("United Kingdom", "🇬🇧", 51.5, -0.1),
-    "US": ("United States", "🇺🇸", 38.9, -77.0),
-    "UY": ("Uruguay", "🇺🇾", -34.9, -56.2),
-    "UZ": ("Uzbekistan", "🇺🇿", 41.3, 69.2),
-    "VE": ("Venezuela", "🇻🇪", 10.5, -66.9),
-    "VN": ("Vietnam", "🇻🇳", 21.0, 105.8),
+COUNTRY_META: dict[str, tuple[str, float, float]] = {
+    # code: name, lat, lon
+    "AF": ("Afghanistan", 34.5, 69.2),
+    "AL": ("Albania", 41.3, 19.8),
+    "DZ": ("Algeria", 36.7, 3.1),
+    "AR": ("Argentina", -34.6, -58.4),
+    "AM": ("Armenia", 40.2, 44.5),
+    "AU": ("Australia", -35.3, 149.1),
+    "AT": ("Austria", 48.2, 16.4),
+    "AZ": ("Azerbaijan", 40.4, 49.9),
+    "BH": ("Bahrain", 26.2, 50.6),
+    "BD": ("Bangladesh", 23.8, 90.4),
+    "BY": ("Belarus", 53.9, 27.6),
+    "BE": ("Belgium", 50.8, 4.4),
+    "BO": ("Bolivia", -16.5, -68.1),
+    "BA": ("Bosnia and Herzegovina", 43.9, 18.4),
+    "BR": ("Brazil", -15.8, -47.9),
+    "BG": ("Bulgaria", 42.7, 23.3),
+    "KH": ("Cambodia", 11.6, 104.9),
+    "CM": ("Cameroon", 3.9, 11.5),
+    "CA": ("Canada", 45.4, -75.7),
+    "CL": ("Chile", -33.4, -70.7),
+    "CN": ("China", 39.9, 116.4),
+    "CO": ("Colombia", 4.7, -74.1),
+    "CR": ("Costa Rica", 9.9, -84.1),
+    "HR": ("Croatia", 45.8, 16.0),
+    "CZ": ("Czechia", 50.1, 14.4),
+    "DK": ("Denmark", 55.7, 12.6),
+    "DO": ("Dominican Republic", 18.5, -69.9),
+    "EC": ("Ecuador", -0.2, -78.5),
+    "EG": ("Egypt", 30.0, 31.2),
+    "EE": ("Estonia", 59.4, 24.8),
+    "ET": ("Ethiopia", 9.0, 38.7),
+    "FI": ("Finland", 60.2, 24.9),
+    "FR": ("France", 48.9, 2.3),
+    "GE": ("Georgia", 41.7, 44.8),
+    "DE": ("Germany", 52.5, 13.4),
+    "GH": ("Ghana", 5.6, -0.2),
+    "GR": ("Greece", 37.98, 23.7),
+    "GT": ("Guatemala", 14.6, -90.5),
+    "HK": ("Hong Kong", 22.3, 114.2),
+    "HU": ("Hungary", 47.5, 19.0),
+    "IS": ("Iceland", 64.1, -21.9),
+    "IN": ("India", 28.6, 77.2),
+    "ID": ("Indonesia", -6.2, 106.8),
+    "IQ": ("Iraq", 33.3, 44.4),
+    "IE": ("Ireland", 53.3, -6.3),
+    "IL": ("Israel", 31.8, 35.2),
+    "IT": ("Italy", 41.9, 12.5),
+    "JM": ("Jamaica", 18.0, -76.8),
+    "JP": ("Japan", 35.7, 139.7),
+    "JO": ("Jordan", 31.9, 35.9),
+    "KZ": ("Kazakhstan", 51.2, 71.4),
+    "KE": ("Kenya", -1.3, 36.8),
+    "KW": ("Kuwait", 29.4, 47.98),
+    "LV": ("Latvia", 56.9, 24.1),
+    "LB": ("Lebanon", 33.9, 35.5),
+    "LT": ("Lithuania", 54.7, 25.3),
+    "LU": ("Luxembourg", 49.6, 6.1),
+    "MY": ("Malaysia", 3.1, 101.7),
+    "MX": ("Mexico", 19.4, -99.1),
+    "MD": ("Moldova", 47.0, 28.9),
+    "MA": ("Morocco", 34.0, -6.8),
+    "MM": ("Myanmar", 16.8, 96.2),
+    "NP": ("Nepal", 27.7, 85.3),
+    "NL": ("Netherlands", 52.4, 4.9),
+    "NZ": ("New Zealand", -41.3, 174.8),
+    "NG": ("Nigeria", 9.1, 7.5),
+    "NO": ("Norway", 59.9, 10.7),
+    "OM": ("Oman", 23.6, 58.5),
+    "PK": ("Pakistan", 33.7, 73.1),
+    "PA": ("Panama", 9.0, -79.5),
+    "PE": ("Peru", -12.0, -77.0),
+    "PH": ("Philippines", 14.6, 121.0),
+    "PL": ("Poland", 52.2, 21.0),
+    "PT": ("Portugal", 38.7, -9.1),
+    "QA": ("Qatar", 25.3, 51.5),
+    "RO": ("Romania", 44.4, 26.1),
+    "RU": ("Russia", 55.8, 37.6),
+    "SA": ("Saudi Arabia", 24.7, 46.7),
+    "RS": ("Serbia", 44.8, 20.5),
+    "SG": ("Singapore", 1.35, 103.8),
+    "SK": ("Slovakia", 48.1, 17.1),
+    "SI": ("Slovenia", 46.1, 14.5),
+    "ZA": ("South Africa", -25.7, 28.2),
+    "KR": ("South Korea", 37.6, 127.0),
+    "ES": ("Spain", 40.4, -3.7),
+    "LK": ("Sri Lanka", 6.9, 79.9),
+    "SE": ("Sweden", 59.3, 18.1),
+    "CH": ("Switzerland", 46.9, 7.4),
+    "TW": ("Taiwan", 25.0, 121.5),
+    "TH": ("Thailand", 13.8, 100.5),
+    "TR": ("Turkey", 39.9, 32.9),
+    "UA": ("Ukraine", 50.5, 30.5),
+    "AE": ("United Arab Emirates", 24.5, 54.4),
+    "GB": ("United Kingdom", 51.5, -0.1),
+    "US": ("United States", 38.9, -77.0),
+    "UY": ("Uruguay", -34.9, -56.2),
+    "UZ": ("Uzbekistan", 41.3, 69.2),
+    "VE": ("Venezuela", 10.5, -66.9),
+    "VN": ("Vietnam", 21.0, 105.8),
 }
 
 # Seed last-mile when Radar token missing (down, up, loss, rtt_cf).
@@ -354,8 +347,8 @@ def build_destinations() -> dict:
     return dests
 
 
-def country_list(token: str | None) -> list[tuple[str, str, str, float, float]]:
-    """Return list of (code, name, flag, lat, lon)."""
+def country_list(token: str | None) -> list[tuple[str, str, float, float]]:
+    """Return list of (code, name, lat, lon)."""
     out = []
     if token:
         try:
@@ -368,19 +361,16 @@ def country_list(token: str | None) -> list[tuple[str, str, str, float, float]]:
                 if len(code) != 2:
                     continue
                 name = loc.get("name") or code
-                flag, lat, lon = "", 0.0, 0.0
+                lat, lon = 0.0, 0.0
                 if code in COUNTRY_META:
-                    _, flag, lat, lon = COUNTRY_META[code]
+                    _, lat, lon = COUNTRY_META[code]
                 else:
-                    flag = flag_emoji(code)
                     try:
                         lat = float(loc.get("latitude") or 0)
                         lon = float(loc.get("longitude") or 0)
                     except (TypeError, ValueError):
                         lat, lon = 0.0, 0.0
-                if not flag:
-                    flag = flag_emoji(code)
-                out.append((code, name, flag, lat, lon))
+                out.append((code, name, lat, lon))
             if out:
                 print(f"radar locations usable: {len(out)}", file=sys.stderr)
                 sys.stderr.flush()
@@ -391,8 +381,8 @@ def country_list(token: str | None) -> list[tuple[str, str, str, float, float]]:
     # fallback: COUNTRY_META keys that we care about (seed + extras)
     print(f"using COUNTRY_META seed list ({len(COUNTRY_META)} countries)", file=sys.stderr)
     sys.stderr.flush()
-    for code, (name, flag, lat, lon) in sorted(COUNTRY_META.items()):
-        out.append((code, name, flag, lat, lon))
+    for code, (name, lat, lon) in sorted(COUNTRY_META.items()):
+        out.append((code, name, lat, lon))
     return out
 
 
@@ -430,9 +420,9 @@ def main() -> int:
     radar_fail = 0
     seed_ok = 0
     total = len(countries)
-    for i, (code, name, flag, lat, lon) in enumerate(countries, start=1):
+    for i, (code, name, lat, lon) in enumerate(countries, start=1):
         if lat == 0 and lon == 0 and code in COUNTRY_META:
-            _, flag, lat, lon = COUNTRY_META[code]
+            _, lat, lon = COUNTRY_META[code]
 
         down, up, loss, rtt_cf = SEED_LASTMILE.get(code, (40, 15, 0.4, 40))
         rtt_source = "seed"
@@ -469,7 +459,6 @@ def main() -> int:
             {
                 "id": code,
                 "name": name,
-                "flag": flag,
                 "nearestAws": nearest_id,
                 "rttSource": rtt_source,
                 "tiers": build_tiers(down, up, loss, rtt),

@@ -54,7 +54,6 @@
     {
       "id": "AD",
       "name": "Andorra",
-      "flag": "🇦🇩",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -108,7 +107,6 @@
     {
       "id": "AE",
       "name": "United Arab Emirates",
-      "flag": "🇦🇪",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -162,7 +160,6 @@
     {
       "id": "AF",
       "name": "Afghanistan",
-      "flag": "🇦🇫",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -216,7 +213,6 @@
     {
       "id": "AG",
       "name": "Antigua and Barbuda",
-      "flag": "🇦🇬",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -270,7 +266,6 @@
     {
       "id": "AI",
       "name": "Anguilla",
-      "flag": "🇦🇮",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -324,7 +319,6 @@
     {
       "id": "AL",
       "name": "Albania",
-      "flag": "🇦🇱",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -378,7 +372,6 @@
     {
       "id": "AM",
       "name": "Armenia",
-      "flag": "🇦🇲",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -432,7 +425,6 @@
     {
       "id": "AN",
       "name": "Netherlands Antilles",
-      "flag": "🇦🇳",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -486,7 +478,6 @@
     {
       "id": "AO",
       "name": "Angola",
-      "flag": "🇦🇴",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -540,7 +531,6 @@
     {
       "id": "AP",
       "name": "Asia/Pacific Region",
-      "flag": "🇦🇵",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -594,7 +584,6 @@
     {
       "id": "AQ",
       "name": "Antarctica",
-      "flag": "🇦🇶",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -648,7 +637,6 @@
     {
       "id": "AR",
       "name": "Argentina",
-      "flag": "🇦🇷",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -702,7 +690,6 @@
     {
       "id": "AS",
       "name": "American Samoa",
-      "flag": "🇦🇸",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -756,7 +743,6 @@
     {
       "id": "AT",
       "name": "Austria",
-      "flag": "🇦🇹",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -810,7 +796,6 @@
     {
       "id": "AU",
       "name": "Australia",
-      "flag": "🇦🇺",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -864,7 +849,6 @@
     {
       "id": "AW",
       "name": "Aruba",
-      "flag": "🇦🇼",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -918,7 +902,6 @@
     {
       "id": "AX",
       "name": "Aland Islands",
-      "flag": "🇦🇽",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -972,7 +955,6 @@
     {
       "id": "AZ",
       "name": "Azerbaijan",
-      "flag": "🇦🇿",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -1026,7 +1008,6 @@
     {
       "id": "BA",
       "name": "Bosnia and Herzegovina",
-      "flag": "🇧🇦",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -1080,7 +1061,6 @@
     {
       "id": "BB",
       "name": "Barbados",
-      "flag": "🇧🇧",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -1134,7 +1114,6 @@
     {
       "id": "BD",
       "name": "Bangladesh",
-      "flag": "🇧🇩",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -1188,7 +1167,6 @@
     {
       "id": "BE",
       "name": "Belgium",
-      "flag": "🇧🇪",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -1242,7 +1220,6 @@
     {
       "id": "BF",
       "name": "Burkina Faso",
-      "flag": "🇧🇫",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -1296,7 +1273,6 @@
     {
       "id": "BG",
       "name": "Bulgaria",
-      "flag": "🇧🇬",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -1350,7 +1326,6 @@
     {
       "id": "BH",
       "name": "Bahrain",
-      "flag": "🇧🇭",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -1404,7 +1379,6 @@
     {
       "id": "BI",
       "name": "Burundi",
-      "flag": "🇧🇮",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -1458,7 +1432,6 @@
     {
       "id": "BJ",
       "name": "Benin",
-      "flag": "🇧🇯",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -1512,7 +1485,6 @@
     {
       "id": "BL",
       "name": "Saint Barthelemy",
-      "flag": "🇧🇱",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -1566,7 +1538,6 @@
     {
       "id": "BM",
       "name": "Bermuda",
-      "flag": "🇧🇲",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -1620,7 +1591,6 @@
     {
       "id": "BN",
       "name": "Brunei Darussalam",
-      "flag": "🇧🇳",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -1674,7 +1644,6 @@
     {
       "id": "BO",
       "name": "Bolivia",
-      "flag": "🇧🇴",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -1728,7 +1697,6 @@
     {
       "id": "BQ",
       "name": "Bonaire",
-      "flag": "🇧🇶",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -1782,7 +1750,6 @@
     {
       "id": "BR",
       "name": "Brazil",
-      "flag": "🇧🇷",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -1836,7 +1803,6 @@
     {
       "id": "BS",
       "name": "Bahamas",
-      "flag": "🇧🇸",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -1890,7 +1856,6 @@
     {
       "id": "BT",
       "name": "Bhutan",
-      "flag": "🇧🇹",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -1944,7 +1909,6 @@
     {
       "id": "BV",
       "name": "Bouvet Island",
-      "flag": "🇧🇻",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -1998,7 +1962,6 @@
     {
       "id": "BW",
       "name": "Botswana",
-      "flag": "🇧🇼",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -2052,7 +2015,6 @@
     {
       "id": "BY",
       "name": "Belarus",
-      "flag": "🇧🇾",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -2106,7 +2068,6 @@
     {
       "id": "BZ",
       "name": "Belize",
-      "flag": "🇧🇿",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -2160,7 +2121,6 @@
     {
       "id": "CA",
       "name": "Canada",
-      "flag": "🇨🇦",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -2214,7 +2174,6 @@
     {
       "id": "CC",
       "name": "Cocos (Keeling) Islands",
-      "flag": "🇨🇨",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -2268,7 +2227,6 @@
     {
       "id": "CD",
       "name": "Congo (Kinchasa)",
-      "flag": "🇨🇩",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -2322,7 +2280,6 @@
     {
       "id": "CF",
       "name": "Central African Republic",
-      "flag": "🇨🇫",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -2376,7 +2333,6 @@
     {
       "id": "CG",
       "name": "Congo",
-      "flag": "🇨🇬",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -2430,7 +2386,6 @@
     {
       "id": "CH",
       "name": "Switzerland",
-      "flag": "🇨🇭",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -2484,7 +2439,6 @@
     {
       "id": "CI",
       "name": "Côte d'Ivoire",
-      "flag": "🇨🇮",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -2538,7 +2492,6 @@
     {
       "id": "CK",
       "name": "Cook Islands",
-      "flag": "🇨🇰",
       "nearestAws": "aws-us-west-2",
       "rttSource": "radar",
       "tiers": {
@@ -2592,7 +2545,6 @@
     {
       "id": "CL",
       "name": "Chile",
-      "flag": "🇨🇱",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -2646,7 +2598,6 @@
     {
       "id": "CM",
       "name": "Cameroon",
-      "flag": "🇨🇲",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -2700,7 +2651,6 @@
     {
       "id": "CN",
       "name": "China",
-      "flag": "🇨🇳",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -2754,7 +2704,6 @@
     {
       "id": "CO",
       "name": "Colombia",
-      "flag": "🇨🇴",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -2808,7 +2757,6 @@
     {
       "id": "CR",
       "name": "Costa Rica",
-      "flag": "🇨🇷",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -2862,7 +2810,6 @@
     {
       "id": "CU",
       "name": "Cuba",
-      "flag": "🇨🇺",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -2916,7 +2863,6 @@
     {
       "id": "CV",
       "name": "Cape Verde",
-      "flag": "🇨🇻",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -2970,7 +2916,6 @@
     {
       "id": "CW",
       "name": "Curaçao",
-      "flag": "🇨🇼",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3024,7 +2969,6 @@
     {
       "id": "CX",
       "name": "Christmas Island",
-      "flag": "🇨🇽",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -3078,7 +3022,6 @@
     {
       "id": "CY",
       "name": "Cyprus",
-      "flag": "🇨🇾",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3132,7 +3075,6 @@
     {
       "id": "CZ",
       "name": "Czech Republic",
-      "flag": "🇨🇿",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3186,7 +3128,6 @@
     {
       "id": "DE",
       "name": "Germany",
-      "flag": "🇩🇪",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3240,7 +3181,6 @@
     {
       "id": "DJ",
       "name": "Djibouti",
-      "flag": "🇩🇯",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -3294,7 +3234,6 @@
     {
       "id": "DK",
       "name": "Denmark",
-      "flag": "🇩🇰",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3348,7 +3287,6 @@
     {
       "id": "DM",
       "name": "Dominica",
-      "flag": "🇩🇲",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -3402,7 +3340,6 @@
     {
       "id": "DO",
       "name": "Dominican Republic",
-      "flag": "🇩🇴",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -3456,7 +3393,6 @@
     {
       "id": "DZ",
       "name": "Algeria",
-      "flag": "🇩🇿",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3510,7 +3446,6 @@
     {
       "id": "EC",
       "name": "Ecuador",
-      "flag": "🇪🇨",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -3564,7 +3499,6 @@
     {
       "id": "EE",
       "name": "Estonia",
-      "flag": "🇪🇪",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3618,7 +3552,6 @@
     {
       "id": "EG",
       "name": "Egypt",
-      "flag": "🇪🇬",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3672,7 +3605,6 @@
     {
       "id": "EH",
       "name": "Western Sahara",
-      "flag": "🇪🇭",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "seed",
       "tiers": {
@@ -3726,7 +3658,6 @@
     {
       "id": "ER",
       "name": "Eritrea",
-      "flag": "🇪🇷",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -3780,7 +3711,6 @@
     {
       "id": "ES",
       "name": "Spain",
-      "flag": "🇪🇸",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3834,7 +3764,6 @@
     {
       "id": "ET",
       "name": "Ethiopia",
-      "flag": "🇪🇹",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -3888,7 +3817,6 @@
     {
       "id": "EU",
       "name": "Europe",
-      "flag": "🇪🇺",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -3942,7 +3870,6 @@
     {
       "id": "FI",
       "name": "Finland",
-      "flag": "🇫🇮",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -3996,7 +3923,6 @@
     {
       "id": "FJ",
       "name": "Fiji",
-      "flag": "🇫🇯",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -4050,7 +3976,6 @@
     {
       "id": "FK",
       "name": "Falkland Islands",
-      "flag": "🇫🇰",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -4104,7 +4029,6 @@
     {
       "id": "FM",
       "name": "Micronesia",
-      "flag": "🇫🇲",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -4158,7 +4082,6 @@
     {
       "id": "FO",
       "name": "Faroe Islands",
-      "flag": "🇫🇴",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -4212,7 +4135,6 @@
     {
       "id": "FR",
       "name": "France",
-      "flag": "🇫🇷",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -4266,7 +4188,6 @@
     {
       "id": "GA",
       "name": "Gabon",
-      "flag": "🇬🇦",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -4320,7 +4241,6 @@
     {
       "id": "GB",
       "name": "United Kingdom",
-      "flag": "🇬🇧",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -4374,7 +4294,6 @@
     {
       "id": "GD",
       "name": "Grenada",
-      "flag": "🇬🇩",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -4428,7 +4347,6 @@
     {
       "id": "GE",
       "name": "Georgia",
-      "flag": "🇬🇪",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -4482,7 +4400,6 @@
     {
       "id": "GF",
       "name": "French Guiana",
-      "flag": "🇬🇫",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -4536,7 +4453,6 @@
     {
       "id": "GG",
       "name": "Guernsey",
-      "flag": "🇬🇬",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -4590,7 +4506,6 @@
     {
       "id": "GH",
       "name": "Ghana",
-      "flag": "🇬🇭",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -4644,7 +4559,6 @@
     {
       "id": "GI",
       "name": "Gibraltar",
-      "flag": "🇬🇮",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -4698,7 +4612,6 @@
     {
       "id": "GL",
       "name": "Greenland",
-      "flag": "🇬🇱",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "seed",
       "tiers": {
@@ -4752,7 +4665,6 @@
     {
       "id": "GM",
       "name": "Gambia",
-      "flag": "🇬🇲",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -4806,7 +4718,6 @@
     {
       "id": "GN",
       "name": "Guinea",
-      "flag": "🇬🇳",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -4860,7 +4771,6 @@
     {
       "id": "GP",
       "name": "Guadeloupe",
-      "flag": "🇬🇵",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -4914,7 +4824,6 @@
     {
       "id": "GQ",
       "name": "Equatorial Guinea",
-      "flag": "🇬🇶",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -4968,7 +4877,6 @@
     {
       "id": "GR",
       "name": "Greece",
-      "flag": "🇬🇷",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -5022,7 +4930,6 @@
     {
       "id": "GS",
       "name": "South Georgia and the South Sandwich Islands",
-      "flag": "🇬🇸",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -5076,7 +4983,6 @@
     {
       "id": "GT",
       "name": "Guatemala",
-      "flag": "🇬🇹",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -5130,7 +5036,6 @@
     {
       "id": "GU",
       "name": "Guam",
-      "flag": "🇬🇺",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -5184,7 +5089,6 @@
     {
       "id": "GW",
       "name": "Guinea-Bissau",
-      "flag": "🇬🇼",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -5238,7 +5142,6 @@
     {
       "id": "GY",
       "name": "Guyana",
-      "flag": "🇬🇾",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -5292,7 +5195,6 @@
     {
       "id": "HK",
       "name": "Hong Kong",
-      "flag": "🇭🇰",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -5346,7 +5248,6 @@
     {
       "id": "HM",
       "name": "Heard Island and McDonald Mcdonald Islands",
-      "flag": "🇭🇲",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -5400,7 +5301,6 @@
     {
       "id": "HN",
       "name": "Honduras",
-      "flag": "🇭🇳",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -5454,7 +5354,6 @@
     {
       "id": "HR",
       "name": "Croatia",
-      "flag": "🇭🇷",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -5508,7 +5407,6 @@
     {
       "id": "HT",
       "name": "Haiti",
-      "flag": "🇭🇹",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -5562,7 +5460,6 @@
     {
       "id": "HU",
       "name": "Hungary",
-      "flag": "🇭🇺",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -5616,7 +5513,6 @@
     {
       "id": "ID",
       "name": "Indonesia",
-      "flag": "🇮🇩",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -5670,7 +5566,6 @@
     {
       "id": "IE",
       "name": "Ireland",
-      "flag": "🇮🇪",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -5724,7 +5619,6 @@
     {
       "id": "IL",
       "name": "Israel",
-      "flag": "🇮🇱",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -5778,7 +5672,6 @@
     {
       "id": "IM",
       "name": "Isle of Man",
-      "flag": "🇮🇲",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -5832,7 +5725,6 @@
     {
       "id": "IN",
       "name": "India",
-      "flag": "🇮🇳",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -5886,7 +5778,6 @@
     {
       "id": "IO",
       "name": "British Indian Ocean Territory",
-      "flag": "🇮🇴",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -5940,7 +5831,6 @@
     {
       "id": "IQ",
       "name": "Iraq",
-      "flag": "🇮🇶",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -5994,7 +5884,6 @@
     {
       "id": "IR",
       "name": "Iran",
-      "flag": "🇮🇷",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -6048,7 +5937,6 @@
     {
       "id": "IS",
       "name": "Iceland",
-      "flag": "🇮🇸",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -6102,7 +5990,6 @@
     {
       "id": "IT",
       "name": "Italy",
-      "flag": "🇮🇹",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -6156,7 +6043,6 @@
     {
       "id": "JE",
       "name": "Jersey",
-      "flag": "🇯🇪",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -6210,7 +6096,6 @@
     {
       "id": "JM",
       "name": "Jamaica",
-      "flag": "🇯🇲",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -6264,7 +6149,6 @@
     {
       "id": "JO",
       "name": "Jordan",
-      "flag": "🇯🇴",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -6318,7 +6202,6 @@
     {
       "id": "JP",
       "name": "Japan",
-      "flag": "🇯🇵",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -6372,7 +6255,6 @@
     {
       "id": "KE",
       "name": "Kenya",
-      "flag": "🇰🇪",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -6426,7 +6308,6 @@
     {
       "id": "KG",
       "name": "Kyrgyzstan",
-      "flag": "🇰🇬",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -6480,7 +6361,6 @@
     {
       "id": "KH",
       "name": "Cambodia",
-      "flag": "🇰🇭",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -6534,7 +6414,6 @@
     {
       "id": "KI",
       "name": "Kiribati",
-      "flag": "🇰🇮",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -6588,7 +6467,6 @@
     {
       "id": "KM",
       "name": "Comoros",
-      "flag": "🇰🇲",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -6642,7 +6520,6 @@
     {
       "id": "KN",
       "name": "Saint Kitts and Nevis",
-      "flag": "🇰🇳",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -6696,7 +6573,6 @@
     {
       "id": "KP",
       "name": "Korea, North",
-      "flag": "🇰🇵",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -6750,7 +6626,6 @@
     {
       "id": "KR",
       "name": "Korea, South",
-      "flag": "🇰🇷",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -6804,7 +6679,6 @@
     {
       "id": "KW",
       "name": "Kuwait",
-      "flag": "🇰🇼",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -6858,7 +6732,6 @@
     {
       "id": "KY",
       "name": "Cayman Islands",
-      "flag": "🇰🇾",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -6912,7 +6785,6 @@
     {
       "id": "KZ",
       "name": "Kazakhstan",
-      "flag": "🇰🇿",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -6966,7 +6838,6 @@
     {
       "id": "LA",
       "name": "Lao People's Democratic Republic",
-      "flag": "🇱🇦",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -7020,7 +6891,6 @@
     {
       "id": "LB",
       "name": "Lebanon",
-      "flag": "🇱🇧",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7074,7 +6944,6 @@
     {
       "id": "LC",
       "name": "Saint Lucia",
-      "flag": "🇱🇨",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -7128,7 +6997,6 @@
     {
       "id": "LI",
       "name": "Liechtenstein",
-      "flag": "🇱🇮",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7182,7 +7050,6 @@
     {
       "id": "LK",
       "name": "Sri Lanka",
-      "flag": "🇱🇰",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -7236,7 +7103,6 @@
     {
       "id": "LR",
       "name": "Liberia",
-      "flag": "🇱🇷",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7290,7 +7156,6 @@
     {
       "id": "LS",
       "name": "Lesotho",
-      "flag": "🇱🇸",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -7344,7 +7209,6 @@
     {
       "id": "LT",
       "name": "Lithuania",
-      "flag": "🇱🇹",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7398,7 +7262,6 @@
     {
       "id": "LU",
       "name": "Luxembourg",
-      "flag": "🇱🇺",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7452,7 +7315,6 @@
     {
       "id": "LV",
       "name": "Latvia",
-      "flag": "🇱🇻",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7506,7 +7368,6 @@
     {
       "id": "LY",
       "name": "Libya",
-      "flag": "🇱🇾",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7560,7 +7421,6 @@
     {
       "id": "MA",
       "name": "Morocco",
-      "flag": "🇲🇦",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -7614,7 +7474,6 @@
     {
       "id": "MC",
       "name": "Monaco",
-      "flag": "🇲🇨",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7668,7 +7527,6 @@
     {
       "id": "MD",
       "name": "Moldova",
-      "flag": "🇲🇩",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7722,7 +7580,6 @@
     {
       "id": "ME",
       "name": "Montenegro",
-      "flag": "🇲🇪",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7776,7 +7633,6 @@
     {
       "id": "MF",
       "name": "Saint Martin (French part)",
-      "flag": "🇲🇫",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -7830,7 +7686,6 @@
     {
       "id": "MG",
       "name": "Madagascar",
-      "flag": "🇲🇬",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -7884,7 +7739,6 @@
     {
       "id": "MH",
       "name": "Marshall Islands",
-      "flag": "🇲🇭",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -7938,7 +7792,6 @@
     {
       "id": "MK",
       "name": "Macedonia, the Former Yugoslav Republic of",
-      "flag": "🇲🇰",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -7992,7 +7845,6 @@
     {
       "id": "ML",
       "name": "Mali",
-      "flag": "🇲🇱",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -8046,7 +7898,6 @@
     {
       "id": "MM",
       "name": "Myanmar",
-      "flag": "🇲🇲",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -8100,7 +7951,6 @@
     {
       "id": "MN",
       "name": "Mongolia",
-      "flag": "🇲🇳",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -8154,7 +8004,6 @@
     {
       "id": "MO",
       "name": "Macao",
-      "flag": "🇲🇴",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -8208,7 +8057,6 @@
     {
       "id": "MP",
       "name": "Northern Mariana Islands",
-      "flag": "🇲🇵",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -8262,7 +8110,6 @@
     {
       "id": "MQ",
       "name": "Martinique",
-      "flag": "🇲🇶",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -8316,7 +8163,6 @@
     {
       "id": "MR",
       "name": "Mauritania",
-      "flag": "🇲🇷",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -8370,7 +8216,6 @@
     {
       "id": "MS",
       "name": "Montserrat",
-      "flag": "🇲🇸",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -8424,7 +8269,6 @@
     {
       "id": "MT",
       "name": "Malta",
-      "flag": "🇲🇹",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -8478,7 +8322,6 @@
     {
       "id": "MU",
       "name": "Mauritius",
-      "flag": "🇲🇺",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -8532,7 +8375,6 @@
     {
       "id": "MV",
       "name": "Maldives",
-      "flag": "🇲🇻",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -8586,7 +8428,6 @@
     {
       "id": "MW",
       "name": "Malawi",
-      "flag": "🇲🇼",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -8640,7 +8481,6 @@
     {
       "id": "MX",
       "name": "Mexico",
-      "flag": "🇲🇽",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -8694,7 +8534,6 @@
     {
       "id": "MY",
       "name": "Malaysia",
-      "flag": "🇲🇾",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -8748,7 +8587,6 @@
     {
       "id": "MZ",
       "name": "Mozambique",
-      "flag": "🇲🇿",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -8802,7 +8640,6 @@
     {
       "id": "NA",
       "name": "Namibia",
-      "flag": "🇳🇦",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -8856,7 +8693,6 @@
     {
       "id": "NC",
       "name": "New Caledonia",
-      "flag": "🇳🇨",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -8910,7 +8746,6 @@
     {
       "id": "NE",
       "name": "Niger",
-      "flag": "🇳🇪",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -8964,7 +8799,6 @@
     {
       "id": "NF",
       "name": "Norfolk Island",
-      "flag": "🇳🇫",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -9018,7 +8852,6 @@
     {
       "id": "NG",
       "name": "Nigeria",
-      "flag": "🇳🇬",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -9072,7 +8905,6 @@
     {
       "id": "NI",
       "name": "Nicaragua",
-      "flag": "🇳🇮",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -9126,7 +8958,6 @@
     {
       "id": "NL",
       "name": "Netherlands",
-      "flag": "🇳🇱",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -9180,7 +9011,6 @@
     {
       "id": "NO",
       "name": "Norway",
-      "flag": "🇳🇴",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -9234,7 +9064,6 @@
     {
       "id": "NP",
       "name": "Nepal",
-      "flag": "🇳🇵",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -9288,7 +9117,6 @@
     {
       "id": "NR",
       "name": "Nauru",
-      "flag": "🇳🇷",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -9342,7 +9170,6 @@
     {
       "id": "NU",
       "name": "Niue",
-      "flag": "🇳🇺",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -9396,7 +9223,6 @@
     {
       "id": "NZ",
       "name": "New Zealand",
-      "flag": "🇳🇿",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -9450,7 +9276,6 @@
     {
       "id": "OM",
       "name": "Oman",
-      "flag": "🇴🇲",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -9504,7 +9329,6 @@
     {
       "id": "PA",
       "name": "Panama",
-      "flag": "🇵🇦",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -9558,7 +9382,6 @@
     {
       "id": "PE",
       "name": "Peru",
-      "flag": "🇵🇪",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -9612,7 +9435,6 @@
     {
       "id": "PF",
       "name": "French Polynesia",
-      "flag": "🇵🇫",
       "nearestAws": "aws-us-west-2",
       "rttSource": "radar",
       "tiers": {
@@ -9666,7 +9488,6 @@
     {
       "id": "PG",
       "name": "Papua New Guinea",
-      "flag": "🇵🇬",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -9720,7 +9541,6 @@
     {
       "id": "PH",
       "name": "Philippines",
-      "flag": "🇵🇭",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -9774,7 +9594,6 @@
     {
       "id": "PK",
       "name": "Pakistan",
-      "flag": "🇵🇰",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -9828,7 +9647,6 @@
     {
       "id": "PL",
       "name": "Poland",
-      "flag": "🇵🇱",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -9882,7 +9700,6 @@
     {
       "id": "PM",
       "name": "Saint Pierre and Miquelon",
-      "flag": "🇵🇲",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -9936,7 +9753,6 @@
     {
       "id": "PN",
       "name": "Pitcairn",
-      "flag": "🇵🇳",
       "nearestAws": "aws-us-west-2",
       "rttSource": "seed",
       "tiers": {
@@ -9990,7 +9806,6 @@
     {
       "id": "PR",
       "name": "Puerto Rico",
-      "flag": "🇵🇷",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -10044,7 +9859,6 @@
     {
       "id": "PS",
       "name": "Palestine",
-      "flag": "🇵🇸",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -10098,7 +9912,6 @@
     {
       "id": "PT",
       "name": "Portugal",
-      "flag": "🇵🇹",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -10152,7 +9965,6 @@
     {
       "id": "PW",
       "name": "Palau",
-      "flag": "🇵🇼",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -10206,7 +10018,6 @@
     {
       "id": "PY",
       "name": "Paraguay",
-      "flag": "🇵🇾",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -10260,7 +10071,6 @@
     {
       "id": "QA",
       "name": "Qatar",
-      "flag": "🇶🇦",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -10314,7 +10124,6 @@
     {
       "id": "RE",
       "name": "Reunion",
-      "flag": "🇷🇪",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -10368,7 +10177,6 @@
     {
       "id": "RO",
       "name": "Romania",
-      "flag": "🇷🇴",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -10422,7 +10230,6 @@
     {
       "id": "RS",
       "name": "Serbia",
-      "flag": "🇷🇸",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -10476,7 +10283,6 @@
     {
       "id": "RU",
       "name": "Russian Federation",
-      "flag": "🇷🇺",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -10530,7 +10336,6 @@
     {
       "id": "RW",
       "name": "Rwanda",
-      "flag": "🇷🇼",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -10584,7 +10389,6 @@
     {
       "id": "SA",
       "name": "Saudi Arabia",
-      "flag": "🇸🇦",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -10638,7 +10442,6 @@
     {
       "id": "SB",
       "name": "Solomon Islands",
-      "flag": "🇸🇧",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -10692,7 +10495,6 @@
     {
       "id": "SC",
       "name": "Seychelles",
-      "flag": "🇸🇨",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -10746,7 +10548,6 @@
     {
       "id": "SD",
       "name": "Sudan",
-      "flag": "🇸🇩",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -10800,7 +10601,6 @@
     {
       "id": "SE",
       "name": "Sweden",
-      "flag": "🇸🇪",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -10854,7 +10654,6 @@
     {
       "id": "SG",
       "name": "Singapore",
-      "flag": "🇸🇬",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -10908,7 +10707,6 @@
     {
       "id": "SH",
       "name": "Saint Helena",
-      "flag": "🇸🇭",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -10962,7 +10760,6 @@
     {
       "id": "SI",
       "name": "Slovenia",
-      "flag": "🇸🇮",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11016,7 +10813,6 @@
     {
       "id": "SJ",
       "name": "Svalbard and Jan Mayen Islands",
-      "flag": "🇸🇯",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "seed",
       "tiers": {
@@ -11070,7 +10866,6 @@
     {
       "id": "SK",
       "name": "Slovakia",
-      "flag": "🇸🇰",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11124,7 +10919,6 @@
     {
       "id": "SL",
       "name": "Sierra Leone",
-      "flag": "🇸🇱",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11178,7 +10972,6 @@
     {
       "id": "SM",
       "name": "San Marino",
-      "flag": "🇸🇲",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -11232,7 +11025,6 @@
     {
       "id": "SN",
       "name": "Senegal",
-      "flag": "🇸🇳",
       "nearestAws": "aws-eu-west-1",
       "rttSource": "radar",
       "tiers": {
@@ -11286,7 +11078,6 @@
     {
       "id": "SO",
       "name": "Somalia",
-      "flag": "🇸🇴",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -11340,7 +11131,6 @@
     {
       "id": "SR",
       "name": "Suriname",
-      "flag": "🇸🇷",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -11394,7 +11184,6 @@
     {
       "id": "SS",
       "name": "South Sudan",
-      "flag": "🇸🇸",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11448,7 +11237,6 @@
     {
       "id": "ST",
       "name": "Sao Tome and Principe",
-      "flag": "🇸🇹",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -11502,7 +11290,6 @@
     {
       "id": "SV",
       "name": "El Salvador",
-      "flag": "🇸🇻",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -11556,7 +11343,6 @@
     {
       "id": "SX",
       "name": "Sint Maarten (Dutch part)",
-      "flag": "🇸🇽",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11610,7 +11396,6 @@
     {
       "id": "SY",
       "name": "Syria",
-      "flag": "🇸🇾",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11664,7 +11449,6 @@
     {
       "id": "SZ",
       "name": "Swaziland",
-      "flag": "🇸🇿",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -11718,7 +11502,6 @@
     {
       "id": "TC",
       "name": "Turks and Caicos Islands",
-      "flag": "🇹🇨",
       "nearestAws": "aws-us-east-1",
       "rttSource": "seed",
       "tiers": {
@@ -11772,7 +11555,6 @@
     {
       "id": "TD",
       "name": "Chad",
-      "flag": "🇹🇩",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -11826,7 +11608,6 @@
     {
       "id": "TF",
       "name": "French Southern Lands",
-      "flag": "🇹🇫",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -11880,7 +11661,6 @@
     {
       "id": "TG",
       "name": "Togo",
-      "flag": "🇹🇬",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -11934,7 +11714,6 @@
     {
       "id": "TH",
       "name": "Thailand",
-      "flag": "🇹🇭",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -11988,7 +11767,6 @@
     {
       "id": "TJ",
       "name": "Tajikistan",
-      "flag": "🇹🇯",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -12042,7 +11820,6 @@
     {
       "id": "TK",
       "name": "Tokelau",
-      "flag": "🇹🇰",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -12096,7 +11873,6 @@
     {
       "id": "TL",
       "name": "Timor-Leste",
-      "flag": "🇹🇱",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -12150,7 +11926,6 @@
     {
       "id": "TM",
       "name": "Turkmenistan",
-      "flag": "🇹🇲",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -12204,7 +11979,6 @@
     {
       "id": "TN",
       "name": "Tunisia",
-      "flag": "🇹🇳",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -12258,7 +12032,6 @@
     {
       "id": "TO",
       "name": "Tonga",
-      "flag": "🇹🇴",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -12312,7 +12085,6 @@
     {
       "id": "TR",
       "name": "Turkey",
-      "flag": "🇹🇷",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -12366,7 +12138,6 @@
     {
       "id": "TT",
       "name": "Trinidad and Tobago",
-      "flag": "🇹🇹",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -12420,7 +12191,6 @@
     {
       "id": "TV",
       "name": "Tuvalu",
-      "flag": "🇹🇻",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -12474,7 +12244,6 @@
     {
       "id": "TW",
       "name": "Taiwan",
-      "flag": "🇹🇼",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -12528,7 +12297,6 @@
     {
       "id": "TZ",
       "name": "Tanzania",
-      "flag": "🇹🇿",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -12582,7 +12350,6 @@
     {
       "id": "UA",
       "name": "Ukraine",
-      "flag": "🇺🇦",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -12636,7 +12403,6 @@
     {
       "id": "UG",
       "name": "Uganda",
-      "flag": "🇺🇬",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -12690,7 +12456,6 @@
     {
       "id": "UM",
       "name": "United States Minor Outlying Islands",
-      "flag": "🇺🇲",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -12744,7 +12509,6 @@
     {
       "id": "US",
       "name": "United States",
-      "flag": "🇺🇸",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -12798,7 +12562,6 @@
     {
       "id": "UY",
       "name": "Uruguay",
-      "flag": "🇺🇾",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -12852,7 +12615,6 @@
     {
       "id": "UZ",
       "name": "Uzbekistan",
-      "flag": "🇺🇿",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -12906,7 +12668,6 @@
     {
       "id": "VA",
       "name": "Vatican City",
-      "flag": "🇻🇦",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "seed",
       "tiers": {
@@ -12960,7 +12721,6 @@
     {
       "id": "VC",
       "name": "Saint Vincent and the Grenadines",
-      "flag": "🇻🇨",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -13014,7 +12774,6 @@
     {
       "id": "VE",
       "name": "Venezuela",
-      "flag": "🇻🇪",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -13068,7 +12827,6 @@
     {
       "id": "VG",
       "name": "Virgin Islands, British",
-      "flag": "🇻🇬",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -13122,7 +12880,6 @@
     {
       "id": "VI",
       "name": "Virgin Islands, U. S.",
-      "flag": "🇻🇮",
       "nearestAws": "aws-us-east-1",
       "rttSource": "radar",
       "tiers": {
@@ -13176,7 +12933,6 @@
     {
       "id": "VN",
       "name": "Vietnam",
-      "flag": "🇻🇳",
       "nearestAws": "aws-ap-southeast-1",
       "rttSource": "radar",
       "tiers": {
@@ -13230,7 +12986,6 @@
     {
       "id": "VU",
       "name": "Vanuatu",
-      "flag": "🇻🇺",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -13284,7 +13039,6 @@
     {
       "id": "WF",
       "name": "Wallis and Futuna Island",
-      "flag": "🇼🇫",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -13338,7 +13092,6 @@
     {
       "id": "WS",
       "name": "Samoa",
-      "flag": "🇼🇸",
       "nearestAws": "aws-ap-northeast-1",
       "rttSource": "seed",
       "tiers": {
@@ -13392,7 +13145,6 @@
     {
       "id": "XK",
       "name": "Kosovo",
-      "flag": "🇽🇰",
       "nearestAws": "aws-eu-central-1",
       "rttSource": "radar",
       "tiers": {
@@ -13446,7 +13198,6 @@
     {
       "id": "YE",
       "name": "Yemen",
-      "flag": "🇾🇪",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -13500,7 +13251,6 @@
     {
       "id": "YT",
       "name": "Mayotte",
-      "flag": "🇾🇹",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "seed",
       "tiers": {
@@ -13554,7 +13304,6 @@
     {
       "id": "ZA",
       "name": "South Africa",
-      "flag": "🇿🇦",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -13608,7 +13357,6 @@
     {
       "id": "ZM",
       "name": "Zambia",
-      "flag": "🇿🇲",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {
@@ -13662,7 +13410,6 @@
     {
       "id": "ZW",
       "name": "Zimbabwe",
-      "flag": "🇿🇼",
       "nearestAws": "aws-ap-south-1",
       "rttSource": "radar",
       "tiers": {

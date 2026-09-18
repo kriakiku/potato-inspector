@@ -44,7 +44,7 @@ func FromEnv() Config {
 		Uplink:       getenv("POTATONETWORK_UPLINK", ""),
 		RadarCatalogURL: getenv(
 			"POTATONETWORK_RADAR_CATALOG_URL",
-			"https://raw.githubusercontent.com/kriakiku/potato-network/main/profiles/radar/catalog.json",
+			"https://raw.githubusercontent.com/kriakiku/potato-network/main/catalog.json",
 		),
 		DocsURL: getenv(
 			"POTATONETWORK_DOCS_URL",

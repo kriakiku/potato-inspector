@@ -1,11 +1,27 @@
+# Local runtime data / secrets
 /data/
-*.tmp
-web/node_modules/
-web/package-lock.json
-*.exe
-/potatonetwork
-.DS_Store
 .env
+.DS_Store
+
+# Built binaries
+/potatonetwork
+/potatonetwork-*
+*.exe
 *.test
-__pycache__
-/dist
+*.out
+
+# Docs build (mkdocs)
+/site/
+
+# Python (gallery / radar scripts)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor / junk
+*.tmp
+*.swp
+*~
+.idea/
+.vscode/
