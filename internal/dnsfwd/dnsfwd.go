@@ -187,6 +187,11 @@ func (s *Server) serveUDP() {
 func (s *Server) resolve(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
 	upstream, rules, shortTTL, ttlSec, gateway := s.configSnapshot()
 	qname, qtype = parseQuestion(query)
+	// Tunnel MITM/NAT is IPv4-only — do not return AAAA so clients prefer A.
+	if questionType(query) == 28 {
+		resp, err = buildEmptyAnswer(query)
+		return resp, qname, qtype, true, "ipv4-only", err
+	}
 	if gateway != nil && gateway.To4() != nil {
 		if host := normalizeName(qname); IsBuiltinHost(host) {
 			resp, err = buildRewriteResponse(query, gateway, ttlSec)
@@ -211,6 +216,10 @@ func (s *Server) resolve(query []byte) (resp []byte, qname, qtype string, rewrit
 func (s *Server) resolveTCP(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
 	upstream, rules, shortTTL, ttlSec, gateway := s.configSnapshot()
 	qname, qtype = parseQuestion(query)
+	if questionType(query) == 28 {
+		resp, err = buildEmptyAnswer(query)
+		return resp, qname, qtype, true, "ipv4-only", err
+	}
 	if gateway != nil && gateway.To4() != nil {
 		if host := normalizeName(qname); IsBuiltinHost(host) {
 			resp, err = buildRewriteResponse(query, gateway, ttlSec)

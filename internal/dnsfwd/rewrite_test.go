@@ -103,20 +103,24 @@ func TestBuildRewriteResponseA(t *testing.T) {
 	}
 }
 
-func TestBuildRewriteResponseAAAAEmpty(t *testing.T) {
-	q := buildQuery("foo.local", 28)
-	resp, err := buildRewriteResponse(q, net.ParseIP("10.8.0.1"), 0)
+func TestBuildEmptyAnswerAAAA(t *testing.T) {
+	q := buildQuery("example.com", 28)
+	resp, err := buildEmptyAnswer(q)
 	if err != nil {
 		t.Fatal(err)
 	}
-	ancount := binary.BigEndian.Uint16(resp[6:8])
-	if ancount != 0 {
-		t.Fatalf("ancount=%d want 0", ancount)
+	if binary.BigEndian.Uint16(resp[6:8]) != 0 {
+		t.Fatalf("ancount=%d want 0", binary.BigEndian.Uint16(resp[6:8]))
 	}
-	if parseAnswers(resp) != nil && len(parseAnswers(resp)) != 0 {
-		t.Fatalf("unexpected answers")
+	if ans := parseAnswers(resp); len(ans) != 0 {
+		t.Fatalf("answers=%v want empty", ans)
+	}
+	// QR set
+	if resp[2]&0x80 == 0 {
+		t.Fatal("QR not set")
 	}
 }
+
 
 func TestClampTTLs(t *testing.T) {
 	q := buildQuery("example.com", 1)

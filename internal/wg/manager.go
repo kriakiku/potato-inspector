@@ -329,7 +329,7 @@ func (m *Manager) ClientConfig(peer store.Peer, endpoint, dns string) string {
 	}
 	b.WriteString("\n[Peer]\n")
 	b.WriteString(fmt.Sprintf("PublicKey = %s\n", keyToBase64(m.serverPub)))
-	b.WriteString("AllowedIPs = 0.0.0.0/0, ::/0\n")
+	b.WriteString("AllowedIPs = 0.0.0.0/0\n")
 	if endpoint != "" {
 		b.WriteString(fmt.Sprintf("Endpoint = %s\n", endpoint))
 	}

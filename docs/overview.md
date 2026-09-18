@@ -22,6 +22,7 @@ PotatoInspector is a single Docker container that makes phones, laptops, and a h
 - **Shared tunnel** — all peers share one shaped TUN. Traffic from different devices is **not** separated in the Inspector. For a readable Inspect session, use **one active client device at a time** (or pause capture when others are busy).
 - **Packet-level shaping is uniform** — every packet on the TUN gets the same netem (including TLS handshake). You cannot split “static vs API” for one hostname at the packet layer; use MITM path rules for dest-based API delay.
 - **QUIC** — UDP/443 is dropped so clients fall back to TCP/TLS through MITM.
+- **IPv4-only path** — DNS answers AAAA with empty NOERROR; peer configs use `AllowedIPs = 0.0.0.0/0` only (no IPv6 MITM/NAT yet).
 - **Certificate pinning** — apps that pin will fail unless the host is on the **Ignore** list.
 - **Egress region** — after the container you leave from *your* region; country profiles model “the client is far,” not a full remote PoP for every origin hop.
 

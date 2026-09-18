@@ -8,7 +8,7 @@ Best lab setup:
 
 1. Create a dedicated SSID/VLAN for testing (e.g. **Potato**).
 2. On the router/gateway, add a **WireGuard client** (or site VPN) using the peer config from the panel.
-3. Set `AllowedIPs = 0.0.0.0/0` (and `::/0` if present) so that SSID’s traffic is full-tunnelled.
+3. Set `AllowedIPs = 0.0.0.0/0` so that SSID’s traffic is full-tunnelled (IPv4 only — PotatoInspector has no IPv6 MITM/NAT).
 4. Enable **SNAT/MASQUERADE** for LAN → WireGuard so Potato only sees the peer address (`10.8.0.x`). Without this, DNS from the router may work while TCP from phone LAN IPs fails.
 5. Point the SSID/VLAN at that WG client.
 
@@ -46,6 +46,7 @@ After loading a site on the client, check the Inspector:
 
 | What you see | Likely cause |
 |--------------|--------------|
+| DNS only (no TLS/HTTP), `potato.local` OK | Often **IPv6**: clients preferred AAAA while MITM/NAT is IPv4-only. Current builds answer AAAA with empty NOERROR (`rewrite:ipv4-only`) and peer configs use `AllowedIPs = 0.0.0.0/0` only — re-import the peer `.conf` / QR after upgrade |
 | DNS only (no TLS/HTTP) | mitmdump down while TPROXY still redirects `:80`/`:443` to `:8080`, or TCP never reaches Potato |
 | TLS rows, little/no HTTP | MITM accepted the client, then failed dialing the origin — almost always **NAT uplink** |
 | Cert / SSL errors | CA not trusted on the device |

@@ -111,6 +111,30 @@ func buildRewriteResponse(query []byte, ip net.IP, ttl uint32) ([]byte, error) {
 	return resp, nil
 }
 
+// buildEmptyAnswer returns NOERROR with no answer RRs (used for AAAA → force IPv4).
+func buildEmptyAnswer(query []byte) ([]byte, error) {
+	if len(query) < 12 {
+		return nil, errBadQuery
+	}
+	_, qEnd := decodeName(query, 12)
+	qEnd += 4 // qtype + qclass
+	if qEnd > len(query) {
+		return nil, errBadQuery
+	}
+	resp := make([]byte, 0, qEnd)
+	resp = append(resp, query[:qEnd]...)
+	resp[2] = 0x84
+	if query[2]&0x01 != 0 {
+		resp[2] |= 0x01
+	}
+	resp[3] = 0x80
+	binary.BigEndian.PutUint16(resp[4:6], 1)  // QDCOUNT
+	binary.BigEndian.PutUint16(resp[6:8], 0)  // ANCOUNT
+	binary.BigEndian.PutUint16(resp[8:10], 0) // NSCOUNT
+	binary.BigEndian.PutUint16(resp[10:12], 0)
+	return resp, nil
+}
+
 // clampTTLs sets every RR TTL in answer/authority/additional to ttl.
 func clampTTLs(msg []byte, ttl uint32) {
 	if len(msg) < 12 {
