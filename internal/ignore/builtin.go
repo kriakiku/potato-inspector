@@ -17,6 +17,7 @@ var builtin = []string{
 	"ytimg.com",
 	"googlezip.net",
 	"gvt2.com",
+	"goog", // entire .goog TLD (e.g. domain.goog)
 	// Apple
 	"apple.com",
 	"icloud.com",
