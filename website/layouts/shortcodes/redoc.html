@@ -1,0 +1,54 @@
+{{/* Full-bleed ReDoc under the Hextra navbar. */}}
+<div id="redoc-container" class="pn-redoc" data-spec="{{ "swagger.json" | absURL }}"></div>
+<script src="https://cdn.redoc.ly/redoc/v2.1.5/bundles/redoc.standalone.js"></script>
+<script>
+  (function () {
+    var nav = document.querySelector(".hextra-nav-container");
+    var navH = nav ? nav.getBoundingClientRect().height : 64;
+    Redoc.init(
+      document.getElementById("redoc-container").dataset.spec,
+      {
+        scrollYOffset: navH,
+        hideDownloadButton: false,
+        expandResponses: "200",
+        nativeScrollbars: true,
+        theme: {
+          colors: {
+            primary: { main: "#7eb8ff" },
+            success: { main: "#6bcf7f" },
+            warning: { main: "#e6a23c" },
+            error: { main: "#f07178" },
+            text: { primary: "#e8e8e8", secondary: "#a8a8a8" },
+            http: {
+              get: "#7eb8ff",
+              post: "#6bcf7f",
+              put: "#e6a23c",
+              delete: "#f07178",
+              options: "#a8a8a8",
+              patch: "#c9a0dc",
+              basic: "#a8a8a8",
+              link: "#7eb8ff",
+              head: "#a8a8a8"
+            },
+            border: { dark: "#333", light: "#444" }
+          },
+          sidebar: {
+            backgroundColor: "#141414",
+            textColor: "#e8e8e8",
+            activeTextColor: "#7eb8ff"
+          },
+          rightPanel: {
+            backgroundColor: "#0f0f0f",
+            textColor: "#e8e8e8"
+          },
+          typography: {
+            fontSize: "15px",
+            code: { backgroundColor: "#2a2a2a", color: "#f8f8f2" }
+          },
+          schema: { nestedBackground: "#1f1f1f" }
+        }
+      },
+      document.getElementById("redoc-container")
+    );
+  })();
+</script>

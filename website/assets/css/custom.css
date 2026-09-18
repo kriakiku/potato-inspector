@@ -1,19 +1,46 @@
-/* Full-bleed ReDoc: sidebar is already hidden via front matter; widen the reading column. */
+/* API page: keep Hextra navbar; ReDoc fills the rest of the dynamic viewport. */
+body:has(#redoc-container) {
+  overflow: hidden;
+}
+
 body:has(#redoc-container) {
   --hextra-max-content-width: 100%;
   --hextra-max-page-width: 100%;
 }
 
-#redoc-container.pn-redoc {
-  width: 100%;
-  min-height: calc(100vh - 8rem);
-  margin-top: 1rem;
+body:has(#redoc-container) .hextra-footer,
+body:has(#redoc-container) .hextra-toc,
+body:has(#redoc-container) nav[aria-label="breadcrumb"],
+body:has(#redoc-container) .hextra-breadcrumb,
+body:has(#redoc-container) main h1,
+body:has(#redoc-container) .content > .hx\:flex:has(h1),
+body:has(#redoc-container) .hx\:mt-16,
+body:has(#redoc-container) a[rel="prev"],
+body:has(#redoc-container) a[rel="next"],
+body:has(#redoc-container) .hextra-pagination {
+  display: none !important;
 }
 
-/* ReDoc brings its own chrome; drop pager noise under it. */
-body:has(#redoc-container) nav[aria-label="pagination"],
-body:has(#redoc-container) .hextra-pagination,
-body:has(#redoc-container) .hx\\:mt-16:has(a[rel="prev"]),
-body:has(#redoc-container) .hx\\:mt-16:has(a[rel="next"]) {
-  display: none !important;
+body:has(#redoc-container) article,
+body:has(#redoc-container) main#content,
+body:has(#redoc-container) .content {
+  max-width: none !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: 0 !important;
+}
+
+#redoc-container.pn-redoc {
+  position: fixed;
+  top: var(--navbar-height, 4rem);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  max-height: calc(100dvh - var(--navbar-height, 4rem));
+  overflow: hidden;
+  z-index: 10;
+  background: #1b1b1b;
 }

@@ -27,7 +27,34 @@ import (
 // @title						PotatoNetwork API
 // @version					1.0
 // @description				Last-mile network emulator control plane for Docker sidecars.
-// @description				Optional Bearer auth when POTATONETWORK_API_TOKEN is set.
+// @description
+// @description				## Base URL
+// @description				`http://<host>:7783` — publish **only** the API port from the PotatoNetwork container. JSON lives under `/v1/…`. Opening `http://<host>:7783/` **302-redirects** to these docs.
+// @description
+// @description				## Spec downloads
+// @description				- [swagger.json](https://kriakiku.github.io/potato-network/swagger.json)
+// @description				- [swagger.yaml](https://kriakiku.github.io/potato-network/swagger.yaml)
+// @description
+// @description				## Auth (`POTATONETWORK_API_TOKEN`)
+// @description				Optional. Set `POTATONETWORK_API_TOKEN` or `POTATONETWORK_API_TOKEN_FILE`. Send `Authorization: Bearer <token>`. If the token is empty, auth is off. `GET /` and `GET /v1/health` stay public.
+// @description				When a token **is** set, the API also answers CORS with allow-all (`Access-Control-Allow-Origin/Methods/Headers: *`) so browser UIs can call with Bearer.
+// @description
+// @description				## Boot profile
+// @description				Default is **passthrough**. Set `POTATONETWORK_PROFILE_COUNTRY` (and optional `POTATONETWORK_PROFILE_TIER`, default `typical`) to apply a country profile at start. Change later with `PUT /v1/profile`.
+// @description
+// @description				## Profile warnings
+// @description				`GET`/`PUT /v1/profile` may include `emulationLimited: true` and `warning` when host CF RTT is already ≥ country CF RTT (last-mile delay clamped to 0). That is a **warning**, not an error — the profile still applies. The process also logs `WARN` on change.
+// @description
+// @description				## Examples
+// @description				```bash
+// @description				curl -s -X POST "$API/v1/baseline/probe"
+// @description				curl -s -X PUT "$API/v1/profile" -H 'Content-Type: application/json' \
+// @description				  -d '{"country":"BD","tier":"typical"}'
+// @description				curl -s -X PUT "$API/v1/profile" -H 'Content-Type: application/json' \
+// @description				  -d '{"passthrough":true}'
+// @description				```
+// @description
+// @description				Baseline lives in `/data/baseline.json`. Cron: `POTATONETWORK_BASELINE_CRON` (default ~every 3h). Docs home: [PotatoNetwork](https://kriakiku.github.io/potato-network/).
 // @contact.name				PotatoNetwork
 // @contact.url				https://github.com/kriakiku/potato-network
 // @license.name				See repository LICENSE
@@ -37,7 +64,7 @@ import (
 // @securityDefinitions.apikey	BearerAuth
 // @in							header
 // @name						Authorization
-// @description				Optional. Format: Bearer followed by the API token.
+// @description				Optional. Format: Bearer followed by the API token (`POTATONETWORK_API_TOKEN`).
 func main() {
 	cfg := config.FromEnv()
 	if err := os.MkdirAll(cfg.DataDir, 0o755); err != nil {

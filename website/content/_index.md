@@ -9,7 +9,7 @@ cascade:
 
 Attach workloads with `network_mode: service:potatonetwork`, pick a country profile over a tiny JSON API, and every packet in that netns — including DNS — gets the delay, loss, and bandwidth of real last-mile. Transparent HTTPS MITM adds path delay on top (edge vs origin), so Waterfall timings look believable under interception.
 
-[Overview](overview) · [API](api) · [OpenAPI](openapi) · [Rules](rules) · [CA](ca) · [Examples](examples) · [Profiles](profiles-gallery) · [Limitations](limitations)
+[Overview](overview) · [API](api) · [Rules](rules) · [CA](ca) · [Examples](examples) · [Profiles](profiles-gallery) · [Limitations](limitations)
 
 ---
 
