@@ -24,7 +24,8 @@ jobs:
             -o ./website/static \
             --outputTypes json,yaml \
             --parseDependency --parseInternal
-      - run: go run -tags genapi ./cmd/genapi/  e2e:
+      - run: go run -tags genapi ./cmd/genapi/
+  e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
