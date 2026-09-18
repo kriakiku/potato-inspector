@@ -46,8 +46,8 @@ After loading a site on the client, check the Inspector:
 
 | What you see | Likely cause |
 |--------------|--------------|
-| DNS only (no TLS/HTTP), `potato.local` OK | Often **IPv6**: clients preferred AAAA while MITM/NAT is IPv4-only. Current builds answer AAAA with empty NOERROR (`rewrite:ipv4-only`) and peer configs use `AllowedIPs = 0.0.0.0/0` only — re-import the peer `.conf` / QR after upgrade |
-| DNS only (no TLS/HTTP) | mitmdump down while TPROXY still redirects `:80`/`:443` to `:8080`, or TCP never reaches Potato |
+| DNS only (no TLS/HTTP), `potato.local` OK | **IPv6 path**: AAAA/HTTPS/SVCB DNS or peer `::/0`. Current builds empty those RRs (`rewrite:ipv4-only`) and use IPv4-only AllowedIPs — re-import peer after upgrade |
+| DNS only (no TLS/HTTP) | TCP not hitting mitmdump — check log `MITM intercept: REDIRECT …`; `iptables -t nat -L POTATO_MITM_NAT -n -v` counters should rise on page load |
 | TLS rows, little/no HTTP | MITM accepted the client, then failed dialing the origin — almost always **NAT uplink** |
 | Cert / SSL errors | CA not trusted on the device |
 

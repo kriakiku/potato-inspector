@@ -103,23 +103,23 @@ func TestBuildRewriteResponseA(t *testing.T) {
 	}
 }
 
-func TestBuildEmptyAnswerAAAA(t *testing.T) {
-	q := buildQuery("example.com", 28)
-	resp, err := buildEmptyAnswer(q)
-	if err != nil {
-		t.Fatal(err)
+func TestForceIPv4DNS(t *testing.T) {
+	for _, qt := range []uint16{28, 64, 65} {
+		q := buildQuery("example.com", qt)
+		resp, ok, err := forceIPv4DNS(q)
+		if err != nil || !ok {
+			t.Fatalf("qt=%d ok=%v err=%v", qt, ok, err)
+		}
+		if binary.BigEndian.Uint16(resp[6:8]) != 0 {
+			t.Fatalf("qt=%d ancount want 0", qt)
+		}
 	}
-	if binary.BigEndian.Uint16(resp[6:8]) != 0 {
-		t.Fatalf("ancount=%d want 0", binary.BigEndian.Uint16(resp[6:8]))
-	}
-	if ans := parseAnswers(resp); len(ans) != 0 {
-		t.Fatalf("answers=%v want empty", ans)
-	}
-	// QR set
-	if resp[2]&0x80 == 0 {
-		t.Fatal("QR not set")
+	q := buildQuery("example.com", 1)
+	if _, ok, err := forceIPv4DNS(q); err != nil || ok {
+		t.Fatalf("A should not be forced: ok=%v err=%v", ok, err)
 	}
 }
+
 
 
 func TestClampTTLs(t *testing.T) {

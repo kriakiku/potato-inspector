@@ -187,9 +187,8 @@ func (s *Server) serveUDP() {
 func (s *Server) resolve(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
 	upstream, rules, shortTTL, ttlSec, gateway := s.configSnapshot()
 	qname, qtype = parseQuestion(query)
-	// Tunnel MITM/NAT is IPv4-only — do not return AAAA so clients prefer A.
-	if questionType(query) == 28 {
-		resp, err = buildEmptyAnswer(query)
+	// Tunnel MITM/NAT is IPv4-only — suppress AAAA / HTTPS / SVCB so clients use A + TCP/443.
+	if resp, ok, err := forceIPv4DNS(query); ok {
 		return resp, qname, qtype, true, "ipv4-only", err
 	}
 	if gateway != nil && gateway.To4() != nil {
@@ -216,8 +215,7 @@ func (s *Server) resolve(query []byte) (resp []byte, qname, qtype string, rewrit
 func (s *Server) resolveTCP(query []byte) (resp []byte, qname, qtype string, rewritten bool, pattern string, err error) {
 	upstream, rules, shortTTL, ttlSec, gateway := s.configSnapshot()
 	qname, qtype = parseQuestion(query)
-	if questionType(query) == 28 {
-		resp, err = buildEmptyAnswer(query)
+	if resp, ok, err := forceIPv4DNS(query); ok {
 		return resp, qname, qtype, true, "ipv4-only", err
 	}
 	if gateway != nil && gateway.To4() != nil {
@@ -485,6 +483,10 @@ func typeName(t uint16) string {
 		return "TXT"
 	case 28:
 		return "AAAA"
+	case 64:
+		return "SVCB"
+	case 65:
+		return "HTTPS"
 	default:
 		return fmt.Sprintf("TYPE%d", t)
 	}

@@ -111,7 +111,7 @@ func buildRewriteResponse(query []byte, ip net.IP, ttl uint32) ([]byte, error) {
 	return resp, nil
 }
 
-// buildEmptyAnswer returns NOERROR with no answer RRs (used for AAAA → force IPv4).
+// buildEmptyAnswer returns NOERROR with no answer RRs (used for AAAA/HTTPS/SVCB → force IPv4).
 func buildEmptyAnswer(query []byte) ([]byte, error) {
 	if len(query) < 12 {
 		return nil, errBadQuery
@@ -133,6 +133,18 @@ func buildEmptyAnswer(query []byte) ([]byte, error) {
 	binary.BigEndian.PutUint16(resp[8:10], 0) // NSCOUNT
 	binary.BigEndian.PutUint16(resp[10:12], 0)
 	return resp, nil
+}
+
+// forceIPv4DNS suppresses query types that steer clients onto IPv6 (no ip6tables MITM/NAT).
+// ok=true means the query was handled locally.
+func forceIPv4DNS(query []byte) (resp []byte, ok bool, err error) {
+	switch questionType(query) {
+	case 28, 64, 65: // AAAA, SVCB, HTTPS
+		resp, err = buildEmptyAnswer(query)
+		return resp, true, err
+	default:
+		return nil, false, nil
+	}
 }
 
 // clampTTLs sets every RR TTL in answer/authority/additional to ttl.

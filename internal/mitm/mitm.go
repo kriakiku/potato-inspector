@@ -429,32 +429,32 @@ func (m *Manager) ReloadConfig() error {
 }
 
 func SetupTPROXY(wgIface string) error {
-	_ = exec.Command("iptables", "-C", "FORWARD", "-i", wgIface, "-p", "udp", "--dport", "443", "-j", "DROP").Run()
+	// Prefer REDIRECT-only (Docker/mitmproxy-friendly). Dual TPROXY+REDIRECT often
+	// blackholes TCP while DNS REDIRECT still works — matches "DNS yes, TLS never".
+	ClearTPROXY(wgIface)
+
 	_ = exec.Command("iptables", "-I", "FORWARD", "1", "-i", wgIface, "-p", "udp", "--dport", "443", "-j", "DROP").Run()
-	_ = exec.Command("iptables", "-t", "mangle", "-N", "POTATO_MITM").Run()
-	_ = exec.Command("iptables", "-t", "mangle", "-F", "POTATO_MITM").Run()
-	// Skip local gateway destinations so potato.local (:80) and potato-share.local (:443) hit container listeners.
-	if gw := ifaceIPv4(wgIface); gw != "" {
-		_ = exec.Command("iptables", "-t", "mangle", "-A", "POTATO_MITM", "-d", gw, "-j", "RETURN").Run()
-	}
-	rules := [][]string{
-		{"-t", "mangle", "-A", "POTATO_MITM", "-p", "tcp", "--dport", "80", "-j", "TPROXY", "--on-port", "8080", "--on-ip", "127.0.0.1", "--tproxy-mark", "1"},
-		{"-t", "mangle", "-A", "POTATO_MITM", "-p", "tcp", "--dport", "443", "-j", "TPROXY", "--on-port", "8080", "--on-ip", "127.0.0.1", "--tproxy-mark", "1"},
-		{"-t", "mangle", "-A", "PREROUTING", "-i", wgIface, "-j", "POTATO_MITM"},
-	}
-	for _, r := range rules {
-		_ = exec.Command("iptables", r...).Run()
-	}
+
 	_ = exec.Command("iptables", "-t", "nat", "-N", "POTATO_MITM_NAT").Run()
 	_ = exec.Command("iptables", "-t", "nat", "-F", "POTATO_MITM_NAT").Run()
+	// Skip local gateway destinations so potato.local (:80) and potato-share.local (:443) hit container listeners.
 	if gw := ifaceIPv4(wgIface); gw != "" {
 		_ = exec.Command("iptables", "-t", "nat", "-A", "POTATO_MITM_NAT", "-d", gw, "-j", "RETURN").Run()
 	}
-	_ = exec.Command("iptables", "-t", "nat", "-A", "POTATO_MITM_NAT", "-p", "tcp", "--dport", "80", "-j", "REDIRECT", "--to-ports", "8080").Run()
-	_ = exec.Command("iptables", "-t", "nat", "-A", "POTATO_MITM_NAT", "-p", "tcp", "--dport", "443", "-j", "REDIRECT", "--to-ports", "8080").Run()
-	_ = exec.Command("iptables", "-t", "nat", "-A", "PREROUTING", "-i", wgIface, "-j", "POTATO_MITM_NAT").Run()
-	_ = exec.Command("ip", "rule", "add", "fwmark", "1", "lookup", "100").Run()
-	_ = exec.Command("ip", "route", "add", "local", "0.0.0.0/0", "dev", "lo", "table", "100").Run()
+	if err := exec.Command("iptables", "-t", "nat", "-A", "POTATO_MITM_NAT", "-p", "tcp", "--dport", "80", "-j", "REDIRECT", "--to-ports", "8080").Run(); err != nil {
+		return fmt.Errorf("REDIRECT :80: %w", err)
+	}
+	if err := exec.Command("iptables", "-t", "nat", "-A", "POTATO_MITM_NAT", "-p", "tcp", "--dport", "443", "-j", "REDIRECT", "--to-ports", "8080").Run(); err != nil {
+		return fmt.Errorf("REDIRECT :443: %w", err)
+	}
+	if err := exec.Command("iptables", "-t", "nat", "-A", "PREROUTING", "-i", wgIface, "-j", "POTATO_MITM_NAT").Run(); err != nil {
+		return fmt.Errorf("PREROUTING jump: %w", err)
+	}
+	// Clamp MSS for WG overhead so large TLS records are not blackholed.
+	_ = exec.Command("iptables", "-t", "mangle", "-D", "FORWARD", "-p", "tcp", "--tcp-flags", "SYN,RST", "SYN", "-j", "TCPMSS", "--clamp-mss-to-pmtu").Run()
+	_ = exec.Command("iptables", "-t", "mangle", "-A", "FORWARD", "-p", "tcp", "--tcp-flags", "SYN,RST", "SYN", "-j", "TCPMSS", "--clamp-mss-to-pmtu").Run()
+
+	log.Printf("MITM intercept: REDIRECT tcp/80,443 → :8080 on %s (gateway excluded)", wgIface)
 	return nil
 }
 
@@ -479,12 +479,17 @@ func ifaceIPv4(name string) string {
 
 func ClearTPROXY(wgIface string) {
 	_ = exec.Command("iptables", "-D", "FORWARD", "-i", wgIface, "-p", "udp", "--dport", "443", "-j", "DROP").Run()
+	// Legacy TPROXY path (pre-REDIRECT-only)
 	_ = exec.Command("iptables", "-t", "mangle", "-D", "PREROUTING", "-i", wgIface, "-j", "POTATO_MITM").Run()
 	_ = exec.Command("iptables", "-t", "mangle", "-F", "POTATO_MITM").Run()
 	_ = exec.Command("iptables", "-t", "mangle", "-X", "POTATO_MITM").Run()
+	_ = exec.Command("ip", "rule", "del", "fwmark", "1", "lookup", "100").Run()
+	_ = exec.Command("ip", "route", "flush", "table", "100").Run()
+
 	_ = exec.Command("iptables", "-t", "nat", "-D", "PREROUTING", "-i", wgIface, "-j", "POTATO_MITM_NAT").Run()
 	_ = exec.Command("iptables", "-t", "nat", "-F", "POTATO_MITM_NAT").Run()
 	_ = exec.Command("iptables", "-t", "nat", "-X", "POTATO_MITM_NAT").Run()
+	_ = exec.Command("iptables", "-t", "mangle", "-D", "FORWARD", "-p", "tcp", "--tcp-flags", "SYN,RST", "SYN", "-j", "TCPMSS", "--clamp-mss-to-pmtu").Run()
 }
 
 func LocalIP() string {
