@@ -58,8 +58,8 @@ import (
 // @description				Baseline lives in `/data/baseline.json`. Cron: `POTATONETWORK_BASELINE_CRON` (default ~every 3h). Docs home: [PotatoNetwork](https://kriakiku.github.io/potato-network/).
 // @contact.name				PotatoNetwork
 // @contact.url				https://github.com/kriakiku/potato-network
-// @license.name				See repository LICENSE
-// @license.url				https://github.com/kriakiku/potato-network
+// @license.name				MIT
+// @license.url				https://github.com/kriakiku/potato-network/blob/main/LICENSE
 // @host						localhost:7783
 // @BasePath					/
 // @securityDefinitions.apikey	BearerAuth

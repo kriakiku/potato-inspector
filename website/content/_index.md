@@ -9,6 +9,8 @@ cascade:
 
 **Last-mile network lab for Docker** — make browsers, scrapers, and APIs feel like they run from Bangladesh, Brazil, or Japan without VPNs, agents, or a heavy proxy stack.
 
+PotatoNetwork is **open source** under the [MIT License](https://github.com/kriakiku/potato-network/blob/main/LICENSE).
+
 Attach workloads with `network_mode: service:potatonetwork`, pick a country profile over a tiny JSON API, and every packet in that netns — including DNS — gets the delay, loss, and bandwidth of real last-mile. Transparent HTTPS MITM adds path delay on top (edge vs origin), so Waterfall timings look believable under interception.
 
 [API](api) · [Rules](rules) · [CA](ca) · [Examples](examples) · [Profiles](profiles-gallery) · [Limitations](limitations)

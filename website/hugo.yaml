@@ -30,7 +30,7 @@ menu:
         icon: github
 
 params:
-  description: Last-mile network emulator for Docker sidecars
+  description: Open-source (MIT) last-mile network emulator for Docker sidecars
   images:
     - images/social-preview.png
   navbar:

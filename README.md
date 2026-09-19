@@ -4,8 +4,9 @@
 [![CI](https://github.com/kriakiku/potato-network/actions/workflows/ci.yml/badge.svg)](https://github.com/kriakiku/potato-network/actions/workflows/ci.yml)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue?logo=github)](https://kriakiku.github.io/potato-network/)
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-Swagger-85EA2D?logo=swagger&logoColor=black)](https://kriakiku.github.io/potato-network/api/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Go-only last-mile network emulator for Docker: run PotatoNetwork as a container, attach apps with `network_mode: service:potatonetwork`, pick a country profile via API, and traffic (including DNS) gets shaped. Transparent MITM applies path delay from an [expr](https://github.com/expr-lang/expr) script. No WireGuard, no web UI.
+Go-only last-mile network emulator for Docker: run PotatoNetwork as a container, attach apps with `network_mode: service:potatonetwork`, pick a country profile via API, and traffic (including DNS) gets shaped. Transparent MITM applies path delay from an [expr](https://github.com/expr-lang/expr) script. No WireGuard, no web UI. **Open source under the [MIT License](LICENSE).**
 
 ## Quick start
 
@@ -122,4 +123,5 @@ go run -tags genapi ./cmd/genapi/
 - `go run -tags radar ./cmd/genradar/` — refresh Radar/CloudPing catalog (optional `CLOUDFLARE_API_TOKEN`).
 
 ## License
-See repository license.
+
+[MIT](LICENSE) — free to use, modify, and distribute, including commercially. See [LICENSE](LICENSE) for the full text.
