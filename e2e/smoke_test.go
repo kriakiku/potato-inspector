@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"testing"
@@ -19,7 +20,6 @@ import (
 const (
 	defaultAPI       = "http://127.0.0.1:7783"
 	defaultContainer = "potatonetwork-e2e"
-	pathDelayMs      = 250 // testdata/e2e/data/rules.expr
 )
 
 func apiBase() string {
@@ -98,25 +98,125 @@ func TestE2E_ProfileAppliesLossAndDelayFields(t *testing.T) {
 	}
 }
 
-func TestE2E_PathDelayViaLocalOrigin(t *testing.T) {
+func TestE2E_PathDelayLiteral(t *testing.T) {
 	waitHealthy(t, 60*time.Second)
 	waitOrigin(t, 30*time.Second)
-	putPassthrough(t)
+	writeRules(t, `{ "delay_ms": 250 }`)
+	assertPathDelayApprox(t, 250, 60)
+}
 
+func TestE2E_PathDelayPathExtra(t *testing.T) {
+	waitHealthy(t, 60*time.Second)
+	waitOrigin(t, 30*time.Second)
+	// AF/typical + hostRtt cf=5 → route(aws-eu-central-1) = (235-106)/2 = 64
+	writeRules(t, `{ "delay_ms": route("aws-eu-central-1") }`)
+	assertPathDelayApprox(t, 64, 40)
+}
+
+func TestE2E_PathDelayPathExtraHalf(t *testing.T) {
+	waitHealthy(t, 60*time.Second)
+	waitOrigin(t, 30*time.Second)
+	writeRules(t, `{ "delay_ms": route("aws-eu-central-1") / 2 }`)
+	assertPathDelayApprox(t, 32, 30)
+}
+
+func TestE2E_PathDelayJitterAroundFixed(t *testing.T) {
+	waitHealthy(t, 60*time.Second)
+	waitOrigin(t, 30*time.Second)
+	// jitter(200, 0) is deterministic
+	writeRules(t, `{ "delay_ms": jitter(200, 0) }`)
+	assertPathDelayApprox(t, 200, 50)
+}
+
+func TestE2E_PathDelayPathExtraPlusJitter(t *testing.T) {
+	waitHealthy(t, 60*time.Second)
+	waitOrigin(t, 30*time.Second)
+	// 64 + jitter(150, 0) = 214 exactly
+	writeRules(t, `{ "delay_ms": route("aws-eu-central-1") + jitter(150, 0) }`)
+	assertPathDelayApprox(t, 214, 50)
+}
+
+func TestE2E_PathDelayPathExtraPlusJitterSpread(t *testing.T) {
+	waitHealthy(t, 60*time.Second)
+	waitOrigin(t, 30*time.Second)
+	// 64 + (150±40) → [174, 254]; assert mid-range with wide slack
+	writeRules(t, `{ "delay_ms": route("aws-eu-central-1") + jitter(150, 40) }`)
+	assertPathDelayApprox(t, 214, 90)
+}
+
+func assertPathDelayApprox(t *testing.T, wantMs, slackMs int) {
+	t.Helper()
+	putPassthrough(t)
 	fast := httpTTFB(t)
 	t.Logf("passthrough TTFB=%s", fast)
 
 	putBaseline(t)
-	putProfile(t, "AF", "typical") // enables MITM path delay from rules.expr
+	putProfile(t, "AF", "typical") // enables MITM; loopback skips netem
 
 	slow := httpTTFB(t)
-	t.Logf("shaped TTFB=%s", slow)
+	t.Logf("shaped TTFB=%s (want ~+%dms ±%d)", slow, wantMs, slackMs)
 
-	// Local origin: loopback bypasses netem; assert rules delay_ms only.
-	minExtra := time.Duration(pathDelayMs-50) * time.Millisecond
-	if slow < fast+minExtra {
-		t.Fatalf("shaped TTFB %s not enough slower than passthrough %s (want +≥%s)", slow, fast, minExtra)
+	delta := slow - fast
+	minExtra := time.Duration(wantMs-slackMs) * time.Millisecond
+	maxExtra := time.Duration(wantMs+slackMs+150) * time.Millisecond // +150 for TLS/handshake noise
+	if delta < minExtra {
+		t.Fatalf("extra TTFB %s too small (want ≥%s; fast=%s slow=%s)", delta, minExtra, fast, slow)
 	}
+	if delta > maxExtra {
+		t.Fatalf("extra TTFB %s too large (want ≤%s; fast=%s slow=%s)", delta, maxExtra, fast, slow)
+	}
+}
+
+func writeRules(t *testing.T, src string) {
+	t.Helper()
+	path := filepath.Join(e2eDataDir(t), "rules.expr")
+	prev, _ := os.ReadFile(path)
+	t.Cleanup(func() {
+		_ = os.WriteFile(path, prev, 0o644)
+	})
+	src = strings.TrimSpace(src) + "\n"
+	if err := os.WriteFile(path, []byte(src), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	// Force distinct mtime on coarse FS and wait until the process reloads.
+	deadline := time.Now().Add(5 * time.Second)
+	for time.Now().Before(deadline) {
+		code, body := apiGETQuiet("/v1/rules")
+		if code == 200 {
+			var st struct {
+				Source  string `json:"source"`
+				Compile string `json:"compile"`
+				OK      bool   `json:"ok"`
+			}
+			if json.Unmarshal([]byte(body), &st) == nil && st.OK && strings.TrimSpace(st.Source) == strings.TrimSpace(src) {
+				return
+			}
+			if st.Compile != "" {
+				t.Fatalf("rules compile error: %s\nsource=%q", st.Compile, src)
+			}
+		}
+		time.Sleep(100 * time.Millisecond)
+	}
+	t.Fatalf("rules.expr not reloaded with expected source within 5s:\n%s", src)
+}
+
+func e2eDataDir(t *testing.T) string {
+	t.Helper()
+	wd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	candidates := []string{
+		filepath.Join(wd, "testdata", "e2e", "data"),
+		filepath.Join(wd, "..", "testdata", "e2e", "data"),
+	}
+	for _, c := range candidates {
+		if st, err := os.Stat(c); err == nil && st.IsDir() {
+			return c
+		}
+	}
+	t.Fatalf("testdata/e2e/data not found from cwd=%s", wd)
+	return ""
 }
 
 func waitOrigin(t *testing.T, timeout time.Duration) {
@@ -257,7 +357,7 @@ func httpTTFB(t *testing.T) time.Duration {
 		originURL(),
 	).CombinedOutput()
 	if err != nil {
-		t.Fatalf("curl in netns: %v\n%s", err, out)
+		t.Fatalf("curl in netns: %v\n%s", out, err)
 	}
 	sec, err := strconv.ParseFloat(strings.TrimSpace(string(out)), 64)
 	if err != nil {

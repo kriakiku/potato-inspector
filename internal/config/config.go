@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -28,6 +29,7 @@ type Config struct {
 	RadarCatalogURL string
 	ProfileCountry  string // empty = passthrough at boot
 	ProfileTier     string // used when ProfileCountry is set; default typical
+	PathDelayMaxMs  int    // cap for rules.expr path delay; default 60000
 }
 
 func FromEnv() Config {
@@ -56,6 +58,7 @@ func FromEnv() Config {
 		Uplink:         getenv("POTATONETWORK_UPLINK", ""),
 		ProfileCountry: country,
 		ProfileTier:    tier,
+		PathDelayMaxMs: getenvInt("POTATONETWORK_PATH_DELAY_MAX_MS", 60_000),
 		RadarCatalogURL: getenv(
 			"POTATONETWORK_RADAR_CATALOG_URL",
 			"https://raw.githubusercontent.com/kriakiku/potato-network/main/catalog.json",
@@ -68,4 +71,16 @@ func getenv(k, def string) string {
 		return v
 	}
 	return def
+}
+
+func getenvInt(k string, def int) int {
+	v := strings.TrimSpace(os.Getenv(k))
+	if v == "" {
+		return def
+	}
+	n, err := strconv.Atoi(v)
+	if err != nil || n <= 0 {
+		return def
+	}
+	return n
 }

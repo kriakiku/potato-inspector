@@ -193,14 +193,10 @@ func (p *Proxy) applyPathDelay(phase, host, path string, reqH, respH http.Header
 	res, err := p.rules.Eval(phase, host, path, headerMap(reqH), headerMap(respH))
 	if err != nil {
 		log.Printf("rules eval: %v", err)
-		res = rules.Result{Dest: "cf"}
+		return
 	}
-	delay := res.DelayMs
-	if delay <= 0 && res.Dest != "" && res.Dest != "cf" {
-		delay = p.state.PathExtraDelayMs(res.Dest)
-	}
-	if delay > 0 {
-		time.Sleep(time.Duration(delay) * time.Millisecond)
+	if res.DelayMs > 0 {
+		time.Sleep(time.Duration(res.DelayMs) * time.Millisecond)
 	}
 }
 

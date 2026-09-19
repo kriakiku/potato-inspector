@@ -2,6 +2,8 @@ package rules
 
 import (
 	"fmt"
+	"log"
+	"math/rand/v2"
 	"os"
 	"strings"
 	"sync"
@@ -11,24 +13,58 @@ import (
 	"github.com/expr-lang/expr/vm"
 )
 
-const DefaultScript = `{ "dest": "cf" }`
+// DefaultScript: no path delay (route("cf") is 0); keeps passthrough explicit.
+const DefaultScript = `if passthrough {
+  { "delay_ms": 0 }
+} else {
+  { "delay_ms": route("cf") }
+}`
 
+// DefaultMaxDelayMs caps a single path-delay sleep (overridable via ENV).
+const DefaultMaxDelayMs = 60_000
+
+// PathExtraFunc returns one-way path-extra delay in ms for a catalog destination id.
+type PathExtraFunc func(dest string) int
+
+// ProfileFunc returns the active last-mile profile snapshot for expr bindings.
+type ProfileFunc func() ProfileInfo
+
+// ProfileInfo is exposed to rules.expr as country / tier / passthrough.
+type ProfileInfo struct {
+	Country     string
+	Tier        string
+	Passthrough bool
+}
+
+// Result is the evaluated path-delay policy. New fields can be added later without
+// changing the expr return shape convention (a map of named values).
 type Result struct {
-	Dest    string `expr:"dest"`
-	DelayMs int    `expr:"delay_ms"`
+	DelayMs int `expr:"delay_ms"`
 }
 
 type Engine struct {
-	mu       sync.RWMutex
-	path     string
-	mtime    time.Time
-	program  *vm.Program
-	err      error
-	source   string
+	mu         sync.RWMutex
+	path       string
+	mtime      time.Time
+	program    *vm.Program
+	err        error
+	source     string
+	pathExtra  PathExtraFunc
+	profile    ProfileFunc
+	maxDelayMs int
 }
 
-func New(path string) *Engine {
-	e := &Engine{path: path}
+func New(path string, pathExtra PathExtraFunc, profile ProfileFunc, maxDelayMs int) *Engine {
+	if maxDelayMs <= 0 {
+		maxDelayMs = DefaultMaxDelayMs
+	}
+	if pathExtra == nil {
+		pathExtra = func(string) int { return 0 }
+	}
+	if profile == nil {
+		profile = func() ProfileInfo { return ProfileInfo{Passthrough: true} }
+	}
+	e := &Engine{path: path, pathExtra: pathExtra, profile: profile, maxDelayMs: maxDelayMs}
 	_ = e.Reload()
 	return e
 }
@@ -61,6 +97,12 @@ func (e *Engine) CompileErr() string {
 	return e.err.Error()
 }
 
+func (e *Engine) MaxDelayMs() int {
+	e.mu.RLock()
+	defer e.mu.RUnlock()
+	return e.maxDelayMs
+}
+
 func (e *Engine) Reload() error {
 	_ = EnsureDefault(e.path)
 	info, err := os.Stat(e.path)
@@ -79,7 +121,7 @@ func (e *Engine) Reload() error {
 	if src == "" {
 		src = DefaultScript
 	}
-	prog, err := expr.Compile(src, expr.Env(compileEnv()), expr.AsAny())
+	prog, err := expr.Compile(src, expr.Env(e.compileEnv()), expr.AsAny())
 	e.mu.Lock()
 	defer e.mu.Unlock()
 	e.source = src
@@ -107,63 +149,133 @@ func (e *Engine) ReloadIfChanged() {
 	}
 }
 
-func compileEnv() map[string]any {
+func (e *Engine) compileEnv() map[string]any {
 	return map[string]any{
-		"phase":    "",
-		"host":     "",
-		"path":     "",
-		"request":  map[string]string{},
-		"response": map[string]string{},
-		"header":   headerFn,
-		"match":    matchFn,
-		"lower":    strings.ToLower,
+		"phase":       "",
+		"host":        "",
+		"path":        "",
+		"request":     map[string]string{},
+		"response":    map[string]string{},
+		"country":     "",
+		"tier":        "",
+		"passthrough": false,
+		"header":      headerFn,
+		"match":       matchFn,
+		"lower":       strings.ToLower,
+		"route":       e.routeFn,
+		"jitter":      jitterFn,
 	}
 }
 
-// Eval runs the script. Returns dest and/or delay_ms.
+func (e *Engine) routeFn(dest string) int {
+	e.mu.RLock()
+	fn := e.pathExtra
+	e.mu.RUnlock()
+	if fn == nil || dest == "" || dest == "cf" {
+		return 0
+	}
+	return fn(dest)
+}
+
+func (e *Engine) currentProfile() ProfileInfo {
+	e.mu.RLock()
+	fn := e.profile
+	e.mu.RUnlock()
+	if fn == nil {
+		return ProfileInfo{Passthrough: true}
+	}
+	return fn()
+}
+
+// Eval runs the script and returns a clamped Result (today: delay_ms).
 func (e *Engine) Eval(phase, host, path string, reqH, respH map[string]string) (Result, error) {
 	e.ReloadIfChanged()
 	e.mu.RLock()
 	prog := e.program
 	cerr := e.err
+	maxMs := e.maxDelayMs
 	e.mu.RUnlock()
 	if prog == nil {
 		if cerr != nil {
-			return Result{Dest: "cf"}, fmt.Errorf("rules compile: %w", cerr)
+			return Result{}, fmt.Errorf("rules compile: %w", cerr)
 		}
-		return Result{Dest: "cf"}, nil
+		return Result{}, nil
 	}
-	env := compileEnv()
+	p := e.currentProfile()
+	env := e.compileEnv()
 	env["phase"] = phase
 	env["host"] = host
 	env["path"] = path
 	env["request"] = lowerKeys(reqH)
 	env["response"] = lowerKeys(respH)
+	env["country"] = p.Country
+	env["tier"] = p.Tier
+	env["passthrough"] = p.Passthrough
 	out, err := expr.Run(prog, env)
 	if err != nil {
-		return Result{Dest: "cf"}, err
+		return Result{}, err
 	}
-	return parseResult(out), nil
+	r := parseResult(out)
+	r.DelayMs = ClampDelayMs(r.DelayMs, maxMs)
+	return r, nil
 }
 
 func parseResult(out any) Result {
-	r := Result{Dest: "cf"}
 	v, ok := out.(map[string]any)
 	if !ok {
-		return r
+		return Result{}
 	}
-	if d, ok := v["dest"].(string); ok && d != "" {
-		r.Dest = d
+	return Result{DelayMs: asInt(v["delay_ms"])}
+}
+
+// ClampDelayMs enforces ≥0 and ≤maxMs (default 60s). Over-max logs a WARN once per call.
+func ClampDelayMs(ms, maxMs int) int {
+	if ms < 0 {
+		return 0
 	}
-	switch n := v["delay_ms"].(type) {
+	if maxMs <= 0 {
+		maxMs = DefaultMaxDelayMs
+	}
+	if ms > maxMs {
+		log.Printf("WARN path delay %dms exceeds max %dms; clamping", ms, maxMs)
+		return maxMs
+	}
+	return ms
+}
+
+// jitterFn implements expr jitter(base_ms, jitter_ms) → base ± uniform jitter, ≥0.
+func jitterFn(base, spread any) int {
+	return applyJitter(asInt(base), asInt(spread))
+}
+
+func applyJitter(base, jitter int) int {
+	if base < 0 {
+		base = 0
+	}
+	if jitter <= 0 {
+		return base
+	}
+	delta := rand.IntN(2*jitter+1) - jitter
+	out := base + delta
+	if out < 0 {
+		return 0
+	}
+	return out
+}
+
+func asInt(v any) int {
+	switch n := v.(type) {
 	case int:
-		r.DelayMs = n
+		return n
 	case int64:
-		r.DelayMs = int(n)
+		return int(n)
 	case float64:
-		r.DelayMs = int(n)
+		return int(n)
+	case float32:
+		return int(n)
+	default:
+		return 0
 	}
-	return r
 }
 
 func lowerKeys(h map[string]string) map[string]string {

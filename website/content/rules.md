@@ -1,16 +1,37 @@
 ---
-title: Path rules (`rules.expr`)
+title: Path rules
 weight: 30
 ---
 
 File: `/data/rules.expr` (hot-reloaded on mtime). Language: [expr](https://github.com/expr-lang/expr).
 
-Evaluated on each HTTP **response** (so `Via` / CDN headers exist). Return a map:
+Evaluated on each HTTP **response** (so `Via` / CDN headers exist). Return a **map** of fields (extensible later):
 
 | Field | Meaning |
 |-------|---------|
-| `dest` | Catalog destination id → path extra delay vs CF (and host baseline). `cf` → 0 extra |
-| `delay_ms` | Absolute one-way sleep (overrides dest formula when > 0) |
+| `delay_ms` | One-way path delay to sleep before writing the response (ms) |
+
+Clamping on `delay_ms` (after evaluation):
+
+| Condition | Result |
+|-----------|--------|
+| Negative | `0` |
+| Above max | Cap to max and log `WARN` |
+
+Max delay defaults to **60000** ms (1 minute). Override with `POTATONETWORK_PATH_DELAY_MAX_MS`.
+
+## Helpers
+
+| Name | Meaning |
+|------|---------|
+| `route(dest)` | Catalog path-extra delay (ms) for destination id (e.g. `aws-eu-central-1`) vs CF / host baseline. `cf` or unknown → `0` |
+| `jitter(base_ms, jitter_ms)` | `base ±` uniform jitter in ms (clamped ≥ 0); compose into `delay_ms` |
+| `header(map, name)` | Header lookup |
+| `match(regex, s)` | Regex match |
+| `lower(s)` | Lower-case |
+| `a contains b` | expr infix operator |
+
+`route` and `jitter` return plain numbers, so you can divide, add, or nest them freely before putting the result in `delay_ms`.
 
 ## Environment
 
@@ -21,27 +42,98 @@ Evaluated on each HTTP **response** (so `Via` / CDN headers exist). Return a map
 | `path` | request URI path |
 | `request` | map of request headers (lower-case keys) |
 | `response` | map of response headers |
-| `header(map, name)` | helper |
-| `match(regex, s)` | helper |
-| `lower(s)` | helper |
-| `a contains b` | expr infix operator |
+| `country` | Active profile country code (e.g. `BD`, `AF`); empty when passthrough |
+| `tier` | Active profile tier (`stable` / `typical` / `poor`); empty when passthrough |
+| `passthrough` | `true` when last-mile shaping is off |
 
-## Example
+### Branch by country / tier
+
+expr has no `else if` — nest `if` / `else`, or use `?:`.
 
 ```text
-if lower(header(response, "via")) contains "cloudfront" {
-  { "dest": "aws-eu-central-1" }
-} else if match("^api\\.example\\.com$", host) && match("^/v1/", path) {
-  { "dest": "aws-eu-central-1" }
-} else if header(request, "x-env") in ["staging", "perf"] {
-  { "delay_ms": 150 }
+if passthrough {
+  { "delay_ms": 0 }
 } else {
-  { "dest": "cf" }
+  if country == "BD" && tier == "poor" {
+    { "delay_ms": jitter(route("aws-ap-south-1"), 30) }
+  } else {
+    if country == "BD" {
+      { "delay_ms": route("aws-ap-south-1") / 2 }
+    } else {
+      { "delay_ms": route("aws-eu-central-1") }
+    }
+  }
 }
 ```
 
-Note: `contains` is an **infix** operator in expr (`a contains b`), not a function.
+## Examples
 
-Default if missing/invalid: `{ "dest": "cf" }` (last-mile only).
+### Fixed delay
+
+```text
+{ "delay_ms": 250 }
+```
+
+### Catalog path-extra (origin farther than CF)
+
+```text
+{ "delay_ms": route("aws-eu-central-1") }
+```
+
+### Half the catalog extra (softer emulation)
+
+```text
+{ "delay_ms": route("aws-eu-central-1") / 2 }
+```
+
+### Jitter around a fixed base
+
+```text
+{ "delay_ms": jitter(150, 40) }
+```
+
+### Jitter around catalog path-extra
+
+```text
+{ "delay_ms": jitter(route("aws-eu-central-1"), 20) }
+```
+
+### Addition: catalog extra plus a jittered constant
+
+Useful when you want PathExtra **and** an independent lab offset (here `jitter(150, 40)` ≈ 110–190 ms on top of `route`):
+
+```text
+{ "delay_ms": route("aws-eu-central-1") + jitter(150, 40) }
+```
+
+### Branching on CDN / path / headers
+
+```text
+if lower(header(response, "via")) contains "cloudfront" {
+  { "delay_ms": jitter(route("aws-eu-central-1"), 20) }
+} else {
+  if match("^api\\.example\\.com$", host) && match("^/v1/", path) {
+    { "delay_ms": route("aws-eu-central-1") / 2 }
+  } else {
+    if header(request, "x-env") in ["staging", "perf"] {
+      { "delay_ms": route("aws-eu-central-1") + jitter(150, 40) }
+    } else {
+      { "delay_ms": 0 }
+    }
+  }
+}
+```
+
+Default if missing/empty file:
+
+```text
+if passthrough {
+  { "delay_ms": 0 }
+} else {
+  { "delay_ms": route("cf") }
+}
+```
+
+`route("cf")` is always `0` (same edge baseline) — last-mile only until you change the script.
 
 `GET /v1/rules` returns source and compile error (if any).

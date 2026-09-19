@@ -32,7 +32,7 @@ sidecar ──► PotatoNetwork netns
 ## Layers
 
 1. **Last-mile (netlink netem)** — one-way delay ≈ `(country_cf_rtt − host_cf_rtt) / 2`, plus loss and rates from the catalog tier.
-2. **Path delay (`rules.expr`)** — after origin response headers, sleep `delay_ms` or PathExtra for `dest` (Frankfurt vs CF, Via/CloudFront, etc.).
+2. **Path delay (`rules.expr`)** — after origin response headers, sleep `delay_ms` from the script (`route("aws-…")`, `jitter(…)`, literals, arithmetic).
 3. **TLS handshake delay** — extra sleep before local MITM ServerHello so client-visible SSL time is not ~0 under MITM.
 
 API traffic and DNS **upstream** queries are fwmark-exempt from netem (nftables mark + netlink fw filter). Redirect uses nftables NAT.
@@ -53,7 +53,7 @@ API traffic and DNS **upstream** queries are fwmark-exempt from netem (nftables 
 
 Typical loop: probe baseline → set `{"country":"BD","tier":"typical"}` → run Playwright / curl / your service in the same network namespace.
 
-Flexible [`rules.expr`](rules) policies can slow traffic **by path (or headers) on one domain**: treat cacheable static as edge (`dest: cf`) while API calls pay the extra hop to origin (`dest: aws-…` or a fixed `delay_ms`). That matches setups where assets are already on a Cloudflare edge node but backend traffic still goes to AWS.
+Flexible [`rules.expr`](rules) policies can slow traffic **by path (or headers) on one domain**: return `{ "delay_ms": 0 }` for edge/static, or `{ "delay_ms": route("aws-…") }` / `jitter(150, 40)` for API origin hops. That matches setups where assets are already on a Cloudflare edge node but backend traffic still goes to AWS.
 
 Phones and non-Docker clients: run any WireGuard (or other VPN) container with `network_mode: service:potatonetwork` — PotatoNetwork stays the shaping core, not a VPN product.
 

@@ -69,7 +69,10 @@ func newTestAPI(t *testing.T, cfg config.Config) *api.Server {
 	if err != nil {
 		t.Fatal(err)
 	}
-	eng := rules.New(rules.Path(cfg.DataDir))
+	eng := rules.New(rules.Path(cfg.DataDir), st.PathExtraDelayMs, func() rules.ProfileInfo {
+		p := st.Profile()
+		return rules.ProfileInfo{Country: p.Country, Tier: p.Tier, Passthrough: p.Passthrough}
+	}, cfg.PathDelayMaxMs)
 	_ = rules.EnsureDefault(rules.Path(cfg.DataDir))
 	_ = eng.Reload()
 	return api.New(cfg, st, cat, sh, eng, bundle)

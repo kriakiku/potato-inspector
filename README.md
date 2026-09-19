@@ -59,6 +59,7 @@ Sidecars share the netns, so DNS is already `127.0.0.1` after PotatoNetwork rewr
 | `POTATONETWORK_CATALOG_CRON` | empty | Empty/unset = Tuesday random UTC; `false` = disable; or `M H * * D` |
 | `POTATONETWORK_BASELINE_CRON` | empty | Empty/unset = every 3h at random UTC minute; `false` = disable; or `M */N * * *` |
 | `POTATONETWORK_UPLINK` | auto | Egress iface for netlink shaping |
+| `POTATONETWORK_PATH_DELAY_MAX_MS` | `60000` | Cap for a single `rules.expr` path-delay sleep (ms); over-cap is clamped with a WARN |
 
 `GET /` on the API port always redirects to the API docs (`https://kriakiku.github.io/potato-network/api/`).
 

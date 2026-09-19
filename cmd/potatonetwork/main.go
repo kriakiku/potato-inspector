@@ -118,9 +118,12 @@ func main() {
 	if err := rules.EnsureDefault(rulesPath); err != nil {
 		log.Fatalf("rules: %v", err)
 	}
-	eng := rules.New(rulesPath)
+	eng := rules.New(rulesPath, st.PathExtraDelayMs, func() rules.ProfileInfo {
+		p := st.Profile()
+		return rules.ProfileInfo{Country: p.Country, Tier: p.Tier, Passthrough: p.Passthrough}
+	}, cfg.PathDelayMaxMs)
 	if err := eng.Reload(); err != nil {
-		log.Printf("rules compile warning: %v (fallback dest=cf)", err)
+		log.Printf("rules compile warning: %v (path delay disabled until fixed)", err)
 	}
 
 	dns := dnsfwd.New(dnsUpstream)
