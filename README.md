@@ -20,6 +20,23 @@ Prebuilt images: `ghcr.io/kriakiku/potato-network`
 | `sha-<commit>` | Immutable commit build |
 | `vX.Y.Z` / `X.Y` | GitHub release tags |
 
+### Releasing (`v*` tags)
+
+Push a version tag — CI does the rest:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+That run:
+
+1. Publishes the GHCR image (`latest`, `v0.1.0`, `0.1`, `sha-…`)
+2. Builds static **linux/amd64** and **linux/arm64** binaries
+3. Creates a [GitHub Release](https://github.com/kriakiku/potato-network/releases) with auto-generated notes (commits/PRs since the previous tag) and attaches the binaries + `.sha256`
+
+Prerelease tags with a hyphen (e.g. `v0.2.0-rc.1`) are marked as prerelease. Full dataplane still needs Linux + `NET_ADMIN` (same as the container).
+
 ```bash
 docker compose up -d --build
 curl -s localhost:7783/v1/health
