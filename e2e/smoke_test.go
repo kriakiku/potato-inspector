@@ -144,6 +144,43 @@ func TestE2E_PathDelayPathExtraPlusJitterSpread(t *testing.T) {
 	assertPathDelayApprox(t, 214, 90)
 }
 
+func TestE2E_ShapeExcludeBypassesPathDelay(t *testing.T) {
+	waitHealthy(t, 60*time.Second)
+	waitOrigin(t, 30*time.Second)
+	ensureExcludeLoopbackIP(t, "10.66.66.66")
+
+	writeRules(t, `{ "delay_ms": 250 }`)
+	putPassthrough(t)
+	putBaseline(t)
+	putProfile(t, "AF", "typical")
+
+	excluded := httpTTFBURL(t, "http://10.66.66.66/")
+	control := httpTTFBURL(t, "http://127.0.0.1/")
+	t.Logf("excluded TTFB=%s control TTFB=%s", excluded, control)
+
+	// Excluded IP skips MITM redirect → no rules path delay.
+	if excluded > 150*time.Millisecond {
+		t.Fatalf("excluded IP TTFB %s too slow (want ≤150ms; SHAPE_EXCLUDE should skip MITM)", excluded)
+	}
+	// Control still goes through MITM + delay_ms 250.
+	if control < 180*time.Millisecond {
+		t.Fatalf("control TTFB %s too fast (want ≥180ms with delay_ms 250)", control)
+	}
+}
+
+func ensureExcludeLoopbackIP(t *testing.T, ip string) {
+	t.Helper()
+	if _, err := exec.LookPath("docker"); err != nil {
+		t.Skip("docker not available")
+	}
+	cname := containerName()
+	// Idempotent: ignore "File exists".
+	out, err := exec.Command("docker", "exec", cname, "ip", "addr", "add", ip+"/32", "dev", "lo").CombinedOutput()
+	if err != nil && !strings.Contains(string(out), "File exists") {
+		t.Fatalf("ip addr add %s/32: %v\n%s", ip, err, out)
+	}
+}
+
 func assertPathDelayApprox(t *testing.T, wantMs, slackMs int) {
 	t.Helper()
 	putPassthrough(t)
@@ -342,6 +379,11 @@ func originURL() string {
 
 func httpTTFB(t *testing.T) time.Duration {
 	t.Helper()
+	return httpTTFBURL(t, originURL())
+}
+
+func httpTTFBURL(t *testing.T, url string) time.Duration {
+	t.Helper()
 	if _, err := exec.LookPath("docker"); err != nil {
 		t.Skip("docker not available")
 	}
@@ -354,10 +396,10 @@ func httpTTFB(t *testing.T) time.Duration {
 		"-w", "%{time_starttransfer}",
 		"--connect-timeout", "15",
 		"--max-time", "60",
-		originURL(),
+		url,
 	).CombinedOutput()
 	if err != nil {
-		t.Fatalf("curl in netns: %v\n%s", out, err)
+		t.Fatalf("curl in netns %s: %v\n%s", url, out, err)
 	}
 	sec, err := strconv.ParseFloat(strings.TrimSpace(string(out)), 64)
 	if err != nil {

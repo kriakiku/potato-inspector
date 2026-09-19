@@ -62,7 +62,7 @@ func newTestAPI(t *testing.T, cfg config.Config) *api.Server {
 	if err != nil {
 		t.Fatal(err)
 	}
-	sh := shape.New("lo", 7783, "127.0.0.11:53")
+	sh := shape.New("lo", 7783, "127.0.0.11:53", nil)
 	st := pnruntime.New(cfg.DataDir, cat, sh)
 	_ = st.ClearPassthrough()
 	bundle, err := ca.LoadOrCreate(cfg.DataDir)

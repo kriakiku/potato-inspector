@@ -37,7 +37,7 @@ sidecar ──► PotatoNetwork netns
 2. **Path delay (`rules.expr`)** — after origin response headers, sleep `delay_ms` from the script (`route("aws-…")`, `jitter(…)`, literals, arithmetic).
 3. **TLS handshake delay** — extra sleep before local MITM ServerHello so client-visible SSL time is not ~0 under MITM.
 
-API traffic and DNS **upstream** queries are fwmark-exempt from netem (nftables mark + netlink fw filter). Redirect uses nftables NAT.
+API traffic and DNS **upstream** queries are fwmark-exempt from netem (nftables mark + netlink fw filter). Redirect uses nftables NAT. Optional `POTATONETWORK_SHAPE_EXCLUDE` (IPv4/CIDRs) applies the same full bypass — no netem and no MITM — for listed destinations.
 
 ---
 

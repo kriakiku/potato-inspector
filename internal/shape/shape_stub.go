@@ -4,6 +4,7 @@ package shape
 
 import (
 	"fmt"
+	"net"
 	"sync"
 
 	"github.com/kriakiku/potato-network/internal/profiles"
@@ -18,7 +19,7 @@ type Manager struct {
 	lastProfile profiles.Profile
 }
 
-func New(iface string, apiPort int, dnsUpstream string) *Manager {
+func New(iface string, apiPort int, dnsUpstream string, exclude []net.IPNet) *Manager {
 	return &Manager{
 		iface:       iface,
 		active:      "passthrough",
@@ -51,6 +52,7 @@ func (m *Manager) Clear() error {
 	m.lastProfile = profiles.PassthroughProfile()
 	return nil
 }
+func (m *Manager) EnsureExempt() error { return nil }
 func (m *Manager) Apply(p profiles.Profile) error {
 	m.mu.Lock()
 	defer m.mu.Unlock()

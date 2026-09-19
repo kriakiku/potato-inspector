@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"strconv"
+	"strings"
 	"syscall"
 
 	_ "github.com/breml/rootcerts" // embed Mozilla CA roots (no system ca-certificates package)
@@ -67,7 +68,10 @@ import (
 // @name						Authorization
 // @description				Optional. Format: Bearer followed by the API token (`POTATONETWORK_API_TOKEN`).
 func main() {
-	cfg := config.FromEnv()
+	cfg, err := config.FromEnv()
+	if err != nil {
+		log.Fatal(err)
+	}
 	if err := os.MkdirAll(cfg.DataDir, 0o755); err != nil {
 		log.Fatal(err)
 	}
@@ -77,7 +81,13 @@ func main() {
 		log.Fatalf("uplink: %v", err)
 	}
 	log.Printf("PotatoNetwork uplink=%s data=%s api=%s", uplink, cfg.DataDir, cfg.APIAddr)
-
+	if len(cfg.ShapeExclude) > 0 {
+		parts := make([]string, len(cfg.ShapeExclude))
+		for i := range cfg.ShapeExclude {
+			parts[i] = cfg.ShapeExclude[i].String()
+		}
+		log.Printf("shape exclude: %s", strings.Join(parts, ", "))
+	}
 	apiPort := 7783
 	if _, portStr, err := net.SplitHostPort(cfg.APIAddr); err == nil {
 		if p, err := strconv.Atoi(portStr); err == nil {
@@ -96,7 +106,7 @@ func main() {
 		log.Printf("WARN: resolv.conf → 127.0.0.1: %v (set dns: [127.0.0.1] on this service)", err)
 	}
 
-	sh := shape.New(uplink, apiPort, dnsUpstream)
+	sh := shape.New(uplink, apiPort, dnsUpstream, cfg.ShapeExclude)
 	st := pnruntime.New(cfg.DataDir, cat, sh)
 	if cfg.ProfileCountry != "" {
 		p, err := st.ApplyCountryTier(cfg.ProfileCountry, cfg.ProfileTier)
@@ -134,6 +144,10 @@ func main() {
 	proxy := mitm.New(config.MITMPort, bundle, eng, st)
 	if err := proxy.Start(); err != nil {
 		log.Fatalf("mitm: %v", err)
+	}
+	// InstallBase recreates the nftables table — re-apply API/DNS/exclude marks.
+	if err := sh.EnsureExempt(); err != nil {
+		log.Fatalf("shape exempt: %v", err)
 	}
 
 	cronbaseline.Start(cfg.BaselineCron, st)

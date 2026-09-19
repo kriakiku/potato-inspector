@@ -17,6 +17,8 @@ services:
       POTATONETWORK_CATALOG_CRON: "false"
       POTATONETWORK_BASELINE_CRON: "false"
       POTATONETWORK_UPLINK: eth0
+      # Bypass netem+MITM for this lo alias (see TestE2E_ShapeExcludeBypassesPathDelay).
+      POTATONETWORK_SHAPE_EXCLUDE: "10.66.66.66"
     sysctls:
       - net.ipv4.ip_forward=1
 

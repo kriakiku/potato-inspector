@@ -3,6 +3,7 @@
 package shape
 
 import (
+	"encoding/binary"
 	"fmt"
 	"net"
 	"os/exec"
@@ -23,16 +24,18 @@ type Manager struct {
 	iface       string
 	apiPort     int
 	dnsUpstream string
+	exclude     []net.IPNet
 	active      string
 	status      string
 	lastProfile profiles.Profile
 }
 
-func New(iface string, apiPort int, dnsUpstream string) *Manager {
+func New(iface string, apiPort int, dnsUpstream string, exclude []net.IPNet) *Manager {
 	return &Manager{
 		iface:       iface,
 		apiPort:     apiPort,
 		dnsUpstream: dnsUpstream,
+		exclude:     append([]net.IPNet(nil), exclude...),
 		active:      "passthrough",
 		status:      "no qdisc",
 		lastProfile: profiles.PassthroughProfile(),
@@ -63,6 +66,9 @@ func (m *Manager) Clear() error {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	m.clearLocked()
+	if err := m.installExemptLocked(); err != nil {
+		return err
+	}
 	m.active = "passthrough"
 	m.status = "no qdisc"
 	m.lastProfile = profiles.PassthroughProfile()
@@ -78,6 +84,20 @@ func (m *Manager) clearLocked() {
 	datapath.ClearExempt()
 }
 
+// EnsureExempt reinstalls API/DNS/shape-exclude marks (call after MITM InstallBase).
+func (m *Manager) EnsureExempt() error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	return m.installExemptLocked()
+}
+
+func (m *Manager) installExemptLocked() error {
+	if err := datapath.SetExempt(m.apiPort, m.dnsUpstream, m.exclude); err != nil {
+		return fmt.Errorf("nftables exempt: %w", err)
+	}
+	return nil
+}
+
 func (m *Manager) Apply(p profiles.Profile) error {
 	if p.Passthrough || (p.DelayMs == 0 && p.DownloadMbps == 0 && p.UploadMbps == 0 && p.LossPercent == 0) {
 		return m.Clear()
@@ -86,15 +106,15 @@ func (m *Manager) Apply(p profiles.Profile) error {
 	defer m.mu.Unlock()
 
 	m.clearLocked()
-	if err := datapath.SetExempt(m.apiPort, m.dnsUpstream); err != nil {
-		return fmt.Errorf("nftables exempt: %w", err)
+	if err := m.installExemptLocked(); err != nil {
+		return err
 	}
 
 	jitter := p.DelayMs / 10
 	if err := applyHTBNetem(m.iface, p.DelayMs, jitter, p.LossPercent, p.UploadMbps); err != nil {
 		return fmt.Errorf("egress: %w", err)
 	}
-	if err := setupIFB(m.iface); err != nil {
+	if err := setupIFB(m.iface, m.exclude); err != nil {
 		return fmt.Errorf("ifb: %w", err)
 	}
 	if err := applyHTBNetem(ifbName, p.DelayMs, jitter, p.LossPercent, p.DownloadMbps); err != nil {
@@ -225,7 +245,7 @@ func applyHTBNetem(iface string, delayMs, jitterMs int, loss, rateMbps float64) 
 	return nil
 }
 
-func setupIFB(uplink string) error {
+func setupIFB(uplink string, exclude []net.IPNet) error {
 	_ = exec.Command("modprobe", "ifb").Run()
 
 	if _, err := netlink.LinkByName(ifbName); err != nil {
@@ -264,11 +284,50 @@ func setupIFB(uplink string) error {
 		return fmt.Errorf("ingress qdisc: %w", err)
 	}
 
+	// Higher priority: skip mirred for packets from shape-exclude sources (no ingress netem).
+	prio := uint16(1)
+	for _, n := range exclude {
+		ip4 := n.IP.To4()
+		mask := net.IP(n.Mask).To4()
+		if ip4 == nil || mask == nil {
+			continue
+		}
+		val := binary.BigEndian.Uint32(ip4) & binary.BigEndian.Uint32(mask)
+		msk := binary.BigEndian.Uint32(mask)
+		skip := &netlink.U32{
+			FilterAttrs: netlink.FilterAttrs{
+				LinkIndex: up.Attrs().Index,
+				Parent:    netlink.MakeHandle(0xffff, 0),
+				Priority:  prio,
+				Protocol:  unix.ETH_P_IP,
+			},
+			Sel: &netlink.TcU32Sel{
+				Flags: netlink.TC_U32_TERMINAL,
+				Nkeys: 1,
+				// ip.src at offset 12 within IP header; +nexthdr offset handled by kernel for ETH_P_IP
+				Keys: []netlink.TcU32Key{{
+					Mask: msk,
+					Val:  val,
+					Off:  12,
+				}},
+			},
+			Actions: []netlink.Action{
+				&netlink.GenericAction{
+					ActionAttrs: netlink.ActionAttrs{Action: netlink.TC_ACT_OK},
+				},
+			},
+		}
+		if err := netlink.FilterAdd(skip); err != nil {
+			return fmt.Errorf("ingress skip exclude %s: %w", n.String(), err)
+		}
+		prio++
+	}
+
 	filter := &netlink.U32{
 		FilterAttrs: netlink.FilterAttrs{
 			LinkIndex: up.Attrs().Index,
 			Parent:    netlink.MakeHandle(0xffff, 0),
-			Priority:  1,
+			Priority:  prio,
 			Protocol:  unix.ETH_P_IP,
 		},
 		Sel: &netlink.TcU32Sel{

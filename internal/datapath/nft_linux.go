@@ -31,8 +31,8 @@ func InstallBase(mitmPort int) error {
 	return installBaseLocked(mitmPort, true)
 }
 
-// SetExempt installs mark rules for API + DNS upstream (shape/redirect exempt).
-func SetExempt(apiPort int, dnsUpstream string) error {
+// SetExempt installs mark rules for API + DNS upstream + optional shape-exclude CIDRs.
+func SetExempt(apiPort int, dnsUpstream string, exclude []net.IPNet) error {
 	mu.Lock()
 	defer mu.Unlock()
 	c := &nftables.Conn{}
@@ -53,6 +53,9 @@ func SetExempt(apiPort int, dnsUpstream string) error {
 			addIPPortMark(c, table, markChain, ip4, unix.IPPROTO_UDP, uint16(p), markVal)
 			addIPPortMark(c, table, markChain, ip4, unix.IPPROTO_TCP, uint16(p), markVal)
 		}
+	}
+	for i := range exclude {
+		addIPv4DestMark(c, table, markChain, exclude[i], markVal)
 	}
 	if err := c.Flush(); err != nil {
 		return fmt.Errorf("nftables set exempt: %w", err)
@@ -173,6 +176,42 @@ func addIPPortMark(c *nftables.Conn, table *nftables.Table, chain *nftables.Chai
 			},
 			markSetExprs(mark)...,
 		),
+	})
+}
+
+// addIPv4DestMark marks OUTPUT packets whose IPv4 destination matches ipnet (CIDR or /32).
+func addIPv4DestMark(c *nftables.Conn, table *nftables.Table, chain *nftables.Chain, ipnet net.IPNet, mark uint32) {
+	ip4 := ipnet.IP.To4()
+	mask := net.IP(ipnet.Mask).To4()
+	if ip4 == nil || mask == nil {
+		return
+	}
+	network := make([]byte, 4)
+	for i := 0; i < 4; i++ {
+		network[i] = ip4[i] & mask[i]
+	}
+	exprs := []expr.Any{
+		&expr.Payload{DestRegister: 1, Base: expr.PayloadBaseNetworkHeader, Offset: 16, Len: 4},
+	}
+	// /32: direct compare; otherwise mask then compare network address.
+	ones, _ := ipnet.Mask.Size()
+	if ones < 32 {
+		exprs = append(exprs,
+			&expr.Bitwise{
+				SourceRegister: 1,
+				DestRegister:   1,
+				Len:            4,
+				Mask:           []byte(mask),
+				Xor:            []byte{0, 0, 0, 0},
+			},
+		)
+	}
+	exprs = append(exprs, &expr.Cmp{Op: expr.CmpOpEq, Register: 1, Data: network})
+	exprs = append(exprs, markSetExprs(mark)...)
+	c.AddRule(&nftables.Rule{
+		Table: table,
+		Chain: chain,
+		Exprs: exprs,
 	})
 }
 
