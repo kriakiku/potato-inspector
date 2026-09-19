@@ -10,25 +10,12 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/kriakiku/potato-network/internal/config"
 	"github.com/kriakiku/potato-network/internal/datapath"
+	"github.com/kriakiku/potato-network/internal/netmark"
 )
 
 func dialMarked(addr string) (net.Conn, error) {
-	d := &net.Dialer{
-		Timeout: 30 * time.Second,
-		Control: func(network, address string, c syscall.RawConn) error {
-			var opErr error
-			err := c.Control(func(fd uintptr) {
-				opErr = syscall.SetsockoptInt(int(fd), syscall.SOL_SOCKET, syscall.SO_MARK, config.MarkNoRedirect)
-			})
-			if err != nil {
-				return err
-			}
-			return opErr
-		},
-	}
-	return d.Dial("tcp", addr)
+	return netmark.DialTimeout("tcp", addr, 30*time.Second)
 }
 
 func originalDst(c net.Conn) (string, int, error) {

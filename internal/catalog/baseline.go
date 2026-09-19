@@ -5,6 +5,8 @@ import (
 	"sort"
 	"strconv"
 	"time"
+
+	"github.com/kriakiku/potato-network/internal/netmark"
 )
 
 // ProbeHostRtt measures approximate RTT (ms) to each destination via TCP connect.
@@ -48,7 +50,8 @@ func probeTCPDial(addr string) int {
 	// Discard first connect (slow-path / SYN quirks); median of the rest.
 	for i := 0; i < 4; i++ {
 		start := time.Now()
-		conn, err := net.DialTimeout("tcp", addr, 3*time.Second)
+		// Marked dial: skip MITM REDIRECT so :443 probes hit the real dest, not local proxy.
+		conn, err := netmark.DialTimeout("tcp", addr, 3*time.Second)
 		if err != nil {
 			continue
 		}

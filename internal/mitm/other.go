@@ -6,11 +6,12 @@ import (
 	"fmt"
 	"net"
 	"time"
+
+	"github.com/kriakiku/potato-network/internal/netmark"
 )
 
 func dialMarked(addr string) (net.Conn, error) {
-	d := net.Dialer{Timeout: 30 * time.Second}
-	return d.Dial("tcp", addr)
+	return netmark.DialTimeout("tcp", addr, 30*time.Second)
 }
 
 func originalDst(c net.Conn) (string, int, error) {

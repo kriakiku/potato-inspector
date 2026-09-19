@@ -11,6 +11,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/kriakiku/potato-network/internal/netmark"
 	"github.com/kriakiku/potato-network/internal/profiles"
 )
 
@@ -117,7 +118,19 @@ func (m *Manager) Destinations() map[string]Destination {
 }
 
 func (m *Manager) RefreshFromURL(url string) error {
-	resp, err := http.Get(url)
+	client := &http.Client{
+		Timeout: 60 * time.Second,
+		Transport: &http.Transport{
+			Proxy:                 http.ProxyFromEnvironment,
+			DialContext:           netmark.DialContext,
+			ForceAttemptHTTP2:     true,
+			MaxIdleConns:          4,
+			IdleConnTimeout:       30 * time.Second,
+			TLSHandshakeTimeout:   15 * time.Second,
+			ExpectContinueTimeout: 1 * time.Second,
+		},
+	}
+	resp, err := client.Get(url)
 	if err != nil {
 		return err
 	}
