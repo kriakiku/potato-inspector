@@ -11,6 +11,15 @@ Go-only last-mile network emulator for Docker: run PotatoNetwork as a container,
 
 Runtime image is **`scratch` + UPX-compressed static binary** (catalog and Mozilla CA roots are embedded; no apt packages).
 
+Prebuilt images: `ghcr.io/kriakiku/potato-network`
+
+| Tag | Meaning |
+|-----|---------|
+| `latest` | Tip of `main` from human / catalog commits, or a `v*` release — **not** moved by Dependabot merges |
+| `nightly` | Tip of `main` (includes Dependabot dependency bumps) |
+| `sha-<commit>` | Immutable commit build |
+| `vX.Y.Z` / `X.Y` | GitHub release tags |
+
 ```bash
 docker compose up -d --build
 curl -s localhost:7783/v1/health

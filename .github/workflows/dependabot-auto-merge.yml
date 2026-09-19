@@ -1,0 +1,44 @@
+# Squash-merge Dependabot PRs only after the full CI workflow (test + e2e) succeeds.
+# Safer than "gh pr merge --auto" without required status checks, which can merge early.
+
+name: Dependabot auto-merge
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+jobs:
+  merge:
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.actor.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Squash-merge Dependabot PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          PR="$(gh api "repos/${REPO}/actions/runs/${RUN_ID}/pull_requests" --jq '.[0].number // empty')"
+          if [ -z "$PR" ]; then
+            echo "No pull request linked to workflow run ${RUN_ID}"
+            exit 0
+          fi
+          AUTHOR="$(gh pr view "$PR" --repo "$REPO" --json author --jq '.author.login')"
+          if [ "$AUTHOR" != "dependabot" ] && [ "$AUTHOR" != "dependabot[bot]" ]; then
+            echo "Skipping non-Dependabot PR #${PR} (author=${AUTHOR})"
+            exit 0
+          fi
+          STATE="$(gh pr view "$PR" --repo "$REPO" --json state,mergeable --jq '"\(.state) \(.mergeable)"')"
+          echo "PR #${PR}: ${STATE}"
+          gh pr merge "$PR" --repo "$REPO" --squash --delete-branch

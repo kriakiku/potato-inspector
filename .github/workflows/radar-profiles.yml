@@ -2,7 +2,8 @@ name: Radar profile catalog
 
 on:
   schedule:
-    - cron: "0 6 * * 1"
+    # :23 avoids the crowded top-of-hour slot used by many public crons
+    - cron: "23 6 * * 1"
   workflow_dispatch:
 
 permissions:

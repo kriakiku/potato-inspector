@@ -1,6 +1,6 @@
 module github.com/kriakiku/potato-network
 
-go 1.26.0
+go 1.26.5
 
 require (
 	github.com/breml/rootcerts v0.3.7
