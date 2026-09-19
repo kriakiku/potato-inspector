@@ -33,6 +33,7 @@ type Config struct {
 	ProfileTier     string // used when ProfileCountry is set; default typical
 	PathDelayMaxMs  int    // cap for rules.expr path delay; default 60000
 	ShapeExclude    []net.IPNet
+	TLSInsecure     bool // POTATONETWORK_TLS_INSECURE=true only
 }
 
 func FromEnv() (Config, error) {
@@ -67,6 +68,7 @@ func FromEnv() (Config, error) {
 		ProfileTier:    tier,
 		PathDelayMaxMs: getenvInt("POTATONETWORK_PATH_DELAY_MAX_MS", 60_000),
 		ShapeExclude:   exclude,
+		TLSInsecure:    os.Getenv("POTATONETWORK_TLS_INSECURE") == "true",
 		RadarCatalogURL: getenv(
 			"POTATONETWORK_RADAR_CATALOG_URL",
 			"https://raw.githubusercontent.com/kriakiku/potato-network/main/catalog.json",

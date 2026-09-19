@@ -19,22 +19,24 @@ import (
 
 // Proxy is a transparent HTTP(S) MITM (REDIRECT + SO_ORIGINAL_DST).
 type Proxy struct {
-	port   int
-	ca     *ca.Bundle
-	rules  *rules.Engine
-	state  *pnruntime.State
-	ln     net.Listener
-	certMu sync.Mutex
-	certs  map[string]*tls.Certificate
+	port        int
+	ca          *ca.Bundle
+	rules       *rules.Engine
+	state       *pnruntime.State
+	tlsInsecure bool
+	ln          net.Listener
+	certMu      sync.Mutex
+	certs       map[string]*tls.Certificate
 }
 
-func New(port int, bundle *ca.Bundle, eng *rules.Engine, st *pnruntime.State) *Proxy {
+func New(port int, bundle *ca.Bundle, eng *rules.Engine, st *pnruntime.State, tlsInsecure bool) *Proxy {
 	return &Proxy{
-		port:  port,
-		ca:    bundle,
-		rules: eng,
-		state: st,
-		certs: make(map[string]*tls.Certificate),
+		port:        port,
+		ca:          bundle,
+		rules:       eng,
+		state:       st,
+		tlsInsecure: tlsInsecure,
+		certs:       make(map[string]*tls.Certificate),
 	}
 }
 
@@ -148,7 +150,7 @@ func (p *Proxy) handleTLS(br *bufio.Reader, client net.Conn, origIP string, orig
 		return
 	}
 	defer rawUp.Close()
-	tlsUp := tls.Client(rawUp, &tls.Config{ServerName: host, InsecureSkipVerify: true, MinVersion: tls.VersionTLS12})
+	tlsUp := tls.Client(rawUp, &tls.Config{ServerName: host, InsecureSkipVerify: p.tlsInsecure, MinVersion: tls.VersionTLS12})
 	if err := tlsUp.Handshake(); err != nil {
 		return
 	}

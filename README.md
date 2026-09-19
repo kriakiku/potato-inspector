@@ -88,6 +88,7 @@ Sidecars share the netns, so DNS is already `127.0.0.1` after PotatoNetwork rewr
 | `POTATONETWORK_UPLINK` | auto | Egress iface for netlink shaping |
 | `POTATONETWORK_PATH_DELAY_MAX_MS` | `60000` | Cap for a single `rules.expr` path-delay sleep (ms); over-cap is clamped with a WARN |
 | `POTATONETWORK_SHAPE_EXCLUDE` | empty | Comma/space-separated IPv4 or CIDRs that bypass netem **and** MITM (e.g. `10.0.0.0/8,1.2.3.4`) |
+| `POTATONETWORK_TLS_INSECURE` | empty | Exact `true` only: skip upstream origin TLS cert verification (MITM→origin) |
 
 `GET /` on the API port always redirects to the API docs (`https://kriakiku.github.io/potato-network/api/`).
 

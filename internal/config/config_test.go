@@ -54,6 +54,31 @@ func TestFromEnvShapeExcludeInvalid(t *testing.T) {
 	}
 }
 
+func TestFromEnvTLSInsecure(t *testing.T) {
+	cases := []struct {
+		val  string
+		want bool
+	}{
+		{"", false},
+		{"true", true},
+		{"TRUE", false},
+		{"1", false},
+		{"yes", false},
+		{"false", false},
+	}
+	for _, tc := range cases {
+		t.Setenv("POTATONETWORK_TLS_INSECURE", tc.val)
+		t.Setenv("POTATONETWORK_SHAPE_EXCLUDE", "")
+		cfg, err := FromEnv()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if cfg.TLSInsecure != tc.want {
+			t.Fatalf("val=%q got %v want %v", tc.val, cfg.TLSInsecure, tc.want)
+		}
+	}
+}
+
 func TestParseIPNets(t *testing.T) {
 	t.Parallel()
 	cases := []struct {

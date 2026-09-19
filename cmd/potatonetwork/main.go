@@ -141,9 +141,12 @@ func main() {
 		log.Fatalf("dns: %v", err)
 	}
 
-	proxy := mitm.New(config.MITMPort, bundle, eng, st)
+	proxy := mitm.New(config.MITMPort, bundle, eng, st, cfg.TLSInsecure)
 	if err := proxy.Start(); err != nil {
 		log.Fatalf("mitm: %v", err)
+	}
+	if cfg.TLSInsecure {
+		log.Printf("WARN TLS insecure: upstream cert verification disabled")
 	}
 	// InstallBase recreates the nftables table — re-apply API/DNS/exclude marks.
 	if err := sh.EnsureExempt(); err != nil {

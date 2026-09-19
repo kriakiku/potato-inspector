@@ -19,7 +19,7 @@ With PotatoNetwork, nftables redirects `:443` into the process. The client sees 
 
 So the CA is not optional “extra security theater” — it is the **trust anchor for the fake but necessary MITM certificates**. Without it, transparent HTTPS interception cannot be used.
 
-PotatoNetwork still uses real upstream TLS to origins (with embedded Mozilla roots). The local CA is only between **your client and PotatoNetwork**.
+PotatoNetwork still uses real upstream TLS to origins and verifies certificates with embedded Mozilla roots. Set `POTATONETWORK_TLS_INSECURE=true` to skip that check (self-signed / broken lab origins). The local CA is only between **your client and PotatoNetwork**.
 
 ## Files and download
 
