@@ -209,12 +209,13 @@
           {{- end -}}
         {{- end -}}
       {{- else -}}
-        {{- /* Docs home is not in RegularPages — surface it as Overview. */ -}}
+        {{- /* Docs home is not in RegularPages — surface it as Overview (leaf: no collapsible). */ -}}
         {{- $home := site.Home -}}
         {{- $homeURL := $home.RelPermalink -}}
         {{- $homeActive := eq (strings.TrimSuffix "/" $pageURL) (strings.TrimSuffix "/" $homeURL) -}}
         <li class="{{ if $homeActive }}open{{ end }}">
-          {{- template "sidebar-item-link" dict "context" $home "active" $homeActive "open" $homeActive "title" "Overview" "link" $homeURL -}}
+          {{- /* Omit context so RegularPages/Sections of Home do not show an empty expand chevron. */ -}}
+          {{- template "sidebar-item-link" dict "active" $homeActive "open" false "title" "Overview" "link" $homeURL -}}
           {{- if and $toc $homeActive (ne $home.Params.toc false) -}}
             {{- template "sidebar-toc" dict "page" $home -}}
           {{- end -}}
